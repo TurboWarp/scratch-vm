@@ -377,7 +377,7 @@ class JSGenerator {
      */
     pushFrame (frame) {
         this.frames.push(frame);
-        this.frame = frame;
+        this.currentFrame = frame;
     }
 
     /**
@@ -385,7 +385,7 @@ class JSGenerator {
      */
     popFrame () {
         this.frames.pop();
-        this.frame = this.frames[this.frames.length - 1];
+        this.currentFrame = this.frames[this.frames.length - 1];
     }
 
     /**
