@@ -300,6 +300,29 @@ class Scratch3PenBlocks {
             blockIconURI: blockIconURI,
             blocks: [
                 {
+                    opcode: 'print',
+                    blockType: BlockType.COMMAND,
+                    text: '打印[TEXT]',// by yj 'print [TEXT]',
+                    arguments: {
+                        TEXT: {
+                            type: ArgumentType.STRING,
+                            defaultValue: "Hello world!"
+                        }
+                    }
+                },
+                {
+                    opcode: 'setPenDownMode',
+                    blockType: BlockType.COMMAND,
+                    text: '将落笔模式设为[PEN_DOWN_MODE]',
+                    arguments: {
+                        PEN_DOWN_MODE: {
+                            type: ArgumentType.STRING,
+                            menu: 'PEN_DOWN_MODE',
+                            defaultValue: 'point'
+                        }
+                    }
+                },
+                {
                     opcode: 'clear',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
@@ -797,6 +820,17 @@ class Scratch3PenBlocks {
         penState.brightness = 100 * hsv.v;
 
         this._updatePenColor(penState);
+    }
+
+    print (args, util) {
+        mdui.snackbar('唔唔唔画笔中的打印模块无法使用灌灌灌灌灌');
+        return;
+    }
+    setPenDownMode (args, util) {
+        const target = util.target;
+        const penState = this._getPenState(target);
+
+        penState.penDownMode = args.PEN_DOWN_MODE;
     }
 }
 

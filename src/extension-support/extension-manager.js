@@ -25,7 +25,12 @@ const builtinExtensions = {
     boost: () => require('../extensions/scratch3_boost'),
     gdxfor: () => require('../extensions/scratch3_gdx_for'),
     // tw: core extension
-    tw: () => require('../extensions/tw')
+    tw: () => require('../extensions/tw'),
+    //Aerfaying extensions
+    canvas: () => require('../extensions/scratch3_canvas'),
+    community: () => require('../extensions/scratch3_community'),
+    //Gtd232 extensions
+    deviceinfo: () => require('../extensions/scratch3_deviceinfo'),
 };
 
 /**
