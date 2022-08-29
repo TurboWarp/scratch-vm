@@ -623,8 +623,16 @@ class VirtualMachine extends EventEmitter {
             .then(({targets, extensions}) => {
                 if (typeof performance !== 'undefined') {
                     performance.mark('scratch-vm-deserialize-end');
-                    performance.measure('scratch-vm-deserialize',
-                        'scratch-vm-deserialize-start', 'scratch-vm-deserialize-end');
+                    try {
+                        performance.measure('scratch-vm-deserialize',
+                            'scratch-vm-deserialize-start', 'scratch-vm-deserialize-end');
+                    } catch (e) {
+                        // performance.measure() will throw an error if the start deserialize
+                        // marker was removed from memory before we finished deserializing
+                        // the project. We've seen this happen a couple times when loading
+                        // very large projects.
+                        log.error(e);
+                    }
                 }
                 return this.installTargets(targets, extensions, true);
             });

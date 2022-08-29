@@ -535,6 +535,19 @@ runtimeFunctions.mod = `const mod = (n, modulus) => {
 }`;
 
 /**
+ * Implements Scratch tangent.
+ * @param {number} angle Angle in degrees.
+ * @returns {number} value of tangent or Infinity or -Infinity
+ */
+runtimeFunctions.tan = `const tan = (angle) => {
+    switch (angle % 360) {
+    case -270: case 90: return Infinity;
+    case -90: case 270: return -Infinity;
+    }
+    return Math.round(Math.tan((Math.PI * angle) / 180) * 1e10) / 1e10;
+}`;
+
+/**
  * Step a compiled thread.
  * @param {Thread} thread The thread to step.
  */

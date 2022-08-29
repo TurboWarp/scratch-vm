@@ -600,7 +600,7 @@ class JSGenerator {
             // Needs to be marked as NaN because Infinity - Infinity === NaN
             return new TypedInput(`(${this.descendInput(node.left).asNumber()} - ${this.descendInput(node.right).asNumber()})`, TYPE_NUMBER_NAN);
         case 'op.tan':
-            return new TypedInput(`Math.tan(${this.descendInput(node.value).asNumber()} * Math.PI / 180)`, TYPE_NUMBER);
+            return new TypedInput(`tan(${this.descendInput(node.value).asNumber()})`, TYPE_NUMBER);
         case 'op.10^':
             return new TypedInput(`(10 ** ${this.descendInput(node.value).asNumber()})`, TYPE_NUMBER);
 
