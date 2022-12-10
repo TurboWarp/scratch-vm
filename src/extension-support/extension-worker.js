@@ -1,10 +1,8 @@
 /* eslint-env worker */
 
-const ArgumentType = require('../extension-support/argument-type');
-const BlockType = require('../extension-support/block-type');
+const ScratchCommon = require('./tw-extension-api-common');
 const dispatch = require('../dispatch/worker-dispatch');
 const log = require('../util/log');
-const TargetType = require('../extension-support/target-type');
 const {isWorker} = require('./tw-extension-worker-context');
 
 const loadScripts = url => {
@@ -71,9 +69,7 @@ class ExtensionWorker {
 }
 
 global.Scratch = global.Scratch || {};
-global.Scratch.ArgumentType = ArgumentType;
-global.Scratch.BlockType = BlockType;
-global.Scratch.TargetType = TargetType;
+Object.assign(global.Scratch, ScratchCommon);
 
 /**
  * Expose only specific parts of the worker to extensions.

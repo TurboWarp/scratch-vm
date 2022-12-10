@@ -51,16 +51,20 @@ tap.afterEach(() => {
 const {test} = tap;
 
 test('basic API', async t => {
-    t.plan(8);
+    t.plan(9);
     const vm = mockVM();
     class MyExtension {}
     setScript('https://turbowarp.org/1.js', () => {
         t.equal(global.Scratch.vm, vm);
         t.equal(global.Scratch.renderer, vm.runtime.renderer);
         t.equal(global.Scratch.extensions.unsandboxed, true);
+
+        // These APIs are tested elsewhere, just make sure they're getting exported
         t.equal(global.Scratch.ArgumentType.NUMBER, 'number');
         t.equal(global.Scratch.BlockType.REPORTER, 'reporter');
         t.equal(global.Scratch.TargetType.SPRITE, 'sprite');
+        t.equal(global.Scratch.Cast.toNumber('3.14'), 3.14);
+
         global.Scratch.extensions.register(new MyExtension());
     });
     const extensions = await UnsandboxedExtensionRunner.load('https://turbowarp.org/1.js', vm);
