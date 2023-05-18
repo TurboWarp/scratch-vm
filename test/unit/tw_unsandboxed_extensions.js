@@ -52,6 +52,10 @@ global.fetch = (url, options = {}) => (
 global.window = {
     open: (url, target, features) => `[Window ${url} target=${target || ''} features=${features || ''}]`
 };
+global.navigator = {
+    // TODO we should be able to remove this
+    language: 'en'
+};
 
 tap.beforeEach(async () => {
     scriptCallbacks.clear();
@@ -241,5 +245,42 @@ test('redirect', async t => {
     t.equal(global.location.href, 'https://example.com/');
     await global.Scratch.redirect('https://example.com/2');
     t.equal(global.location.href, 'https://example.com/2');
+    t.end();
+});
+
+test('translate', async t => {
+    const vm = new VirtualMachine();
+    UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
+
+    t.equal(global.Scratch.translate({
+        id: 'test1',
+        default: 'Message 1: {var}',
+        description: 'Description'
+    }, {
+        var: 'test'
+    }), 'Message 1: test');
+    t.equal(global.Scratch.translate('test1 {var}', {
+        var: 'ok'
+    }), 'test1 ok');
+
+    global.Scratch.translate.setup({
+        en: {
+            test1: 'EN Message 1: {var}'
+        },
+        es: {
+            test1: 'ES Message 1: {var}'
+        }
+    });
+    t.equal(global.Scratch.translate({
+        id: 'test1',
+        default: 'Message 1: {var}',
+        description: 'Description'
+    }, {
+        var: 'test'
+    }), 'EN Message 1: test');
+    t.equal(global.Scratch.translate('test1 {var}', {
+        var: 'ok'
+    }), 'test1 ok');
+
     t.end();
 });

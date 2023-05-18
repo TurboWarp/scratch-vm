@@ -4,6 +4,9 @@ const ScratchCommon = require('./tw-extension-api-common');
 const dispatch = require('../dispatch/worker-dispatch');
 const log = require('../util/log');
 const {isWorker} = require('./tw-extension-worker-context');
+const createTranslate = require('./tw-l10n');
+
+const translate = createTranslate();
 
 const loadScripts = url => {
     if (isWorker) {
@@ -75,7 +78,8 @@ Object.assign(global.Scratch, ScratchCommon, {
     canOpenWindow: () => Promise.resolve(false),
     openWindow: () => Promise.reject(new Error('Scratch.openWindow not supported in sandboxed extensions')),
     canRedirect: () => Promise.resolve(false),
-    redirect: () => Promise.reject(new Error('Scratch.redirect not supported in sandboxed extensions'))
+    redirect: () => Promise.reject(new Error('Scratch.redirect not supported in sandboxed extensions')),
+    translate
 });
 
 /**

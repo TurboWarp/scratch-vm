@@ -10,6 +10,10 @@ global.fetch = (url, options = {}) => (
     Promise.resolve(`[Response ${url instanceof Request ? url.url : url} options=${JSON.stringify(options)}]`)
 );
 
+global.navigator = {
+    language: 'en'
+};
+
 // Need to trick the extension API to think it's running in a worker
 // It will not actually use this object ever.
 global.self = {};
@@ -54,5 +58,38 @@ test('openWindow', async t => {
 test('redirect', async t => {
     t.equal(await global.Scratch.canRedirect('https://example.com/'), false);
     await t.rejects(global.Scratch.redirect('https://example.com/'), /^Scratch\.redirect not supported in sandboxed extensions$/);
+    t.end();
+});
+
+test('translate', t => {
+    t.equal(global.Scratch.translate({
+        id: 'test1',
+        default: 'Message 1: {var}',
+        description: 'Description'
+    }, {
+        var: 'test'
+    }), 'Message 1: test');
+    t.equal(global.Scratch.translate('test1'), 'test1');
+    t.equal(global.Scratch.translate('test1 {VAR}', {
+        VAR: '3'
+    }), 'test1 3');
+
+    global.Scratch.translate.setup({
+        en: {
+            test1: 'EN Message 1: {var}'
+        },
+        es: {
+            test1: 'ES Message 2: {var}'
+        }
+    });
+    t.equal(global.Scratch.translate({
+        id: 'test1',
+        default: 'Message 1',
+        description: 'Description'
+    }, {
+        var: 'ok'
+    }), 'EN Message 1: ok');
+    t.equal(global.Scratch.translate('test1'), 'test1');
+
     t.end();
 });
