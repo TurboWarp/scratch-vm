@@ -10,10 +10,6 @@ global.fetch = (url, options = {}) => (
     Promise.resolve(`[Response ${url instanceof Request ? url.url : url} options=${JSON.stringify(options)}]`)
 );
 
-global.navigator = {
-    language: 'en'
-};
-
 // Need to trick the extension API to think it's running in a worker
 // It will not actually use this object ever.
 global.self = {};
@@ -74,14 +70,17 @@ test('translate', t => {
         VAR: '3'
     }), 'test1 3');
 
-    global.Scratch.translate.setup({
+    const messages = {
         en: {
             test1: 'EN Message 1: {var}'
         },
         es: {
-            test1: 'ES Message 2: {var}'
+            test1: 'ES Message 1: {var}'
         }
-    });
+    };
+
+    // Should default to English when no navigator object
+    global.Scratch.translate.setup(messages);
     t.equal(global.Scratch.translate({
         id: 'test1',
         default: 'Message 1',
@@ -89,7 +88,21 @@ test('translate', t => {
     }, {
         var: 'ok'
     }), 'EN Message 1: ok');
-    t.equal(global.Scratch.translate('test1'), 'test1');
+
+    // But if there is a navigator object, it should use its language
+    // This is slightly contrived because setup() should only be run once in real extensions,
+    // but this should still be useful as a test.
+    global.navigator = {
+        language: 'es'
+    };
+    global.Scratch.translate.setup(messages);
+    t.equal(global.Scratch.translate({
+        id: 'test1',
+        default: 'Message 1',
+        description: 'Description'
+    }, {
+        var: 'ok'
+    }), 'ES Message 1: ok');
 
     t.end();
 });

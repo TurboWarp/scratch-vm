@@ -52,10 +52,6 @@ global.fetch = (url, options = {}) => (
 global.window = {
     open: (url, target, features) => `[Window ${url} target=${target || ''} features=${features || ''}]`
 };
-global.navigator = {
-    // TODO we should be able to remove this
-    language: 'en'
-};
 
 tap.beforeEach(async () => {
     scriptCallbacks.clear();
@@ -281,6 +277,24 @@ test('translate', async t => {
     t.equal(global.Scratch.translate('test1 {var}', {
         var: 'ok'
     }), 'test1 ok');
+
+    await vm.setLocale('es');
+
+    global.Scratch.translate.setup({
+        en: {
+            test1: 'EN Message 1: {var}'
+        },
+        es: {
+            test1: 'ES Message 1: {var}'
+        }
+    });
+    t.equal(global.Scratch.translate({
+        id: 'test1',
+        default: 'Message 1: {var}',
+        description: 'Description'
+    }, {
+        var: 'test'
+    }), 'ES Message 1: test');
 
     t.end();
 });

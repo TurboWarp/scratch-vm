@@ -6,7 +6,7 @@ const log = require('../util/log');
 const {isWorker} = require('./tw-extension-worker-context');
 const createTranslate = require('./tw-l10n');
 
-const translate = createTranslate();
+const translate = createTranslate(null);
 
 const loadScripts = url => {
     if (isWorker) {
