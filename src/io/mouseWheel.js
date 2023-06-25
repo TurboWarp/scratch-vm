@@ -5,6 +5,7 @@ class MouseWheel {
          * @type{!Runtime}
          */
         this.runtime = runtime;
+        this.scroll = 0;
     }
 
     /**
@@ -13,6 +14,8 @@ class MouseWheel {
      */
     postData (data) {
         const matchFields = {};
+        this.scroll = data.deltaY;
+
         if (data.deltaY < 0) {
             matchFields.KEY_OPTION = 'up arrow';
         } else if (data.deltaY > 0) {
@@ -22,6 +25,10 @@ class MouseWheel {
         }
 
         this.runtime.startHats('event_whenkeypressed', matchFields);
+    }
+
+    getMouseWheelY (data) {
+        return this.scroll;
     }
 }
 
