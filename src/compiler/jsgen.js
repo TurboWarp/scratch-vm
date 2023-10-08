@@ -445,6 +445,9 @@ class JSGenerator {
         case 'constant':
             return this.safeConstantInput(node.value);
 
+        case 'counter.get':
+            return new TypedInput('runtime.ext_scratch3_control._counter', TYPE_NUMBER);
+
         case 'keyboard.pressed':
             return new TypedInput(`runtime.ioDevices.keyboard.getKeyIsDown(${this.descendInput(node.key).asSafe()})`, TYPE_BOOLEAN);
 
@@ -871,6 +874,13 @@ class JSGenerator {
                 this.yieldLoop();
             }
             this.source += `}\n`;
+            break;
+
+        case 'counter.clear':
+            this.source += 'runtime.ext_scratch3_control._counter = 0;\n';
+            break;
+        case 'counter.increment':
+            this.source += 'runtime.ext_scratch3_control._counter++;\n';
             break;
 
         case 'hat.edge':

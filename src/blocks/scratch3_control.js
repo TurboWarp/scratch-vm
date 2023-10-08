@@ -12,7 +12,7 @@ class Scratch3ControlBlocks {
          * The "counter" block value. For compatibility with 2.0.
          * @type {number}
          */
-        this._counter = 0;
+        this._counter = 0; // used by compiler
 
         this.runtime.on('RUNTIME_DISPOSED', this.clearCounter.bind(this));
     }

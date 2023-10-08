@@ -6,8 +6,6 @@
 // Please keep these lists alphabetical.
 
 const stacked = [
-    'control_clear_counter',
-    'control_incr_counter',
     'looks_changestretchby',
     'looks_hideallsprites',
     'looks_say',
@@ -36,7 +34,6 @@ const stacked = [
 ];
 
 const inputs = [
-    'control_get_counter',
     'motion_xscroll',
     'motion_yscroll',
     'sensing_loud',

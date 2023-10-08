@@ -227,6 +227,11 @@ class ScriptTreeGenerator {
             };
         }
 
+        case 'control_get_counter':
+            return {
+                kind: 'counter.get'
+            };
+
         case 'data_variable':
             return {
                 kind: 'var.get',
@@ -699,6 +704,10 @@ class ScriptTreeGenerator {
                 whenTrue: this.descendSubstack(block, 'SUBSTACK'),
                 whenFalse: []
             };
+        case 'control_clear_counter':
+            return {
+                kind: 'counter.clear'
+            };
         case 'control_create_clone_of':
             return {
                 kind: 'control.createClone',
@@ -740,6 +749,10 @@ class ScriptTreeGenerator {
                 condition: this.descendInputOfBlock(block, 'CONDITION'),
                 whenTrue: this.descendSubstack(block, 'SUBSTACK'),
                 whenFalse: this.descendSubstack(block, 'SUBSTACK2')
+            };
+        case 'control_incr_counter':
+            return {
+                kind: 'counter.increment'
             };
         case 'control_repeat':
             this.analyzeLoop();
@@ -1560,7 +1573,7 @@ class ScriptTreeGenerator {
             } else {
                 entryBlock = topBlockId;
             }
-    
+
             if (entryBlock) {
                 this.script.stack = this.walkStack(entryBlock);
             }

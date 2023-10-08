@@ -1,0 +1,41 @@
+// TW Snapshot
+// Input SHA-256: 29dd30c632645f071bfd450530dab86dc85a2c1cf30564bee984394a790eca6a
+
+// 2 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ () {
+if ((runtime.ext_scratch3_control._counter === 10)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass global",}, b0, false, false, "C", null);
+}
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "B", null);
+retire(); return;
+}; })
+
+// 1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ () {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 5",}, b0, false, false, "g", null);
+if ((runtime.ext_scratch3_control._counter === 0)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass initial value = 0",}, b0, false, false, "q", null);
+}
+runtime.ext_scratch3_control._counter++;
+if ((runtime.ext_scratch3_control._counter === 1)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass incr 1",}, b0, false, false, "s", null);
+}
+runtime.ext_scratch3_control._counter++;
+if ((runtime.ext_scratch3_control._counter === 2)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass incr 2",}, b0, false, false, "u", null);
+}
+runtime.ext_scratch3_control._counter = 0;
+if ((runtime.ext_scratch3_control._counter === 0)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass clear = 0",}, b0, false, false, "w", null);
+}
+for (var a0 = 10; a0 >= 0.5; a0--) {
+runtime.ext_scratch3_control._counter++;
+yield;
+}
+startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "check globalness" });
+retire(); return;
+}; })
