@@ -658,6 +658,9 @@ class VirtualMachine extends EventEmitter {
         // Clear the current runtime
         this.clear();
 
+        //  Get loading JSON for extensions
+        this.firstJSON = projectJSON;
+
         if (typeof performance !== 'undefined') {
             performance.mark('scratch-vm-deserialize-start');
         }
