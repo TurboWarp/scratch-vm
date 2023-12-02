@@ -514,4 +514,5 @@ class Thread {
     }
 }
 
+Thread.exports = {_StackFrame};
 module.exports = Thread;
