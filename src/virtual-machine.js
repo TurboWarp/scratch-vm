@@ -27,7 +27,7 @@ const {loadSound} = require('./import/load-sound.js');
 const {serializeSounds, serializeCostumes} = require('./serialization/serialize-assets');
 require('canvas-toBlob');
 const {exportCostume} = require('./serialization/tw-costume-import-export');
-const {Thread, _StackFrame} = require('./engine/thread.js');
+const Thread = require('./engine/thread');
 const Base64Util = require('./util/base64-util');
 
 const RESERVED_NAMES = ['_mouse_', '_stage_', '_edge_', '_myself_', '_random_'];
@@ -220,8 +220,7 @@ class VirtualMachine extends EventEmitter {
             Sprite,
             RenderedTarget,
             JSZip,
-            Thread,
-            _StackFrame
+            Thread
         };
     }
 
