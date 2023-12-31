@@ -70,6 +70,12 @@ class Target extends EventEmitter {
          * @type {Object.<string, *>}
          */
         this._edgeActivatedHatValues = {};
+
+        /**
+         * Maps extension ID to a JSON-serializable value.
+         * @type {Object.<string, object>}
+         */
+        this.extensionStorage = {};
     }
 
     /**

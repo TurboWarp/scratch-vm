@@ -512,6 +512,12 @@ class Runtime extends EventEmitter {
          * Responsible for managing custom fonts.
          */
         this.fontManager = new FontManager(this);
+
+        /**
+         * Maps extension ID to a JSON-serializable value.
+         * @type {Object.<string, object>}
+         */
+        this.extensionStorage = {};
     }
 
     /**
