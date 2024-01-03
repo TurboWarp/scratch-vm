@@ -4,8 +4,6 @@ const path = require('path');
 const Runtime = require('../../src/engine/runtime');
 const VirtualMachine = require('../../src/virtual-machine');
 const makeTestStorage = require('../fixtures/make-test-storage');
-const {loadCostume} = require('../../src/import/load-costume');
-const {loadSound} = require('../../src/import/load-sound');
 const AssetUtil = require('../../src/util/tw-asset-util');
 
 test('emitAssetProgress', t => {
