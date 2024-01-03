@@ -4,6 +4,7 @@ const VirtualMachine = require('../../src/virtual-machine');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const {loadCostume} = require('../../src/import/load-costume');
 const {loadSound} = require('../../src/import/load-sound');
+const AssetUtil = require('../../src/util/tw-asset-util');
 
 test('emitAssetProgress', t => {
     const vm = new VirtualMachine();
@@ -93,7 +94,7 @@ test('loadFromStorage', t => {
     });
 });
 
-test('load costume', t => {
+test('load costume emits progress', t => {
     const runtime = new Runtime();
 
     const storage = makeTestStorage();
@@ -116,7 +117,7 @@ test('load costume', t => {
     });
 });
 
-test('load sound', t => {
+test('load sound emits progress', t => {
     const runtime = new Runtime();
 
     const storage = makeTestStorage();
@@ -131,6 +132,29 @@ test('load sound', t => {
     });
 
     loadSound({md5: '1234.wav'}, runtime).then(() => {
+        t.same(log, [
+            [0, 1],
+            [1, 1]
+        ]);
+        t.end();
+    });
+});
+
+test('asset util emits progress', t => {
+    const runtime = new Runtime();
+
+    const storage = makeTestStorage();
+    storage.load = (assetType, assetId) => Promise.resolve({
+        assetId
+    });
+    runtime.attachStorage(storage);
+
+    const log = [];
+    runtime.on('ASSET_PROGRESS', (finished, total) => {
+        log.push([finished, total]);
+    });
+
+    AssetUtil.getByMd5ext(runtime, null, runtime.storage.AssetType.SVG, 'abcdef.svg').then(asset => {
         t.same(log, [
             [0, 1],
             [1, 1]
