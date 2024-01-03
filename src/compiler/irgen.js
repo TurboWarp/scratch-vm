@@ -1691,4 +1691,7 @@ class IRGenerator {
     }
 }
 
-module.exports = IRGenerator;
+module.exports = {
+    ScriptTreeGenerator,
+    IRGenerator
+};

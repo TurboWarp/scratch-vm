@@ -1,4 +1,4 @@
-const IRGenerator = require('./irgen');
+const {IRGenerator} = require('./irgen');
 const JSGenerator = require('./jsgen');
 
 const compile = thread => {
