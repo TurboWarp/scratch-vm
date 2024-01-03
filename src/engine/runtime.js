@@ -3412,19 +3412,21 @@ class Runtime extends EventEmitter {
         this.emit(Runtime.ASSET_PROGRESS, this.finishedStorageRequests, this.totalStorageRequests);
     }
 
-    loadFromStorage (assetType, assetId, dataFormat) {
-        if (!this.storage) {
-            return Promise.reject(new Error('No storage attached'));
-        }
-
+    /**
+     * Wrap an asset loading promise with progress support.
+     * @template T
+     * @param {Promise<T>} promise
+     * @returns {Promise<T>}
+     */
+    wrapAssetRequest (promise) {
         this.totalStorageRequests++;
         this.emitAssetProgress();
 
-        return this.storage.load(assetType, assetId, dataFormat)
-            .then(asset => {
+        return promise
+            .then(result => {
                 this.finishedStorageRequests++;
                 this.emitAssetProgress();
-                return asset;
+                return result;
             })
             .catch(error => {
                 this.finishedStorageRequests++;

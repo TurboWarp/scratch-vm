@@ -25,17 +25,17 @@ class AssetUtil {
             }
 
             if (file) {
-                return file.async('uint8array').then(data => runtime.storage.createAsset(
+                return runtime.wrapAssetRequest(file.async('uint8array').then(data => runtime.storage.createAsset(
                     assetType,
                     ext,
                     data,
                     md5,
                     false
-                ));
+                )));
             }
         }
 
-        return runtime.loadFromStorage(assetType, md5, ext);
+        return runtime.wrapAssetRequest(runtime.storage.load(assetType, md5, ext));
     }
 }
 

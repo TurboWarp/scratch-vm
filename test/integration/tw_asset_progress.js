@@ -1,4 +1,6 @@
 const {test} = require('tap');
+const fs = require('fs');
+const path = require('path');
 const Runtime = require('../../src/engine/runtime');
 const VirtualMachine = require('../../src/virtual-machine');
 const makeTestStorage = require('../fixtures/make-test-storage');
@@ -50,20 +52,8 @@ test('dispose', t => {
     t.end();
 });
 
-test('loadFromStorage', t => {
+test('wrapAssetRequest', t => {
     const runtime = new Runtime();
-
-    const storage = makeTestStorage();
-    storage.load = (assetType, assetId) => {
-        if (assetId === 'bad') {
-            // eslint-disable-next-line prefer-promise-reject-errors
-            return Promise.reject('Bad :(');
-        }
-        return Promise.resolve({
-            assetId
-        });
-    };
-    runtime.attachStorage(storage);
 
     const log = [];
     runtime.on('ASSET_PROGRESS', (finished, total) => {
@@ -71,16 +61,14 @@ test('loadFromStorage', t => {
     });
 
     Promise.all([
-        runtime.loadFromStorage(storage.AssetType.ImageBitmap, '1234', 'png'),
-        runtime.loadFromStorage(storage.AssetType.ImageBitmap, '5678', 'png')
-    ]).then(assets => {
-        t.same(assets.map(i => i.assetId), [
-            '1234',
-            '5678'
-        ]);
+        runtime.wrapAssetRequest(Promise.resolve(1)),
+        runtime.wrapAssetRequest(Promise.resolve(2))
+    ]).then(results => {
+        t.same(results, [1, 2]);
 
-        runtime.loadFromStorage(storage.AssetType.ImageBitmap, 'bad', 'png').catch(error => {
-            t.equal(error, 'Bad :(');
+        // eslint-disable-next-line prefer-promise-reject-errors
+        runtime.wrapAssetRequest(Promise.reject(3)).catch(error => {
+            t.equal(error, 3);
             t.same(log, [
                 [0, 1],
                 [0, 2],
@@ -91,52 +79,6 @@ test('loadFromStorage', t => {
             ]);
             t.end();
         });
-    });
-});
-
-test('load costume emits progress', t => {
-    const runtime = new Runtime();
-
-    const storage = makeTestStorage();
-    storage.load = (assetType, assetId) => Promise.resolve({
-        assetId
-    });
-    runtime.attachStorage(storage);
-
-    const log = [];
-    runtime.on('ASSET_PROGRESS', (finished, total) => {
-        log.push([finished, total]);
-    });
-
-    loadCostume('1234.png', {}, runtime).then(() => {
-        t.same(log, [
-            [0, 1],
-            [1, 1]
-        ]);
-        t.end();
-    });
-});
-
-test('load sound emits progress', t => {
-    const runtime = new Runtime();
-
-    const storage = makeTestStorage();
-    storage.load = (assetType, assetId) => Promise.resolve({
-        assetId
-    });
-    runtime.attachStorage(storage);
-
-    const log = [];
-    runtime.on('ASSET_PROGRESS', (finished, total) => {
-        log.push([finished, total]);
-    });
-
-    loadSound({md5: '1234.wav'}, runtime).then(() => {
-        t.same(log, [
-            [0, 1],
-            [1, 1]
-        ]);
-        t.end();
     });
 });
 
@@ -161,4 +103,31 @@ test('asset util emits progress', t => {
         ]);
         t.end();
     });
+});
+
+/*
+    For the next tests, we have some fixtures that contain 2 assets: 1 sound + 1 costume
+    We'll just load them and make sure that each deserializer emits reasonable progress events
+*/
+
+test('sb3', t => {
+    const fixture = fs.readFileSync(path.join(__dirname, '../fixtures/tw-asset-progress.sb3'));
+    const vm = new VirtualMachine();
+
+    const log = [];
+    vm.on('ASSET_PROGRESS', (finished, total) => {
+        log.push([finished, total]);
+    });
+
+    vm.loadProject(fixture)
+        .then(() => {
+            t.same(log, [
+                [0, 0],
+                [0, 1],
+                [0, 2],
+                [1, 2],
+                [2, 2]
+            ]);
+            t.end();
+        });
 });

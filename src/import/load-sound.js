@@ -96,7 +96,7 @@ const loadSound = function (sound, runtime, soundBank) {
     sound.dataFormat = ext;
     return (
         (sound.asset && Promise.resolve(sound.asset)) ||
-        runtime.loadFromStorage(runtime.storage.AssetType.Sound, md5, ext)
+        runtime.storage.load(runtime.storage.AssetType.Sound, md5, ext)
     )
         .then(soundAsset => {
             sound.asset = soundAsset;

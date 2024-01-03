@@ -500,9 +500,10 @@ const parseScratchAssets = function (object, runtime, topLevel, zip) {
             // the file name of the costume should be the baseLayerID followed by the file ext
             const assetFileName = `${costumeSource.baseLayerID}.${ext}`;
             const textLayerFileName = costumeSource.textLayerID ? `${costumeSource.textLayerID}.png` : null;
-            costumePromises.push(deserializeCostume(costume, runtime, zip, assetFileName, textLayerFileName)
-                .then(() => loadCostume(costume.md5, costume, runtime, 2 /* optVersion */))
-            );
+            costumePromises.push(runtime.wrapAssetRequest(
+                deserializeCostume(costume, runtime, zip, assetFileName, textLayerFileName)
+                    .then(() => loadCostume(costume.md5, costume, runtime, 2 /* optVersion */))
+            ));
         }
     }
     // Sounds from JSON
@@ -535,10 +536,10 @@ const parseScratchAssets = function (object, runtime, topLevel, zip) {
             // the file name of the sound should be the soundID (provided from the project.json)
             // followed by the file ext
             const assetFileName = `${soundSource.soundID}.${ext}`;
-            soundPromises.push(
+            soundPromises.push(runtime.wrapAssetRequest(
                 deserializeSound(sound, runtime, zip, assetFileName)
                     .then(() => loadSound(sound, runtime, soundBank))
-            );
+            ));
         }
     }
 
