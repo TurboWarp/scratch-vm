@@ -105,29 +105,28 @@ test('asset util emits progress', t => {
     });
 });
 
-/*
-    For the next tests, we have some fixtures that contain 2 assets: 1 sound + 1 costume
-    We'll just load them and make sure that each deserializer emits reasonable progress events
-*/
-
-test('sb3', t => {
-    const fixture = fs.readFileSync(path.join(__dirname, '../fixtures/tw-asset-progress.sb3'));
-    const vm = new VirtualMachine();
-
-    const log = [];
-    vm.on('ASSET_PROGRESS', (finished, total) => {
-        log.push([finished, total]);
-    });
-
-    vm.loadProject(fixture)
-        .then(() => {
-            t.same(log, [
-                [0, 0],
-                [0, 1],
-                [0, 2],
-                [1, 2],
-                [2, 2]
-            ]);
-            t.end();
+//  For the next tests, we have some fixtures that contain 2 assets: 1 sound + 1 costume
+// We'll just load them and make sure that each deserializer emits reasonable progress events
+for (const format of ['sb', 'sb2', 'sb3']) {
+    test(format, t => {
+        const fixture = fs.readFileSync(path.join(__dirname, `../fixtures/tw-asset-progress.${format}`));
+        const vm = new VirtualMachine();
+    
+        const log = [];
+        vm.on('ASSET_PROGRESS', (finished, total) => {
+            log.push([finished, total]);
         });
-});
+    
+        vm.loadProject(fixture)
+            .then(() => {
+                t.same(log, [
+                    [0, 0], // loadProject() implies dispose()
+                    [0, 1],
+                    [0, 2],
+                    [1, 2],
+                    [2, 2]
+                ]);
+                t.end();
+            });
+    });
+}
