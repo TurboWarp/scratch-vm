@@ -35,6 +35,8 @@ test('getByMd5ext from zip subdirectory', t => {
 });
 
 test('getByMd5ext from storage with null zip', t => {
+    t.plan(4);
+
     const rt = new Runtime();
     rt.attachStorage(makeTestStorage());
 
@@ -42,8 +44,14 @@ test('getByMd5ext from storage with null zip', t => {
         t.equal(assetType, rt.storage.AssetType.SVG);
         t.equal(md5, '00000000000000000000000000000000');
         t.equal(ext, 'svg');
-        t.end();
+        return Promise.resolve({
+            fromStorage: true
+        });
     };
 
-    AssetUtil.getByMd5ext(rt, null, rt.storage.AssetType.SVG, '00000000000000000000000000000000.svg');
+    AssetUtil.getByMd5ext(rt, null, rt.storage.AssetType.SVG, '00000000000000000000000000000000.svg')
+        .then(asset => {
+            t.ok(asset.fromStorage);
+            t.end();
+        });
 });
