@@ -465,11 +465,11 @@ const loadCostume = function (md5ext, costume, runtime, optVersion) {
     const AssetType = runtime.storage.AssetType;
     const assetType = (ext === 'svg') ? AssetType.ImageVector : AssetType.ImageBitmap;
 
-    const costumePromise = runtime.storage.load(assetType, md5, ext);
+    const costumePromise = runtime.loadFromStorage(assetType, md5, ext);
 
     let textLayerPromise;
     if (costume.textLayerMD5) {
-        textLayerPromise = runtime.storage.load(AssetType.ImageBitmap, costume.textLayerMD5, 'png');
+        textLayerPromise = runtime.loadFromStorage(AssetType.ImageBitmap, costume.textLayerMD5, 'png');
     } else {
         textLayerPromise = Promise.resolve(null);
     }

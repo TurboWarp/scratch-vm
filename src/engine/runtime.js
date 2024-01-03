@@ -512,6 +512,16 @@ class Runtime extends EventEmitter {
          * Responsible for managing custom fonts.
          */
         this.fontManager = new FontManager(this);
+
+        /**
+         * Total number of scratch-storage load() requests since the runtime was created or cleared.
+         */
+        this.totalStorageRequests = 0;
+
+        /**
+         * Total number of finished or errored scratch-storage load() requests since the runtime was created or cleared.
+         */
+        this.finishedStorageRequests = 0;
     }
 
     /**
@@ -651,6 +661,15 @@ class Runtime extends EventEmitter {
         return 'AFTER_EXECUTE';
     }
 
+    /**
+     * Event name for reporting asset download progress. Fired with finished, total
+     * @const {string}
+     */
+    static get ASSET_PROGRESS () {
+        return 'ASSET_PROGRESS';
+    }
+    
+    
     /**
      * Event name when the project is started (threads may not necessarily be
      * running).
@@ -2247,6 +2266,10 @@ class Runtime extends EventEmitter {
         this.getNumberOfCloudVariables = newCloudDataManager.getNumberOfCloudVariables;
         this.addCloudVariable = this._initializeAddCloudVariable(newCloudDataManager);
         this.removeCloudVariable = this._initializeRemoveCloudVariable(newCloudDataManager);
+
+        this.totalStorageRequests = 0;
+        this.finishedStorageRequests = 0;
+        this.emitAssetProgress();
     }
 
     /**
@@ -3383,6 +3406,31 @@ class Runtime extends EventEmitter {
         }
         this.externalCommunicationMethods[method] = enabled;
         this.updatePrivacy();
+    }
+
+    emitAssetProgress () {
+        this.emit(Runtime.ASSET_PROGRESS, this.finishedStorageRequests, this.totalStorageRequests);
+    }
+
+    loadFromStorage (assetType, assetId, dataFormat) {
+        if (!this.storage) {
+            return Promise.reject(new Error('No storage attached'));
+        }
+
+        this.totalStorageRequests++;
+        this.emitAssetProgress();
+
+        return this.storage.load(assetType, assetId, dataFormat)
+            .then(asset => {
+                this.finishedStorageRequests++;
+                this.emitAssetProgress();
+                return asset;
+            })
+            .catch(error => {
+                this.finishedStorageRequests++;
+                this.emitAssetProgress();
+                throw error;
+            });
     }
 }
 
