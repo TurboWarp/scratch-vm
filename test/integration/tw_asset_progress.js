@@ -22,8 +22,8 @@ test('emitAssetProgress', t => {
         vmOK = true;
     });
 
-    vm.runtime.totalStorageRequests = 2;
-    vm.runtime.finishedStorageRequests = 1;
+    vm.runtime.totalAssetRequests = 2;
+    vm.runtime.finishedAssetRequests = 1;
     vm.runtime.emitAssetProgress();
 
     t.ok(runtimeOK, 'runtime');
@@ -35,8 +35,8 @@ test('dispose', t => {
     t.plan(4);
 
     const runtime = new Runtime();
-    runtime.finishedStorageRequests = 10;
-    runtime.totalStorageRequests = 10;
+    runtime.finishedAssetRequests = 10;
+    runtime.totalAssetRequests = 10;
 
     runtime.on('ASSET_PROGRESS', (finished, total) => {
         t.equal(finished, 0, 'event finished');
@@ -45,8 +45,8 @@ test('dispose', t => {
 
     runtime.dispose();
 
-    t.equal(runtime.finishedStorageRequests, 0, 'property finishedStorageRequests');
-    t.equal(runtime.totalStorageRequests, 0, 'property totalStorageRequests');
+    t.equal(runtime.finishedAssetRequests, 0, 'property finishedAssetRequests');
+    t.equal(runtime.totalAssetRequests, 0, 'property totalAssetRequests');
     t.end();
 });
 

@@ -522,12 +522,12 @@ class Runtime extends EventEmitter {
         /**
          * Total number of scratch-storage load() requests since the runtime was created or cleared.
          */
-        this.totalStorageRequests = 0;
+        this.totalAssetRequests = 0;
 
         /**
          * Total number of finished or errored scratch-storage load() requests since the runtime was created or cleared.
          */
-        this.finishedStorageRequests = 0;
+        this.finishedAssetRequests = 0;
     }
 
     /**
@@ -2275,8 +2275,8 @@ class Runtime extends EventEmitter {
         this.addCloudVariable = this._initializeAddCloudVariable(newCloudDataManager);
         this.removeCloudVariable = this._initializeRemoveCloudVariable(newCloudDataManager);
 
-        this.totalStorageRequests = 0;
-        this.finishedStorageRequests = 0;
+        this.totalAssetRequests = 0;
+        this.finishedAssetRequests = 0;
         this.emitAssetProgress();
     }
 
@@ -3417,7 +3417,7 @@ class Runtime extends EventEmitter {
     }
 
     emitAssetProgress () {
-        this.emit(Runtime.ASSET_PROGRESS, this.finishedStorageRequests, this.totalStorageRequests);
+        this.emit(Runtime.ASSET_PROGRESS, this.finishedAssetRequests, this.totalAssetRequests);
     }
 
     /**
@@ -3427,17 +3427,17 @@ class Runtime extends EventEmitter {
      * @returns {Promise<T>}
      */
     wrapAssetRequest (promise) {
-        this.totalStorageRequests++;
+        this.totalAssetRequests++;
         this.emitAssetProgress();
 
         return promise
             .then(result => {
-                this.finishedStorageRequests++;
+                this.finishedAssetRequests++;
                 this.emitAssetProgress();
                 return result;
             })
             .catch(error => {
-                this.finishedStorageRequests++;
+                this.finishedAssetRequests++;
                 this.emitAssetProgress();
                 throw error;
             });
