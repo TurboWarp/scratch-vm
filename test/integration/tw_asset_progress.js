@@ -31,7 +31,7 @@ test('emitAssetProgress', t => {
     t.end();
 });
 
-test('dispose', t => {
+test('resetProgress', t => {
     t.plan(4);
 
     const runtime = new Runtime();
@@ -43,10 +43,20 @@ test('dispose', t => {
         t.equal(total, 0, 'event total');
     });
 
-    runtime.dispose();
+    runtime.resetProgress();
 
     t.equal(runtime.finishedAssetRequests, 0, 'property finishedAssetRequests');
     t.equal(runtime.totalAssetRequests, 0, 'property totalAssetRequests');
+    t.end();
+});
+
+test('dispose', t => {
+    t.plan(1);
+    const runtime = new Runtime();
+    runtime.resetProgress = () => {
+        t.pass();
+    };
+    runtime.dispose();
     t.end();
 });
 

@@ -2275,9 +2275,7 @@ class Runtime extends EventEmitter {
         this.addCloudVariable = this._initializeAddCloudVariable(newCloudDataManager);
         this.removeCloudVariable = this._initializeRemoveCloudVariable(newCloudDataManager);
 
-        this.totalAssetRequests = 0;
-        this.finishedAssetRequests = 0;
-        this.emitAssetProgress();
+        this.resetProgress();
     }
 
     /**
@@ -3418,6 +3416,12 @@ class Runtime extends EventEmitter {
 
     emitAssetProgress () {
         this.emit(Runtime.ASSET_PROGRESS, this.finishedAssetRequests, this.totalAssetRequests);
+    }
+
+    resetProgress () {
+        this.finishedAssetRequests = 0;
+        this.totalAssetRequests = 0;
+        this.emitAssetProgress();
     }
 
     /**
