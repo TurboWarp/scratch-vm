@@ -634,6 +634,26 @@ const serializeTarget = function (target, extensions) {
     return obj;
 };
 
+/**
+ * @param {Record<string, unknown>} extensionStorage extensionStorage object
+ * @param {Set<string>} extensions extension IDs
+ * @returns {Record<string, unknown>|null}
+ */
+const serializeExtensionStorage = (extensionStorage, extensions) => {
+    const result = {};
+    let isEmpty = true;
+    for (const [key, value] of Object.entries(extensionStorage)) {
+        if (extensions.has(key) && value !== null && typeof value !== 'undefined') {
+            isEmpty = false;
+            result[key] = extensionStorage[key];
+        }
+    }
+    if (isEmpty) {
+        return null;
+    }
+    return result;
+};
+
 const getSimplifiedLayerOrdering = function (targets) {
     const layerOrders = targets.map(t => t.getLayerOrder());
     return MathUtil.reducedSortOrdering(layerOrders);
@@ -712,7 +732,17 @@ const serialize = function (runtime, targetId, {allowOptimization = true} = {}) 
         });
     }
 
-    const serializedTargets = flattenedOriginalTargets.map(t => serializeTarget(t, extensions));
+    const serializedTargets = flattenedOriginalTargets.map(t => serializeTarget(t, extensions))
+        .map((serialized, index) => {
+            // can't serialize extensionStorage until the list of used extensions is fully known
+            const target = originalTargetsToSerialize[index];
+            const targetExtensionStorage = serializeExtensionStorage(target.extensionStorage, extensions);
+            if (targetExtensionStorage) {
+                serialized.extensionStorage = targetExtensionStorage;
+            }
+            return serialized;
+        });
+
     const fonts = runtime.fontManager.serializeJSON();
 
     if (targetId) {
@@ -729,6 +759,11 @@ const serialize = function (runtime, targetId, {allowOptimization = true} = {}) 
             target.customFonts = fonts;
         }
         return serializedTargets[0];
+    }
+
+    const globalExtensionStorage = serializeExtensionStorage(runtime.extensionStorage, extensions);
+    if (globalExtensionStorage) {
+        obj.extensionStorage = globalExtensionStorage;
     }
 
     obj.targets = serializedTargets;
@@ -1274,6 +1309,9 @@ const parseScratchObject = function (object, runtime, extensions, zip, assets) {
     if (Object.prototype.hasOwnProperty.call(object, 'draggable')) {
         target.draggable = object.draggable;
     }
+    if (Object.prototype.hasOwnProperty.call(object, 'extensionStorage')) {
+        target.extensionStorage = object.extensionStorage;
+    }
     Promise.all(costumePromises).then(costumes => {
         sprite.costumes = costumes;
     });
@@ -1501,6 +1539,9 @@ const deserialize = function (json, runtime, zip, isSingleSprite) {
         .then(targets => replaceUnsafeCharsInVariableIds(targets))
         .then(targets => {
             monitorObjects.map(monitorDesc => deserializeMonitor(monitorDesc, runtime, targets, extensions));
+            if (Object.prototype.hasOwnProperty.call(json, 'extensionStorage')) {
+                runtime.extensionStorage = json.extensionStorage;
+            }
             return targets;
         })
         .then(targets => ({

@@ -513,6 +513,12 @@ class Runtime extends EventEmitter {
          */
         this.fontManager = new FontManager(this);
 
+        /*
+         * Maps extension ID to a JSON-serializable value.
+         * @type {Object.<string, object>}
+         */
+        this.extensionStorage = {};
+
         /**
          * Total number of scratch-storage load() requests since the runtime was created or cleared.
          */
@@ -1322,9 +1328,10 @@ class Runtime extends EventEmitter {
             type: extendedOpcode,
             inputsInline: true,
             category: categoryInfo.name,
-            colour: categoryInfo.color1,
-            colourSecondary: categoryInfo.color2,
-            colourTertiary: categoryInfo.color3
+            extensions: blockInfo.extensions ?? [],
+            colour: blockInfo.color1 ?? categoryInfo.color1,
+            colourSecondary: blockInfo.color2 ?? categoryInfo.color2,
+            colourTertiary: blockInfo.color3 ?? categoryInfo.color3
         };
         const context = {
             // TODO: store this somewhere so that we can map args appropriately after translation.
@@ -1344,7 +1351,9 @@ class Runtime extends EventEmitter {
         const iconURI = blockInfo.blockIconURI || categoryInfo.blockIconURI;
 
         if (iconURI) {
-            blockJSON.extensions = ['scratch_extension'];
+            if (!blockJSON.extensions.includes('scratch_extension')) {
+                blockJSON.extensions.push('scratch_extension');
+            }
             blockJSON.message0 = '%1 %2';
             const iconJSON = {
                 type: 'field_image',
