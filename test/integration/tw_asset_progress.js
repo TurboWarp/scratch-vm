@@ -154,7 +154,7 @@ test('asset util emits progress', t => {
         log.push([finished, total]);
     });
 
-    AssetUtil.getByMd5ext(runtime, null, runtime.storage.AssetType.SVG, 'abcdef.svg').then(asset => {
+    AssetUtil.getByMd5ext(runtime, null, runtime.storage.AssetType.SVG, 'abcdef.svg').then(() => {
         t.same(log, [
             [0, 1],
             [1, 1]
