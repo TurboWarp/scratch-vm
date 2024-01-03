@@ -513,7 +513,7 @@ class Runtime extends EventEmitter {
          */
         this.fontManager = new FontManager(this);
 
-        /*
+        /**
          * Maps extension ID to a JSON-serializable value.
          * @type {Object.<string, object>}
          */
@@ -674,8 +674,7 @@ class Runtime extends EventEmitter {
     static get ASSET_PROGRESS () {
         return 'ASSET_PROGRESS';
     }
-    
-    
+
     /**
      * Event name when the project is started (threads may not necessarily be
      * running).
