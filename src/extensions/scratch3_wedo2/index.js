@@ -269,8 +269,6 @@ class WeDo2Motor {
      * Turn this motor on indefinitely.
      */
     turnOn () {
-        if (this._power === 0) return;
-
         const cmd = this._parent.generateOutputCommand(
             this._index + 1,
             WeDo2Command.MOTOR_POWER,
@@ -1375,11 +1373,7 @@ class Scratch3WeDo2Blocks {
         this._forEachMotor(args.MOTOR_ID, motorIndex => {
             const motor = this._peripheral.motor(motorIndex);
             if (motor) {
-                const power = MathUtil.clamp(Cast.toNumber(args.POWER), 0, 100);
-                if (power === 0) {
-                    motor.turnOff();
-                }
-                motor.power = power;
+                motor.power = MathUtil.clamp(Cast.toNumber(args.POWER), 0, 100);
                 motor.turnOn();
             }
         });
