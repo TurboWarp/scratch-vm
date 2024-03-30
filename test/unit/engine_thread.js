@@ -223,7 +223,7 @@ test('stopThisScript', t => {
     th.pushStack('arbitraryString');
     th.pushStack('secondString');
     th.stopThisScript();
-    t.strictEquals(th.peekStack(), 'secondString');
+    t.strictEquals(th.peekStack(), null);
 
     t.end();
 });

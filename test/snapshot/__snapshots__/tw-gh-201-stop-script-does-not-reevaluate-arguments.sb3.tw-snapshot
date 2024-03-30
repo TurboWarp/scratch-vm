@@ -1,0 +1,25 @@
+// TW Snapshot
+// Input SHA-256: fd981742e0e4299bad5a89349635d3a7d0467d8163ae77ba4bafe43c97849bae
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ () {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 0",}, b0, false, false, "d", null);
+thread.procedures["Zfoo %s"]("");
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "g", null);
+retire(); return;
+}; })
+
+// Sprite1 foo %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function funXYZ_foo_ (p0) {
+return "";
+return "";
+}; })
+
+// Sprite1 no op
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function funXYZ_no_op () {
+return "";
+}; })
