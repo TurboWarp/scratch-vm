@@ -55,6 +55,7 @@ class IframeExtensionWorker {
         ], {
             type: 'text/html; charset=utf-8'
         });
+        vm.emit('CREATE_EXTENSION_SCRIPT', this.iframe, blob);
         this.iframe.src = URL.createObjectURL(blob);
     }
 
