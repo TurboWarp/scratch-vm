@@ -160,6 +160,7 @@ const loadUnsandboxedExtension = (extensionURL, vm) => new Promise((resolve, rej
         reject(new Error(`Error in unsandboxed script ${extensionURL}. Check the console for more information.`));
     };
     script.src = extensionURL;
+    vm.emit('CREATE_EXTENSION_SCRIPT', script);
     document.body.appendChild(script);
 }).then(objects => {
     teardownUnsandboxedExtensionAPI();
