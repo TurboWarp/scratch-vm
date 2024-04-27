@@ -108,6 +108,7 @@ runtimeFunctions.executeInCompatibilityLayer = `let hasResumedFromPromise = fals
 const waitPromise = function*(promise) {
     const thread = globalState.thread;
     let returnValue;
+    let isRejected = false;
 
     // enter STATUS_PROMISE_WAIT and yield
     // this will stop script execution until the promise handlers reset the thread status
@@ -119,12 +120,15 @@ const waitPromise = function*(promise) {
             returnValue = value;
             thread.status = 0; // STATUS_RUNNING
         }, error => {
+            returnValue = error;
+            isRejected = true;
             thread.status = 0; // STATUS_RUNNING
             globalState.log.warn('Promise rejected in compiled script:', error);
         });
 
     yield;
 
+    if (isRejected) throw returnValue;
     return returnValue;
 };
 const isPromise = value => (
