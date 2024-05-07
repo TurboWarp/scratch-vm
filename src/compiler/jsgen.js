@@ -411,7 +411,7 @@ class JSGenerator {
             VariableInput,
             Frame,
             // Sanitization
-            sanitize,
+            sanitize
         };
     }
 
