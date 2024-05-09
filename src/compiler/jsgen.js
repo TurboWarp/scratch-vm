@@ -389,30 +389,6 @@ class JSGenerator {
         this.isInHat = false;
 
         this.debug = this.target.runtime.debug;
-
-        this.exports = {
-            // Types
-            TYPE_NUMBER,
-            TYPE_STRING,
-            TYPE_BOOLEAN,
-            TYPE_UNKNOWN,
-            TYPE_NUMBER_NAN,
-            // Variable pools
-            factoryNameVariablePool,
-            functionNameVariablePool,
-            generatorNameVariablePool,
-            VariablePool,
-            // Pen state
-            PEN_EXT,
-            PEN_STATE,
-            // Inputs
-            TypedInput,
-            ConstantInput,
-            VariableInput,
-            Frame,
-            // Sanitization
-            sanitize
-        };
     }
 
     /**
@@ -1454,6 +1430,26 @@ class JSGenerator {
         return fn;
     }
 }
+
+// For extensions.
+JSGenerator.unstable_exports = {
+    TYPE_NUMBER,
+    TYPE_STRING,
+    TYPE_BOOLEAN,
+    TYPE_UNKNOWN,
+    TYPE_NUMBER_NAN,
+    factoryNameVariablePool,
+    functionNameVariablePool,
+    generatorNameVariablePool,
+    VariablePool,
+    PEN_EXT,
+    PEN_STATE,
+    TypedInput,
+    ConstantInput,
+    VariableInput,
+    Frame,
+    sanitize
+};
 
 // Test hook used by automated snapshot testing.
 JSGenerator.testingApparatus = null;
