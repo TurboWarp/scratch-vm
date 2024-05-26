@@ -1,5 +1,5 @@
 // Use the constants instead of manually redefining them again
-const ScratchBlocksConstants = require('./scratch-blocks-constants');
+const ScratchBlocksConstants = require('../engine/scratch-blocks-constants');
 
 /**
  * Types of block shapes
