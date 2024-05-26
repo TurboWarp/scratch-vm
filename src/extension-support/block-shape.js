@@ -19,7 +19,7 @@ const BlockShape = {
     /**
      * Output shape: squared (any/all values; strings).
      */
-    SQUARE: ScratchBlocksConstants.OUTPUT_SHAPE_SQUARE,
+    SQUARE: ScratchBlocksConstants.OUTPUT_SHAPE_SQUARE
 };
 
 module.exports = BlockShape;
