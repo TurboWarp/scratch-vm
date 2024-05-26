@@ -1431,7 +1431,7 @@ class Runtime extends EventEmitter {
 
         // Check if "blockShape" is specified
         if (blockInfo.blockShape) {
-            blockJSON.outputShape = blockInfo.outputShape || ScratchBlocksConstants.OUTPUT_SHAPE_ROUND; // Default to the round/reporter shape
+            blockJSON.outputShape = blockInfo.outputShape || ScratchBlocksConstants.OUTPUT_SHAPE_ROUND;
         }
 
 
