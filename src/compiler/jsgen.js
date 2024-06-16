@@ -439,9 +439,29 @@ class JSGenerator {
             return new TypedInput(`p${node.index}`, TYPE_UNKNOWN);
 
         case 'compat':
+            if (node.blockType === BlockType.INLINE) {
+                const branchVariable = this.localVariables.next();
+                const returnVariable = this.localVariables.next();
+                let source = '(yield* (function*() {\n';
+                source += `let ${returnVariable} = undefined;\n`;
+                source += `const ${branchVariable} = createBranchInfo(false);\n`;
+                source += `${returnVariable} = (${this.generateCompatibilityLayerCall(node, false, branchVariable)});\n`;
+                source += `${branchVariable}.branch = globalState.blockUtility._startedBranch[0];\n`;
+                source += `switch (${branchVariable}.branch) {\n`;
+                for (const index in node.substacks) {
+                    source += `case ${+index}: {\n`;
+                    source += this.descendStackForSource(node.substacks[index], new Frame(false));
+                    source += `break;\n`;
+                    source += `}\n`; // close case
+                }
+                source += '}\n'; // close switch
+                source += `return ${returnVariable};\n`;
+                source += '})())'; // close function and yield
+                return new TypedInput(source, TYPE_UNKNOWN);
+            }
             // Compatibility layer inputs never use flags.
             return new TypedInput(`(${this.generateCompatibilityLayerCall(node, false)})`, TYPE_UNKNOWN);
-
+          
         case 'constant':
             return this.safeConstantInput(node.value);
 
@@ -768,7 +788,7 @@ class JSGenerator {
             const blockType = node.blockType;
             if (blockType === BlockType.COMMAND || blockType === BlockType.HAT) {
                 this.source += `${this.generateCompatibilityLayerCall(node, isLastInLoop)};\n`;
-            } else if (blockType === BlockType.CONDITIONAL || blockType === BlockType.LOOP) {
+            } else if (blockType === BlockType.CONDITIONAL || blockType === BlockType.LOOP || blockType === BlockType.INLINE) {
                 const branchVariable = this.localVariables.next();
                 this.source += `const ${branchVariable} = createBranchInfo(${blockType === BlockType.LOOP});\n`;
                 this.source += `while (${branchVariable}.branch = +(${this.generateCompatibilityLayerCall(node, false, branchVariable)})) {\n`;
@@ -1190,6 +1210,16 @@ class JSGenerator {
 
     resetVariableInputs () {
         this.variableInputs = {};
+    }
+
+    descendStackForSource (nodes, frame) {
+        // Wrapper for descendStack to get the source
+        const oldSource = this.source;
+        this.source = '';
+        this.descendStack(nodes, frame);
+        const stackSource = this.source;
+        this.source = oldSource;
+        return stackSource;
     }
 
     descendStack (nodes, frame) {
