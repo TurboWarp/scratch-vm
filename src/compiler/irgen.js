@@ -202,7 +202,7 @@ class ScriptTreeGenerator {
                 };
             }
             return {
-                kind: 'args.stringNumber',
+                kind: 'procedures.argument',
                 index: index
             };
         }
@@ -223,7 +223,7 @@ class ScriptTreeGenerator {
                 };
             }
             return {
-                kind: 'args.boolean',
+                kind: 'procedures.argument',
                 index: index
             };
         }

@@ -1,0 +1,24 @@
+// TW Snapshot
+// Input SHA-256: b157139c7d41cd5d9bc1829c714121545a8e42ea64c094db8081d9741b032be0
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ () {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "f", null);
+yield* thread.procedures["ZBlock A %s"]("Hai!!!");
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "k", null);
+retire(); return;
+}; })
+
+// Sprite1 ZBlock A %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_Block_A_ (p0) {
+if ((("" + p0).toLowerCase() === "Hai!!!".toLowerCase())) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass did not cast",}, b0, false, false, "m", null);
+} else {
+yield* executeInCompatibilityLayer({"MESSAGE":"fail was casted",}, b0, false, false, "n", null);
+}
+return "";
+}; })
