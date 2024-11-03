@@ -16,6 +16,20 @@ class StringUtil {
     }
 
     /**
+     * @param {string} name
+     * @param {string[]} existingNames
+     * @returns {string}
+     */
+    static caseInsensitiveUnusedName (name, existingNames) {
+        const exists = needle => existingNames.some(i => i.toLowerCase() === needle.toLowerCase());
+        if (!exists(name)) return name;
+        name = StringUtil.withoutTrailingDigits(name);
+        let i = 2;
+        while (exists(`${name}${i}`)) i++;
+        return `${name}${i}`;
+    }
+
+    /**
      * Split a string on the first occurrence of a split character.
      * @param {string} text - the string to split.
      * @param {string} separator - split the text on this character.

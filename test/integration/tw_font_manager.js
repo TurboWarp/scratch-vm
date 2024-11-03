@@ -19,22 +19,75 @@ const makeTestStorage = () => {
     return storage;
 };
 
-test('isValidFamily', t => {
+test('isValidSystemFont', t => {
     const {fontManager} = new Runtime();
-    t.ok(fontManager.isValidFamily('Roboto'));
-    t.ok(fontManager.isValidFamily('sans-serif'));
-    t.ok(fontManager.isValidFamily('helvetica neue'));
-    t.notOk(fontManager.isValidFamily('Roboto;Bold'));
-    t.notOk(fontManager.isValidFamily('Arial, sans-serif'));
+    t.ok(fontManager.isValidSystemFont('Roboto'));
+    t.ok(fontManager.isValidSystemFont('sans-serif'));
+    t.ok(fontManager.isValidSystemFont('helvetica neue'));
+    t.notOk(fontManager.isValidSystemFont('Roboto;Bold'));
+    t.notOk(fontManager.isValidSystemFont('Arial, sans-serif'));
+
+    fontManager.restrictFont('Roboto');
+    t.ok(fontManager.isValidSystemFont('Roboto'));
+
     t.end();
 });
 
-test('getSafeName', t => {
+test('isValidCustomFont', t => {
     const {fontManager} = new Runtime();
-    t.equal(fontManager.getSafeName('Arial'), 'Arial');
+    t.ok(fontManager.isValidCustomFont('Roboto'));
+    t.ok(fontManager.isValidCustomFont('sans-serif'));
+    t.ok(fontManager.isValidCustomFont('helvetica neue'));
+    t.notOk(fontManager.isValidCustomFont('Roboto;Bold'));
+    t.notOk(fontManager.isValidCustomFont('Arial, sans-serif'));
+
+    fontManager.restrictFont('Roboto');
+    t.notOk(fontManager.isValidCustomFont('Roboto'));
+    t.notOk(fontManager.isValidCustomFont('roboto'));
+    t.notOk(fontManager.isValidCustomFont('ROBOTO'));
+    t.ok(fontManager.isValidCustomFont('Roboto '));
+    t.ok(fontManager.isValidCustomFont('Roboto2'));
+    t.ok(fontManager.isValidCustomFont('sans-serif'));
+    t.ok(fontManager.isValidCustomFont('helvetica neue'));
+    t.notOk(fontManager.isValidCustomFont('Roboto;Bold'));
+    t.notOk(fontManager.isValidCustomFont('Arial, sans-serif'));
+
+    t.end();
+});
+
+test('getSafeSystemFont', t => {
+    const {fontManager} = new Runtime();
+    t.equal(fontManager.getUnusedSystemFont('Arial'), 'Arial');
     fontManager.addSystemFont('Arial', 'sans-serif');
-    t.equal(fontManager.getSafeName('Arial'), 'Arial2');
-    t.equal(fontManager.getSafeName('Weird123!@"<>?'), 'Weird123');
+    t.equal(fontManager.getUnusedSystemFont('Arial'), 'Arial2');
+    t.equal(fontManager.getUnusedSystemFont('Weird123!@"<>?'), 'Weird123');
+
+    fontManager.restrictFont('Restricted');
+    t.equal(fontManager.getUnusedSystemFont('Restricted'), 'Restricted');
+
+    t.end();
+});
+
+test('getSafeCustomFont', t => {
+    const {fontManager} = new Runtime();
+    t.equal(fontManager.getUnusedCustomFont('Arial'), 'Arial');
+    fontManager.addSystemFont('Arial', 'sans-serif');
+    t.equal(fontManager.getUnusedCustomFont('Arial'), 'Arial2');
+    t.equal(fontManager.getUnusedCustomFont('Weird123!@"<>?'), 'Weird123');
+
+    fontManager.restrictFont('Restricted');
+    t.equal(fontManager.getUnusedCustomFont('Restricted'), 'Restricted2');
+    t.equal(fontManager.getUnusedCustomFont('restricted'), 'restricted2');
+    t.equal(fontManager.getUnusedCustomFont(' restricted'), ' restricted');
+
+    fontManager.restrictFont('Restricted2');
+    t.equal(fontManager.getUnusedCustomFont('Restricted'), 'Restricted3');
+    t.equal(fontManager.getUnusedCustomFont('restricted'), 'restricted3');
+
+    fontManager.addSystemFont('Restricted3');
+    t.equal(fontManager.getUnusedCustomFont('Restricted'), 'Restricted4');
+    t.equal(fontManager.getUnusedCustomFont('restricted'), 'restricted4');
+
     t.end();
 });
 
@@ -58,6 +111,7 @@ test('system font', t => {
     fontManager.addSystemFont('Noto Sans Mono', 'monospace');
     t.ok(changed, 'addSystemFont() emits change');
     t.ok(fontManager.hasFont('Noto Sans Mono'), 'updated hasFont()');
+    t.ok(fontManager.hasFont('noto sans mono'), 'updated hasFont() case insensitively');
     t.same(fontManager.getFonts(), [
         {
             system: true,
@@ -115,8 +169,12 @@ test('system font', t => {
 
 test('system font validation', t => {
     const {fontManager} = new Runtime();
+    fontManager.restrictFont('Restricted');
     t.throws(() => {
         fontManager.addCustomFont(';', 'monospace');
+    });
+    t.throws(() => {
+        fontManager.addCustomFont('Restricted', 'monospace');
     });
     t.end();
 });
@@ -586,4 +644,73 @@ test('deserializes ignores invalid fonts', t => {
         t.equal(fontManager.getFonts()[0].name, 'Source Code Pro');
         t.end();
     });
+});
+
+test('restrict throws on invalid input', t => {
+    const {fontManager} = new Runtime();
+    t.throws(() => {
+        fontManager.restrictFont('(#@*$');
+    }, 'Invalid font');
+    t.end();
+});
+
+test('restrict removes existing fonts', t => {
+    let setCustomFontsCalls = 0;
+    const mockRenderer = {
+        setLayerGroupOrdering: () => {},
+        setCustomFonts: () => {
+            setCustomFontsCalls++;
+        }
+    };
+
+    const rt = new Runtime();
+    rt.attachRenderer(mockRenderer);
+    rt.attachStorage(makeTestStorage());
+    const {fontManager, storage} = rt;
+
+    let changeEvents = 0;
+    fontManager.on('change', () => {
+        changeEvents++;
+    });
+
+    fontManager.addSystemFont('System Font', 'sans-serif');
+    fontManager.addCustomFont('Important Font', 'sans-serif', storage.createAsset(
+        storage.AssetType.Font,
+        'ttf',
+        new Uint8Array([11, 12, 13]),
+        null,
+        true
+    ));
+    fontManager.addCustomFont('Not Important Font', 'sans-serif', storage.createAsset(
+        storage.AssetType.Font,
+        'ttf',
+        new Uint8Array([11, 12, 13]),
+        null,
+        true
+    ));
+
+    t.equal(changeEvents, 3, 'sanity check');
+    t.equal(setCustomFontsCalls, 2, 'sanity check');
+
+    fontManager.restrictFont('Not Used');
+    t.equal(changeEvents, 3, 'does not emit change when unused font restricted');
+    t.equal(setCustomFontsCalls, 2, 'does not emit change when unused font restricted');
+
+    fontManager.restrictFont('System Font');
+    t.equal(changeEvents, 3, 'does not emit change when system font restricted');
+    t.equal(setCustomFontsCalls, 2, 'does not emit change when system font restricted');
+
+    fontManager.restrictFont('important font');
+    t.equal(changeEvents, 4, 'emits change when custom font restricted');
+    t.equal(setCustomFontsCalls, 3, 'emits change when custom font restricted');
+    t.same(fontManager.getFonts().map(i => i.name), [
+        'System Font',
+        'Not Important Font'
+    ]);
+
+    fontManager.restrictFont('Important Font');
+    t.equal(changeEvents, 4, 'does not emit change when restricted font restricted again');
+    t.equal(setCustomFontsCalls, 3, 'does not emit change when restricted font restricted again');
+
+    t.end();
 });
