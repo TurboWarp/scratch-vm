@@ -70,13 +70,6 @@ class FontManager extends EventEmitter {
     }
 
     /**
-     * @deprecated only exists for extension compatibility, use isValidSystemFont or isValidCustomFont instead
-     */
-    isValidFamily (family) {
-        return this.isValidSystemFont(family) && this.isValidCustomFont(family);
-    }
-
-    /**
      * @param {string} family Untrusted font name input
      * @returns {boolean} true if the family is valid for a custom font
      */
@@ -84,6 +77,13 @@ class FontManager extends EventEmitter {
         return /^[-\w ]+$/.test(family) && !this.restrictedFonts.has(family.toLowerCase());
     }
 
+    /**
+     * @deprecated only exists for extension compatibility, use isValidSystemFont or isValidCustomFont instead
+     */
+    isValidFamily (family) {
+        return this.isValidSystemFont(family) && this.isValidCustomFont(family);
+    }
+    
     /**
      * @param {string} family Untrusted font name input
      * @returns {string}
