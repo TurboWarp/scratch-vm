@@ -714,3 +714,53 @@ test('restrict removes existing fonts', t => {
 
     t.end();
 });
+
+test('overriding existing fonts', t => {
+    let setCustomFontsCalls = 0;
+    const mockRenderer = {
+        setLayerGroupOrdering: () => {},
+        setCustomFonts: () => {
+            setCustomFontsCalls++;
+        }
+    };
+
+    const rt = new Runtime();
+    rt.attachRenderer(mockRenderer);
+    rt.attachStorage(makeTestStorage());
+    const {fontManager, storage} = rt;
+
+    let changeEvents = 0;
+    fontManager.on('change', () => {
+        changeEvents++;
+    });
+
+    const asset = storage.createAsset(
+        storage.AssetType.Font,
+        'ttf',
+        new Uint8Array([11, 12, 13]),
+        null,
+        true
+    );
+
+    fontManager.addCustomFont('TestFont', 'sans-serif', asset);
+    t.equal(changeEvents, 1);
+    t.equal(setCustomFontsCalls, 1);
+    t.same(fontManager.getFonts().map(i => i.name), ['TestFont']);
+
+    fontManager.addSystemFont('TestFonT', 'sans-serif');
+    t.equal(changeEvents, 2);
+    t.equal(setCustomFontsCalls, 2);
+    t.same(fontManager.getFonts().map(i => i.name), ['TestFonT']);
+
+    fontManager.addSystemFont('TestFONT', 'sans-serif');
+    t.equal(changeEvents, 3);
+    t.equal(setCustomFontsCalls, 2);
+    t.same(fontManager.getFonts().map(i => i.name), ['TestFONT']);
+
+    fontManager.addCustomFont('TESTFONT', 'sans-serif', asset);
+    t.equal(changeEvents, 4);
+    t.equal(setCustomFontsCalls, 3);
+    t.same(fontManager.getFonts().map(i => i.name), ['TESTFONT']);
+
+    t.end();
+});

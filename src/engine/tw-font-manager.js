@@ -22,6 +22,22 @@ const log = require('../util/log');
  */
 const removeInvalidCharacters = font => font.replace(/[^-\w ]/g, '');
 
+/**
+ * @param {InternalFont[]} fonts Modified in-place
+ * @param {InternalFont} newFont
+ * @returns {InternalFont|null}
+ */
+const addOrUpdateFont = (fonts, newFont) => {
+    let oldFont;
+    const oldIndex = fonts.findIndex(i => i.family.toLowerCase() === newFont.family.toLowerCase());
+    if (oldIndex !== -1) {
+        oldFont = fonts[oldIndex];
+        fonts.splice(oldIndex, 1);
+    }
+    fonts.push(newFont);
+    return oldFont;
+};
+
 class FontManager extends EventEmitter {
     /**
      * @param {Runtime} runtime
@@ -129,11 +145,14 @@ class FontManager extends EventEmitter {
         if (!this.isValidSystemFont(family)) {
             throw new Error('Invalid system font family');
         }
-        this.fonts.push({
+        const oldFont = addOrUpdateFont(this.fonts, {
             system: true,
             family,
             fallback
         });
+        if (oldFont && !oldFont.system) {
+            this.updateRenderer();
+        }
         this.changed();
     }
 
@@ -146,14 +165,12 @@ class FontManager extends EventEmitter {
         if (!this.isValidCustomFont(family)) {
             throw new Error('Invalid custom font family');
         }
-
-        this.fonts.push({
+        addOrUpdateFont(this.fonts, {
             system: false,
             family,
             fallback,
             asset
         });
-
         this.updateRenderer();
         this.changed();
     }
