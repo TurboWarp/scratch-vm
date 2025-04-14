@@ -62,7 +62,7 @@ test('addSprite throws on invalid string', t => {
     const vm = new VirtualMachine();
     vm.addSprite('this is not a sprite')
         .catch(e => {
-            t.equal(e.startsWith('Sprite Upload Error:'), true);
+            t.equal(e.startsWith('SyntaxError:'), true);
             t.end();
         });
 });

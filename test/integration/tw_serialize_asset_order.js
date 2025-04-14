@@ -12,17 +12,18 @@ test('serializeAssets serialization order', t => {
     const vm = new VM();
     vm.attachStorage(makeTestStorage());
     vm.loadProject(fixture).then(() => {
-        const assets = vm.serializeAssets();
-        for (let i = 0; i < assets.length; i++) {
-            // won't deduplicate assets, so expecting 8 costumes, 7 sounds
-            // 8 costumes, 6 sounds
-            if (i < 8) {
-                t.ok(assets[i].fileName.endsWith('.svg'), `file ${i + 1} is costume`);
-            } else {
-                t.ok(assets[i].fileName.endsWith('.wav'), `file ${i + 1} is sound`);
+        vm.serializeAssets().then(assets => {
+            for (let i = 0; i < assets.length; i++) {
+                // won't deduplicate assets, so expecting 8 costumes, 7 sounds
+                // 8 costumes, 6 sounds
+                if (i < 8) {
+                    t.ok(assets[i].fileName.endsWith('.svg'), `file ${i + 1} is costume`);
+                } else {
+                    t.ok(assets[i].fileName.endsWith('.wav'), `file ${i + 1} is sound`);
+                }
             }
-        }
-        t.end();
+            t.end();
+        });
     });
 });
 
@@ -79,20 +80,21 @@ test('saveProjectSb3DontZip', t => {
     const vm = new VM();
     vm.attachStorage(makeTestStorage());
     vm.loadProject(fixture).then(() => {
-        const exported = vm.saveProjectSb3DontZip();
-        const files = Object.keys(exported);
-
-        for (let i = 0; i < files.length; i++) {
-            // 6 costumes, 6 sounds
-            if (i === 0) {
-                t.equal(files[i], 'project.json', 'first file is project.json');
-            } else if (i < 7) {
-                t.ok(files[i].endsWith('.svg'), `file ${i + 1} is costume`);
-            } else {
-                t.ok(files[i].endsWith('.wav'), `file ${i + 1} is sound`);
+        vm.saveProjectSb3DontZip().then(exported => {
+            const files = Object.keys(exported);
+    
+            for (let i = 0; i < files.length; i++) {
+                // 6 costumes, 6 sounds
+                if (i === 0) {
+                    t.equal(files[i], 'project.json', 'first file is project.json');
+                } else if (i < 7) {
+                    t.ok(files[i].endsWith('.svg'), `file ${i + 1} is costume`);
+                } else {
+                    t.ok(files[i].endsWith('.wav'), `file ${i + 1} is sound`);
+                }
             }
-        }
-
-        t.end();
+    
+            t.end();
+        });
     });
 });

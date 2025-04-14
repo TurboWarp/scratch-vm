@@ -3,7 +3,7 @@ const StringUtil = require('./string-util');
 class AssetUtil {
     /**
      * @param {Runtime} runtime runtime with storage attached
-     * @param {JSZip} zip optional JSZip to search for asset in
+     * @param {JSZip|null} zip optional JSZip to search for asset in
      * @param {Storage.assetType} assetType scratch-storage asset type
      * @param {string} md5ext full md5 with file extension
      * @returns {Promise<Storage.Asset>} scratch-storage asset object

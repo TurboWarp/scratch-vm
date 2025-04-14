@@ -42,7 +42,7 @@ test('saveProjectSb3Stream', async t => {
     await vm.loadProject(fixture);
 
     let receivedDataEvent = false;
-    const stream = vm.saveProjectSb3Stream();
+    const stream = await vm.saveProjectSb3Stream();
     stream.on('data', data => {
         if (receivedDataEvent) {
             return;
@@ -54,7 +54,7 @@ test('saveProjectSb3Stream', async t => {
     const buffer = await stream.accumulate();
     t.type(buffer, ArrayBuffer);
 
-    const stream2 = vm.saveProjectSb3Stream('uint8array');
+    const stream2 = await vm.saveProjectSb3Stream('uint8array');
     const uint8array = await stream2.accumulate();
     t.type(uint8array, Uint8Array);
 
@@ -71,7 +71,7 @@ test('saveProjectSb3DontZip', async t => {
     vm.attachStorage(makeTestStorage());
     await vm.loadProject(fixture);
 
-    const map = vm.saveProjectSb3DontZip();
+    const map = await vm.saveProjectSb3DontZip();
     t.equal(map['project.json'][0], '{'.charCodeAt(0));
     t.equal(map['d9c625ae1996b615a146ac2a7dbe74d7.svg'].byteLength, 691);
     t.equal(map['cd21514d0531fdffb22204e0ec5ed84a.svg'].byteLength, 202);

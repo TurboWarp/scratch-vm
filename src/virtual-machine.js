@@ -515,9 +515,9 @@ class VirtualMachine extends EventEmitter {
     }
 
     /**
-     * @returns {JSZip} JSZip zip object representing the sb3.
+     * @returns {Promise<JSZip>} JSZip zip object representing the sb3.
      */
-    _saveProjectZip () {
+    async _saveProjectZip () {
         const projectJson = this.toJSON();
 
         // TODO want to eventually move zip creation out of here, and perhaps
@@ -526,7 +526,7 @@ class VirtualMachine extends EventEmitter {
 
         // Put everything in a zip file
         zip.file('project.json', projectJson);
-        this._addFileDescsToZip(this.serializeAssets(), zip);
+        this._addFileDescsToZip(await this.serializeAssets(), zip);
 
         // Use a fixed modification date for the files in the zip instead of letting JSZip use the
         // current time to avoid a very small metadata leak and make zipping deterministic. The magic
@@ -544,8 +544,9 @@ class VirtualMachine extends EventEmitter {
      * @param {JSZip.OutputType} [type] JSZip output type. Defaults to 'blob' for Scratch compatibility.
      * @returns {Promise<unknown>} Compressed sb3 file in a type determined by the type argument.
      */
-    saveProjectSb3 (type) {
-        return this._saveProjectZip().generateAsync({
+    async saveProjectSb3 (type) {
+        const zip = await this._saveProjectZip();
+        return zip.generateAsync({
             type: type || 'blob',
             mimeType: 'application/x.scratch.sb3',
             compression: 'DEFLATE'
@@ -554,11 +555,12 @@ class VirtualMachine extends EventEmitter {
 
     /**
      * @param {JSZip.OutputType} [type] JSZip output type. Defaults to 'arraybuffer'.
-     * @returns {StreamHelper} JSZip StreamHelper object generating the compressed sb3.
+     * @returns {Promise<StreamHelper>} JSZip StreamHelper object generating the compressed sb3.
      * See: https://stuk.github.io/jszip/documentation/api_streamhelper.html
      */
-    saveProjectSb3Stream (type) {
-        return this._saveProjectZip().generateInternalStream({
+    async saveProjectSb3Stream (type) {
+        const zip = await this._saveProjectZip();
+        return zip.generateInternalStream({
             type: type || 'arraybuffer',
             mimeType: 'application/x.scratch.sb3',
             compression: 'DEFLATE'
@@ -569,15 +571,15 @@ class VirtualMachine extends EventEmitter {
      * tw: Serialize the project into a map of files without actually zipping the project.
      * The buffers returned are the exact same ones used internally, not copies. Avoid directly
      * manipulating them (except project.json, which is created by this function).
-     * @returns {Record<string, Uint8Array>} Map of file name to the raw data for that file.
+     * @returns {Promise<Record<string, Uint8Array>>} Map of file name to the raw data for that file.
      */
-    saveProjectSb3DontZip () {
+    async saveProjectSb3DontZip () {
         const projectJson = this.toJSON();
 
         const files = {
             'project.json': new _TextEncoder().encode(projectJson)
         };
-        for (const fileDesc of this.serializeAssets()) {
+        for (const fileDesc of await this.serializeAssets()) {
             files[fileDesc.fileName] = fileDesc.fileContent;
         }
 
@@ -602,19 +604,34 @@ class VirtualMachine extends EventEmitter {
 
     /**
      * @param {string} targetId Optional ID of target to export
-     * @returns {Array<{fileName: string; fileContent: Uint8Array;}} list of file descs
+     * @returns {Promise<Array<{fileName: string; fileContent: Uint8Array;}>} list of file descs
      */
-    serializeAssets (targetId) {
-        const costumeDescs = serializeCostumes(this.runtime, targetId);
-        const soundDescs = serializeSounds(this.runtime, targetId);
+    async serializeAssets (targetId) {
+        // This will include non-lazy sprites and loaded lazy sprites.
+        const loadedCostumeDescs = serializeCostumes(this.runtime, targetId);
+        const loadedSoundDescs = serializeSounds(this.runtime, targetId);
+
+        // Assume every target needs all fonts.
         const fontDescs = this.runtime.fontManager.serializeAssets().map(asset => ({
             fileName: `${asset.assetId}.${asset.dataFormat}`,
             fileContent: asset.data
         }));
+
+        // Fetch assets used by lazy sprites.
+        const unloadedSprites = this.runtime.lazySprites.filter(i => i.clones.length === 0);
+        const unloadedSpriteDescs = await Promise.all(unloadedSprites.map(s => s.serializeAssets()));
+        const flattenedUnloadedSpriteDescs = [];
+        for (const descs of unloadedSpriteDescs) {
+            for (const desc of descs) {
+                flattenedUnloadedSpriteDescs.push(desc);
+            }
+        }
+
         return [
-            ...costumeDescs,
-            ...soundDescs,
-            ...fontDescs
+            ...loadedCostumeDescs,
+            ...loadedSoundDescs,
+            ...fontDescs,
+            ...flattenedUnloadedSpriteDescs
         ];
     }
 
@@ -638,12 +655,12 @@ class VirtualMachine extends EventEmitter {
      * @return {object} A generated zip of the sprite and its assets in the format
      * specified by optZipType or blob by default.
      */
-    exportSprite (targetId, optZipType) {
+    async exportSprite (targetId, optZipType) {
         const spriteJson = this.toJSON(targetId);
 
         const zip = new JSZip();
         zip.file('sprite.json', spriteJson);
-        this._addFileDescsToZip(this.serializeAssets(targetId), zip);
+        this._addFileDescsToZip(await this.serializeAssets(targetId), zip);
 
         return zip.generateAsync({
             type: typeof optZipType === 'string' ? optZipType : 'blob',
@@ -707,7 +724,7 @@ class VirtualMachine extends EventEmitter {
             return Promise.reject('Unable to verify Scratch Project version.');
         };
         return deserializePromise()
-            .then(({targets, extensions}) => {
+            .then(({targets, lazySprites, extensions}) => {
                 if (typeof performance !== 'undefined') {
                     performance.mark('scratch-vm-deserialize-end');
                     try {
@@ -721,7 +738,7 @@ class VirtualMachine extends EventEmitter {
                         log.error(e);
                     }
                 }
-                return this.installTargets(targets, extensions, true);
+                return this.installTargets(targets, lazySprites, extensions, true);
             });
     }
 
@@ -757,11 +774,12 @@ class VirtualMachine extends EventEmitter {
     /**
      * Install `deserialize` results: zero or more targets after the extensions (if any) used by those targets.
      * @param {Array.<Target>} targets - the targets to be installed
+     * @param {Array.<Sprite>} lazySprites - sprites that can be loaded lazily
      * @param {ImportedExtensionsInfo} extensions - metadata about extensions used by these targets
      * @param {boolean} wholeProject - set to true if installing a whole project, as opposed to a single sprite.
      * @returns {Promise} resolved once targets have been installed
      */
-    async installTargets (targets, extensions, wholeProject) {
+    async installTargets (targets, lazySprites, extensions, wholeProject) {
         await this.extensionManager.allAsyncExtensionsLoaded();
 
         targets = targets.filter(target => !!target);
@@ -779,6 +797,12 @@ class VirtualMachine extends EventEmitter {
             targets.forEach(target => {
                 delete target.layerOrder;
             });
+
+            if (wholeProject) {
+                this.runtime.lazySprites = lazySprites;
+            } else {
+                this.runtime.lazySprites = this.runtime.lazySprites.concat(lazySprites);
+            }
 
             // Select the first target for editing, e.g., the first sprite.
             if (wholeProject && (targets.length > 1)) {
@@ -852,9 +876,7 @@ class VirtualMachine extends EventEmitter {
                 if (Object.prototype.hasOwnProperty.call(error, 'validationError')) {
                     return Promise.reject(JSON.stringify(error));
                 }
-                // TODO: reject with an Error (possible breaking API change!)
-                // eslint-disable-next-line prefer-promise-reject-errors
-                return Promise.reject(`${errorPrefix} ${error}`);
+                return Promise.reject(error);
             });
     }
 
@@ -869,8 +891,8 @@ class VirtualMachine extends EventEmitter {
 
         const sb2 = require('./serialization/sb2');
         return sb2.deserialize(sprite, this.runtime, true, zip)
-            .then(({targets, extensions}) =>
-                this.installTargets(targets, extensions, false));
+            .then(({targets, lazySprites, extensions}) =>
+                this.installTargets(targets, lazySprites, extensions, false));
     }
 
     /**
@@ -884,7 +906,7 @@ class VirtualMachine extends EventEmitter {
         const sb3 = require('./serialization/sb3');
         return sb3
             .deserialize(sprite, this.runtime, zip, true)
-            .then(({targets, extensions}) => this.installTargets(targets, extensions, false));
+            .then(({targets, lazySprites, extensions}) => this.installTargets(targets, lazySprites, extensions, false));
     }
 
     /**

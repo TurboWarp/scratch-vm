@@ -25,8 +25,9 @@ const defaultBuiltinExtensions = {
     makeymakey: () => require('../extensions/scratch3_makeymakey'),
     boost: () => require('../extensions/scratch3_boost'),
     gdxfor: () => require('../extensions/scratch3_gdx_for'),
-    // tw: core extension
-    tw: () => require('../extensions/tw')
+    // tw: core extensions
+    tw: () => require('../extensions/tw'),
+    twlazy: () => require('../extensions/tw_lazy')
 };
 
 /**

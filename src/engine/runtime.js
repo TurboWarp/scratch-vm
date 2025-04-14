@@ -50,6 +50,8 @@ const defaultBlockPackages = {
 
 const interpolate = require('./tw-interpolate');
 const FrameLoop = require('./tw-frame-loop');
+const LazySprite = require('../sprites/tw-lazy-sprite.js');
+const CancellableMutex = require('../util/tw-cancellable-mutex.js');
 
 const defaultExtensionColors = ['#0FBD8C', '#0DA57A', '#0B8E69'];
 
@@ -534,6 +536,18 @@ class Runtime extends EventEmitter {
          * Total number of finished or errored scratch-storage load() requests since the runtime was created or cleared.
          */
         this.finishedAssetRequests = 0;
+
+        /**
+         * Sprites with lazy-loading capabilities.
+         * @type {Array<LazySprite>}
+         */
+        this.lazySprites = [];
+
+        /**
+         * All lazy sprite loading and unloading operations are gated behind this lock.
+         * @type {CancellableMutex<void>}
+         */
+        this.lazySpritesLock = new CancellableMutex();
     }
 
     /**
@@ -923,6 +937,14 @@ class Runtime extends EventEmitter {
      */
     static get PLATFORM_MISMATCH () {
         return 'PLATFORM_MISMATCH';
+    }
+
+    /**
+     * Event when lazily loaded sprites are loaded, before they have executed anything.
+     * Called with array of original targets.
+     */
+    static get LAZY_SPRITES_LOADED () {
+        return 'LAZY_SPRITES_LOADED';
     }
 
     /**
@@ -2276,6 +2298,14 @@ class Runtime extends EventEmitter {
             if (target.isOriginal) target.deleteMonitors();
         });
 
+        this.lazySpritesLock.cancel();
+        this.lazySprites.forEach(sprite => {
+            if (sprite.state === LazySprite.State.LOADED || sprite.state === LazySprite.State.LOADING) {
+                sprite.unload();
+            }
+        });
+        this.lazySprites = [];
+
         this.targets.map(this.disposeTarget, this);
         this.extensionStorage = {};
         // tw: explicitly emit a MONITORS_UPDATE instead of relying on implicit behavior of _step()
@@ -3484,6 +3514,75 @@ class Runtime extends EventEmitter {
         };
 
         return callback().then(onSuccess, onError);
+    }
+
+    /**
+     * @param {string[]} spriteNames Assumed to contain no duplicate entries.
+     * @returns {Promise<RenderedTarget[]>} Resolves when all sprites have been loaded.
+     */
+    loadLazySprites (spriteNames) {
+        return this.lazySpritesLock.do(async isCancelled => {
+            const lazySprites = [];
+            for (const name of spriteNames) {
+                const lazySprite = this.lazySprites.find(sprite => sprite.name === name);
+                if (lazySprite) {
+                    if (lazySprite.state === LazySprite.State.UNLOADED) {
+                        lazySprites.push(lazySprite);
+                    } else if (lazySprite.state === LazySprite.State.ERROR) {
+                        // TODO(lazy)
+                    } else {
+                        // Already loaded or loading. Nothing to do.
+                    }
+                } else {
+                    throw new Error(`Unknown lazy sprite: ${name}`);
+                }
+            }
+
+            const promises = lazySprites.map(sprite => sprite.load());
+            const allTargets = await Promise.all(promises);
+
+            if (isCancelled()) {
+                return;
+            }
+
+            // Ignore cancelled targets.
+            const loadedTargets = allTargets.filter(i => i);
+            for (const target of loadedTargets) {
+                target.updateAllDrawableProperties();
+                this.addTarget(target);
+            }
+
+            this.emit(Runtime.LAZY_SPRITES_LOADED, loadedTargets);
+            return loadedTargets;
+        });
+    }
+
+    /**
+     * @param {string[]} spriteNames Assumed to contain no duplicate entries.
+     * @returns {Promise<void>} Resolves when all sprites have been unloaded.
+     */
+    unloadLazySprites (spriteNames) {
+        return this.lazySpritesLock.do(() => {
+            const lazySprites = [];
+            for (const name of spriteNames) {
+                const lazySprite = this.lazySprites.find(sprite => sprite.name === name);
+                if (lazySprite) {
+                    if (lazySprite.state === LazySprite.State.LOADED || lazySprite.state === LazySprite.State.LOADING) {
+                        lazySprites.push(lazySprite);
+                    } else if (lazySprite.state === LazySprite.State.ERROR) {
+                        // TODO(lazy)
+                    } else {
+                        // Already unloaded. Nothing to do.
+                    }
+                } else {
+                    throw new Error(`Unknown lazy sprite: ${name}`);
+                }
+            }
+
+            for (const lazySprite of lazySprites) {
+                lazySprite.unload();
+            }
+        });
     }
 }
 

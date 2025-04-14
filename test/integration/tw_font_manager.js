@@ -409,7 +409,7 @@ test('deleteFont', t => {
     t.end();
 });
 
-test('fonts are serialized by VM', t => {
+test('fonts are serialized by VM', async t => {
     const vm = new VirtualMachine();
     vm.attachStorage(makeTestStorage());
     const {storage, fontManager} = vm.runtime;
@@ -427,7 +427,7 @@ test('fonts are serialized by VM', t => {
     const assets = vm.assets;
     t.same(assets, [fontAsset], 'font is in vm.assets');
 
-    const serializedAssets = vm.serializeAssets();
+    const serializedAssets = await vm.serializeAssets();
     t.same(serializedAssets, [
         {
             fileName: '94263e4d553bcec128704e354b659526.ttf',
@@ -435,7 +435,7 @@ test('fonts are serialized by VM', t => {
         }
     ], 'font is in vm.serializeAssets()');
 
-    const notZippedProject = vm.saveProjectSb3DontZip();
+    const notZippedProject = await vm.saveProjectSb3DontZip();
     t.equal(
         notZippedProject['94263e4d553bcec128704e354b659526.ttf'],
         fontAsset.data,

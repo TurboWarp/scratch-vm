@@ -928,6 +928,7 @@ const sb2import = function (json, runtime, optForceSprite, zip) {
         .then(reorderParsedTargets)
         .then(targets => ({
             targets,
+            lazySprites: [], // lazy loading not supported in sb2 projects
             extensions
         }));
 };

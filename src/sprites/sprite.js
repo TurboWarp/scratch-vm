@@ -57,6 +57,14 @@ class Sprite {
     }
 
     /**
+     * True if this sprite uses lazy loading.
+     * @type {boolean}
+     */
+    get isLazy () {
+        return false;
+    }
+
+    /**
      * Add an array of costumes, taking care to avoid duplicate names.
      * @param {!Array<object>} costumes Array of objects representing costumes.
      */
