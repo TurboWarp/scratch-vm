@@ -244,6 +244,7 @@ class Scratch3SensingBlocks {
 
     current (args) {
         const menuOption = Cast.toString(args.CURRENTMENU).toLowerCase();
+        if (menuOption === 'refreshtime') return (this.runtime.screenRefreshTime / 1000);
         const date = new Date();
         switch (menuOption) {
         case 'year': return date.getFullYear();

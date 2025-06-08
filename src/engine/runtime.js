@@ -194,12 +194,6 @@ let stepProfilerId = -1;
 let stepThreadsProfilerId = -1;
 
 /**
- * Numeric ID for RenderWebGL.draw in Profiler instances.
- * @type {number}
- */
-let rendererDrawProfilerId = -1;
-
-/**
  * Manages targets, scripts, and the sequencer.
  * @constructor
  */
@@ -445,6 +439,14 @@ class Runtime extends EventEmitter {
          */
         this.platform = Object.assign({}, platform);
 
+        /**
+         * Screen refresh time speculated from screen refresh rate, in milliseconds.
+         * Indicates time passed between two screen refreshments.
+         * Based on site isolation status, the resolution could be ~0.1ms or lower.
+         * @type {!number}
+         */
+        this.screenRefreshTime = 0;
+
         this._initScratchLink();
 
         this.resetRunId();
@@ -469,7 +471,6 @@ class Runtime extends EventEmitter {
 
         this.debug = false;
 
-        this._lastStepTime = Date.now();
         this.interpolationEnabled = false;
 
         this._defaultStoredSettings = this._generateAllProjectOptions();
@@ -2481,8 +2482,8 @@ class Runtime extends EventEmitter {
     }
 
     _renderInterpolatedPositions () {
-        const frameStarted = this._lastStepTime;
-        const now = Date.now();
+        const frameStarted = this.frameLoop._lastStepTime;
+        const now = this.frameLoop.now();
         const timeSinceStart = now - frameStarted;
         const progressInFrame = Math.min(1, Math.max(0, timeSinceStart / this.currentStepTime));
 
@@ -2553,24 +2554,6 @@ class Runtime extends EventEmitter {
         // Store threads that completed this iteration for testing and other
         // internal purposes.
         this._lastStepDoneThreads = doneThreads;
-        if (this.renderer) {
-            // @todo: Only render when this.redrawRequested or clones rendered.
-            if (this.profiler !== null) {
-                if (rendererDrawProfilerId === -1) {
-                    rendererDrawProfilerId = this.profiler.idByName('RenderWebGL.draw');
-                }
-                this.profiler.start(rendererDrawProfilerId);
-            }
-            // tw: do not draw if document is hidden or a rAF loop is running
-            // Checking for the animation frame loop is more reliable than using
-            // interpolationEnabled in some edge cases
-            if (!document.hidden && !this.frameLoop._interpolationAnimation) {
-                this.renderer.draw();
-            }
-            if (this.profiler !== null) {
-                this.profiler.stop();
-            }
-        }
 
         if (this._refreshTargets) {
             this.emit(Runtime.TARGETS_UPDATE, false /* Don't emit project changed */);
@@ -2585,10 +2568,6 @@ class Runtime extends EventEmitter {
         if (this.profiler !== null) {
             this.profiler.stop();
             this.profiler.reportFrames();
-        }
-
-        if (this.interpolationEnabled) {
-            this._lastStepTime = Date.now();
         }
     }
 
@@ -2648,9 +2627,6 @@ class Runtime extends EventEmitter {
      * @param {number} framerate Target frames per second
      */
     setFramerate (framerate) {
-        // Setting framerate to anything greater than this is unnecessary and can break the sequencer
-        // Additionally, the JS spec says intervals can't run more than once every 4ms (250/s) anyways
-        if (framerate > 250) framerate = 250;
         // Convert negative framerates to 1FPS
         // Note that 0 is a special value which means "matching device screen refresh rate"
         if (framerate < 0) framerate = 1;
