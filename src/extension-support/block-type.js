@@ -54,7 +54,13 @@ const BlockType = {
     /**
      * Arbitrary scratch-blocks XML.
      */
-    XML: 'xml'
+    XML: 'xml',
+
+    /**
+     * Specialized reporter block that allows for the insertion and evaluation
+     * of a substack.
+     */
+    INLINE: 'inline'
 };
 
 module.exports = BlockType;
