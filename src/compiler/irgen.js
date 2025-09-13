@@ -98,11 +98,7 @@ class ScriptTreeGenerator {
             }
         }
 
-        this.oldCompilerStub = (
-            oldCompilerCompatiblity.enabled ?
-                new oldCompilerCompatiblity.ScriptTreeGeneratorStub(this) :
-                null
-        );
+        this.oldCompilerStub = new oldCompilerCompatiblity.ScriptTreeGeneratorStub(this);
     }
 
     setProcedureVariant (procedureVariant) {
@@ -206,13 +202,6 @@ class ScriptTreeGenerator {
      * @returns {IntermediateInput} Compiled input node for this input.
      */
     descendInput (block, preserveStrings = false) {
-        if (this.oldCompilerStub) {
-            const oldCompilerResult = this.oldCompilerStub.descendInputFromNewCompiler(block);
-            if (oldCompilerResult) {
-                return oldCompilerResult;
-            }
-        }
-
         switch (block.opcode) {
         case 'colour_picker':
             return this.createConstantInput(block.fields.COLOUR.value, true);
@@ -577,7 +566,14 @@ class ScriptTreeGenerator {
                 if (compatBlocks.inputs.includes(block.opcode)) {
                     return this.descendCompatLayerInput(block);
                 }
-                // It might be an extension block.
+
+                // It might be an extension block using patches for the old compiler.
+                const oldCompilerResult = this.oldCompilerStub.descendInputFromNewCompiler(block);
+                if (oldCompilerResult) {
+                    return oldCompilerResult;
+                }
+
+                // It might be an extension block using the default compatibility layer.
                 const blockInfo = this.getBlockInfo(block.opcode);
                 if (blockInfo) {
                     const type = blockInfo.info.blockType;
@@ -607,13 +603,6 @@ class ScriptTreeGenerator {
      * @returns {IntermediateStackBlock} Compiled node for this block.
      */
     descendStackedBlock (block) {
-        if (this.oldCompilerStub) {
-            const oldCompilerResult = this.oldCompilerStub.descendStackedBlockFromNewCompiler(block);
-            if (oldCompilerResult) {
-                return oldCompilerResult;
-            }
-        }
-
         switch (block.opcode) {
         case 'control_all_at_once':
             // In Scratch 3, this block behaves like "if 1 = 1"
@@ -955,7 +944,14 @@ class ScriptTreeGenerator {
                 if (compatBlocks.stacked.includes(block.opcode)) {
                     return this.descendCompatLayerStack(block);
                 }
-                // It might be an extension block.
+
+                // It might be an extension block using patches for the old compiler.
+                const oldCompilerResult = this.oldCompilerStub.descendStackedBlockFromNewCompiler(block);
+                if (oldCompilerResult) {
+                    return oldCompilerResult;
+                }
+
+                // It might be an extension block using the default compatibility layer.
                 const blockInfo = this.getBlockInfo(block.opcode);
                 if (blockInfo) {
                     const type = blockInfo.info.blockType;

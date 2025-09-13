@@ -13,6 +13,7 @@
  *    provided by the new compiler.
  *  - Extensions treat IR nodes received from descendSubstack and similar as
  *    opaque objects.
+ *  - Extensions are not trying to override the behavior of the native blocks.
  */
 
 const {InputOpcode, InputType} = require('./enums');
@@ -327,7 +328,6 @@ JSGeneratorStub.unstable_exports = {
 };
 
 const oldCompilerCompatibility = {
-    enabled: false,
     IRGeneratorStub,
     ScriptTreeGeneratorStub,
     TypedInput,
