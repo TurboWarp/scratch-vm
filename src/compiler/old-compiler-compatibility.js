@@ -110,6 +110,7 @@ class ScriptTreeGeneratorStub {
     }
 }
 
+// These are part of the old compiler's API.
 const TYPE_NUMBER = 1;
 const TYPE_STRING = 2;
 const TYPE_BOOLEAN = 3;
@@ -117,7 +118,7 @@ const TYPE_UNKNOWN = 4;
 const TYPE_NUMBER_NAN = 5;
 
 /**
- * Part of the old compiler's public API.
+ * Part of the old compiler's API.
  */
 class TypedInput {
     /**
@@ -132,34 +133,42 @@ class TypedInput {
         this.source = source;
 
         if (typeOrIntermediate instanceof IntermediateInput) {
+            // Path used by the compatibility layer itself
+
             /**
              * @type {IntermediateInput}
              */
             this.intermediate = typeOrIntermediate;
+
+            /**
+             * @type {number} See TYPE_* constants above
+             */
+            this.type = TYPE_UNKNOWN;
         } else {
+            // Path used by extensions
             this.intermediate = null;
             this.type = typeOrIntermediate;
         }
     }
 
     asNumber () {
-        throw new Error('TODO asNumber');
+        return `(+${this.source} || 0)`;
     }
 
     asNumberOrNaN () {
-        throw new Error('TODO asNumberOrNaN');
+        return `(+${this.source})`;
     }
 
     asString () {
-        throw new Error('TODO asString');
+        return `("" + ${this.source})`;
     }
 
     asBoolean () {
-        throw new Error('TODO asBoolean');
+        return `toBoolean(${this.source})`;
     }
 
     asColor () {
-        throw new Error('TODO asColor');
+        return this.asUnknown();
     }
 
     asUnknown () {
@@ -167,7 +176,7 @@ class TypedInput {
     }
 
     asSafe () {
-        return this.source;
+        return this.asUnknown();
     }
 
     isAlwaysNumber () {
@@ -187,7 +196,7 @@ class TypedInput {
 }
 
 /**
- * Part of the old compiler's public API.
+ * Part of the old compiler's API.
  */
 class VariablePool {
     constructor (prefix) {
@@ -201,7 +210,7 @@ class VariablePool {
 }
 
 /**
- * Part of the old compiler's public API.
+ * Part of the old compiler's API.
  */
 class Frame {
     constructor (isLoop) {
@@ -296,7 +305,7 @@ class JSGeneratorStub {
 }
 
 /**
- * Part of old compiler's public API.
+ * Part of old compiler's API.
  */
 JSGeneratorStub.unstable_exports = {
     TYPE_NUMBER,
