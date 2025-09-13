@@ -13,7 +13,9 @@
  *    provided by the new compiler.
  *  - Extensions treat IR nodes received from descendSubstack and similar as
  *    opaque objects.
- *  - Extensions are not trying to override the behavior of the native blocks.
+ *  - Extensions need to implement the JS generators for all AST node kinds
+ *    they use. Can not rely on the defualt JS generator.
+ *  - Extensions do not try to override the behavior of native blocks.
  */
 
 const {InputOpcode, InputType} = require('./enums');
