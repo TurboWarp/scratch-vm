@@ -35,6 +35,13 @@ class ScriptTreeGeneratorStub {
         this.real = real;
 
         this.fakeThis = {
+            thread: real.thread,
+            target: real.target,
+            blocks: real.blocks,
+            runtime: real.runtime,
+            stage: real.stage,
+            script: real.script,
+
             /**
              * @param parentBlock Parent VM block.
              * @param {string} inputName Name of input.
@@ -231,6 +238,17 @@ class JSGeneratorStub {
         this.real = real;
 
         this.fakeThis = {
+            script: real.script,
+            ir: real.ir,
+            target: real.target,
+
+            get frames () {
+                return real.frames;
+            },
+            get currentFrame () {
+                return real.currentFrame;
+            },
+
             get source () {
                 return real.source;
             },
