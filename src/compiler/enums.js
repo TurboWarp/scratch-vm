@@ -103,6 +103,7 @@ const StackOpcode = {
     DEBUGGER: 'tw.debugger',
     VISUAL_REPORT: 'visualReport',
     COMPATIBILITY_LAYER: 'compat',
+    OLD_COMPILER_COMPATIBILITY_LAYER: 'oldCompiler',
 
     HAT_EDGE: 'hat.edge',
     HAT_PREDICATE: 'hat.predicate',
@@ -201,6 +202,7 @@ const InputOpcode = {
     CAST_COLOR: 'cast.toColor',
 
     COMPATIBILITY_LAYER: 'compat',
+    OLD_COMPILER_COMPATIBILITY_LAYER: 'oldCompiler',
 
     LOOKS_BACKDROP_NUMBER: 'looks.backdropNumber',
     LOOKS_BACKDROP_NAME: 'looks.backdropName',

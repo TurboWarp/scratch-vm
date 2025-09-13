@@ -223,9 +223,9 @@ class VirtualMachine extends EventEmitter {
             JSZip,
             Variable,
 
-            i_will_not_ask_for_help_when_these_break: () => {
+            these_broke_before_and_will_break_again: () => {
                 console.warn('You are using unsupported APIs. WHEN your code breaks, do not expect help.');
-                return ({
+                return {
                     JSGenerator: require('./compiler/jsgen.js'),
                     IRGenerator: require('./compiler/irgen.js').IRGenerator,
                     ScriptTreeGenerator: require('./compiler/irgen.js').ScriptTreeGenerator,
@@ -239,7 +239,22 @@ class VirtualMachine extends EventEmitter {
                     InputType: require('./compiler/enums.js').InputType,
                     Thread: require('./engine/thread.js'),
                     execute: require('./engine/execute.js')
-                });
+                };
+            },
+
+            i_will_not_ask_for_help_when_these_break: () => {
+                this.emit('LEGACY_EXTENSION_API', 'i_will_not_ask_for_help_when_these_break');
+
+                const oldCompilerCompatibility = require('./compiler/old-compiler-compatibility.js');
+                oldCompilerCompatibility.enabled = true;
+
+                return {
+                    IRGenerator: oldCompilerCompatibility.IRGeneratorStub,
+                    ScriptTreeGenerator: oldCompilerCompatibility.ScriptTreeGeneratorStub,
+                    JSGenerator: oldCompilerCompatibility.JSGeneratorStub,
+                    Thread: require('./engine/thread.js'),
+                    execute: require('./engine/execute.js')
+                };
             }
         };
     }
