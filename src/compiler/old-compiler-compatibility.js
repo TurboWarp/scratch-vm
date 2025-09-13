@@ -319,7 +319,6 @@ class JSGeneratorStub {
      * @returns {void} source property on real JSGenerator is modified directly
      */
     descendStackedBlockFromNewCompiler (intermediate) {
-        this.fakeThis.source = '';
         const oldNode = intermediate.inputs.oldNode;
         this.descendStackedBlock.call(this.fakeThis, oldNode);
     }
