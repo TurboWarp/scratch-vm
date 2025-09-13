@@ -244,7 +244,10 @@ class VirtualMachine extends EventEmitter {
 
             i_will_not_ask_for_help_when_these_break: () => {
                 this.emit('LEGACY_EXTENSION_API', 'i_will_not_ask_for_help_when_these_break');
+
                 const oldCompilerCompatibility = require('./compiler/old-compiler-compatibility.js');
+                oldCompilerCompatibility.enabled = true;
+
                 return {
                     IRGenerator: oldCompilerCompatibility.IRGeneratorStub,
                     ScriptTreeGenerator: oldCompilerCompatibility.ScriptTreeGeneratorStub,

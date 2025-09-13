@@ -15,7 +15,6 @@
  *    opaque objects.
  *  - Extensions need to implement the JS generators for all AST node kinds
  *    they use. Can not rely on the defualt JS generator.
- *  - Extensions do not try to override the behavior of native blocks.
  */
 
 const {InputOpcode, InputType} = require('./enums');
@@ -347,6 +346,7 @@ JSGeneratorStub.unstable_exports = {
 };
 
 const oldCompilerCompatibility = {
+    enabled: false,
     IRGeneratorStub,
     ScriptTreeGeneratorStub,
     TypedInput,
