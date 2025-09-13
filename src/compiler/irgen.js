@@ -607,6 +607,13 @@ class ScriptTreeGenerator {
      * @returns {IntermediateStackBlock} Compiled node for this block.
      */
     descendStackedBlock (block) {
+        if (this.oldCompilerStub) {
+            const oldCompilerResult = this.oldCompilerStub.descendStackedBlockFromNewCompiler(block);
+            if (oldCompilerResult) {
+                return oldCompilerResult;
+            }
+        }
+
         switch (block.opcode) {
         case 'control_all_at_once':
             // In Scratch 3, this block behaves like "if 1 = 1"

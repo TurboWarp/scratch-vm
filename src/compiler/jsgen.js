@@ -546,6 +546,9 @@ class JSGenerator {
             break;
         }
 
+        case InputOpcode.OLD_COMPILER_COMPATIBILITY_LAYER:
+            return this.oldCompilerStub.descendStackedBlockFromNewCompiler(block);
+
         case StackOpcode.HAT_EDGE:
             this.isInHat = true;
             this.source += '{\n';
