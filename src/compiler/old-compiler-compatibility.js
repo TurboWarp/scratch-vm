@@ -14,7 +14,7 @@
  *  - Extensions treat IR nodes received from descendSubstack and similar as
  *    opaque objects.
  *  - Extensions need to implement the JS generators for all AST node kinds
- *    they use. Can not rely on the defualt JS generator.
+ *    they use. Can not rely on the default JS generator.
  */
 
 const {InputOpcode, InputType} = require('./enums');
@@ -22,7 +22,8 @@ const {InputOpcode, InputType} = require('./enums');
 const {IntermediateInput, IntermediateStackBlock, IntermediateStack} = require('./intermediate');
 
 class IRGeneratorStub {
-
+    // Doesn't seem like extensions override anything, though the class may
+    // still need to exist to avoid type errors.
 }
 
 class ScriptTreeGeneratorStub {
@@ -257,7 +258,7 @@ class JSGeneratorStub {
                 real.source = newSource;
             },
 
-            localVariables: real.localVariables,
+            localVariables: new VariablePool('oldCompilerLocal'),
 
             /**
              * @param {IntermediateInput} intermediate
@@ -332,17 +333,9 @@ JSGeneratorStub.unstable_exports = {
     TYPE_BOOLEAN,
     TYPE_UNKNOWN,
     TYPE_NUMBER_NAN,
-    // factoryNameVariablePool,
-    // functionNameVariablePool,
-    // generatorNameVariablePool,
     VariablePool,
-    // PEN_EXT,
-    // PEN_STATE,
     TypedInput,
-    // ConstantInput,
-    // VariableInput,
     Frame
-    // sanitize
 };
 
 const oldCompilerCompatibility = {
