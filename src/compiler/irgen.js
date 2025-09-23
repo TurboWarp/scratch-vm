@@ -586,7 +586,7 @@ class ScriptTreeGenerator {
                 };
             case 'refreshtime':
                 return {
-                    kind: 'sensing.refrehTime'
+                    kind: 'sensing.refreshTime'
                 };
             }
             return {
