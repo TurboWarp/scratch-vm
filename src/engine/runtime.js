@@ -503,7 +503,6 @@ class Runtime extends EventEmitter {
         /**
          * If set to true, features such as reading colors from the user's webcam will be disabled
          * when the project has access to any external communication method to protect user privacy.
-         * Requires TurboWarp/scratch-render.
          * Do not update this directly. Use Runtime.setEnforcePrivacy() instead.
          */
         this.enforcePrivacy = true;
@@ -1930,7 +1929,8 @@ class Runtime extends EventEmitter {
      * @param {!AudioEngine} audioEngine The audio engine to attach
      */
     attachAudioEngine (audioEngine) {
-        this.audioEngine = audioEngine;
+    // 兼容性：无操作音频引擎
+    this.audioEngine = audioEngine || { createBank: () => ({}), getLoudness: () => 0 };
     }
 
     /**
@@ -1938,10 +1938,11 @@ class Runtime extends EventEmitter {
      * @param {!RenderWebGL} renderer The renderer to attach
      */
     attachRenderer (renderer) {
-        this.renderer = renderer;
-        this.renderer.setLayerGroupOrdering(StageLayering.LAYER_GROUPS);
-        this.renderer.offscreenTouching = !this.runtimeOptions.fencing;
-        this.updatePrivacy();
+    // 兼容性：无操作渲染器
+    this.renderer = renderer || { draw: () => {}, resize: () => {}, setLayerGroupOrdering: () => {}, setLayerOrdering: () => {}, setDrawableOrder: () => {}, updateDrawableProperties: () => {}, createDrawable: () => {}, destroyDrawable: () => {}, updateTexture: () => {}, isTouchingColor: () => false, pick: () => null };
+    if (this.renderer.setLayerGroupOrdering) this.renderer.setLayerGroupOrdering(StageLayering.LAYER_GROUPS);
+    if (this.renderer.hasOwnProperty('offscreenTouching')) this.renderer.offscreenTouching = !this.runtimeOptions.fencing;
+    this.updatePrivacy();
     }
 
     /**
@@ -2193,10 +2194,7 @@ class Runtime extends EventEmitter {
             // No known hat with this opcode.
             return;
         }
-        const instance = this;
         const newThreads = [];
-        // Look up metadata for the relevant hat.
-        const hatMeta = instance._hats[requestedHatOpcode];
 
         for (const opts in optMatchFields) {
             if (!Object.prototype.hasOwnProperty.call(optMatchFields, opts)) continue;
@@ -2225,30 +2223,6 @@ class Runtime extends EventEmitter {
                     return;
                 }
             }
-
-            if (hatMeta.restartExistingThreads) {
-                // If `restartExistingThreads` is true, we should stop
-                // any existing threads starting with the top block.
-                const existingThread = this.threadMap.get(Thread.getIdFromTargetAndBlock(target, topBlockId));
-                if (existingThread) {
-                    newThreads.push(this._restartThread(existingThread));
-                    return;
-                }
-            } else {
-                // If `restartExistingThreads` is false, we should
-                // give up if any threads with the top block are running.
-                for (let j = 0; j < startingThreadListLength; j++) {
-                    if (this.threads[j].target === target &&
-                        this.threads[j].topBlock === topBlockId &&
-                        // stack click threads and hat threads can coexist
-                        !this.threads[j].stackClick &&
-                        this.threads[j].status !== Thread.STATUS_DONE) {
-                        // Some thread is already running.
-                        return;
-                    }
-                }
-            }
-            // Start the thread with this top block.
             newThreads.push(this._pushThread(topBlockId, target));
         }, optTarget);
         // For compatibility with Scratch 2, edge triggered hats need to be processed before
@@ -2268,6 +2242,16 @@ class Runtime extends EventEmitter {
             }
         });
         return newThreads;
+    }
+
+    startHatsWithParams (requestedHatOpcode, optMatchFields, optParams, optTarget) {
+        this.startHats(requestedHatOpcode, optMatchFields, optTarget).forEach(thread => {
+            if (optParams) {
+                for (const i of Object.keys(optParams)) {
+                    thread.pushParam(i, optParams[i]);
+                }
+            }
+        });
     }
 
 

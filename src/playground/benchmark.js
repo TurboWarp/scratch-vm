@@ -47,8 +47,6 @@ const ScratchStorage = require('scratch-storage');
 const VirtualMachine = require('..');
 const Runtime = require('../engine/runtime');
 
-const ScratchRender = require('scratch-render');
-const AudioEngine = require('scratch-audio');
 const ScratchSVGRenderer = require('@turbowarp/scratch-svg-renderer');
 
 const Scratch = window.Scratch = window.Scratch || {};
@@ -679,10 +677,12 @@ const runBenchmark = function () {
 
     // Instantiate the renderer and connect it to the VM.
     const canvas = document.getElementById('scratch-stage');
-    const renderer = new ScratchRender(canvas);
+    // 兼容性：无操作渲染器
+    const renderer = { draw: () => {}, resize: () => {}, setLayerGroupOrdering: () => {}, setLayerOrdering: () => {}, setDrawableOrder: () => {}, updateDrawableProperties: () => {}, createDrawable: () => {}, destroyDrawable: () => {}, updateTexture: () => {}, isTouchingColor: () => false, pick: () => null };
     Scratch.renderer = renderer;
     vm.attachRenderer(renderer);
-    const audioEngine = new AudioEngine();
+    // 兼容性：无操作音频引擎
+    const audioEngine = { createBank: () => ({}), getLoudness: () => 0 };
     vm.attachAudioEngine(audioEngine);
     vm.attachV2BitmapAdapter(new ScratchSVGRenderer.BitmapAdapter());
 

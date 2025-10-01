@@ -84,7 +84,6 @@ const isNearAngle = (actual, expect, optMargin = 10) => (
     (wrapClamp(actual - expect, 0, 359) > 360 - optMargin)
 );
 
-// A fake scratch-render drawable that will be used by VideoMotion to restrain
 // the area considered for motion detection in VideoMotion.getLocalMotion
 const fakeDrawable = {
     updateCPURenderAttributes () {}, // no-op, since isTouching always returns true

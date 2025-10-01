@@ -225,7 +225,6 @@ const fetchBitmapCanvas_ = function (costume, runtime, rotationCenter) {
                 }
             }
 
-            // This informs TurboWarp/scratch-render that this canvas won't be reused by the canvas pool,
             // which helps it optimize memory use.
             imageOrCanvas.reusable = false;
 

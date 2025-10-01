@@ -153,7 +153,6 @@ class Video {
             this._drawable = renderer.createDrawable(StageLayering.VIDEO_LAYER);
             renderer.updateDrawableSkinId(this._drawable, this._skinId);
             // TW: Video probably contains the user's face. This is private information.
-            // This API won't exist if we're using a vanilla scratch-render
             if (renderer.markSkinAsPrivate) {
                 renderer.markSkinAsPrivate(this._skinId);
             }

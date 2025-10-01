@@ -198,9 +198,9 @@ class Thread {
 
         this.justReported = null;
 
-        this.triedToCompile = false;
+        this.triedToCompile = true;
 
-        this.isCompiled = false;
+        this.isCompiled = true;
 
         // compiler data
         // these values only make sense if isCompiled == true

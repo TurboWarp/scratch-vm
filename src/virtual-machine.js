@@ -1416,7 +1416,8 @@ class VirtualMachine extends EventEmitter {
      * @param {!AudioEngine} audioEngine The audio engine to attach
      */
     attachAudioEngine (audioEngine) {
-        this.runtime.attachAudioEngine(audioEngine);
+    // 兼容性：无操作音频引擎
+    this.runtime.attachAudioEngine(audioEngine || { createBank: () => ({}), getLoudness: () => 0 });
     }
 
     /**
@@ -1424,7 +1425,8 @@ class VirtualMachine extends EventEmitter {
      * @param {!RenderWebGL} renderer The renderer to attach
      */
     attachRenderer (renderer) {
-        this.runtime.attachRenderer(renderer);
+    // 兼容性：无操作渲染器
+    this.runtime.attachRenderer(renderer || { draw: () => {}, resize: () => {}, setLayerGroupOrdering: () => {}, setLayerOrdering: () => {}, setDrawableOrder: () => {}, updateDrawableProperties: () => {}, createDrawable: () => {}, destroyDrawable: () => {}, updateTexture: () => {}, isTouchingColor: () => false, pick: () => null });
     }
 
     /**

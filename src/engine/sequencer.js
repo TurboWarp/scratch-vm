@@ -88,8 +88,7 @@ class Sequencer {
         // 3. Either turbo mode, or no redraw has been requested by a primitive.
         while (this.runtime.threads.length > 0 &&
                numActiveThreads > 0 &&
-               this.timer.timeElapsed() < WORK_TIME &&
-               (this.runtime.turboMode || !this.runtime.redrawRequested)) {
+               this.timer.timeElapsed() < WORK_TIME) {
             if (this.runtime.profiler !== null) {
                 if (stepThreadsInnerProfilerId === -1) {
                     stepThreadsInnerProfilerId = this.runtime.profiler.idByName(stepThreadsInnerProfilerFrame);

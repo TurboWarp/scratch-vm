@@ -1,8 +1,8 @@
 {
-  "name": "scratch-vm",
-  "version": "2.1.46",
-  "description": "Virtual Machine for Scratch 3.0",
-  "author": "Massachusetts Institute of Technology",
+  "name": "scbackend-vm",
+  "version": "11.45.18",
+  "description": "Scbackend定制版vm",
+  "author": "XQYWorld",
   "license": "MPL-2.0",
   "homepage": "https://github.com/scratchfoundation/scratch-vm#readme",
   "repository": {
@@ -81,8 +81,6 @@
     "scratch-blocks": "0.1.0-prerelease.20230527085947",
     "scratch-l10n": "3.16.20231222031921",
     "scratch-render": "0.1.0-prerelease.20231220210403",
-    "scratch-render-fonts": "github:TurboWarp/scratch-render-fonts#master",
-    "scratch-storage": "2.3.1",
     "script-loader": "0.7.2",
     "stats.js": "0.17.0",
     "tap": "16.2.0",
