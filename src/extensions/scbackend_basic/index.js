@@ -65,6 +65,10 @@ class ScbackendBasicExtension {
         };
     }
 
+    newconnect() {
+        return true;
+    }
+
     lastconnect() {
         if (!this.runtime || !this.runtime.scbackend) {
             return '';
