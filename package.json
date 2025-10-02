@@ -1,13 +1,14 @@
 {
   "name": "scbackend-vm",
-  "version": "11.45.19",
+  "version": "11.45.20",
   "description": "Scbackend定制版vm",
   "author": "XQYWorld",
   "license": "MPL-2.0",
   "homepage": "https://github.com/scratchfoundation/scratch-vm#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/scratchfoundation/scratch-vm.git"
+    "url": "https://github.com/scratchfoundation/scratch-vm.git",
+    "sha": "$(git log -n1 --pretty=format:%H)"
   },
   "main": "./src/index.js",
   "browser": "./src/index.js",
