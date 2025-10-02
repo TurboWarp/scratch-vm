@@ -2244,9 +2244,10 @@ class Runtime extends EventEmitter {
         return newThreads;
     }
 
-    startHatsWithParams (requestedHatOpcode, optMatchFields, optParams, optTarget) {
+    startHatsWithParams (requestedHatOpcode, optParams, optMatchFields, optTarget) {
         this.startHats(requestedHatOpcode, optMatchFields, optTarget).forEach(thread => {
             if (optParams) {
+                thread.initParam();
                 for (const i of Object.keys(optParams)) {
                     thread.pushParam(i, optParams[i]);
                 }
