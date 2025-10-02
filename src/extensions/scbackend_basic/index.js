@@ -84,6 +84,10 @@ class ScbackendBasicExtension {
         this.runtime.scbackend.send('message', {dst: connectid, body: message});
     }
 
+    message(){
+        return true;
+    }
+
     getdata(args, util) {
         if (!this.runtime || !this.runtime.scbackend) {
             return '';
