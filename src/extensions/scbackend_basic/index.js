@@ -19,14 +19,18 @@ class ScbackendBasicExtension {
             {
                 opcode: 'message',
                 blockType: 'event',
-                text: '当 [connectid] 收到消息',
-                arguments: {
-                    connectid: {
-                        type: 'string',
-                        defaultValue: 'connectid',
-                    }
-                },
+                text: '当收到消息',
                 isEdgeActivated: false
+            },
+            {
+                opcode: 'getdata',
+                blockType: 'reporter',
+                text: '收到的数据'
+            },
+            {
+                opcode: 'getsrc',
+                blockType: 'reporter',
+                text: '收到的消息来源id'
             },
             {
                 opcode: 'sendmessage',
@@ -42,11 +46,6 @@ class ScbackendBasicExtension {
                         defaultValue: 'message',
                     }
                 }
-            },
-            {
-                opcode: 'getdata',
-                blockType: 'reporter',
-                text: '收到的数据'
             },
             {
                 opcode: 'log',
@@ -71,7 +70,14 @@ class ScbackendBasicExtension {
         if (!this.runtime || !this.runtime.scbackend) {
             return '';
         }
-        return util.thread.getParam('lastconnect') || '';
+        return util.thread.getParam('sessionid') || '';
+    }
+
+    getsrc(args, util) {
+        if (!this.runtime || !this.runtime.scbackend) {
+            return '';
+        }
+        return util.thread.getParam('srcid') || '';
     }
 
     sendmessage(args) {
