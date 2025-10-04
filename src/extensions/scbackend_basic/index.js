@@ -67,11 +67,11 @@ class ScbackendBasicExtension {
         };
     }
 
-    lastconnect() {
+    lastconnect(args, util) {
         if (!this.runtime || !this.runtime.scbackend) {
             return '';
         }
-        return this.runtime.scbackend.lastconnect || '';
+        return util.thread.getParam('lastconnect') || '';
     }
 
     sendmessage(args) {
@@ -86,7 +86,7 @@ class ScbackendBasicExtension {
         if (!this.runtime || !this.runtime.scbackend) {
             return '';
         }
-        return util.thread.getParam() || '';
+        return util.thread.getParam('data') || '';
     }
     log(args) {
         const { message } = args;

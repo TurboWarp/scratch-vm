@@ -2201,10 +2201,6 @@ class Runtime extends EventEmitter {
             optMatchFields[opts] = optMatchFields[opts].toUpperCase();
         }
 
-        // tw: By assuming that all new threads will not interfere with eachother, we can optimize the loops
-        // inside the allScriptsByOpcodeDo callback below.
-        const startingThreadListLength = this.threads.length;
-
         // Consider all scripts, looking for hats with opcode `requestedHatOpcode`.
         this.allScriptsByOpcodeDo(requestedHatOpcode, (script, target) => {
             const {
@@ -2245,7 +2241,7 @@ class Runtime extends EventEmitter {
     }
 
     startHatsWithParams (requestedHatOpcode, optParams, optMatchFields, optTarget) {
-        this.startHats(requestedHatOpcode, optMatchFields, optTarget).forEach(thread => {
+        return this.startHats(requestedHatOpcode, optMatchFields, optTarget).forEach(thread => {
             if (optParams) {
                 thread.initParams();
                 for (const i of Object.keys(optParams)) {
