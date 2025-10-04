@@ -7,8 +7,9 @@ class ScbackendBasicExtension {
         const basicblocks = [
             {
                 opcode: 'newconnect',
-                blockType: 'hat',
+                blockType: 'event',
                 text: '当新的连接收到',
+                isEdgeActivated: false
             },
             {
                 opcode: 'lastconnect',
@@ -17,14 +18,15 @@ class ScbackendBasicExtension {
             },
             {
                 opcode: 'message',
-                blockType: 'hat',
+                blockType: 'event',
                 text: '当 [connectid] 收到消息',
                 arguments: {
                     connectid: {
                         type: 'string',
                         defaultValue: 'connectid',
                     }
-                }
+                },
+                isEdgeActivated: false
             },
             {
                 opcode: 'sendmessage',
@@ -65,10 +67,6 @@ class ScbackendBasicExtension {
         };
     }
 
-    newconnect() {
-        return true;
-    }
-
     lastconnect() {
         if (!this.runtime || !this.runtime.scbackend) {
             return '';
@@ -84,15 +82,11 @@ class ScbackendBasicExtension {
         this.runtime.scbackend.send('message', {dst: connectid, body: message});
     }
 
-    message(){
-        return true;
-    }
-
     getdata(args, util) {
         if (!this.runtime || !this.runtime.scbackend) {
             return '';
         }
-        return util.thread.params.scbackenddata || '';
+        return util.thread.getParam() || '';
     }
     log(args) {
         const { message } = args;
