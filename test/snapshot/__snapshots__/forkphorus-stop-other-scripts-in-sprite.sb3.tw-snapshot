@@ -1,0 +1,36 @@
+// TW Snapshot
+// Input SHA-256: 1d077dfdf08990f391b64e59cc3b31530abe3b2aef12e54678743a1f74f99ae5
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+const b1 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+return function* genXYZ () {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "b", null);
+b1.value = 0;
+startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "message1" });
+runtime.stopForTarget(target, thread);
+thread.timer = timer();
+var a0 = Math.max(0, 1000 * 0);
+runtime.requestRedraw();
+yield;
+while (thread.timer.timeElapsed() < a0) {
+yield;
+}
+thread.timer = null;
+if (compareEqual(b1.value, 0)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "k", null);
+} else {
+yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "m", null);
+}
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "j", null);
+retire(); return;
+}; })
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+return function* genXYZ () {
+b0.value = ((+b0.value || 0) + 1);
+retire(); return;
+}; })

@@ -1,0 +1,276 @@
+// TW Snapshot
+// Input SHA-256: 0d7c7d4a267a29ff249f9314e87a7a7170870dc48175ffdba5a12fa48e8ba0a2
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ () {
+yield* thread.procedures["Ztest endsWith"]();
+yield* thread.procedures["Ztest startsWith"]();
+yield* thread.procedures["Ztest includes"]();
+yield* thread.procedures["Ztest indexOf"]();
+yield* thread.procedures["Ztest replace"]();
+yield* thread.procedures["ZOKAY %s"]((("" + runtime.ioDevices.clock.projectTimer()) + " seconds"));
+retire(); return;
+}; })
+
+// Sprite1 Ztest endsWith
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
+return function* genXYZ_test_endsWith () {
+thread.procedures["W%s .endsWith( %s )"](12333,333);
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must end with 333");
+thread.procedures["W%s .endsWith( %s )"](12333,33);
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must end with 33");
+thread.procedures["W%s .endsWith( %s )"](12333,"");
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must end with empty string");
+thread.procedures["W%s .endsWith( %s )"](12333,4);
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "false".toLowerCase()),"12333 must not end with 4");
+thread.procedures["W%s .endsWith( %s )"](12333,123334);
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "false".toLowerCase()),"12333 must not end with 123334");
+thread.procedures["W%s .endsWith( %s )"](12333,12333);
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must end with itself");
+thread.procedures["W%s .includes( %s )"]("abc","");
+return "";
+}; })
+
+// Sprite1 Ztest startsWith
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
+return function* genXYZ_test_startsWith () {
+thread.procedures["W%s .startsWith( %s )"](12333,12333);
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 12333");
+thread.procedures["W%s .startsWith( %s )"](12333,1233);
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 1233");
+thread.procedures["W%s .startsWith( %s )"](12333,123);
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 123");
+thread.procedures["W%s .startsWith( %s )"](12333,12);
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 12");
+thread.procedures["W%s .startsWith( %s )"](12333,1);
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 1");
+thread.procedures["W%s .startsWith( %s )"](12333,"");
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with empty string");
+thread.procedures["W%s .startsWith( %s )"](12333,33);
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "false".toLowerCase()),"12333 must not start with 33");
+return "";
+}; })
+
+// Sprite1 Ztest includes
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
+return function* genXYZ_test_includes () {
+thread.procedures["W%s .includes( %s )"]("abc","");
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include empty string");
+thread.procedures["W%s .includes( %s )"]("","");
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"empty string must include empty string");
+thread.procedures["W%s .includes( %s )"]("abc","abc");
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include abc");
+thread.procedures["W%s .includes( %s )"]("abc","a");
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include a");
+thread.procedures["W%s .includes( %s )"]("abc","b");
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include b");
+thread.procedures["W%s .includes( %s )"]("abc","c");
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include c");
+thread.procedures["W%s .includes( %s )"]("abc","ab");
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include ab");
+thread.procedures["W%s .includes( %s )"]("abc","bc");
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include bc");
+thread.procedures["W%s .includes( %s )"]("abc","aa");
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "false".toLowerCase()),"abc must not include aa");
+return "";
+}; })
+
+// Sprite1 Ztest indexOf
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
+return function* genXYZ_test_indexOf () {
+thread.procedures["W%s .indexOf( %s )"](123,1);
+yield* thread.procedures["Zassert %b %s"](((+b0.value || 0) === 1),"index of 1 in 123 is 1");
+thread.procedures["W%s .indexOf( %s )"](123,2);
+yield* thread.procedures["Zassert %b %s"](((+b0.value || 0) === 2),"index of 2 in 123 is 2");
+thread.procedures["W%s .indexOf( %s )"](123,3);
+yield* thread.procedures["Zassert %b %s"](((+b0.value || 0) === 3),"index of 3 in 123 is 3");
+thread.procedures["W%s .indexOf( %s )"](123,"aaaa");
+yield* thread.procedures["Zassert %b %s"](((+b0.value || 0) === -1),"index of aaaa in 123 is -1");
+return "";
+}; })
+
+// Sprite1 Ztest lastIndexOf
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function funXYZ_test_lastIndexOf () {
+return "";
+}; })
+
+// Sprite1 Ztest replace
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
+return function* genXYZ_test_replace () {
+thread.procedures["W%s .replace( %s with %s )"](123456,345,"a");
+yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "12a6".toLowerCase()),"replace expected 12a6");
+thread.procedures["W%s .replace( %s with %s )"](123,123,456);
+yield* thread.procedures["Zassert %b %s"](((+b0.value || 0) === 456),"replace expected 456");
+thread.procedures["W%s .replace( %s with %s )"](123,1234,456);
+yield* thread.procedures["Zassert %b %s"](((+b0.value || 0) === 123),"replace expected 123");
+return "";
+}; })
+
+// Sprite1 Ztest split
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function funXYZ_test_split () {
+return "";
+}; })
+
+// Sprite1 ZOKAY %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_OKAY_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "aq", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("pass " + "0"),}, b0, false, false, "C", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "as", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })
+
+// Sprite1 W%s .endsWith( %s )
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-sutils:bufferl-list"];
+const b1 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-sutils:iterator-"];
+const b2 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
+return function funXYZ___endsWith____ (p0,p1) {
+b0.value = [];
+b1.value = ("" + p0).length;
+for (var a0 = ("" + p1).length; a0 > 0; a0--) {
+b0.value.unshift(((("" + p0))[(b1.value | 0) - 1] || ""));
+b0._monitorUpToDate = false;
+b1.value = (b1.value + -1);
+}
+b2.value = compareEqual(listContents(b0), p1);
+return "";
+}; })
+
+// Sprite1 Zassert %b %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ_assert__ (p0,p1) {
+if (!toBoolean(p0)) {
+yield* thread.procedures["ZFAIL %s"](p1);
+}
+return "";
+}; })
+
+// Sprite1 W%s .includes( %s )
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
+const b1 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-sutils:bufferl-list"];
+const b2 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-sutils:iterator-"];
+return function funXYZ___includes____ (p0,p1) {
+if ((("" + p1).length === 0)) {
+b0.value = "true";
+return "";
+}
+b1.value = [];
+b0.value = "false";
+b2.value = 0;
+for (var a0 = ("" + p0).length; a0 > 0; a0--) {
+b2.value = (b2.value + 1);
+b1.value.push(((("" + p0))[(b2.value | 0) - 1] || ""));
+b1._monitorUpToDate = false;
+if ((b1.value.length > ("" + p1).length)) {
+b1.value.shift();
+b1._monitorUpToDate = false;
+}
+if (compareEqual(listContents(b1), p1)) {
+b0.value = "true";
+return "";
+}
+}
+return "";
+}; })
+
+// Sprite1 W%s .startsWith( %s )
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-sutils:bufferl-list"];
+const b1 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-sutils:iterator-"];
+const b2 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
+return function funXYZ___startsWith____ (p0,p1) {
+b0.value = [];
+b1.value = 0;
+for (var a0 = ("" + p1).length; a0 > 0; a0--) {
+b1.value = (b1.value + 1);
+b0.value.push(((("" + p0))[(b1.value | 0) - 1] || ""));
+b0._monitorUpToDate = false;
+}
+b2.value = compareEqual(listContents(b0), p1);
+return "";
+}; })
+
+// Sprite1 W%s .indexOf( %s )
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-sutils:bufferl-list"];
+const b1 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
+const b2 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-sutils:iterator-"];
+return function funXYZ___indexOf____ (p0,p1) {
+b0.value = [];
+b1.value = -1;
+b2.value = 0;
+for (var a0 = ("" + p0).length; a0 > 0; a0--) {
+b2.value = (b2.value + 1);
+b0.value.push(((("" + p0))[(b2.value | 0) - 1] || ""));
+b0._monitorUpToDate = false;
+if ((b0.value.length > ("" + p1).length)) {
+b0.value.shift();
+b0._monitorUpToDate = false;
+}
+if (compareEqual(listContents(b0), p1)) {
+b1.value = (b2.value - (("" + p1).length - 1));
+return "";
+}
+}
+return "";
+}; })
+
+// Sprite1 W%s .replace( %s with %s )
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-sutils:bufferl-list"];
+const b1 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-sutils:templ-list"];
+const b2 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
+const b3 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-sutils:iterator-"];
+return function funXYZ___replace___with___ (p0,p1,p2) {
+b0.value = [];
+b1.value = [];
+b2.value = "";
+b3.value = 0;
+for (var a0 = ("" + p0).length; a0 > 0; a0--) {
+b3.value = (b3.value + 1);
+b0.value.push(((("" + p0))[(b3.value | 0) - 1] || ""));
+b0._monitorUpToDate = false;
+if ((b0.value.length > ("" + p1).length)) {
+b0.value.shift();
+b0._monitorUpToDate = false;
+}
+b1.value.push(((("" + p0))[(b3.value | 0) - 1] || ""));
+b1._monitorUpToDate = false;
+if (compareEqual(listContents(b0), p1)) {
+for (var a1 = ("" + p1).length; a1 > 0; a1--) {
+b1.value.pop();
+b1._monitorUpToDate = false;
+}
+b2.value = (("" + b2.value) + listContents(b1));
+b2.value = (("" + b2.value) + ("" + p2));
+b1.value = [];
+}
+}
+b2.value = (("" + b2.value) + listContents(b1));
+return "";
+}; })
+
+// Sprite1 ZFAIL %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_FAIL_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "bY", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("fail " + "0"),}, b0, false, false, "=", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "b!", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })

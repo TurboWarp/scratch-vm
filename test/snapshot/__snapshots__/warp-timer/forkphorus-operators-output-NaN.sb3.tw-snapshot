@@ -1,0 +1,27 @@
+// TW Snapshot
+// Input SHA-256: 289d73b9be2b60f501e57768410029798d2dec7d971e5935e5f19fb2a9988169
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+const b1 = stage.variables["k|@-`:^^Mo+E}$({|2/P"];
+const b2 = stage.variables["t2m05.oW;5f0=GL30@pV"];
+return function* genXYZ () {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 4",}, b0, false, false, "g", null);
+b1.value = (1 / 0);
+b2.value = (-1 / 0);
+if ((("" + (b1.value + b2.value)).toLowerCase() === "NaN".toLowerCase())) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass 1",}, b0, false, false, "m", null);
+}
+if ((("" + ((+b1.value || 0) - (+b1.value || 0))).toLowerCase() === "NaN".toLowerCase())) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass 1",}, b0, false, false, "n", null);
+}
+if ((("" + ((+b1.value || 0) * 0)).toLowerCase() === "NaN".toLowerCase())) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass 1",}, b0, false, false, "o", null);
+}
+if ((("" + (0 / 0)).toLowerCase() === "NaN".toLowerCase())) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass 1",}, b0, false, false, "q", null);
+}
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "p", null);
+retire(); return;
+}; })
