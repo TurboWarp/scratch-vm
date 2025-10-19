@@ -32,3 +32,13 @@ test('Cast', t => {
     t.equal(ScratchCommon.Cast.toListIndex('1.5', 10, false), 1);
     t.end();
 });
+
+test('external', t => {
+    // has more tests in separate file, mostly just making sure that external exists at all
+    ScratchCommon.external.fetch('data:text/plain;,test').then(r => {
+        r.text().then(text => {
+            t.equal(text, 'test');
+            t.end();
+        });
+    });
+});
