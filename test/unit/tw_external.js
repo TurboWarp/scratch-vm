@@ -17,7 +17,22 @@ test('fetch', t => {
     });
 });
 
-// Node.js does not support FileReader (yet?) so not really possible to properly test dataURL
+test('dataURL', t => {
+    global.FileReader = class {
+        readAsDataURL (blob) {
+            blob.arrayBuffer().then(arrayBuffer => {
+                const base64 = Buffer.from(arrayBuffer).toString('base64');
+                this.result = `data:${blob.type};base64,${base64}`;
+                this.onload();
+            });
+        }
+    };
+
+    external.dataURL('data:text/plain;,doesthiswork').then(dataURL => {
+        t.equal(dataURL, `data:text/plain;base64,${btoa('doesthiswork')}`);
+        t.end();
+    });
+});
 
 test('blob', t => {
     external.blob('data:text/plain;,test').then(blob => {
