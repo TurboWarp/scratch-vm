@@ -26,7 +26,7 @@ const external = {};
  * @template T
  * @returns {Promise<T>}
  */
-external.import = url => {
+external.importModule = url => {
     checkURL(url);
     // Need to specify webpackIgnore so that webpack compiles this directly to a call to import()
     // instead of trying making it try to use the webpack import system.
@@ -65,7 +65,7 @@ external.dataURL = async url => {
  * @param {string} url
  * @returns {Promise<Blob>}
  */
-external.blobURL = async url => {
+external.blob = async url => {
     const res = await external.fetch(url);
     return res.blob();
 };
