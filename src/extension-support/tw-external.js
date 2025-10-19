@@ -19,67 +19,36 @@ const checkURL = url => {
     }
 };
 
-const importDependency = {};
+const dependency = {};
 
 /**
  * @param {string} url
  * @template T
  * @returns {Promise<T>}
  */
-importDependency.asModule = url => {
+dependency.import = url => {
     checkURL(url);
     // Need to specify webpackIgnore so that webpack compiles this directly to a call to import()
-    // instead of trying making it try to use the webpack dependency system.
+    // instead of trying making it try to use the webpack import system.
     return import(/* webpackIgnore: true */ url);
 };
 
 /**
  * @param {string} url
- * @returns {Promise<Response>|Response}
+ * @returns {Promise<Response>}
  */
-importDependency.asFetch = url => {
+dependency.fetch = url => {
     checkURL(url);
     return fetch(url);
 };
 
 /**
  * @param {string} url
- * @returns {Promise<string>|string}
- */
-importDependency.asDataURL = async url => {
-    checkURL(url);
-    const res = await fetch(url);
-    const blob = await res.blob();
-    return new Promise((resolve, reject) => {
-        const fr = new FileReader();
-        fr.onload = () => resolve(fr.result);
-        fr.onerror = () => reject(fr.error);
-        fr.readAsDataURL(blob);
-    });
-};
-
-/**
- * @param {string} url
- * @returns {Promise<void>}
- */
-importDependency.asScriptTag = url => {
-    checkURL(url);
-    return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.onload = () => resolve();
-        script.onerror = () => reject(new Error('Script error'));
-        script.src = url;
-        return script;
-    });
-};
-
-/**
- * @param {string} url
  * @param {string} returnExpression
  * @template T
- * @returns {Promise<T>|T}
+ * @returns {Promise<T>}
  */
-importDependency.asEval = async (url, returnExpression) => {
+dependency.evalAndReturn = async (url, returnExpression) => {
     checkURL(url);
 
     const res = await fetch(url);
@@ -93,4 +62,4 @@ importDependency.asEval = async (url, returnExpression) => {
     return fn();
 };
 
-module.exports = importDependency;
+module.exports = dependency;
