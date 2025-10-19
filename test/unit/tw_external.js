@@ -49,3 +49,10 @@ test('evalAndReturn', t => {
         t.end();
     });
 });
+
+test('relative URL throws', t => {
+    external.fetch('./test.js').catch(err => {
+        t.equal(err.message, `Unsupported URL: ./test.js`);
+        t.end();
+    });
+});
