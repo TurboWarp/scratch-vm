@@ -19,14 +19,14 @@ const checkURL = url => {
     }
 };
 
-const dependency = {};
+const external = {};
 
 /**
  * @param {string} url
  * @template T
  * @returns {Promise<T>}
  */
-dependency.import = url => {
+external.import = url => {
     checkURL(url);
     // Need to specify webpackIgnore so that webpack compiles this directly to a call to import()
     // instead of trying making it try to use the webpack import system.
@@ -37,9 +37,37 @@ dependency.import = url => {
  * @param {string} url
  * @returns {Promise<Response>}
  */
-dependency.fetch = url => {
+external.fetch = async url => {
     checkURL(url);
-    return fetch(url);
+    const res = await fetch(url);
+    if (!res.ok) {
+        throw new Error(`HTTP ${res.status} fetching ${url}`);
+    }
+    return res;
+};
+
+/**
+ * @param {string} url
+ * @returns {Promise<string>}
+ */
+external.dataURL = async url => {
+    const res = await external.fetch(url);
+    const blob = await res.blob();
+    return new Promise((resolve, reject) => {
+        const fr = new FileReader();
+        fr.onload = () => resolve(fr.result);
+        fr.onerror = () => reject(fr.error);
+        fr.readAsDataURL(blob);
+    });
+};
+
+/**
+ * @param {string} url
+ * @returns {Promise<Blob>}
+ */
+external.blobURL = async url => {
+    const res = await external.fetch(url);
+    return res.blob();
 };
 
 /**
@@ -48,18 +76,12 @@ dependency.fetch = url => {
  * @template T
  * @returns {Promise<T>}
  */
-dependency.evalAndReturn = async (url, returnExpression) => {
-    checkURL(url);
-
-    const res = await fetch(url);
-    if (!res.ok) {
-        throw new Error(`HTTP ${res.status} fetching ${url}`);
-    }
-
+external.evalAndReturn = async (url, returnExpression) => {
+    const res = await external.fetch(url);
     const text = await res.text();
     const js = `${text};return ${returnExpression}`;
     const fn = new Function(js);
     return fn();
 };
 
-module.exports = dependency;
+module.exports = external;
