@@ -6,1768 +6,1768 @@
 const b0 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ () {
 yield* executeInCompatibilityLayer({"MESSAGE":"plan 0",}, b0, false, false, "f)", null);
-if (!(("" + (0 < 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 < 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 1: 0 should be < 0",}, b0, false, false, "tB", null);
 }
-if (!(("" + (0 === 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 === 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 2: 0 should be = 0",}, b0, false, false, "tD", null);
 }
-if (!(("" + (0 > 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 > 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 3: 0 should be > 0",}, b0, false, false, "tF", null);
 }
-if (!(("" + (0 < 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 < 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 4: 0 should be < 0.0",}, b0, false, false, "tH", null);
 }
-if (!(("" + (0 === 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 === 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 5: 0 should be = 0.0",}, b0, false, false, "tJ", null);
 }
-if (!(("" + (0 > 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 > 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 6: 0 should be > 0.0",}, b0, false, false, "tL", null);
 }
-if (!(("" + (0 < 1.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 < 1.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 7: 0 should be < 1.23",}, b0, false, false, "tN", null);
 }
-if (!(("" + (0 === 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 8: 0 should be = 1.23",}, b0, false, false, "tP", null);
 }
-if (!(("" + (0 > 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 > 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 9: 0 should be > 1.23",}, b0, false, false, "tR", null);
 }
-if (!(("" + (0 < 0.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 < 0.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 10: 0 should be < .23",}, b0, false, false, "tT", null);
 }
-if (!(("" + (0 === 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 11: 0 should be = .23",}, b0, false, false, "tV", null);
 }
-if (!(("" + (0 > 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 > 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 12: 0 should be > .23",}, b0, false, false, "tX", null);
 }
-if (!(("" + (0 < 0.123)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 < 0.123)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 13: 0 should be < 0.123",}, b0, false, false, "tZ", null);
 }
-if (!(("" + (0 === 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 14: 0 should be = 0.123",}, b0, false, false, "t1", null);
 }
-if (!(("" + (0 > 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 > 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 15: 0 should be > 0.123",}, b0, false, false, "t3", null);
 }
-if (!(("" + (0 < -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 < -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 16: 0 should be < -0",}, b0, false, false, "t5", null);
 }
-if (!(("" + (0 === -0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 === -0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 17: 0 should be = -0",}, b0, false, false, "t7", null);
 }
-if (!(("" + (0 > -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 > -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 18: 0 should be > -0",}, b0, false, false, "t9", null);
 }
-if (!(("" + (0 < -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 < -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 19: 0 should be < -1",}, b0, false, false, "t#", null);
 }
-if (!(("" + (0 === -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 20: 0 should be = -1",}, b0, false, false, "t(", null);
 }
-if (!(("" + (0 > -1)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 > -1)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 21: 0 should be > -1",}, b0, false, false, "t*", null);
 }
-if (!(("" + ("0".toLowerCase() < "true".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0" < "true")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 22: 0 should be < true",}, b0, false, false, "t,", null);
 }
-if (!(("" + ("0".toLowerCase() === "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0" === "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 23: 0 should be = true",}, b0, false, false, "t.", null);
 }
-if (!(("" + ("0".toLowerCase() > "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0" > "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 24: 0 should be > true",}, b0, false, false, "t:", null);
 }
-if (!(("" + ("0".toLowerCase() < "false".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0" < "false")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 25: 0 should be < false",}, b0, false, false, "t=", null);
 }
-if (!(("" + ("0".toLowerCase() === "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0" === "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 26: 0 should be = false",}, b0, false, false, "t@", null);
 }
-if (!(("" + ("0".toLowerCase() > "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0" > "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 27: 0 should be > false",}, b0, false, false, "t]", null);
 }
-if (!(("" + ("0".toLowerCase() < "NaN".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0" < "nan")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 28: 0 should be < NaN",}, b0, false, false, "t_", null);
 }
-if (!(("" + ("0".toLowerCase() === "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0" === "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 29: 0 should be = NaN",}, b0, false, false, "t{", null);
 }
-if (!(("" + ("0".toLowerCase() > "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0" > "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 30: 0 should be > NaN",}, b0, false, false, "t}", null);
 }
-if (!(("" + (0 < Infinity)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 < Infinity)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 31: 0 should be < Infinity",}, b0, false, false, "ua", null);
 }
-if (!(("" + (0 === Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 32: 0 should be = Infinity",}, b0, false, false, "uc", null);
 }
-if (!(("" + (0 > Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 > Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 33: 0 should be > Infinity",}, b0, false, false, "ue", null);
 }
-if (!(("" + ("0".toLowerCase() < "banana".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0" < "banana")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 34: 0 should be < banana",}, b0, false, false, "ug", null);
 }
-if (!(("" + ("0".toLowerCase() === "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0" === "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 35: 0 should be = banana",}, b0, false, false, "ui", null);
 }
-if (!(("" + ("0".toLowerCase() > "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0" > "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 36: 0 should be > banana",}, b0, false, false, "uk", null);
 }
-if (!(("" + ("0".toLowerCase() < "🎉".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0" < "🎉")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 37: 0 should be < 🎉",}, b0, false, false, "um", null);
 }
-if (!(("" + ("0".toLowerCase() === "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0" === "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 38: 0 should be = 🎉",}, b0, false, false, "uo", null);
 }
-if (!(("" + ("0".toLowerCase() > "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0" > "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 39: 0 should be > 🎉",}, b0, false, false, "uq", null);
 }
-if (!(("" + ("0".toLowerCase() < "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0" < "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 40: 0 should be < ",}, b0, false, false, "us", null);
 }
-if (!(("" + ("0".toLowerCase() === "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0" === "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 41: 0 should be = ",}, b0, false, false, "uu", null);
 }
-if (!(("" + ("0".toLowerCase() > "".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0" > "")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 42: 0 should be > ",}, b0, false, false, "uw", null);
 }
-if (!(("" + (0 < 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 < 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 43: 0.0 should be < 0",}, b0, false, false, "uy", null);
 }
-if (!(("" + (0 === 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 === 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 44: 0.0 should be = 0",}, b0, false, false, "uA", null);
 }
-if (!(("" + (0 > 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 > 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 45: 0.0 should be > 0",}, b0, false, false, "uC", null);
 }
-if (!(("" + (0 < 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 < 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 46: 0.0 should be < 0.0",}, b0, false, false, "uE", null);
 }
-if (!(("" + (0 === 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 === 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 47: 0.0 should be = 0.0",}, b0, false, false, "uG", null);
 }
-if (!(("" + (0 > 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 > 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 48: 0.0 should be > 0.0",}, b0, false, false, "uI", null);
 }
-if (!(("" + (0 < 1.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 < 1.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 49: 0.0 should be < 1.23",}, b0, false, false, "uK", null);
 }
-if (!(("" + (0 === 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 50: 0.0 should be = 1.23",}, b0, false, false, "uM", null);
 }
-if (!(("" + (0 > 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 > 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 51: 0.0 should be > 1.23",}, b0, false, false, "uO", null);
 }
-if (!(("" + (0 < 0.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 < 0.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 52: 0.0 should be < .23",}, b0, false, false, "uQ", null);
 }
-if (!(("" + (0 === 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 53: 0.0 should be = .23",}, b0, false, false, "uS", null);
 }
-if (!(("" + (0 > 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 > 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 54: 0.0 should be > .23",}, b0, false, false, "uU", null);
 }
-if (!(("" + (0 < 0.123)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 < 0.123)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 55: 0.0 should be < 0.123",}, b0, false, false, "uW", null);
 }
-if (!(("" + (0 === 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 56: 0.0 should be = 0.123",}, b0, false, false, "uY", null);
 }
-if (!(("" + (0 > 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 > 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 57: 0.0 should be > 0.123",}, b0, false, false, "u0", null);
 }
-if (!(("" + (0 < -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 < -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 58: 0.0 should be < -0",}, b0, false, false, "u2", null);
 }
-if (!(("" + (0 === -0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 === -0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 59: 0.0 should be = -0",}, b0, false, false, "u4", null);
 }
-if (!(("" + (0 > -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 > -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 60: 0.0 should be > -0",}, b0, false, false, "u6", null);
 }
-if (!(("" + (0 < -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 < -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 61: 0.0 should be < -1",}, b0, false, false, "u8", null);
 }
-if (!(("" + (0 === -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 62: 0.0 should be = -1",}, b0, false, false, "u!", null);
 }
-if (!(("" + (0 > -1)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 > -1)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 63: 0.0 should be > -1",}, b0, false, false, "u%", null);
 }
-if (!(("" + ("0.0".toLowerCase() < "true".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0.0" < "true")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 64: 0.0 should be < true",}, b0, false, false, "u)", null);
 }
-if (!(("" + ("0.0".toLowerCase() === "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.0" === "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 65: 0.0 should be = true",}, b0, false, false, "u+", null);
 }
-if (!(("" + ("0.0".toLowerCase() > "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.0" > "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 66: 0.0 should be > true",}, b0, false, false, "u-", null);
 }
-if (!(("" + ("0.0".toLowerCase() < "false".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0.0" < "false")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 67: 0.0 should be < false",}, b0, false, false, "u/", null);
 }
-if (!(("" + ("0.0".toLowerCase() === "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.0" === "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 68: 0.0 should be = false",}, b0, false, false, "u;", null);
 }
-if (!(("" + ("0.0".toLowerCase() > "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.0" > "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 69: 0.0 should be > false",}, b0, false, false, "u?", null);
 }
-if (!(("" + ("0.0".toLowerCase() < "NaN".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0.0" < "nan")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 70: 0.0 should be < NaN",}, b0, false, false, "u[", null);
 }
-if (!(("" + ("0.0".toLowerCase() === "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.0" === "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 71: 0.0 should be = NaN",}, b0, false, false, "u^", null);
 }
-if (!(("" + ("0.0".toLowerCase() > "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.0" > "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 72: 0.0 should be > NaN",}, b0, false, false, "u`", null);
 }
-if (!(("" + (0 < Infinity)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0 < Infinity)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 73: 0.0 should be < Infinity",}, b0, false, false, "u|", null);
 }
-if (!(("" + (0 === Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 74: 0.0 should be = Infinity",}, b0, false, false, "u~", null);
 }
-if (!(("" + (0 > Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 > Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 75: 0.0 should be > Infinity",}, b0, false, false, "vb", null);
 }
-if (!(("" + ("0.0".toLowerCase() < "banana".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0.0" < "banana")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 76: 0.0 should be < banana",}, b0, false, false, "vd", null);
 }
-if (!(("" + ("0.0".toLowerCase() === "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.0" === "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 77: 0.0 should be = banana",}, b0, false, false, "vf", null);
 }
-if (!(("" + ("0.0".toLowerCase() > "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.0" > "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 78: 0.0 should be > banana",}, b0, false, false, "vh", null);
 }
-if (!(("" + ("0.0".toLowerCase() < "🎉".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0.0" < "🎉")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 79: 0.0 should be < 🎉",}, b0, false, false, "vj", null);
 }
-if (!(("" + ("0.0".toLowerCase() === "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.0" === "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 80: 0.0 should be = 🎉",}, b0, false, false, "vl", null);
 }
-if (!(("" + ("0.0".toLowerCase() > "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.0" > "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 81: 0.0 should be > 🎉",}, b0, false, false, "vn", null);
 }
-if (!(("" + ("0.0".toLowerCase() < "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.0" < "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 82: 0.0 should be < ",}, b0, false, false, "vp", null);
 }
-if (!(("" + ("0.0".toLowerCase() === "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.0" === "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 83: 0.0 should be = ",}, b0, false, false, "vr", null);
 }
-if (!(("" + ("0.0".toLowerCase() > "".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0.0" > "")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 84: 0.0 should be > ",}, b0, false, false, "vt", null);
 }
-if (!(("" + (1.23 < 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 < 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 85: 1.23 should be < 0",}, b0, false, false, "vv", null);
 }
-if (!(("" + (1.23 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 86: 1.23 should be = 0",}, b0, false, false, "vx", null);
 }
-if (!(("" + (1.23 > 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (1.23 > 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 87: 1.23 should be > 0",}, b0, false, false, "vz", null);
 }
-if (!(("" + (1.23 < 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 < 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 88: 1.23 should be < 0.0",}, b0, false, false, "vB", null);
 }
-if (!(("" + (1.23 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 89: 1.23 should be = 0.0",}, b0, false, false, "vD", null);
 }
-if (!(("" + (1.23 > 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (1.23 > 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 90: 1.23 should be > 0.0",}, b0, false, false, "vF", null);
 }
-if (!(("" + (1.23 < 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 < 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 91: 1.23 should be < 1.23",}, b0, false, false, "vH", null);
 }
-if (!(("" + (1.23 === 1.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (1.23 === 1.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 92: 1.23 should be = 1.23",}, b0, false, false, "vJ", null);
 }
-if (!(("" + (1.23 > 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 > 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 93: 1.23 should be > 1.23",}, b0, false, false, "vL", null);
 }
-if (!(("" + (1.23 < 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 < 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 94: 1.23 should be < .23",}, b0, false, false, "vN", null);
 }
-if (!(("" + (1.23 === 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 === 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 95: 1.23 should be = .23",}, b0, false, false, "vP", null);
 }
-if (!(("" + (1.23 > 0.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (1.23 > 0.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 96: 1.23 should be > .23",}, b0, false, false, "vR", null);
 }
-if (!(("" + (1.23 < 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 < 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 97: 1.23 should be < 0.123",}, b0, false, false, "vT", null);
 }
-if (!(("" + (1.23 === 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 === 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 98: 1.23 should be = 0.123",}, b0, false, false, "vV", null);
 }
-if (!(("" + (1.23 > 0.123)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (1.23 > 0.123)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 99: 1.23 should be > 0.123",}, b0, false, false, "vX", null);
 }
-if (!(("" + (1.23 < -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 < -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 100: 1.23 should be < -0",}, b0, false, false, "vZ", null);
 }
-if (!(("" + (1.23 === -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 === -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 101: 1.23 should be = -0",}, b0, false, false, "v1", null);
 }
-if (!(("" + (1.23 > -0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (1.23 > -0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 102: 1.23 should be > -0",}, b0, false, false, "v3", null);
 }
-if (!(("" + (1.23 < -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 < -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 103: 1.23 should be < -1",}, b0, false, false, "v5", null);
 }
-if (!(("" + (1.23 === -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 === -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 104: 1.23 should be = -1",}, b0, false, false, "v7", null);
 }
-if (!(("" + (1.23 > -1)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (1.23 > -1)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 105: 1.23 should be > -1",}, b0, false, false, "v9", null);
 }
-if (!(("" + ("1.23".toLowerCase() < "true".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("1.23" < "true")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 106: 1.23 should be < true",}, b0, false, false, "v#", null);
 }
-if (!(("" + (1.23 === 1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 === 1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 107: 1.23 should be = true",}, b0, false, false, "v(", null);
 }
-if (!(("" + ("1.23".toLowerCase() > "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("1.23" > "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 108: 1.23 should be > true",}, b0, false, false, "v*", null);
 }
-if (!(("" + ("1.23".toLowerCase() < "false".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("1.23" < "false")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 109: 1.23 should be < false",}, b0, false, false, "v,", null);
 }
-if (!(("" + (1.23 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 110: 1.23 should be = false",}, b0, false, false, "v.", null);
 }
-if (!(("" + ("1.23".toLowerCase() > "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("1.23" > "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 111: 1.23 should be > false",}, b0, false, false, "v:", null);
 }
-if (!(("" + ("1.23".toLowerCase() < "NaN".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("1.23" < "nan")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 112: 1.23 should be < NaN",}, b0, false, false, "v=", null);
 }
-if (!(("" + (1.23 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 113: 1.23 should be = NaN",}, b0, false, false, "v@", null);
 }
-if (!(("" + ("1.23".toLowerCase() > "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("1.23" > "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 114: 1.23 should be > NaN",}, b0, false, false, "v]", null);
 }
-if (!(("" + (1.23 < Infinity)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (1.23 < Infinity)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 115: 1.23 should be < Infinity",}, b0, false, false, "v_", null);
 }
-if (!(("" + (1.23 === Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 === Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 116: 1.23 should be = Infinity",}, b0, false, false, "v{", null);
 }
-if (!(("" + (1.23 > Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 > Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 117: 1.23 should be > Infinity",}, b0, false, false, "v}", null);
 }
-if (!(("" + ("1.23".toLowerCase() < "banana".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("1.23" < "banana")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 118: 1.23 should be < banana",}, b0, false, false, "wa", null);
 }
-if (!(("" + (1.23 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 119: 1.23 should be = banana",}, b0, false, false, "wc", null);
 }
-if (!(("" + ("1.23".toLowerCase() > "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("1.23" > "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 120: 1.23 should be > banana",}, b0, false, false, "we", null);
 }
-if (!(("" + ("1.23".toLowerCase() < "🎉".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("1.23" < "🎉")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 121: 1.23 should be < 🎉",}, b0, false, false, "wg", null);
 }
-if (!(("" + (1.23 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 122: 1.23 should be = 🎉",}, b0, false, false, "wi", null);
 }
-if (!(("" + ("1.23".toLowerCase() > "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("1.23" > "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 123: 1.23 should be > 🎉",}, b0, false, false, "wk", null);
 }
-if (!(("" + ("1.23".toLowerCase() < "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("1.23" < "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 124: 1.23 should be < ",}, b0, false, false, "wm", null);
 }
-if (!(("" + (1.23 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1.23 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 125: 1.23 should be = ",}, b0, false, false, "wo", null);
 }
-if (!(("" + ("1.23".toLowerCase() > "".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("1.23" > "")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 126: 1.23 should be > ",}, b0, false, false, "wq", null);
 }
-if (!(("" + (0.23 < 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 < 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 127: .23 should be < 0",}, b0, false, false, "ws", null);
 }
-if (!(("" + (0.23 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 128: .23 should be = 0",}, b0, false, false, "wu", null);
 }
-if (!(("" + (0.23 > 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.23 > 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 129: .23 should be > 0",}, b0, false, false, "ww", null);
 }
-if (!(("" + (0.23 < 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 < 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 130: .23 should be < 0.0",}, b0, false, false, "wy", null);
 }
-if (!(("" + (0.23 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 131: .23 should be = 0.0",}, b0, false, false, "wA", null);
 }
-if (!(("" + (0.23 > 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.23 > 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 132: .23 should be > 0.0",}, b0, false, false, "wC", null);
 }
-if (!(("" + (0.23 < 1.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.23 < 1.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 133: .23 should be < 1.23",}, b0, false, false, "wE", null);
 }
-if (!(("" + (0.23 === 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 === 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 134: .23 should be = 1.23",}, b0, false, false, "wG", null);
 }
-if (!(("" + (0.23 > 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 > 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 135: .23 should be > 1.23",}, b0, false, false, "wI", null);
 }
-if (!(("" + (0.23 < 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 < 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 136: .23 should be < .23",}, b0, false, false, "wK", null);
 }
-if (!(("" + (0.23 === 0.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.23 === 0.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 137: .23 should be = .23",}, b0, false, false, "wM", null);
 }
-if (!(("" + (0.23 > 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 > 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 138: .23 should be > .23",}, b0, false, false, "wO", null);
 }
-if (!(("" + (0.23 < 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 < 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 139: .23 should be < 0.123",}, b0, false, false, "wQ", null);
 }
-if (!(("" + (0.23 === 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 === 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 140: .23 should be = 0.123",}, b0, false, false, "wS", null);
 }
-if (!(("" + (0.23 > 0.123)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.23 > 0.123)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 141: .23 should be > 0.123",}, b0, false, false, "wU", null);
 }
-if (!(("" + (0.23 < -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 < -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 142: .23 should be < -0",}, b0, false, false, "wW", null);
 }
-if (!(("" + (0.23 === -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 === -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 143: .23 should be = -0",}, b0, false, false, "wY", null);
 }
-if (!(("" + (0.23 > -0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.23 > -0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 144: .23 should be > -0",}, b0, false, false, "w0", null);
 }
-if (!(("" + (0.23 < -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 < -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 145: .23 should be < -1",}, b0, false, false, "w2", null);
 }
-if (!(("" + (0.23 === -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 === -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 146: .23 should be = -1",}, b0, false, false, "w4", null);
 }
-if (!(("" + (0.23 > -1)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.23 > -1)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 147: .23 should be > -1",}, b0, false, false, "w6", null);
 }
-if (!(("" + (".23".toLowerCase() < "true".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (".23" < "true")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 148: .23 should be < true",}, b0, false, false, "w8", null);
 }
-if (!(("" + (0.23 === 1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 === 1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 149: .23 should be = true",}, b0, false, false, "w!", null);
 }
-if (!(("" + (".23".toLowerCase() > "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (".23" > "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 150: .23 should be > true",}, b0, false, false, "w%", null);
 }
-if (!(("" + (".23".toLowerCase() < "false".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (".23" < "false")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 151: .23 should be < false",}, b0, false, false, "w)", null);
 }
-if (!(("" + (0.23 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 152: .23 should be = false",}, b0, false, false, "w+", null);
 }
-if (!(("" + (".23".toLowerCase() > "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (".23" > "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 153: .23 should be > false",}, b0, false, false, "w-", null);
 }
-if (!(("" + (".23".toLowerCase() < "NaN".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (".23" < "nan")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 154: .23 should be < NaN",}, b0, false, false, "w/", null);
 }
-if (!(("" + (0.23 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 155: .23 should be = NaN",}, b0, false, false, "w;", null);
 }
-if (!(("" + (".23".toLowerCase() > "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (".23" > "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 156: .23 should be > NaN",}, b0, false, false, "w?", null);
 }
-if (!(("" + (0.23 < Infinity)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.23 < Infinity)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 157: .23 should be < Infinity",}, b0, false, false, "w[", null);
 }
-if (!(("" + (0.23 === Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 === Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 158: .23 should be = Infinity",}, b0, false, false, "w^", null);
 }
-if (!(("" + (0.23 > Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 > Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 159: .23 should be > Infinity",}, b0, false, false, "w`", null);
 }
-if (!(("" + (".23".toLowerCase() < "banana".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (".23" < "banana")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 160: .23 should be < banana",}, b0, false, false, "w|", null);
 }
-if (!(("" + (0.23 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 161: .23 should be = banana",}, b0, false, false, "w~", null);
 }
-if (!(("" + (".23".toLowerCase() > "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (".23" > "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 162: .23 should be > banana",}, b0, false, false, "xb", null);
 }
-if (!(("" + (".23".toLowerCase() < "🎉".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (".23" < "🎉")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 163: .23 should be < 🎉",}, b0, false, false, "xd", null);
 }
-if (!(("" + (0.23 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 164: .23 should be = 🎉",}, b0, false, false, "xf", null);
 }
-if (!(("" + (".23".toLowerCase() > "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (".23" > "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 165: .23 should be > 🎉",}, b0, false, false, "xh", null);
 }
-if (!(("" + (".23".toLowerCase() < "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (".23" < "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 166: .23 should be < ",}, b0, false, false, "xj", null);
 }
-if (!(("" + (0.23 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.23 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 167: .23 should be = ",}, b0, false, false, "xl", null);
 }
-if (!(("" + (".23".toLowerCase() > "".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (".23" > "")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 168: .23 should be > ",}, b0, false, false, "xn", null);
 }
-if (!(("" + (0.123 < 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 < 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 169: 0.123 should be < 0",}, b0, false, false, "xp", null);
 }
-if (!(("" + (0.123 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 170: 0.123 should be = 0",}, b0, false, false, "xr", null);
 }
-if (!(("" + (0.123 > 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.123 > 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 171: 0.123 should be > 0",}, b0, false, false, "xt", null);
 }
-if (!(("" + (0.123 < 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 < 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 172: 0.123 should be < 0.0",}, b0, false, false, "xv", null);
 }
-if (!(("" + (0.123 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 173: 0.123 should be = 0.0",}, b0, false, false, "xx", null);
 }
-if (!(("" + (0.123 > 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.123 > 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 174: 0.123 should be > 0.0",}, b0, false, false, "xz", null);
 }
-if (!(("" + (0.123 < 1.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.123 < 1.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 175: 0.123 should be < 1.23",}, b0, false, false, "xB", null);
 }
-if (!(("" + (0.123 === 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 === 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 176: 0.123 should be = 1.23",}, b0, false, false, "xD", null);
 }
-if (!(("" + (0.123 > 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 > 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 177: 0.123 should be > 1.23",}, b0, false, false, "xF", null);
 }
-if (!(("" + (0.123 < 0.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.123 < 0.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 178: 0.123 should be < .23",}, b0, false, false, "xH", null);
 }
-if (!(("" + (0.123 === 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 === 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 179: 0.123 should be = .23",}, b0, false, false, "xJ", null);
 }
-if (!(("" + (0.123 > 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 > 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 180: 0.123 should be > .23",}, b0, false, false, "xL", null);
 }
-if (!(("" + (0.123 < 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 < 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 181: 0.123 should be < 0.123",}, b0, false, false, "xN", null);
 }
-if (!(("" + (0.123 === 0.123)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.123 === 0.123)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 182: 0.123 should be = 0.123",}, b0, false, false, "xP", null);
 }
-if (!(("" + (0.123 > 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 > 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 183: 0.123 should be > 0.123",}, b0, false, false, "xR", null);
 }
-if (!(("" + (0.123 < -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 < -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 184: 0.123 should be < -0",}, b0, false, false, "xT", null);
 }
-if (!(("" + (0.123 === -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 === -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 185: 0.123 should be = -0",}, b0, false, false, "xV", null);
 }
-if (!(("" + (0.123 > -0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.123 > -0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 186: 0.123 should be > -0",}, b0, false, false, "xX", null);
 }
-if (!(("" + (0.123 < -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 < -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 187: 0.123 should be < -1",}, b0, false, false, "xZ", null);
 }
-if (!(("" + (0.123 === -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 === -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 188: 0.123 should be = -1",}, b0, false, false, "x1", null);
 }
-if (!(("" + (0.123 > -1)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.123 > -1)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 189: 0.123 should be > -1",}, b0, false, false, "x3", null);
 }
-if (!(("" + ("0.123".toLowerCase() < "true".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0.123" < "true")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 190: 0.123 should be < true",}, b0, false, false, "x5", null);
 }
-if (!(("" + (0.123 === 1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 === 1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 191: 0.123 should be = true",}, b0, false, false, "x7", null);
 }
-if (!(("" + ("0.123".toLowerCase() > "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.123" > "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 192: 0.123 should be > true",}, b0, false, false, "x9", null);
 }
-if (!(("" + ("0.123".toLowerCase() < "false".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0.123" < "false")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 193: 0.123 should be < false",}, b0, false, false, "x#", null);
 }
-if (!(("" + (0.123 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 194: 0.123 should be = false",}, b0, false, false, "x(", null);
 }
-if (!(("" + ("0.123".toLowerCase() > "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.123" > "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 195: 0.123 should be > false",}, b0, false, false, "x*", null);
 }
-if (!(("" + ("0.123".toLowerCase() < "NaN".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0.123" < "nan")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 196: 0.123 should be < NaN",}, b0, false, false, "x,", null);
 }
-if (!(("" + (0.123 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 197: 0.123 should be = NaN",}, b0, false, false, "x.", null);
 }
-if (!(("" + ("0.123".toLowerCase() > "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.123" > "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 198: 0.123 should be > NaN",}, b0, false, false, "x:", null);
 }
-if (!(("" + (0.123 < Infinity)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (0.123 < Infinity)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 199: 0.123 should be < Infinity",}, b0, false, false, "x=", null);
 }
-if (!(("" + (0.123 === Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 === Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 200: 0.123 should be = Infinity",}, b0, false, false, "x@", null);
 }
-if (!(("" + (0.123 > Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 > Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 201: 0.123 should be > Infinity",}, b0, false, false, "x]", null);
 }
-if (!(("" + ("0.123".toLowerCase() < "banana".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0.123" < "banana")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 202: 0.123 should be < banana",}, b0, false, false, "x_", null);
 }
-if (!(("" + (0.123 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 203: 0.123 should be = banana",}, b0, false, false, "x{", null);
 }
-if (!(("" + ("0.123".toLowerCase() > "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.123" > "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 204: 0.123 should be > banana",}, b0, false, false, "x}", null);
 }
-if (!(("" + ("0.123".toLowerCase() < "🎉".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0.123" < "🎉")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 205: 0.123 should be < 🎉",}, b0, false, false, "ya", null);
 }
-if (!(("" + (0.123 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 206: 0.123 should be = 🎉",}, b0, false, false, "yc", null);
 }
-if (!(("" + ("0.123".toLowerCase() > "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.123" > "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 207: 0.123 should be > 🎉",}, b0, false, false, "ye", null);
 }
-if (!(("" + ("0.123".toLowerCase() < "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("0.123" < "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 208: 0.123 should be < ",}, b0, false, false, "yg", null);
 }
-if (!(("" + (0.123 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0.123 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 209: 0.123 should be = ",}, b0, false, false, "yi", null);
 }
-if (!(("" + ("0.123".toLowerCase() > "".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("0.123" > "")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 210: 0.123 should be > ",}, b0, false, false, "yk", null);
 }
-if (!(("" + (-0 < 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 < 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 211: -0 should be < 0",}, b0, false, false, "ym", null);
 }
-if (!(("" + (-0 === 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-0 === 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 212: -0 should be = 0",}, b0, false, false, "yo", null);
 }
-if (!(("" + (-0 > 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 > 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 213: -0 should be > 0",}, b0, false, false, "yq", null);
 }
-if (!(("" + (-0 < 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 < 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 214: -0 should be < 0.0",}, b0, false, false, "ys", null);
 }
-if (!(("" + (-0 === 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-0 === 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 215: -0 should be = 0.0",}, b0, false, false, "yu", null);
 }
-if (!(("" + (-0 > 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 > 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 216: -0 should be > 0.0",}, b0, false, false, "yw", null);
 }
-if (!(("" + (-0 < 1.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-0 < 1.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 217: -0 should be < 1.23",}, b0, false, false, "yy", null);
 }
-if (!(("" + (-0 === 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 === 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 218: -0 should be = 1.23",}, b0, false, false, "yA", null);
 }
-if (!(("" + (-0 > 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 > 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 219: -0 should be > 1.23",}, b0, false, false, "yC", null);
 }
-if (!(("" + (-0 < 0.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-0 < 0.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 220: -0 should be < .23",}, b0, false, false, "yE", null);
 }
-if (!(("" + (-0 === 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 === 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 221: -0 should be = .23",}, b0, false, false, "yG", null);
 }
-if (!(("" + (-0 > 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 > 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 222: -0 should be > .23",}, b0, false, false, "yI", null);
 }
-if (!(("" + (-0 < 0.123)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-0 < 0.123)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 223: -0 should be < 0.123",}, b0, false, false, "yK", null);
 }
-if (!(("" + (-0 === 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 === 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 224: -0 should be = 0.123",}, b0, false, false, "yM", null);
 }
-if (!(("" + (-0 > 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 > 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 225: -0 should be > 0.123",}, b0, false, false, "yO", null);
 }
-if (!(("" + (-0 < -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 < -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 226: -0 should be < -0",}, b0, false, false, "yQ", null);
 }
-if (!(("" + (-0 === -0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-0 === -0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 227: -0 should be = -0",}, b0, false, false, "yS", null);
 }
-if (!(("" + (-0 > -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 > -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 228: -0 should be > -0",}, b0, false, false, "yU", null);
 }
-if (!(("" + (-0 < -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 < -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 229: -0 should be < -1",}, b0, false, false, "yW", null);
 }
-if (!(("" + (-0 === -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 === -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 230: -0 should be = -1",}, b0, false, false, "yY", null);
 }
-if (!(("" + (-0 > -1)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-0 > -1)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 231: -0 should be > -1",}, b0, false, false, "y0", null);
 }
-if (!(("" + ("-0".toLowerCase() < "true".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("-0" < "true")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 232: -0 should be < true",}, b0, false, false, "y2", null);
 }
-if (!(("" + ("-0".toLowerCase() === "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-0" === "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 233: -0 should be = true",}, b0, false, false, "y4", null);
 }
-if (!(("" + ("-0".toLowerCase() > "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-0" > "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 234: -0 should be > true",}, b0, false, false, "y6", null);
 }
-if (!(("" + ("-0".toLowerCase() < "false".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("-0" < "false")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 235: -0 should be < false",}, b0, false, false, "y8", null);
 }
-if (!(("" + ("-0".toLowerCase() === "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-0" === "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 236: -0 should be = false",}, b0, false, false, "y!", null);
 }
-if (!(("" + ("-0".toLowerCase() > "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-0" > "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 237: -0 should be > false",}, b0, false, false, "y%", null);
 }
-if (!(("" + ("-0".toLowerCase() < "NaN".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("-0" < "nan")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 238: -0 should be < NaN",}, b0, false, false, "y)", null);
 }
-if (!(("" + ("-0".toLowerCase() === "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-0" === "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 239: -0 should be = NaN",}, b0, false, false, "y+", null);
 }
-if (!(("" + ("-0".toLowerCase() > "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-0" > "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 240: -0 should be > NaN",}, b0, false, false, "y-", null);
 }
-if (!(("" + (-0 < Infinity)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-0 < Infinity)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 241: -0 should be < Infinity",}, b0, false, false, "y/", null);
 }
-if (!(("" + (-0 === Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 === Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 242: -0 should be = Infinity",}, b0, false, false, "y;", null);
 }
-if (!(("" + (-0 > Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-0 > Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 243: -0 should be > Infinity",}, b0, false, false, "y?", null);
 }
-if (!(("" + ("-0".toLowerCase() < "banana".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("-0" < "banana")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 244: -0 should be < banana",}, b0, false, false, "y[", null);
 }
-if (!(("" + ("-0".toLowerCase() === "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-0" === "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 245: -0 should be = banana",}, b0, false, false, "y^", null);
 }
-if (!(("" + ("-0".toLowerCase() > "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-0" > "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 246: -0 should be > banana",}, b0, false, false, "y`", null);
 }
-if (!(("" + ("-0".toLowerCase() < "🎉".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("-0" < "🎉")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 247: -0 should be < 🎉",}, b0, false, false, "y|", null);
 }
-if (!(("" + ("-0".toLowerCase() === "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-0" === "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 248: -0 should be = 🎉",}, b0, false, false, "y~", null);
 }
-if (!(("" + ("-0".toLowerCase() > "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-0" > "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 249: -0 should be > 🎉",}, b0, false, false, "zb", null);
 }
-if (!(("" + ("-0".toLowerCase() < "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-0" < "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 250: -0 should be < ",}, b0, false, false, "zd", null);
 }
-if (!(("" + ("-0".toLowerCase() === "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-0" === "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 251: -0 should be = ",}, b0, false, false, "zf", null);
 }
-if (!(("" + ("-0".toLowerCase() > "".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("-0" > "")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 252: -0 should be > ",}, b0, false, false, "zh", null);
 }
-if (!(("" + (-1 < 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-1 < 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 253: -1 should be < 0",}, b0, false, false, "zj", null);
 }
-if (!(("" + (-1 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 254: -1 should be = 0",}, b0, false, false, "zl", null);
 }
-if (!(("" + (-1 > 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 > 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 255: -1 should be > 0",}, b0, false, false, "zn", null);
 }
-if (!(("" + (-1 < 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-1 < 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 256: -1 should be < 0.0",}, b0, false, false, "zp", null);
 }
-if (!(("" + (-1 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 257: -1 should be = 0.0",}, b0, false, false, "zr", null);
 }
-if (!(("" + (-1 > 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 > 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 258: -1 should be > 0.0",}, b0, false, false, "zt", null);
 }
-if (!(("" + (-1 < 1.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-1 < 1.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 259: -1 should be < 1.23",}, b0, false, false, "zv", null);
 }
-if (!(("" + (-1 === 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 === 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 260: -1 should be = 1.23",}, b0, false, false, "zx", null);
 }
-if (!(("" + (-1 > 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 > 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 261: -1 should be > 1.23",}, b0, false, false, "zz", null);
 }
-if (!(("" + (-1 < 0.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-1 < 0.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 262: -1 should be < .23",}, b0, false, false, "zB", null);
 }
-if (!(("" + (-1 === 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 === 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 263: -1 should be = .23",}, b0, false, false, "zD", null);
 }
-if (!(("" + (-1 > 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 > 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 264: -1 should be > .23",}, b0, false, false, "zF", null);
 }
-if (!(("" + (-1 < 0.123)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-1 < 0.123)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 265: -1 should be < 0.123",}, b0, false, false, "zH", null);
 }
-if (!(("" + (-1 === 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 === 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 266: -1 should be = 0.123",}, b0, false, false, "zJ", null);
 }
-if (!(("" + (-1 > 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 > 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 267: -1 should be > 0.123",}, b0, false, false, "zL", null);
 }
-if (!(("" + (-1 < -0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-1 < -0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 268: -1 should be < -0",}, b0, false, false, "zN", null);
 }
-if (!(("" + (-1 === -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 === -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 269: -1 should be = -0",}, b0, false, false, "zP", null);
 }
-if (!(("" + (-1 > -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 > -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 270: -1 should be > -0",}, b0, false, false, "zR", null);
 }
-if (!(("" + (-1 < -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 < -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 271: -1 should be < -1",}, b0, false, false, "zT", null);
 }
-if (!(("" + (-1 === -1)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-1 === -1)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 272: -1 should be = -1",}, b0, false, false, "zV", null);
 }
-if (!(("" + (-1 > -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 > -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 273: -1 should be > -1",}, b0, false, false, "zX", null);
 }
-if (!(("" + ("-1".toLowerCase() < "true".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("-1" < "true")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 274: -1 should be < true",}, b0, false, false, "zZ", null);
 }
-if (!(("" + (-1 === 1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 === 1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 275: -1 should be = true",}, b0, false, false, "z1", null);
 }
-if (!(("" + ("-1".toLowerCase() > "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-1" > "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 276: -1 should be > true",}, b0, false, false, "z3", null);
 }
-if (!(("" + ("-1".toLowerCase() < "false".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("-1" < "false")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 277: -1 should be < false",}, b0, false, false, "z5", null);
 }
-if (!(("" + (-1 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 278: -1 should be = false",}, b0, false, false, "z7", null);
 }
-if (!(("" + ("-1".toLowerCase() > "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-1" > "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 279: -1 should be > false",}, b0, false, false, "z9", null);
 }
-if (!(("" + ("-1".toLowerCase() < "NaN".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("-1" < "nan")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 280: -1 should be < NaN",}, b0, false, false, "z#", null);
 }
-if (!(("" + (-1 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 281: -1 should be = NaN",}, b0, false, false, "z(", null);
 }
-if (!(("" + ("-1".toLowerCase() > "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-1" > "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 282: -1 should be > NaN",}, b0, false, false, "z*", null);
 }
-if (!(("" + (-1 < Infinity)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (-1 < Infinity)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 283: -1 should be < Infinity",}, b0, false, false, "z,", null);
 }
-if (!(("" + (-1 === Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 === Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 284: -1 should be = Infinity",}, b0, false, false, "z.", null);
 }
-if (!(("" + (-1 > Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 > Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 285: -1 should be > Infinity",}, b0, false, false, "z:", null);
 }
-if (!(("" + ("-1".toLowerCase() < "banana".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("-1" < "banana")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 286: -1 should be < banana",}, b0, false, false, "z=", null);
 }
-if (!(("" + (-1 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 287: -1 should be = banana",}, b0, false, false, "z@", null);
 }
-if (!(("" + ("-1".toLowerCase() > "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-1" > "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 288: -1 should be > banana",}, b0, false, false, "z]", null);
 }
-if (!(("" + ("-1".toLowerCase() < "🎉".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("-1" < "🎉")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 289: -1 should be < 🎉",}, b0, false, false, "z_", null);
 }
-if (!(("" + (-1 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 290: -1 should be = 🎉",}, b0, false, false, "z{", null);
 }
-if (!(("" + ("-1".toLowerCase() > "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-1" > "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 291: -1 should be > 🎉",}, b0, false, false, "z}", null);
 }
-if (!(("" + ("-1".toLowerCase() < "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("-1" < "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 292: -1 should be < ",}, b0, false, false, "Aa", null);
 }
-if (!(("" + (-1 === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (-1 === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 293: -1 should be = ",}, b0, false, false, "Ac", null);
 }
-if (!(("" + ("-1".toLowerCase() > "".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("-1" > "")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 294: -1 should be > ",}, b0, false, false, "Ae", null);
 }
-if (!(("" + ("true".toLowerCase() < "0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" < "0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 295: true should be < 0",}, b0, false, false, "Ag", null);
 }
-if (!(("" + ("true".toLowerCase() === "0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" === "0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 296: true should be = 0",}, b0, false, false, "Ai", null);
 }
-if (!(("" + ("true".toLowerCase() > "0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("true" > "0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 297: true should be > 0",}, b0, false, false, "Ak", null);
 }
-if (!(("" + ("true".toLowerCase() < "0.0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" < "0.0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 298: true should be < 0.0",}, b0, false, false, "Am", null);
 }
-if (!(("" + ("true".toLowerCase() === "0.0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" === "0.0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 299: true should be = 0.0",}, b0, false, false, "Ao", null);
 }
-if (!(("" + ("true".toLowerCase() > "0.0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("true" > "0.0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 300: true should be > 0.0",}, b0, false, false, "Aq", null);
 }
-if (!(("" + ("true".toLowerCase() < "1.23".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" < "1.23")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 301: true should be < 1.23",}, b0, false, false, "As", null);
 }
-if (!(("" + (1 === 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1 === 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 302: true should be = 1.23",}, b0, false, false, "Au", null);
 }
-if (!(("" + ("true".toLowerCase() > "1.23".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("true" > "1.23")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 303: true should be > 1.23",}, b0, false, false, "Aw", null);
 }
-if (!(("" + ("true".toLowerCase() < ".23".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" < ".23")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 304: true should be < .23",}, b0, false, false, "Ay", null);
 }
-if (!(("" + (1 === 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1 === 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 305: true should be = .23",}, b0, false, false, "AA", null);
 }
-if (!(("" + ("true".toLowerCase() > ".23".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("true" > ".23")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 306: true should be > .23",}, b0, false, false, "AC", null);
 }
-if (!(("" + ("true".toLowerCase() < "0.123".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" < "0.123")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 307: true should be < 0.123",}, b0, false, false, "AE", null);
 }
-if (!(("" + (1 === 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1 === 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 308: true should be = 0.123",}, b0, false, false, "AG", null);
 }
-if (!(("" + ("true".toLowerCase() > "0.123".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("true" > "0.123")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 309: true should be > 0.123",}, b0, false, false, "AI", null);
 }
-if (!(("" + ("true".toLowerCase() < "-0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" < "-0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 310: true should be < -0",}, b0, false, false, "AK", null);
 }
-if (!(("" + ("true".toLowerCase() === "-0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" === "-0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 311: true should be = -0",}, b0, false, false, "AM", null);
 }
-if (!(("" + ("true".toLowerCase() > "-0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("true" > "-0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 312: true should be > -0",}, b0, false, false, "AO", null);
 }
-if (!(("" + ("true".toLowerCase() < "-1".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" < "-1")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 313: true should be < -1",}, b0, false, false, "AQ", null);
 }
-if (!(("" + (1 === -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1 === -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 314: true should be = -1",}, b0, false, false, "AS", null);
 }
-if (!(("" + ("true".toLowerCase() > "-1".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("true" > "-1")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 315: true should be > -1",}, b0, false, false, "AU", null);
 }
-if (!(("" + ("true".toLowerCase() < "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" < "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 316: true should be < true",}, b0, false, false, "AW", null);
 }
-if (!(("" + ("true".toLowerCase() === "true".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("true" === "true")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 317: true should be = true",}, b0, false, false, "AY", null);
 }
-if (!(("" + ("true".toLowerCase() > "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" > "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 318: true should be > true",}, b0, false, false, "A0", null);
 }
-if (!(("" + ("true".toLowerCase() < "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" < "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 319: true should be < false",}, b0, false, false, "A2", null);
 }
-if (!(("" + ("true".toLowerCase() === "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" === "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 320: true should be = false",}, b0, false, false, "A4", null);
 }
-if (!(("" + ("true".toLowerCase() > "false".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("true" > "false")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 321: true should be > false",}, b0, false, false, "A6", null);
 }
-if (!(("" + ("true".toLowerCase() < "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" < "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 322: true should be < NaN",}, b0, false, false, "A8", null);
 }
-if (!(("" + ("true".toLowerCase() === "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" === "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 323: true should be = NaN",}, b0, false, false, "A!", null);
 }
-if (!(("" + ("true".toLowerCase() > "NaN".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("true" > "nan")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 324: true should be > NaN",}, b0, false, false, "A%", null);
 }
-if (!(("" + ("true".toLowerCase() < "Infinity".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" < "infinity")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 325: true should be < Infinity",}, b0, false, false, "A)", null);
 }
-if (!(("" + (1 === Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (1 === Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 326: true should be = Infinity",}, b0, false, false, "A+", null);
 }
-if (!(("" + ("true".toLowerCase() > "Infinity".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("true" > "infinity")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 327: true should be > Infinity",}, b0, false, false, "A-", null);
 }
-if (!(("" + ("true".toLowerCase() < "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" < "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 328: true should be < banana",}, b0, false, false, "A/", null);
 }
-if (!(("" + ("true".toLowerCase() === "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" === "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 329: true should be = banana",}, b0, false, false, "A;", null);
 }
-if (!(("" + ("true".toLowerCase() > "banana".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("true" > "banana")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 330: true should be > banana",}, b0, false, false, "A?", null);
 }
-if (!(("" + ("true".toLowerCase() < "🎉".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("true" < "🎉")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 331: true should be < 🎉",}, b0, false, false, "A[", null);
 }
-if (!(("" + ("true".toLowerCase() === "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" === "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 332: true should be = 🎉",}, b0, false, false, "A^", null);
 }
-if (!(("" + ("true".toLowerCase() > "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" > "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 333: true should be > 🎉",}, b0, false, false, "A`", null);
 }
-if (!(("" + ("true".toLowerCase() < "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" < "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 334: true should be < ",}, b0, false, false, "A|", null);
 }
-if (!(("" + ("true".toLowerCase() === "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("true" === "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 335: true should be = ",}, b0, false, false, "A~", null);
 }
-if (!(("" + ("true".toLowerCase() > "".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("true" > "")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 336: true should be > ",}, b0, false, false, "Bb", null);
 }
-if (!(("" + ("false".toLowerCase() < "0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" < "0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 337: false should be < 0",}, b0, false, false, "Bd", null);
 }
-if (!(("" + ("false".toLowerCase() === "0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" === "0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 338: false should be = 0",}, b0, false, false, "Bf", null);
 }
-if (!(("" + ("false".toLowerCase() > "0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("false" > "0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 339: false should be > 0",}, b0, false, false, "Bh", null);
 }
-if (!(("" + ("false".toLowerCase() < "0.0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" < "0.0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 340: false should be < 0.0",}, b0, false, false, "Bj", null);
 }
-if (!(("" + ("false".toLowerCase() === "0.0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" === "0.0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 341: false should be = 0.0",}, b0, false, false, "Bl", null);
 }
-if (!(("" + ("false".toLowerCase() > "0.0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("false" > "0.0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 342: false should be > 0.0",}, b0, false, false, "Bn", null);
 }
-if (!(("" + ("false".toLowerCase() < "1.23".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" < "1.23")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 343: false should be < 1.23",}, b0, false, false, "Bp", null);
 }
-if (!(("" + (0 === 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 344: false should be = 1.23",}, b0, false, false, "Br", null);
 }
-if (!(("" + ("false".toLowerCase() > "1.23".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("false" > "1.23")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 345: false should be > 1.23",}, b0, false, false, "Bt", null);
 }
-if (!(("" + ("false".toLowerCase() < ".23".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" < ".23")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 346: false should be < .23",}, b0, false, false, "Bv", null);
 }
-if (!(("" + (0 === 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 347: false should be = .23",}, b0, false, false, "Bx", null);
 }
-if (!(("" + ("false".toLowerCase() > ".23".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("false" > ".23")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 348: false should be > .23",}, b0, false, false, "Bz", null);
 }
-if (!(("" + ("false".toLowerCase() < "0.123".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" < "0.123")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 349: false should be < 0.123",}, b0, false, false, "BB", null);
 }
-if (!(("" + (0 === 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 350: false should be = 0.123",}, b0, false, false, "BD", null);
 }
-if (!(("" + ("false".toLowerCase() > "0.123".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("false" > "0.123")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 351: false should be > 0.123",}, b0, false, false, "BF", null);
 }
-if (!(("" + ("false".toLowerCase() < "-0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" < "-0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 352: false should be < -0",}, b0, false, false, "BH", null);
 }
-if (!(("" + ("false".toLowerCase() === "-0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" === "-0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 353: false should be = -0",}, b0, false, false, "BJ", null);
 }
-if (!(("" + ("false".toLowerCase() > "-0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("false" > "-0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 354: false should be > -0",}, b0, false, false, "BL", null);
 }
-if (!(("" + ("false".toLowerCase() < "-1".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" < "-1")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 355: false should be < -1",}, b0, false, false, "BN", null);
 }
-if (!(("" + (0 === -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 356: false should be = -1",}, b0, false, false, "BP", null);
 }
-if (!(("" + ("false".toLowerCase() > "-1".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("false" > "-1")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 357: false should be > -1",}, b0, false, false, "BR", null);
 }
-if (!(("" + ("false".toLowerCase() < "true".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("false" < "true")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 358: false should be < true",}, b0, false, false, "BT", null);
 }
-if (!(("" + ("false".toLowerCase() === "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" === "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 359: false should be = true",}, b0, false, false, "BV", null);
 }
-if (!(("" + ("false".toLowerCase() > "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" > "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 360: false should be > true",}, b0, false, false, "BX", null);
 }
-if (!(("" + ("false".toLowerCase() < "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" < "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 361: false should be < false",}, b0, false, false, "BZ", null);
 }
-if (!(("" + ("false".toLowerCase() === "false".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("false" === "false")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 362: false should be = false",}, b0, false, false, "B1", null);
 }
-if (!(("" + ("false".toLowerCase() > "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" > "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 363: false should be > false",}, b0, false, false, "B3", null);
 }
-if (!(("" + ("false".toLowerCase() < "NaN".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("false" < "nan")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 364: false should be < NaN",}, b0, false, false, "B5", null);
 }
-if (!(("" + ("false".toLowerCase() === "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" === "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 365: false should be = NaN",}, b0, false, false, "B7", null);
 }
-if (!(("" + ("false".toLowerCase() > "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" > "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 366: false should be > NaN",}, b0, false, false, "B9", null);
 }
-if (!(("" + ("false".toLowerCase() < "Infinity".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("false" < "infinity")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 367: false should be < Infinity",}, b0, false, false, "B#", null);
 }
-if (!(("" + (0 === Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 368: false should be = Infinity",}, b0, false, false, "B(", null);
 }
-if (!(("" + ("false".toLowerCase() > "Infinity".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" > "infinity")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 369: false should be > Infinity",}, b0, false, false, "B*", null);
 }
-if (!(("" + ("false".toLowerCase() < "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" < "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 370: false should be < banana",}, b0, false, false, "B,", null);
 }
-if (!(("" + ("false".toLowerCase() === "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" === "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 371: false should be = banana",}, b0, false, false, "B.", null);
 }
-if (!(("" + ("false".toLowerCase() > "banana".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("false" > "banana")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 372: false should be > banana",}, b0, false, false, "B:", null);
 }
-if (!(("" + ("false".toLowerCase() < "🎉".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("false" < "🎉")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 373: false should be < 🎉",}, b0, false, false, "B=", null);
 }
-if (!(("" + ("false".toLowerCase() === "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" === "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 374: false should be = 🎉",}, b0, false, false, "B@", null);
 }
-if (!(("" + ("false".toLowerCase() > "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" > "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 375: false should be > 🎉",}, b0, false, false, "B]", null);
 }
-if (!(("" + ("false".toLowerCase() < "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" < "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 376: false should be < ",}, b0, false, false, "B_", null);
 }
-if (!(("" + ("false".toLowerCase() === "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("false" === "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 377: false should be = ",}, b0, false, false, "B{", null);
 }
-if (!(("" + ("false".toLowerCase() > "".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("false" > "")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 378: false should be > ",}, b0, false, false, "B}", null);
 }
-if (!(("" + ("NaN".toLowerCase() < "0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" < "0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 379: NaN should be < 0",}, b0, false, false, "Ca", null);
 }
-if (!(("" + ("NaN".toLowerCase() === "0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" === "0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 380: NaN should be = 0",}, b0, false, false, "Cc", null);
 }
-if (!(("" + ("NaN".toLowerCase() > "0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("nan" > "0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 381: NaN should be > 0",}, b0, false, false, "Ce", null);
 }
-if (!(("" + ("NaN".toLowerCase() < "0.0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" < "0.0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 382: NaN should be < 0.0",}, b0, false, false, "Cg", null);
 }
-if (!(("" + ("NaN".toLowerCase() === "0.0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" === "0.0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 383: NaN should be = 0.0",}, b0, false, false, "Ci", null);
 }
-if (!(("" + ("NaN".toLowerCase() > "0.0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("nan" > "0.0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 384: NaN should be > 0.0",}, b0, false, false, "Ck", null);
 }
-if (!(("" + ("NaN".toLowerCase() < "1.23".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" < "1.23")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 385: NaN should be < 1.23",}, b0, false, false, "Cm", null);
 }
-if (!(("" + (0 === 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 386: NaN should be = 1.23",}, b0, false, false, "Co", null);
 }
-if (!(("" + ("NaN".toLowerCase() > "1.23".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("nan" > "1.23")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 387: NaN should be > 1.23",}, b0, false, false, "Cq", null);
 }
-if (!(("" + ("NaN".toLowerCase() < ".23".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" < ".23")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 388: NaN should be < .23",}, b0, false, false, "Cs", null);
 }
-if (!(("" + (0 === 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 389: NaN should be = .23",}, b0, false, false, "Cu", null);
 }
-if (!(("" + ("NaN".toLowerCase() > ".23".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("nan" > ".23")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 390: NaN should be > .23",}, b0, false, false, "Cw", null);
 }
-if (!(("" + ("NaN".toLowerCase() < "0.123".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" < "0.123")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 391: NaN should be < 0.123",}, b0, false, false, "Cy", null);
 }
-if (!(("" + (0 === 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 392: NaN should be = 0.123",}, b0, false, false, "CA", null);
 }
-if (!(("" + ("NaN".toLowerCase() > "0.123".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("nan" > "0.123")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 393: NaN should be > 0.123",}, b0, false, false, "CC", null);
 }
-if (!(("" + ("NaN".toLowerCase() < "-0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" < "-0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 394: NaN should be < -0",}, b0, false, false, "CE", null);
 }
-if (!(("" + ("NaN".toLowerCase() === "-0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" === "-0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 395: NaN should be = -0",}, b0, false, false, "CG", null);
 }
-if (!(("" + ("NaN".toLowerCase() > "-0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("nan" > "-0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 396: NaN should be > -0",}, b0, false, false, "CI", null);
 }
-if (!(("" + ("NaN".toLowerCase() < "-1".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" < "-1")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 397: NaN should be < -1",}, b0, false, false, "CK", null);
 }
-if (!(("" + (0 === -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 398: NaN should be = -1",}, b0, false, false, "CM", null);
 }
-if (!(("" + ("NaN".toLowerCase() > "-1".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("nan" > "-1")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 399: NaN should be > -1",}, b0, false, false, "CO", null);
 }
-if (!(("" + ("NaN".toLowerCase() < "true".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("nan" < "true")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 400: NaN should be < true",}, b0, false, false, "CQ", null);
 }
-if (!(("" + ("NaN".toLowerCase() === "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" === "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 401: NaN should be = true",}, b0, false, false, "CS", null);
 }
-if (!(("" + ("NaN".toLowerCase() > "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" > "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 402: NaN should be > true",}, b0, false, false, "CU", null);
 }
-if (!(("" + ("NaN".toLowerCase() < "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" < "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 403: NaN should be < false",}, b0, false, false, "CW", null);
 }
-if (!(("" + ("NaN".toLowerCase() === "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" === "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 404: NaN should be = false",}, b0, false, false, "CY", null);
 }
-if (!(("" + ("NaN".toLowerCase() > "false".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("nan" > "false")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 405: NaN should be > false",}, b0, false, false, "C0", null);
 }
-if (!(("" + ("NaN".toLowerCase() < "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" < "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 406: NaN should be < NaN",}, b0, false, false, "C2", null);
 }
-if (!(("" + ("NaN".toLowerCase() === "NaN".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("nan" === "nan")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 407: NaN should be = NaN",}, b0, false, false, "C4", null);
 }
-if (!(("" + ("NaN".toLowerCase() > "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" > "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 408: NaN should be > NaN",}, b0, false, false, "C6", null);
 }
-if (!(("" + ("NaN".toLowerCase() < "Infinity".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" < "infinity")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 409: NaN should be < Infinity",}, b0, false, false, "C8", null);
 }
-if (!(("" + (0 === Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 410: NaN should be = Infinity",}, b0, false, false, "C!", null);
 }
-if (!(("" + ("NaN".toLowerCase() > "Infinity".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("nan" > "infinity")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 411: NaN should be > Infinity",}, b0, false, false, "C%", null);
 }
-if (!(("" + ("NaN".toLowerCase() < "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" < "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 412: NaN should be < banana",}, b0, false, false, "C)", null);
 }
-if (!(("" + ("NaN".toLowerCase() === "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" === "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 413: NaN should be = banana",}, b0, false, false, "C+", null);
 }
-if (!(("" + ("NaN".toLowerCase() > "banana".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("nan" > "banana")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 414: NaN should be > banana",}, b0, false, false, "C-", null);
 }
-if (!(("" + ("NaN".toLowerCase() < "🎉".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("nan" < "🎉")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 415: NaN should be < 🎉",}, b0, false, false, "C/", null);
 }
-if (!(("" + ("NaN".toLowerCase() === "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" === "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 416: NaN should be = 🎉",}, b0, false, false, "C;", null);
 }
-if (!(("" + ("NaN".toLowerCase() > "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" > "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 417: NaN should be > 🎉",}, b0, false, false, "C?", null);
 }
-if (!(("" + ("NaN".toLowerCase() < "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" < "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 418: NaN should be < ",}, b0, false, false, "C[", null);
 }
-if (!(("" + ("NaN".toLowerCase() === "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("nan" === "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 419: NaN should be = ",}, b0, false, false, "C^", null);
 }
-if (!(("" + ("NaN".toLowerCase() > "".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("nan" > "")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 420: NaN should be > ",}, b0, false, false, "C`", null);
 }
-if (!(("" + (Infinity < 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity < 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 421: Infinity should be < 0",}, b0, false, false, "C|", null);
 }
-if (!(("" + (Infinity === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 422: Infinity should be = 0",}, b0, false, false, "C~", null);
 }
-if (!(("" + (Infinity > 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (Infinity > 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 423: Infinity should be > 0",}, b0, false, false, "Db", null);
 }
-if (!(("" + (Infinity < 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity < 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 424: Infinity should be < 0.0",}, b0, false, false, "Dd", null);
 }
-if (!(("" + (Infinity === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 425: Infinity should be = 0.0",}, b0, false, false, "Df", null);
 }
-if (!(("" + (Infinity > 0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (Infinity > 0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 426: Infinity should be > 0.0",}, b0, false, false, "Dh", null);
 }
-if (!(("" + (Infinity < 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity < 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 427: Infinity should be < 1.23",}, b0, false, false, "Dj", null);
 }
-if (!(("" + (Infinity === 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity === 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 428: Infinity should be = 1.23",}, b0, false, false, "Dl", null);
 }
-if (!(("" + (Infinity > 1.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (Infinity > 1.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 429: Infinity should be > 1.23",}, b0, false, false, "Dn", null);
 }
-if (!(("" + (Infinity < 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity < 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 430: Infinity should be < .23",}, b0, false, false, "Dp", null);
 }
-if (!(("" + (Infinity === 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity === 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 431: Infinity should be = .23",}, b0, false, false, "Dr", null);
 }
-if (!(("" + (Infinity > 0.23)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (Infinity > 0.23)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 432: Infinity should be > .23",}, b0, false, false, "Dt", null);
 }
-if (!(("" + (Infinity < 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity < 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 433: Infinity should be < 0.123",}, b0, false, false, "Dv", null);
 }
-if (!(("" + (Infinity === 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity === 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 434: Infinity should be = 0.123",}, b0, false, false, "Dx", null);
 }
-if (!(("" + (Infinity > 0.123)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (Infinity > 0.123)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 435: Infinity should be > 0.123",}, b0, false, false, "Dz", null);
 }
-if (!(("" + (Infinity < -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity < -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 436: Infinity should be < -0",}, b0, false, false, "DB", null);
 }
-if (!(("" + (Infinity === -0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity === -0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 437: Infinity should be = -0",}, b0, false, false, "DD", null);
 }
-if (!(("" + (Infinity > -0)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (Infinity > -0)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 438: Infinity should be > -0",}, b0, false, false, "DF", null);
 }
-if (!(("" + (Infinity < -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity < -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 439: Infinity should be < -1",}, b0, false, false, "DH", null);
 }
-if (!(("" + (Infinity === -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity === -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 440: Infinity should be = -1",}, b0, false, false, "DJ", null);
 }
-if (!(("" + (Infinity > -1)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (Infinity > -1)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 441: Infinity should be > -1",}, b0, false, false, "DL", null);
 }
-if (!(("" + ("Infinity".toLowerCase() < "true".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("infinity" < "true")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 442: Infinity should be < true",}, b0, false, false, "DN", null);
 }
-if (!(("" + (Infinity === 1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity === 1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 443: Infinity should be = true",}, b0, false, false, "DP", null);
 }
-if (!(("" + ("Infinity".toLowerCase() > "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("infinity" > "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 444: Infinity should be > true",}, b0, false, false, "DR", null);
 }
-if (!(("" + ("Infinity".toLowerCase() < "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("infinity" < "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 445: Infinity should be < false",}, b0, false, false, "DT", null);
 }
-if (!(("" + (Infinity === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 446: Infinity should be = false",}, b0, false, false, "DV", null);
 }
-if (!(("" + ("Infinity".toLowerCase() > "false".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("infinity" > "false")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 447: Infinity should be > false",}, b0, false, false, "DX", null);
 }
-if (!(("" + ("Infinity".toLowerCase() < "NaN".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("infinity" < "nan")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 448: Infinity should be < NaN",}, b0, false, false, "DZ", null);
 }
-if (!(("" + (Infinity === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 449: Infinity should be = NaN",}, b0, false, false, "D1", null);
 }
-if (!(("" + ("Infinity".toLowerCase() > "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("infinity" > "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 450: Infinity should be > NaN",}, b0, false, false, "D3", null);
 }
-if (!(("" + (Infinity < Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity < Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 451: Infinity should be < Infinity",}, b0, false, false, "D5", null);
 }
-if (!(("" + (Infinity === Infinity)).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + (Infinity === Infinity)).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 452: Infinity should be = Infinity",}, b0, false, false, "D7", null);
 }
-if (!(("" + (Infinity > Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity > Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 453: Infinity should be > Infinity",}, b0, false, false, "D9", null);
 }
-if (!(("" + ("Infinity".toLowerCase() < "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("infinity" < "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 454: Infinity should be < banana",}, b0, false, false, "D#", null);
 }
-if (!(("" + (Infinity === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 455: Infinity should be = banana",}, b0, false, false, "D(", null);
 }
-if (!(("" + ("Infinity".toLowerCase() > "banana".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("infinity" > "banana")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 456: Infinity should be > banana",}, b0, false, false, "D*", null);
 }
-if (!(("" + ("Infinity".toLowerCase() < "🎉".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("infinity" < "🎉")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 457: Infinity should be < 🎉",}, b0, false, false, "D,", null);
 }
-if (!(("" + (Infinity === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 458: Infinity should be = 🎉",}, b0, false, false, "D.", null);
 }
-if (!(("" + ("Infinity".toLowerCase() > "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("infinity" > "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 459: Infinity should be > 🎉",}, b0, false, false, "D:", null);
 }
-if (!(("" + ("Infinity".toLowerCase() < "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("infinity" < "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 460: Infinity should be < ",}, b0, false, false, "D=", null);
 }
-if (!(("" + (Infinity === 0)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (Infinity === 0)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 461: Infinity should be = ",}, b0, false, false, "D@", null);
 }
-if (!(("" + ("Infinity".toLowerCase() > "".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("infinity" > "")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 462: Infinity should be > ",}, b0, false, false, "D]", null);
 }
-if (!(("" + ("banana".toLowerCase() < "0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" < "0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 463: banana should be < 0",}, b0, false, false, "D_", null);
 }
-if (!(("" + ("banana".toLowerCase() === "0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" === "0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 464: banana should be = 0",}, b0, false, false, "D{", null);
 }
-if (!(("" + ("banana".toLowerCase() > "0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("banana" > "0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 465: banana should be > 0",}, b0, false, false, "D}", null);
 }
-if (!(("" + ("banana".toLowerCase() < "0.0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" < "0.0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 466: banana should be < 0.0",}, b0, false, false, "Ea", null);
 }
-if (!(("" + ("banana".toLowerCase() === "0.0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" === "0.0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 467: banana should be = 0.0",}, b0, false, false, "Ec", null);
 }
-if (!(("" + ("banana".toLowerCase() > "0.0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("banana" > "0.0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 468: banana should be > 0.0",}, b0, false, false, "Ee", null);
 }
-if (!(("" + ("banana".toLowerCase() < "1.23".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" < "1.23")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 469: banana should be < 1.23",}, b0, false, false, "Eg", null);
 }
-if (!(("" + (0 === 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 470: banana should be = 1.23",}, b0, false, false, "Ei", null);
 }
-if (!(("" + ("banana".toLowerCase() > "1.23".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("banana" > "1.23")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 471: banana should be > 1.23",}, b0, false, false, "Ek", null);
 }
-if (!(("" + ("banana".toLowerCase() < ".23".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" < ".23")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 472: banana should be < .23",}, b0, false, false, "Em", null);
 }
-if (!(("" + (0 === 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 473: banana should be = .23",}, b0, false, false, "Eo", null);
 }
-if (!(("" + ("banana".toLowerCase() > ".23".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("banana" > ".23")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 474: banana should be > .23",}, b0, false, false, "Eq", null);
 }
-if (!(("" + ("banana".toLowerCase() < "0.123".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" < "0.123")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 475: banana should be < 0.123",}, b0, false, false, "Es", null);
 }
-if (!(("" + (0 === 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 476: banana should be = 0.123",}, b0, false, false, "Eu", null);
 }
-if (!(("" + ("banana".toLowerCase() > "0.123".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("banana" > "0.123")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 477: banana should be > 0.123",}, b0, false, false, "Ew", null);
 }
-if (!(("" + ("banana".toLowerCase() < "-0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" < "-0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 478: banana should be < -0",}, b0, false, false, "Ey", null);
 }
-if (!(("" + ("banana".toLowerCase() === "-0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" === "-0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 479: banana should be = -0",}, b0, false, false, "EA", null);
 }
-if (!(("" + ("banana".toLowerCase() > "-0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("banana" > "-0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 480: banana should be > -0",}, b0, false, false, "EC", null);
 }
-if (!(("" + ("banana".toLowerCase() < "-1".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" < "-1")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 481: banana should be < -1",}, b0, false, false, "EE", null);
 }
-if (!(("" + (0 === -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 482: banana should be = -1",}, b0, false, false, "EG", null);
 }
-if (!(("" + ("banana".toLowerCase() > "-1".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("banana" > "-1")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 483: banana should be > -1",}, b0, false, false, "EI", null);
 }
-if (!(("" + ("banana".toLowerCase() < "true".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("banana" < "true")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 484: banana should be < true",}, b0, false, false, "EK", null);
 }
-if (!(("" + ("banana".toLowerCase() === "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" === "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 485: banana should be = true",}, b0, false, false, "EM", null);
 }
-if (!(("" + ("banana".toLowerCase() > "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" > "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 486: banana should be > true",}, b0, false, false, "EO", null);
 }
-if (!(("" + ("banana".toLowerCase() < "false".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("banana" < "false")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 487: banana should be < false",}, b0, false, false, "EQ", null);
 }
-if (!(("" + ("banana".toLowerCase() === "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" === "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 488: banana should be = false",}, b0, false, false, "ES", null);
 }
-if (!(("" + ("banana".toLowerCase() > "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" > "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 489: banana should be > false",}, b0, false, false, "EU", null);
 }
-if (!(("" + ("banana".toLowerCase() < "NaN".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("banana" < "nan")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 490: banana should be < NaN",}, b0, false, false, "EW", null);
 }
-if (!(("" + ("banana".toLowerCase() === "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" === "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 491: banana should be = NaN",}, b0, false, false, "EY", null);
 }
-if (!(("" + ("banana".toLowerCase() > "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" > "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 492: banana should be > NaN",}, b0, false, false, "E0", null);
 }
-if (!(("" + ("banana".toLowerCase() < "Infinity".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("banana" < "infinity")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 493: banana should be < Infinity",}, b0, false, false, "E2", null);
 }
-if (!(("" + (0 === Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 494: banana should be = Infinity",}, b0, false, false, "E4", null);
 }
-if (!(("" + ("banana".toLowerCase() > "Infinity".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" > "infinity")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 495: banana should be > Infinity",}, b0, false, false, "E6", null);
 }
-if (!(("" + ("banana".toLowerCase() < "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" < "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 496: banana should be < banana",}, b0, false, false, "E8", null);
 }
-if (!(("" + ("banana".toLowerCase() === "banana".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("banana" === "banana")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 497: banana should be = banana",}, b0, false, false, "E!", null);
 }
-if (!(("" + ("banana".toLowerCase() > "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" > "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 498: banana should be > banana",}, b0, false, false, "E%", null);
 }
-if (!(("" + ("banana".toLowerCase() < "🎉".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("banana" < "🎉")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 499: banana should be < 🎉",}, b0, false, false, "E)", null);
 }
-if (!(("" + ("banana".toLowerCase() === "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" === "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 500: banana should be = 🎉",}, b0, false, false, "E+", null);
 }
-if (!(("" + ("banana".toLowerCase() > "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" > "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 501: banana should be > 🎉",}, b0, false, false, "E-", null);
 }
-if (!(("" + ("banana".toLowerCase() < "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" < "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 502: banana should be < ",}, b0, false, false, "E/", null);
 }
-if (!(("" + ("banana".toLowerCase() === "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("banana" === "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 503: banana should be = ",}, b0, false, false, "E;", null);
 }
-if (!(("" + ("banana".toLowerCase() > "".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("banana" > "")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 504: banana should be > ",}, b0, false, false, "E?", null);
 }
-if (!(("" + ("🎉".toLowerCase() < "0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" < "0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 505: 🎉 should be < 0",}, b0, false, false, "E[", null);
 }
-if (!(("" + ("🎉".toLowerCase() === "0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" === "0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 506: 🎉 should be = 0",}, b0, false, false, "E^", null);
 }
-if (!(("" + ("🎉".toLowerCase() > "0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("🎉" > "0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 507: 🎉 should be > 0",}, b0, false, false, "E`", null);
 }
-if (!(("" + ("🎉".toLowerCase() < "0.0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" < "0.0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 508: 🎉 should be < 0.0",}, b0, false, false, "E|", null);
 }
-if (!(("" + ("🎉".toLowerCase() === "0.0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" === "0.0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 509: 🎉 should be = 0.0",}, b0, false, false, "E~", null);
 }
-if (!(("" + ("🎉".toLowerCase() > "0.0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("🎉" > "0.0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 510: 🎉 should be > 0.0",}, b0, false, false, "Fb", null);
 }
-if (!(("" + ("🎉".toLowerCase() < "1.23".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" < "1.23")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 511: 🎉 should be < 1.23",}, b0, false, false, "Fd", null);
 }
-if (!(("" + (0 === 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 512: 🎉 should be = 1.23",}, b0, false, false, "Ff", null);
 }
-if (!(("" + ("🎉".toLowerCase() > "1.23".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("🎉" > "1.23")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 513: 🎉 should be > 1.23",}, b0, false, false, "Fh", null);
 }
-if (!(("" + ("🎉".toLowerCase() < ".23".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" < ".23")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 514: 🎉 should be < .23",}, b0, false, false, "Fj", null);
 }
-if (!(("" + (0 === 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 515: 🎉 should be = .23",}, b0, false, false, "Fl", null);
 }
-if (!(("" + ("🎉".toLowerCase() > ".23".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("🎉" > ".23")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 516: 🎉 should be > .23",}, b0, false, false, "Fn", null);
 }
-if (!(("" + ("🎉".toLowerCase() < "0.123".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" < "0.123")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 517: 🎉 should be < 0.123",}, b0, false, false, "Fp", null);
 }
-if (!(("" + (0 === 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 518: 🎉 should be = 0.123",}, b0, false, false, "Fr", null);
 }
-if (!(("" + ("🎉".toLowerCase() > "0.123".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("🎉" > "0.123")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 519: 🎉 should be > 0.123",}, b0, false, false, "Ft", null);
 }
-if (!(("" + ("🎉".toLowerCase() < "-0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" < "-0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 520: 🎉 should be < -0",}, b0, false, false, "Fv", null);
 }
-if (!(("" + ("🎉".toLowerCase() === "-0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" === "-0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 521: 🎉 should be = -0",}, b0, false, false, "Fx", null);
 }
-if (!(("" + ("🎉".toLowerCase() > "-0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("🎉" > "-0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 522: 🎉 should be > -0",}, b0, false, false, "Fz", null);
 }
-if (!(("" + ("🎉".toLowerCase() < "-1".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" < "-1")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 523: 🎉 should be < -1",}, b0, false, false, "FB", null);
 }
-if (!(("" + (0 === -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 524: 🎉 should be = -1",}, b0, false, false, "FD", null);
 }
-if (!(("" + ("🎉".toLowerCase() > "-1".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("🎉" > "-1")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 525: 🎉 should be > -1",}, b0, false, false, "FF", null);
 }
-if (!(("" + ("🎉".toLowerCase() < "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" < "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 526: 🎉 should be < true",}, b0, false, false, "FH", null);
 }
-if (!(("" + ("🎉".toLowerCase() === "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" === "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 527: 🎉 should be = true",}, b0, false, false, "FJ", null);
 }
-if (!(("" + ("🎉".toLowerCase() > "true".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("🎉" > "true")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 528: 🎉 should be > true",}, b0, false, false, "FL", null);
 }
-if (!(("" + ("🎉".toLowerCase() < "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" < "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 529: 🎉 should be < false",}, b0, false, false, "FN", null);
 }
-if (!(("" + ("🎉".toLowerCase() === "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" === "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 530: 🎉 should be = false",}, b0, false, false, "FP", null);
 }
-if (!(("" + ("🎉".toLowerCase() > "false".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("🎉" > "false")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 531: 🎉 should be > false",}, b0, false, false, "FR", null);
 }
-if (!(("" + ("🎉".toLowerCase() < "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" < "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 532: 🎉 should be < NaN",}, b0, false, false, "FT", null);
 }
-if (!(("" + ("🎉".toLowerCase() === "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" === "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 533: 🎉 should be = NaN",}, b0, false, false, "FV", null);
 }
-if (!(("" + ("🎉".toLowerCase() > "NaN".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("🎉" > "nan")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 534: 🎉 should be > NaN",}, b0, false, false, "FX", null);
 }
-if (!(("" + ("🎉".toLowerCase() < "Infinity".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" < "infinity")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 535: 🎉 should be < Infinity",}, b0, false, false, "FZ", null);
 }
-if (!(("" + (0 === Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 536: 🎉 should be = Infinity",}, b0, false, false, "F1", null);
 }
-if (!(("" + ("🎉".toLowerCase() > "Infinity".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("🎉" > "infinity")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 537: 🎉 should be > Infinity",}, b0, false, false, "F3", null);
 }
-if (!(("" + ("🎉".toLowerCase() < "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" < "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 538: 🎉 should be < banana",}, b0, false, false, "F5", null);
 }
-if (!(("" + ("🎉".toLowerCase() === "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" === "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 539: 🎉 should be = banana",}, b0, false, false, "F7", null);
 }
-if (!(("" + ("🎉".toLowerCase() > "banana".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("🎉" > "banana")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 540: 🎉 should be > banana",}, b0, false, false, "F9", null);
 }
-if (!(("" + ("🎉".toLowerCase() < "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" < "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 541: 🎉 should be < 🎉",}, b0, false, false, "F#", null);
 }
-if (!(("" + ("🎉".toLowerCase() === "🎉".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("🎉" === "🎉")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 542: 🎉 should be = 🎉",}, b0, false, false, "F(", null);
 }
-if (!(("" + ("🎉".toLowerCase() > "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" > "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 543: 🎉 should be > 🎉",}, b0, false, false, "F*", null);
 }
-if (!(("" + ("🎉".toLowerCase() < "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" < "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 544: 🎉 should be < ",}, b0, false, false, "F,", null);
 }
-if (!(("" + ("🎉".toLowerCase() === "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("🎉" === "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 545: 🎉 should be = ",}, b0, false, false, "F.", null);
 }
-if (!(("" + ("🎉".toLowerCase() > "".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("🎉" > "")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 546: 🎉 should be > ",}, b0, false, false, "F:", null);
 }
-if (!(("" + ("".toLowerCase() < "0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("" < "0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 547:  should be < 0",}, b0, false, false, "F=", null);
 }
-if (!(("" + ("".toLowerCase() === "0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" === "0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 548:  should be = 0",}, b0, false, false, "F@", null);
 }
-if (!(("" + ("".toLowerCase() > "0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" > "0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 549:  should be > 0",}, b0, false, false, "F]", null);
 }
-if (!(("" + ("".toLowerCase() < "0.0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("" < "0.0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 550:  should be < 0.0",}, b0, false, false, "F_", null);
 }
-if (!(("" + ("".toLowerCase() === "0.0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" === "0.0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 551:  should be = 0.0",}, b0, false, false, "F{", null);
 }
-if (!(("" + ("".toLowerCase() > "0.0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" > "0.0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 552:  should be > 0.0",}, b0, false, false, "F}", null);
 }
-if (!(("" + ("".toLowerCase() < "1.23".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("" < "1.23")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 553:  should be < 1.23",}, b0, false, false, "Ga", null);
 }
-if (!(("" + (0 === 1.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 1.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 554:  should be = 1.23",}, b0, false, false, "Gc", null);
 }
-if (!(("" + ("".toLowerCase() > "1.23".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" > "1.23")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 555:  should be > 1.23",}, b0, false, false, "Ge", null);
 }
-if (!(("" + ("".toLowerCase() < ".23".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("" < ".23")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 556:  should be < .23",}, b0, false, false, "Gg", null);
 }
-if (!(("" + (0 === 0.23)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 0.23)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 557:  should be = .23",}, b0, false, false, "Gi", null);
 }
-if (!(("" + ("".toLowerCase() > ".23".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" > ".23")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 558:  should be > .23",}, b0, false, false, "Gk", null);
 }
-if (!(("" + ("".toLowerCase() < "0.123".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("" < "0.123")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 559:  should be < 0.123",}, b0, false, false, "Gm", null);
 }
-if (!(("" + (0 === 0.123)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === 0.123)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 560:  should be = 0.123",}, b0, false, false, "Go", null);
 }
-if (!(("" + ("".toLowerCase() > "0.123".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" > "0.123")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 561:  should be > 0.123",}, b0, false, false, "Gq", null);
 }
-if (!(("" + ("".toLowerCase() < "-0".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("" < "-0")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 562:  should be < -0",}, b0, false, false, "Gs", null);
 }
-if (!(("" + ("".toLowerCase() === "-0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" === "-0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 563:  should be = -0",}, b0, false, false, "Gu", null);
 }
-if (!(("" + ("".toLowerCase() > "-0".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" > "-0")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 564:  should be > -0",}, b0, false, false, "Gw", null);
 }
-if (!(("" + ("".toLowerCase() < "-1".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("" < "-1")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 565:  should be < -1",}, b0, false, false, "Gy", null);
 }
-if (!(("" + (0 === -1)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === -1)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 566:  should be = -1",}, b0, false, false, "GA", null);
 }
-if (!(("" + ("".toLowerCase() > "-1".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" > "-1")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 567:  should be > -1",}, b0, false, false, "GC", null);
 }
-if (!(("" + ("".toLowerCase() < "true".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("" < "true")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 568:  should be < true",}, b0, false, false, "GE", null);
 }
-if (!(("" + ("".toLowerCase() === "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" === "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 569:  should be = true",}, b0, false, false, "GG", null);
 }
-if (!(("" + ("".toLowerCase() > "true".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" > "true")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 570:  should be > true",}, b0, false, false, "GI", null);
 }
-if (!(("" + ("".toLowerCase() < "false".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("" < "false")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 571:  should be < false",}, b0, false, false, "GK", null);
 }
-if (!(("" + ("".toLowerCase() === "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" === "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 572:  should be = false",}, b0, false, false, "GM", null);
 }
-if (!(("" + ("".toLowerCase() > "false".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" > "false")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 573:  should be > false",}, b0, false, false, "GO", null);
 }
-if (!(("" + ("".toLowerCase() < "NaN".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("" < "nan")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 574:  should be < NaN",}, b0, false, false, "GQ", null);
 }
-if (!(("" + ("".toLowerCase() === "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" === "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 575:  should be = NaN",}, b0, false, false, "GS", null);
 }
-if (!(("" + ("".toLowerCase() > "NaN".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" > "nan")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 576:  should be > NaN",}, b0, false, false, "GU", null);
 }
-if (!(("" + ("".toLowerCase() < "Infinity".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("" < "infinity")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 577:  should be < Infinity",}, b0, false, false, "GW", null);
 }
-if (!(("" + (0 === Infinity)).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + (0 === Infinity)).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 578:  should be = Infinity",}, b0, false, false, "GY", null);
 }
-if (!(("" + ("".toLowerCase() > "Infinity".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" > "infinity")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 579:  should be > Infinity",}, b0, false, false, "G0", null);
 }
-if (!(("" + ("".toLowerCase() < "banana".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("" < "banana")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 580:  should be < banana",}, b0, false, false, "G2", null);
 }
-if (!(("" + ("".toLowerCase() === "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" === "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 581:  should be = banana",}, b0, false, false, "G4", null);
 }
-if (!(("" + ("".toLowerCase() > "banana".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" > "banana")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 582:  should be > banana",}, b0, false, false, "G6", null);
 }
-if (!(("" + ("".toLowerCase() < "🎉".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("" < "🎉")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 583:  should be < 🎉",}, b0, false, false, "G8", null);
 }
-if (!(("" + ("".toLowerCase() === "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" === "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 584:  should be = 🎉",}, b0, false, false, "G!", null);
 }
-if (!(("" + ("".toLowerCase() > "🎉".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" > "🎉")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 585:  should be > 🎉",}, b0, false, false, "G%", null);
 }
-if (!(("" + ("".toLowerCase() < "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" < "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 586:  should be < ",}, b0, false, false, "G)", null);
 }
-if (!(("" + ("".toLowerCase() === "".toLowerCase())).toLowerCase() === "true".toLowerCase())) {
+if (!((("" + ("" === "")).toLowerCase()) === "true")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 587:  should be = ",}, b0, false, false, "G+", null);
 }
-if (!(("" + ("".toLowerCase() > "".toLowerCase())).toLowerCase() === "false".toLowerCase())) {
+if (!((("" + ("" > "")).toLowerCase()) === "false")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail 588:  should be > ",}, b0, false, false, "G.", null);
 }
 yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "G-", null);

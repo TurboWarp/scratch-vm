@@ -7,10 +7,10 @@ const b0 = runtime.getOpcodeFunction("looks_say");
 const b1 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 return function* genXYZ () {
 yield* executeInCompatibilityLayer({"MESSAGE":"plan 8",}, b0, false, false, "x", null);
-if ((("" + thread.procedures["Zsimplest"]()).toLowerCase() === "It works!".toLowerCase())) {
+if (((("" + thread.procedures["Zsimplest"]()).toLowerCase()) === "it works!")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass simplest",}, b0, false, false, ":", null);
 }
-if ((("" + thread.procedures["Znesting 1"]()).toLowerCase() === "42-54".toLowerCase())) {
+if (((("" + thread.procedures["Znesting 1"]()).toLowerCase()) === "42-54")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass nesting1",}, b0, false, false, "=", null);
 }
 if (((+thread.procedures["Wwarp fib %s"](12) || 0) === 144)) {
@@ -20,7 +20,7 @@ if (((+thread.procedures["Wfactorial %s"](12) || 0) === 479001600)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass factorial 12",}, b0, false, false, "]", null);
 }
 b1.value = (yield* thread.procedures["Zno shadowing 1 %s %s"]("f","g"));
-if ((("" + b1.value).toLowerCase() === "".toLowerCase())) {
+if (((("" + b1.value).toLowerCase()) === "")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass default return value",}, b0, false, false, "|", null);
 }
 yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "`", null);
@@ -64,15 +64,15 @@ return "";
 const b0 = runtime.getOpcodeFunction("looks_say");
 const b1 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 return function* genXYZ_no_shadowing_1__ (p0,p1) {
-if (((("" + p0).toLowerCase() === "f".toLowerCase()) && (("" + p1).toLowerCase() === "g".toLowerCase()))) {
+if ((((("" + p0).toLowerCase()) === "f") && ((("" + p1).toLowerCase()) === "g"))) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass shadow check 1",}, b0, false, false, "aq", null);
 }
 b1.value = thread.procedures["Zno shadowing 2 %s %s"](1,2);
-if (((("" + p0).toLowerCase() === "f".toLowerCase()) && (("" + p1).toLowerCase() === "g".toLowerCase()))) {
+if ((((("" + p0).toLowerCase()) === "f") && ((("" + p1).toLowerCase()) === "g"))) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass shadow check 2",}, b0, false, false, "au", null);
 }
 b1.value = thread.procedures["Zno shadowing 2 %s %s"](3,4);
-if (((("" + p0).toLowerCase() === "f".toLowerCase()) && (("" + p1).toLowerCase() === "g".toLowerCase()))) {
+if ((((("" + p0).toLowerCase()) === "f") && ((("" + p1).toLowerCase()) === "g"))) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass shadow check 3",}, b0, false, false, "ax", null);
 }
 return "";

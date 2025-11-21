@@ -14,7 +14,7 @@ yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "m", n
 if (compareLessThan(b1.value, 1)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "r", null);
 }
-if ((("" + b1.value).toLowerCase().indexOf(".".toLowerCase()) !== -1)) {
+if (((("" + b1.value).toLowerCase()).indexOf(".") !== -1)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "s", null);
 }
 b1.value = runtime.ext_scratch3_operators._random(1, ("an invalid number" + "."));
@@ -24,7 +24,7 @@ yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "v", n
 if (compareLessThan(b1.value, 1)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "x", null);
 }
-if ((("" + b1.value).toLowerCase().indexOf(".".toLowerCase()) !== -1)) {
+if (((("" + b1.value).toLowerCase()).indexOf(".") !== -1)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "A", null);
 }
 yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "y", null);

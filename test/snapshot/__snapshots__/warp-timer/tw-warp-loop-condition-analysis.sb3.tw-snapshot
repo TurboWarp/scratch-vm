@@ -31,7 +31,7 @@ const b2 = stage.variables[";~q(!vt3c.Jrz2M]ZMy]"];
 return function* genXYZ_test () {
 b0.value = "";
 b1.value = 1;
-while (!(("" + b0.value).toLowerCase() === "final".toLowerCase())) {
+while (!((("" + b0.value).toLowerCase()) === "final")) {
 b0.value = listGet(b2.value, b1.value);
 b1.value = ((+b1.value || 0) + 1);
 if (isStuck()) yield;

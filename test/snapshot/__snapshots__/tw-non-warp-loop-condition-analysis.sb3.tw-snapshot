@@ -16,7 +16,7 @@ b1.value.push("eof");
 b1._monitorUpToDate = false;
 b2.value = 0;
 b3.value = "bwah";
-while (!(("" + b3.value).toLowerCase() === "eof".toLowerCase())) {
+while (!((("" + b3.value).toLowerCase()) === "eof")) {
 b2.value = ((+b2.value || 0) + 1);
 b3.value = (b1.value[(b2.value | 0) - 1] ?? "");
 yield;

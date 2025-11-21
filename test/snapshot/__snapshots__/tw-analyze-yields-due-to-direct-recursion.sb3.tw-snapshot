@@ -10,7 +10,7 @@ return function* genXYZ () {
 yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "j", null);
 b1.value = (1 + 2);
 yield* thread.procedures["Znon-warp recursion %s"](2);
-if ((("" + listGet(b2.value, b1.value)).toLowerCase() === "the only thing".toLowerCase())) {
+if (((("" + listGet(b2.value, b1.value)).toLowerCase()) === "the only thing")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "t", null);
 }
 yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "s", null);

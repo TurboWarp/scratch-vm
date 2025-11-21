@@ -65,7 +65,7 @@ const b0 = stage.variables["Go=PJS7BFXYo_qi2S:kQ"];
 const b1 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 const b2 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ_recursing_yields_bet (p0) {
-if ((("" + p0).toLowerCase() === "initial".toLowerCase())) {
+if (((("" + p0).toLowerCase()) === "initial")) {
 b0.value = 0;
 b1.value = ((+(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 1)) || 0) + (((+(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 1)) || 0) + (((+(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 2)) || 0) + (((+(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 2)) || 0) + (((+(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 3)) || 0) + (+(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 3)) || 0)) || 0)) || 0)) || 0)) || 0));
 if (((+b0.value || 0) === 3)) {
@@ -90,29 +90,29 @@ const b1 = stage.variables["Go=PJS7BFXYo_qi2S:kQ"];
 const b2 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 const b3 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ_recursing_arguments_ (p0,p1,p2,p3) {
-if ((("" + p0).toLowerCase() === "initial".toLowerCase())) {
+if (((("" + p0).toLowerCase()) === "initial")) {
 b0.value = [];
 b1.value = 0;
 b2.value = (yield* yieldThenCallGenerator(thread.procedures["Zrecursing arguments eval order %s %s %s %s"], "child 1",(yield* yieldThenCallGenerator(thread.procedures["Zrecursing arguments eval order %s %s %s %s"], "child 2",(yield* yieldThenCallGenerator(thread.procedures["Zrecursing arguments eval order %s %s %s %s"], "child 3",(yield* yieldThenCallGenerator(thread.procedures["Zrecursing arguments eval order %s %s %s %s"], "child 4","","","")),(yield* yieldThenCallGenerator(thread.procedures["Zrecursing arguments eval order %s %s %s %s"], "child 5","","","")),(yield* yieldThenCallGenerator(thread.procedures["Zrecursing arguments eval order %s %s %s %s"], "child 6","","","")))),"","")),"",(yield* yieldThenCallGenerator(thread.procedures["Zrecursing arguments eval order %s %s %s %s"], "child 7","","",""))));
-if ((("" + (b0.value[1 - 1] ?? "")).toLowerCase() === "1/child 4".toLowerCase())) {
+if (((("" + (b0.value[1 - 1] ?? "")).toLowerCase()) === "1/child 4")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass recurse arg order - 1",}, b3, false, false, "aZ", null);
 }
-if ((("" + (b0.value[2 - 1] ?? "")).toLowerCase() === "1/child 5".toLowerCase())) {
+if (((("" + (b0.value[2 - 1] ?? "")).toLowerCase()) === "1/child 5")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass recurse arg order - 2",}, b3, false, false, "a#", null);
 }
-if ((("" + (b0.value[3 - 1] ?? "")).toLowerCase() === "2/child 6".toLowerCase())) {
+if (((("" + (b0.value[3 - 1] ?? "")).toLowerCase()) === "2/child 6")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass recurse arg order - 3",}, b3, false, false, "a(", null);
 }
-if ((("" + (b0.value[4 - 1] ?? "")).toLowerCase() === "2/child 3".toLowerCase())) {
+if (((("" + (b0.value[4 - 1] ?? "")).toLowerCase()) === "2/child 3")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass recurse arg order - 4",}, b3, false, false, "a*", null);
 }
-if ((("" + (b0.value[5 - 1] ?? "")).toLowerCase() === "3/child 2".toLowerCase())) {
+if (((("" + (b0.value[5 - 1] ?? "")).toLowerCase()) === "3/child 2")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass recurse arg order - 5",}, b3, false, false, "a,", null);
 }
-if ((("" + (b0.value[6 - 1] ?? "")).toLowerCase() === "3/child 7".toLowerCase())) {
+if (((("" + (b0.value[6 - 1] ?? "")).toLowerCase()) === "3/child 7")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass recurse arg order - 6",}, b3, false, false, "a.", null);
 }
-if ((("" + (b0.value[7 - 1] ?? "")).toLowerCase() === "4/child 1".toLowerCase())) {
+if (((("" + (b0.value[7 - 1] ?? "")).toLowerCase()) === "4/child 1")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass recurse arg order - 7",}, b3, false, false, "a:", null);
 }
 if ((b0.value.length === 7)) {

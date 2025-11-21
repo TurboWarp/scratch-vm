@@ -10,7 +10,7 @@ return function* genXYZ () {
 yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, ",a.euo_AgQTxR+D^x0M0", null);
 b1.value = 0;
 b2.value = "";
-while (!(("" + b2.value).toLowerCase() > "".toLowerCase())) {
+while (!((("" + b2.value).toLowerCase()) > "")) {
 startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "step" });
 yield;
 }

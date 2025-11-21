@@ -31,7 +31,7 @@ const b2 = stage.variables[";~q(!vt3c.Jrz2M]ZMy]"];
 return function funXYZ_test () {
 b0.value = "";
 b1.value = 1;
-while (!(("" + b0.value).toLowerCase() === "final".toLowerCase())) {
+while (!((("" + b0.value).toLowerCase()) === "final")) {
 b0.value = (b2.value[b1.value - 1] ?? "");
 b1.value = (b1.value + 1);
 }

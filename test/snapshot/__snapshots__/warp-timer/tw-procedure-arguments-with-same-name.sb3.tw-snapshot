@@ -16,7 +16,7 @@ retire(); return;
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ_number_or_text__ (p0,p1) {
-if ((("" + p1).toLowerCase() === "ok".toLowerCase())) {
+if (((("" + p1).toLowerCase()) === "ok")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "HH`yRe9(x5%D:eV@EmkE", null);
 }
 return "";

@@ -52,7 +52,7 @@ yield;
 if (((+b0.value || 0) === 5)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass non warp 1",}, b1, false, false, "R", null);
 }
-if ((("" + (yield* thread.procedures["Wverify runs warp %s"]((yield* thread.procedures["Zverify runs non warp %s"]((yield* thread.procedures["Wverify runs warp %s"]("abc"))))))).toLowerCase() === "warp: non warp: warp: abc".toLowerCase())) {
+if (((("" + (yield* thread.procedures["Wverify runs warp %s"]((yield* thread.procedures["Zverify runs non warp %s"]((yield* thread.procedures["Wverify runs warp %s"]("abc"))))))).toLowerCase()) === "warp: non warp: warp: abc")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass non warp and warp mix",}, b1, false, false, "S", null);
 }
 b0.value = 0;

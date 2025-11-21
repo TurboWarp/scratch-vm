@@ -15,7 +15,7 @@ retire(); return;
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ_Block_A_ (p0) {
-if ((("" + p0).toLowerCase() === "Hai!!!".toLowerCase())) {
+if (((("" + p0).toLowerCase()) === "hai!!!")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass did not cast",}, b0, false, false, "m", null);
 } else {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail was casted",}, b0, false, false, "n", null);

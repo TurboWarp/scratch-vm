@@ -69,15 +69,25 @@ const InputType = {
     /** Anything that can be interperated as a number. Equal to NUMBER | STRING_NUM | BOOLEAN */
     NUMBER_INTERPRETABLE: 0x12FF,
 
-    /** Any string which as a non-NaN neumeric interpretation, excluding ''.  */
+    /** Any string which has a non-NaN neumeric interpretation, excluding ''.  */
     STRING_NUM: 0x200,
     /** Any string which has no non-NaN neumeric interpretation, including ''. */
     STRING_NAN: 0x400,
     /** Either of the strings 'true' or 'false'. */
     STRING_BOOLEAN: 0x800,
 
-    /** Any string. Equal to STRING_NUM | STRING_NAN | STRING_BOOLEAN */
-    STRING: 0xE00,
+    /** Any string which contains lower case characters */
+    STRING_HAS_CASE_LOWER: 0x4000,
+    /** Any string which contains upper case characters */
+    STRING_HAS_CASE_UPPER: 0x8000,
+    /** Any string which contains case invarient characters */
+    STRING_HAS_CASE_INVARIENT: 0x10000,
+    /* A string which could have any case.
+     * Equal to STRING_HAS_CASE_LOWER | STRING_HAS_CASE_UPPER | STRING_HAS_CASE_INVARIENT */
+    STRING_ANY_CASE: 0x1C000,
+
+    /** Any string. Equal to STRING_NUM | STRING_NAN | STRING_BOOLEAN | STRING_ANY_CASE */
+    STRING: 0x1CE00,
 
     /** Any boolean. */
     BOOLEAN: 0x1000,
@@ -85,7 +95,7 @@ const InputType = {
     BOOLEAN_INTERPRETABLE: 0x1800,
 
     /** Any value type (a type a scratch variable can hold). Equal to NUMBER_OR_NAN | STRING | BOOLEAN */
-    ANY: 0x1FFF,
+    ANY: 0x1DFFF,
 
     /** An array of values in the form [R, G, B] */
     COLOR: 0x2000
@@ -200,6 +210,8 @@ const InputOpcode = {
     CAST_STRING: 'cast.toString',
     CAST_BOOLEAN: 'cast.toBoolean',
     CAST_COLOR: 'cast.toColor',
+    CAST_UPPER_CASE: 'cast.toUpperCase',
+    CAST_LOWER_CASE: 'cast.toLowerCase',
 
     COMPATIBILITY_LAYER: 'compat',
     OLD_COMPILER_COMPATIBILITY_LAYER: 'oldCompiler',

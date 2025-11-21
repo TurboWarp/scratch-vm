@@ -9,7 +9,7 @@ return function* genXYZ () {
 yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "d", null);
 b1.value = "discard me";
 b1.value = "";
-if ((("" + b1.value).toLowerCase() === "".toLowerCase())) {
+if (((("" + b1.value).toLowerCase()) === "")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass non existent procedure returned empty string",}, b0, false, false, "h", null);
 }
 yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "g", null);

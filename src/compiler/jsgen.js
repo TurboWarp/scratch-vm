@@ -53,6 +53,11 @@ const functionNameVariablePool = new VariablePool('fun');
  */
 const generatorNameVariablePool = new VariablePool('gen');
 
+/**
+ * @param {IntermediateInput} input
+ * @param {IntermediateInput} other
+ * @returns {boolean}
+ */
 const isSafeInputForEqualsOptimization = (input, other) => {
     // Only optimize constants
     if (input.opcode !== InputOpcode.CONSTANT) return false;
@@ -67,6 +72,46 @@ const isSafeInputForEqualsOptimization = (input, other) => {
         return true;
     }
     return false;
+};
+
+/**
+ * @param {IntermediateInput} left
+ * @param {IntermediateInput} right
+ * @param {boolean} forceLower
+ * @returns {{left: IntermediateInput, right: IntermediateInput}}
+ */
+const inputsToComperableStrings = (left, right, forceLower) => {
+
+    const leftStringified = left.toType(InputType.STRING);
+    const rightStringified = right.toType(InputType.STRING);
+
+    const leftCaseType = leftStringified.type & (InputType.STRING_HAS_CASE_UPPER | InputType.STRING_HAS_CASE_LOWER);
+    const rightCaseType = rightStringified.type & (InputType.STRING_HAS_CASE_UPPER | InputType.STRING_HAS_CASE_LOWER);
+
+    if (leftCaseType === InputType.STRING_HAS_CASE_LOWER || leftCaseType === 0) {
+        // left only has lower case characters or is invarient, cast right to lower case
+        return {left: leftStringified, right: rightStringified.toStringWithCase(false)};
+    }
+
+    if (rightCaseType === InputType.STRING_HAS_CASE_LOWER || rightCaseType === 0) {
+        // right only has lower case characters or is invarient, cast left to lower case
+        return {left: leftStringified.toStringWithCase(false), right: rightStringified};
+    }
+
+    if (!forceLower) {
+        if (leftCaseType === InputType.STRING_HAS_CASE_UPPER) {
+            // left only has upper case characters, cast right to upper case
+            return {left: leftStringified, right: rightStringified.toStringWithCase(true)};
+        }
+
+        if (rightCaseType === InputType.STRING_HAS_CASE_UPPER) {
+            // right only has upper case characters, cast left to upper case
+            return {left: leftStringified.toStringWithCase(true), right: rightStringified};
+        }
+    }
+
+    // Both strings could be a mix of cases, so we have to cast both.
+    return {left: leftStringified.toStringWithCase(false), right: rightStringified.toStringWithCase(false)};
 };
 
 /**
@@ -196,6 +241,10 @@ class JSGenerator {
             return `("" + ${this.descendInput(node.target)})`;
         case InputOpcode.CAST_COLOR:
             return `colorToList(${this.descendInput(node.target)})`;
+        case InputOpcode.CAST_UPPER_CASE:
+            return `(${this.descendInput(node.target.toType(InputType.STRING))}.toUpperCase())`;
+        case InputOpcode.CAST_LOWER_CASE:
+            return `(${this.descendInput(node.target.toType(InputType.STRING))}.toLowerCase())`;
 
         case InputOpcode.COMPATIBILITY_LAYER:
             // Compatibility layer inputs never use flags.
@@ -287,8 +336,10 @@ class JSGenerator {
             return `((Math.atan(${this.descendInput(node.value)}) * 180) / Math.PI)`;
         case InputOpcode.OP_CEILING:
             return `Math.ceil(${this.descendInput(node.value)})`;
-        case InputOpcode.OP_CONTAINS:
-            return `(${this.descendInput(node.string)}.toLowerCase().indexOf(${this.descendInput(node.contains)}.toLowerCase()) !== -1)`;
+        case InputOpcode.OP_CONTAINS: {
+            const sameCaseInputs = inputsToComperableStrings(node.string, node.contains, false);
+            return `(${this.descendInput(sameCaseInputs.left)}.indexOf(${this.descendInput(sameCaseInputs.right)}) !== -1)`;
+        }
         case InputOpcode.OP_COS:
             return `(Math.round(Math.cos((Math.PI * ${this.descendInput(node.value)}) / 180) * 1e10) / 1e10)`;
         case InputOpcode.OP_DIVIDE:
@@ -307,7 +358,8 @@ class JSGenerator {
             }
             // When either operand is known to never be a number, only use string comparison to avoid all number parsing.
             if (!left.isSometimesType(InputType.NUMBER_INTERPRETABLE) || !right.isSometimesType(InputType.NUMBER_INTERPRETABLE)) {
-                return `(${this.descendInput(left.toType(InputType.STRING))}.toLowerCase() === ${this.descendInput(right.toType(InputType.STRING))}.toLowerCase())`;
+                const sameCaseInputs = inputsToComperableStrings(left, right, false);
+                return `(${this.descendInput(sameCaseInputs.left)} === ${this.descendInput(sameCaseInputs.right)})`;
             }
             // No compile-time optimizations possible - use fallback method.
             return `compareEqual(${this.descendInput(left)}, ${this.descendInput(right)})`;
@@ -329,7 +381,8 @@ class JSGenerator {
             }
             // When either operand is known to never be a number, avoid all number parsing.
             if (!left.isSometimesType(InputType.NUMBER_INTERPRETABLE) || !right.isSometimesType(InputType.NUMBER_INTERPRETABLE)) {
-                return `(${this.descendInput(left.toType(InputType.STRING))}.toLowerCase() > ${this.descendInput(right.toType(InputType.STRING))}.toLowerCase())`;
+                const sameCaseInputs = inputsToComperableStrings(left, right, true);
+                return `(${this.descendInput(sameCaseInputs.left)} > ${this.descendInput(sameCaseInputs.right)})`;
             }
             // No compile-time optimizations possible - use fallback method.
             return `compareGreaterThan(${this.descendInput(left)}, ${this.descendInput(right)})`;
@@ -351,7 +404,8 @@ class JSGenerator {
             }
             // When either operand is known to never be a number, avoid all number parsing.
             if (!left.isSometimesType(InputType.NUMBER_INTERPRETABLE) || !right.isSometimesType(InputType.NUMBER_INTERPRETABLE)) {
-                return `(${this.descendInput(left.toType(InputType.STRING))}.toLowerCase() < ${this.descendInput(right.toType(InputType.STRING))}.toLowerCase())`;
+                const sameCaseInputs = inputsToComperableStrings(left, right, true);
+                return `(${this.descendInput(sameCaseInputs.left)} < ${this.descendInput(sameCaseInputs.right)})`;
             }
             // No compile-time optimizations possible - use fallback method.
             return `compareLessThan(${this.descendInput(left)}, ${this.descendInput(right)})`;

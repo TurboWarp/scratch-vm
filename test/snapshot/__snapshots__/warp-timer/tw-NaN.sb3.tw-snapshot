@@ -6,52 +6,52 @@
 const b0 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ () {
 yield* executeInCompatibilityLayer({"MESSAGE":"plan 21",}, b0, false, false, "B", null);
-if (!(("" + (0 / 0)).toLowerCase() === "0".toLowerCase())) {
+if (!((("" + (0 / 0)).toLowerCase()) === "0")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "aA", null);
 }
-if ((("" + (0 * Infinity)).toLowerCase() === "NaN".toLowerCase())) {
+if (((("" + (0 * Infinity)).toLowerCase()) === "nan")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "/", null);
 }
 if (((((0 * Infinity) || 0) * 1) === 0)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "?", null);
 }
-if ((("" + ((Math.acos(1.01) * 180) / Math.PI)).toLowerCase() === "NaN".toLowerCase())) {
+if (((("" + ((Math.acos(1.01) * 180) / Math.PI)).toLowerCase()) === "nan")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "=", null);
 }
 if ((((((Math.acos(1.01) * 180) / Math.PI) || 0) * 1) === 0)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "]", null);
 }
-if ((("" + ((Math.asin(1.01) * 180) / Math.PI)).toLowerCase() === "NaN".toLowerCase())) {
+if (((("" + ((Math.asin(1.01) * 180) / Math.PI)).toLowerCase()) === "nan")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "_", null);
 }
 if ((((((Math.asin(1.01) * 180) / Math.PI) || 0) * 1) === 0)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "{", null);
 }
-if ((("" + (0 / 0)).toLowerCase() === "NaN".toLowerCase())) {
+if (((("" + (0 / 0)).toLowerCase()) === "nan")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "}", null);
 }
 if (((((0 / 0) || 0) * 1) === 0)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "aa", null);
 }
-if ((("" + Math.sqrt(-1)).toLowerCase() === "NaN".toLowerCase())) {
+if (((("" + Math.sqrt(-1)).toLowerCase()) === "nan")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "ac", null);
 }
 if ((((Math.sqrt(-1) || 0) * 1) === 0)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "ae", null);
 }
-if ((("" + mod(0, 0)).toLowerCase() === "NaN".toLowerCase())) {
+if (((("" + mod(0, 0)).toLowerCase()) === "nan")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "ag", null);
 }
 if ((((mod(0, 0) || 0) * 1) === 0)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "ai", null);
 }
-if ((("" + Math.log(-1)).toLowerCase() === "NaN".toLowerCase())) {
+if (((("" + Math.log(-1)).toLowerCase()) === "nan")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "ak", null);
 }
 if ((((Math.log(-1) || 0) * 1) === 0)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "am", null);
 }
-if ((("" + (Math.log(-1) / Math.LN10)).toLowerCase() === "NaN".toLowerCase())) {
+if (((("" + (Math.log(-1) / Math.LN10)).toLowerCase()) === "nan")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "ao", null);
 }
 if (((((Math.log(-1) / Math.LN10) || 0) * 1) === 0)) {

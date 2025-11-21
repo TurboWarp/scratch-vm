@@ -8,7 +8,7 @@ const b1 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 return function* genXYZ () {
 yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "c", null);
 b1.value = "#22388a";
-if ((b1.value.toLowerCase() === "#22388a".toLowerCase())) {
+if ((b1.value === "#22388a")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "f", null);
 }
 yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "e", null);

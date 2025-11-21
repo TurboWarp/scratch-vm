@@ -9,7 +9,7 @@ return function* genXYZ () {
 yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "qf{MD}-f+l?U+)KA#Vnm", null);
 b1.value = "";
 thread.procedures["Zdo something"]();
-if (!(b1.value.toLowerCase() === "".toLowerCase())) {
+if (!(b1.value === "")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "Sgf_#7|GOpx!R]?Q3]$s", null);
 }
 yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, ",vD-ZG7f{]FoJ`,))JWh", null);

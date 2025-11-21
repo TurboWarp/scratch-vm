@@ -26,7 +26,7 @@ retire(); return;
 const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 const b1 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ () {
-if ((("" + b0.value).toLowerCase() === "Initial".toLowerCase())) {
+if (((("" + b0.value).toLowerCase()) === "initial")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b1, false, false, "eR%8T)3MQjkbQkAh~L0%", null);
 }
 retire(); return;

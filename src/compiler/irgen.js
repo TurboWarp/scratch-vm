@@ -151,25 +151,17 @@ class ScriptTreeGenerator {
         if (constant === null) throw new Error('IR: Constant cannot have a null value.');
 
         constant += '';
-        const numConstant = +constant;
         const preserve = preserveStrings && this.namesOfCostumesAndSounds.has(constant);
 
-        if (!Number.isNaN(numConstant) && (constant.trim() !== '' || constant.includes('\t'))) {
-            if (!preserve && numConstant.toString() === constant) {
-                return new IntermediateInput(InputOpcode.CONSTANT, IntermediateInput.getNumberInputType(numConstant), {value: numConstant});
-            }
-            return new IntermediateInput(InputOpcode.CONSTANT, InputType.STRING_NUM, {value: constant});
+        const constantType = IntermediateInput.getInputType(constant, preserve);
+
+        if ((constantType & InputType.NUMBER_OR_NAN) === constantType) {
+            // If the constant can always be safely treated as number, we turn it into a number here
+            return new IntermediateInput(InputOpcode.CONSTANT, constantType, {value: +constant});
         }
 
-        if (!preserve) {
-            if (constant === 'true') {
-                return new IntermediateInput(InputOpcode.CONSTANT, InputType.STRING_BOOLEAN, {value: constant});
-            } else if (constant === 'false') {
-                return new IntermediateInput(InputOpcode.CONSTANT, InputType.STRING_BOOLEAN, {value: constant});
-            }
-        }
-
-        return new IntermediateInput(InputOpcode.CONSTANT, InputType.STRING_NAN, {value: constant});
+        // Otherwise, return it as a string
+        return new IntermediateInput(InputOpcode.CONSTANT, constantType, {value: constant});
     }
 
     /**

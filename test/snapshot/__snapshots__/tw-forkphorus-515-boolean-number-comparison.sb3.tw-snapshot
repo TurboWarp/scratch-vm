@@ -6,16 +6,16 @@
 const b0 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ () {
 yield* executeInCompatibilityLayer({"MESSAGE":"plan 4",}, b0, false, false, "i", null);
-if (compareGreaterThan(("something".toLowerCase() === "something".toLowerCase()), ("0" + ""))) {
+if (compareGreaterThan(("something" === "something"), ("0" + ""))) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "k", null);
 }
-if (compareLessThan(("something".toLowerCase() === "else".toLowerCase()), ("1" + ""))) {
+if (compareLessThan(("something" === "else"), ("1" + ""))) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "m", null);
 }
-if (((+("something".toLowerCase() === "something".toLowerCase())) > (0 + 0))) {
+if (((+("something" === "something")) > (0 + 0))) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "n", null);
 }
-if (((+("something".toLowerCase() === "else".toLowerCase())) < (1 + 0))) {
+if (((+("something" === "else")) < (1 + 0))) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "o", null);
 }
 yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "l", null);

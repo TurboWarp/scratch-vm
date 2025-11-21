@@ -30,7 +30,7 @@ listDelete(b1, "any");
 if ((b1.value.length === 2)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "C", null);
 }
-if ((("" + listGet(b1.value, "*")).toLowerCase() === "".toLowerCase())) {
+if (((("" + listGet(b1.value, "*")).toLowerCase()) === "")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "F", null);
 }
 yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "E", null);

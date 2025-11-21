@@ -8,7 +8,7 @@ const b1 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 return function* genXYZ () {
 yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "g", null);
 yield* thread.procedures["Wtest %s"]("random");
-if ((("" + b1.value).toLowerCase() === "random".toLowerCase())) {
+if (((("" + b1.value).toLowerCase()) === "random")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "p", null);
 }
 yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "n", null);
@@ -21,7 +21,7 @@ const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 const b1 = stage.variables["t)]?yi[*8XU73qhMqOa8"];
 return function* genXYZ_test_ (p0) {
 b0.value = p0;
-while (!(("" + listGet(b1.value, b0.value)).toLowerCase() === "something".toLowerCase())) {
+while (!((("" + listGet(b1.value, b0.value)).toLowerCase()) === "something")) {
 b0.value = ((+b0.value || 0) + 1);
 if (isStuck()) yield;
 }

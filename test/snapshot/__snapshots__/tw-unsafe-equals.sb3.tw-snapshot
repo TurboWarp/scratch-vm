@@ -69,16 +69,16 @@ yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "XzQt!
 if ((0 === 1)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "rxZqw7cv8g;PDM4B%{`?", null);
 }
-if ((" ".toLowerCase() === "0".toLowerCase())) {
+if ((" " === "0")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "3G|)eVw1mQm;O~cRy`}0", null);
 }
-if (("0".toLowerCase() === " ".toLowerCase())) {
+if (("0" === " ")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "sd5xXX*tsW/~A_Q!0;^w", null);
 }
-if (("".toLowerCase() === "0".toLowerCase())) {
+if (("" === "0")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "7**baE=].WD9OoY1+IEu", null);
 }
-if (("0".toLowerCase() === "".toLowerCase())) {
+if (("0" === "")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "7!IB!=o/2H.Jqj-8Vwhz", null);
 }
 yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "df{tf!WhfRwXgQ?SN_dj", null);

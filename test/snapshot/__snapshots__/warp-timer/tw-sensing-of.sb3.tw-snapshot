@@ -15,13 +15,13 @@ yield* executeInCompatibilityLayer({"MESSAGE":"plan 32",}, b0, false, false, "oX
 if (((stage.currentCostume + 1) === 2)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass backdrop #",}, b0, false, false, "T9..K[5LEO1f~{%eoPU;", null);
 }
-if ((stage.getCostumes()[stage.currentCostume].name.toLowerCase() === "Backdrop name test".toLowerCase())) {
+if (((stage.getCostumes()[stage.currentCostume].name.toLowerCase()) === "backdrop name test")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass backdrop name",}, b0, false, false, "q63|^NKAu?OMK%W-s}+~", null);
 }
 if (((stage ? stage.volume : 0) === 45)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass stage volume",}, b0, false, false, "9Coi(uM:DG!WPZ($,SnY", null);
 }
-if ((("" + (b1 ? b1.value : 0)).toLowerCase() === "Variable in stage".toLowerCase())) {
+if (((("" + (b1 ? b1.value : 0)).toLowerCase()) === "variable in stage")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass stage variable",}, b0, false, false, "D_EA]xN%|[NsTKqc4up9", null);
 }
 if (((b2 ? b2.x : 0) === 19)) {
@@ -36,7 +36,7 @@ yield* executeInCompatibilityLayer({"MESSAGE":"pass direction",}, b0, false, fal
 if (((b2 ? b2.currentCostume + 1 : 0) === 3)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass costume #",}, b0, false, false, "+zO[+f?c7F`ZGTbD.oqI", null);
 }
-if (((b2 ? b2.getCostumes()[b2.currentCostume].name : 0).toLowerCase() === "Costume name test".toLowerCase())) {
+if ((((b2 ? b2.getCostumes()[b2.currentCostume].name : 0).toLowerCase()) === "costume name test")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass costume name",}, b0, false, false, "Y6L|T0Pvwsct2gq+HGvv", null);
 }
 if (((b2 ? b2.size : 0) === 76.01)) {
@@ -45,7 +45,7 @@ yield* executeInCompatibilityLayer({"MESSAGE":"pass size",}, b0, false, false, "
 if (((b2 ? b2.volume : 0) === 14.3)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass volume",}, b0, false, false, "JBHJ,)N)@]~;;yFTY`RG", null);
 }
-if ((("" + (b3 ? b3.value : 0)).toLowerCase() === "Private variable value".toLowerCase())) {
+if (((("" + (b3 ? b3.value : 0)).toLowerCase()) === "private variable value")) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass private variable",}, b0, false, false, "#jYbx])r8^`95~ZgPtZD", null);
 }
 if (compareEqual((b4 ? b4.value : 0), 0)) {
