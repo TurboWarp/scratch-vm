@@ -501,7 +501,10 @@ runtimeFunctions.listDelete = `const listDelete = (list, idx) => {
  * @returns {boolean} True if the list contains the item
  */
 runtimeFunctions.listContains = `const listContains = (list, item) => {
-    /* using indexOf then checking using compareEqual is terrible for performance. indexOf isn't reliable anyways */
+    if (list.value.indexOf(item) !== -1) {
+        return true;
+    }
+    /* i stand corrected */
     for (let i = 0; i < list.value.length; i++) {
         if (compareEqual(list.value[i], item)) {
             return true;
