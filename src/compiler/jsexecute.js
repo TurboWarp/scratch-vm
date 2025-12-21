@@ -338,7 +338,7 @@ runtimeFunctions.compareLessThan = `const compareLessThanSlow = (v1, v2) => {
     }
     return n1 < n2;
 };
-const compareLessThan = (v1, v2) => typeof v1 === 'number' && typeof v2 === 'number' && !Number.isNaN(v2) ? v1 < v2 : compareLessThanSlow(v1, v2)`;
+const compareLessThan = (v1, v2) => typeof v1 === 'number' && typeof v2 === 'number' && !Number.isNaN(v2) ? v1 < v2 : compareLessThanSlow(v1, v2);`;
 
 /**
  * Generate a random integer.
@@ -411,26 +411,25 @@ runtimeFunctions.distance = `const distance = menu => {
  * @returns {number} 0 based list index, or -1 if invalid.
  */
 baseRuntime += `const listIndexSlow = (index, length) => {
-    if (index === 'last') {
-        return length - 1;
-    } else if (index === 'random' || index === 'any') {
-        if (length > 0) {
-            return (Math.random() * length) | 0;
-        }
-        return -1;
-    }
-    index = (+index || 0) | 0;
-    if (index < 1 || index > length) {
-        return -1;
-    }
-    return index - 1;
+    switch(index) {
+        case 'last':
+            return length - 1;
+        case 'any':
+        case 'random':
+            return (length > 0) ? ((Math.random() * length) | 0) : -1;
+        default:
+            index = (+index || 0) | 0;
+            return (index < 1 || index > length) ? -1: index - 1;
+    }    
 };
+
 const listIndex = (index, length) => {
-    if (typeof index !== 'number') {
-      return listIndexSlow(index, length);
+    /* expect best case since 'random', 'last', and 'any' are never usually used by people */
+    if (typeof index === 'number') {
+        index = index | 0;
+        return index < 1 || index > length ? -1 : index - 1;
     }
-    index = index | 0;
-    return index < 1 || index > length ? -1 : index - 1;
+    return listIndexSlow(index, length);
 };`;
 
 /**
