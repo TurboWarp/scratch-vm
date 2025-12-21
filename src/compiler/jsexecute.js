@@ -424,7 +424,7 @@ baseRuntime += `const listIndexSlow = (index, length) => {
 };
 
 const listIndex = (index, length) => {
-    /* expect best case since 'random', 'last', and 'any' are never usually used by people */
+    /* expect a number instead since barely anyone uses a string */
     if (typeof index === 'number') {
         index = index | 0;
         return index < 1 || index > length ? -1 : index - 1;
@@ -501,10 +501,7 @@ runtimeFunctions.listDelete = `const listDelete = (list, idx) => {
  * @returns {boolean} True if the list contains the item
  */
 runtimeFunctions.listContains = `const listContains = (list, item) => {
-    // TODO: evaluate whether indexOf is worthwhile here
-    if (list.value.indexOf(item) !== -1) {
-        return true;
-    }
+    /* using indexOf then checking using compareEqual is terrible for performance. indexOf isn't reliable anyways */
     for (let i = 0; i < list.value.length; i++) {
         if (compareEqual(list.value[i], item)) {
             return true;
