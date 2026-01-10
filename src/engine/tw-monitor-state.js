@@ -37,7 +37,7 @@ class MonitorState {
     /**
      * Create or update.
      * @param {string} id
-     * @param {MonitorRecord.Delta} delta
+     * @param {MonitorRecord.JSDelta} delta
      */
     set (id, delta) {
         if (this.map.has(id)) {

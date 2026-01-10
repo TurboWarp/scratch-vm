@@ -50,6 +50,7 @@ const defaultBlockPackages = {
 
 const interpolate = require('./tw-interpolate');
 const FrameLoop = require('./tw-frame-loop');
+const MonitorRecord = require('./monitor-record.js');
 
 const defaultExtensionColors = ['#0FBD8C', '#0DA57A', '#0B8E69'];
 
@@ -3097,15 +3098,16 @@ class Runtime extends EventEmitter {
 
     /**
      * Update a monitor in the state and report success/failure of update.
-     * @param {import('./monitor-record.js').PartialRecord} monitor Monitor values to update. Values on the monitor will
+     * @param {import('./monitor-record.js').ExternalDelta} delta Monitor values to update. Values on the monitor will
      *     overwrite values on the old monitor with the same ID. If a value isn't defined on the new monitor,
      *     the old monitor will keep its old value.
      * @return {boolean} true if monitor exists in the state and was updated, false if it did not exist.
      */
-    requestUpdateMonitor (monitor) {
-        const id = monitor.id;
+    requestUpdateMonitor (delta) {
+        delta = MonitorRecord.externalDeltaToJS(delta);
+        const id = delta.id;
         if (this._monitorState.has(id)) {
-            this._monitorState.set(id, monitor);
+            this._monitorState.set(id, delta);
             return true;
         }
         return false;

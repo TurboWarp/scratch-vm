@@ -24,19 +24,7 @@ const equal = (a, b) => {
 const defined = obj => typeof obj !== 'undefined' && obj !== null;
 
 /**
- * For compatibility, converts an immutable.js delta to a plain JS delta.
- * @param {Delta} obj
- * @returns {JSDelta}
- */
-const toJSDelta = obj => {
-    if (typeof obj?.toJS === 'function') {
-        return obj.toJS();
-    }
-    return obj;
-};
-
-/**
- * @typedef JSDelta Delta object using regular properties.
+ * @typedef JSDelta Delta object using regular JS object.
  * @property {string|null} [id]
  * @property {string|null} [spriteName]
  * @property {string|null} [targetId]
@@ -56,11 +44,11 @@ const toJSDelta = obj => {
 
 /**
  * @typedef ImmutableJSDelta Delta object that is an immutable.js Map/OrderedMap.
- * @property {() => Delta} toJS
+ * @property {() => JSDelta} toJS
  */
 
 /**
- * @typedef {JSDelta|ImmutableJSDelta} Delta
+ * @typedef {JSDelta|ImmutableJSDelta} ExternalDelta Delta object that might be JS or immutable.js.
  */
 
 /**
@@ -68,11 +56,9 @@ const toJSDelta = obj => {
  */
 class MonitorRecord {
     /**
-     * @param {Delta} delta
+     * @param {JSDelta} delta
      */
     constructor (delta) {
-        delta = toJSDelta(delta);
-
         /**
          * Block ID
          */
@@ -131,11 +117,10 @@ class MonitorRecord {
     }
 
     /**
-     * @param {Delta} delta
+     * @param {JSDelta} delta
      * @returns {boolean} true if modified
      */
     merge (delta) {
-        delta = toJSDelta(delta);
         let didChange = false;
 
         if (defined(delta.id) && !equal(this.id, delta.id)) {
@@ -216,5 +201,17 @@ class MonitorRecord {
         return didChange;
     }
 }
+
+/**
+ * For compatibility, converts an immutable.js delta received from consumer to a plain JS delta for internal use.
+ * @param {ExternalDelta} obj
+ * @returns {JSDelta}
+ */
+MonitorRecord.externalDeltaToJS = obj => {
+    if (typeof obj.toJS === 'function') {
+        return obj.toJS();
+    }
+    return obj;
+};
 
 module.exports = MonitorRecord;
