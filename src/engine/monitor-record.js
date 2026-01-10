@@ -21,10 +21,22 @@ const equal = (a, b) => {
  * @param {unknown} obj
  * @returns {boolean}
  */
-const shouldMerge = obj => typeof obj !== 'undefined' && obj !== null;
+const defined = obj => typeof obj !== 'undefined' && obj !== null;
 
 /**
- * @typedef PartialRecord
+ * For compatibility, converts an immutable.js delta to a plain JS delta.
+ * @param {Delta} obj
+ * @returns {JSDelta}
+ */
+const toJSDelta = obj => {
+    if (typeof obj?.toJS === 'function') {
+        return obj.toJS();
+    }
+    return obj;
+};
+
+/**
+ * @typedef JSDelta Delta object using regular properties.
  * @property {string|null} [id]
  * @property {string|null} [spriteName]
  * @property {string|null} [targetId]
@@ -43,46 +55,58 @@ const shouldMerge = obj => typeof obj !== 'undefined' && obj !== null;
  */
 
 /**
- * @implements {PartialRecord}
+ * @typedef ImmutableJSDelta Delta object that is an immutable.js Map/OrderedMap.
+ * @property {() => Delta} toJS
+ */
+
+/**
+ * @typedef {JSDelta|ImmutableJSDelta} Delta
+ */
+
+/**
+ * @implements {JSDelta}
  */
 class MonitorRecord {
     /**
-     * @param {PartialRecord} partial
+     * @param {Delta} delta
      */
-    constructor (partial) {
+    constructor (delta) {
+        delta = toJSDelta(delta);
+
         /**
          * Block ID
          */
-        this.id = partial.id ?? null;
+        this.id = delta.id ?? null;
         /**
          * Present only if the monitor is sprite-specific, such as x position
          */
-        this.spriteName = partial.spriteName ?? null;
+        this.spriteName = delta.spriteName ?? null;
         /**
          * Present only if the monitor is sprite-specific, such as x position
          */
-        this.targetId = partial.targetId ?? null;
-        this.opcode = partial.opcode ?? null;
-        this.value = partial.value ?? null;
-        this.params = partial.params ?? null;
-        this.mode = partial.mode ?? 'default';
-        this.sliderMin = partial.sliderMin ?? 0;
-        this.sliderMax = partial.sliderMax ?? 100;
-        this.isDiscrete = partial.isDiscrete ?? true;
+        this.targetId = delta.targetId ?? null;
+        this.opcode = delta.opcode ?? null;
+        this.value = delta.value ?? null;
+        this.params = delta.params ?? null;
+        this.mode = delta.mode ?? 'default';
+        this.sliderMin = delta.sliderMin ?? 0;
+        this.sliderMax = delta.sliderMax ?? 100;
+        this.isDiscrete = delta.isDiscrete ?? true;
         /**
          * (x: null, y: null) Indicates that the monitor should be auto-positioned
          */
-        this.x = partial.x ?? null;
+        this.x = delta.x ?? null;
         /**
          * (x: null, y: null) Indicates that the monitor should be auto-positioned
          */
-        this.y = partial.y ?? null;
-        this.width = partial.width ?? 0;
-        this.height = partial.height ?? 0;
-        this.visible = partial.visible ?? true;
+        this.y = delta.y ?? null;
+        this.width = delta.width ?? 0;
+        this.height = delta.height ?? 0;
+        this.visible = delta.visible ?? true;
     }
 
     /**
+     * Exists for compatibility with code expecting an immutable.js Map
      * @param {string} property
      */
     get (property) {
@@ -107,79 +131,89 @@ class MonitorRecord {
     }
 
     /**
-     * @param {MonitorRecord} otherRecord A different MonitorRecord
-     * @returns {boolean}
+     * @param {Delta} delta
+     * @returns {boolean} true if modified
      */
-    equals (otherRecord) {
-        return (
-            equal(this.id, otherRecord.id) &&
-            equal(this.spriteName, otherRecord.spriteName) &&
-            equal(this.targetId, otherRecord.targetId) &&
-            equal(this.opcode, otherRecord.opcode) &&
-            equal(this.value, otherRecord.value) &&
-            equal(this.params, otherRecord.params) &&
-            equal(this.mode, otherRecord.mode) &&
-            equal(this.sliderMin, otherRecord.sliderMin) &&
-            equal(this.sliderMax, otherRecord.sliderMax) &&
-            equal(this.isDiscrete, otherRecord.isDiscrete) &&
-            equal(this.x, otherRecord.x) &&
-            equal(this.y, otherRecord.y) &&
-            equal(this.width, otherRecord.width) &&
-            equal(this.height, otherRecord.height) &&
-            equal(this.visible, otherRecord.visible)
-        );
-    }
+    merge (delta) {
+        delta = toJSDelta(delta);
+        let didChange = false;
 
-    /**
-     * @param {PartialRecord} partial
-     * @returns {MonitorRecord}
-     */
-    merge (partial) {
-        if (shouldMerge(partial.id)) {
-            this.id = partial.id;
+        if (defined(delta.id) && !equal(this.id, delta.id)) {
+            this.id = delta.id;
+            didChange = true;
         }
-        if (shouldMerge(partial.spriteName)) {
-            this.spriteName = partial.spriteName;
+
+        if (defined(delta.spriteName) && !equal(this.spriteName, delta.spriteName)) {
+            this.spriteName = delta.spriteName;
+            didChange = true;
         }
-        if (shouldMerge(partial.targetId)) {
-            this.targetId = partial.targetId;
+
+        if (defined(delta.targetId) && !equal(this.targetId, delta.targetId)) {
+            this.targetId = delta.targetId;
+            didChange = true;
         }
-        if (shouldMerge(partial.opcode)) {
-            this.opcode = partial.opcode;
+
+        if (defined(delta.opcode) && !equal(this.opcode, delta.opcode)) {
+            this.opcode = delta.opcode;
+            didChange = true;
         }
-        if (shouldMerge(partial.value)) {
-            this.value = partial.value;
+
+        if (defined(delta.value) && !equal(this.value, delta.value)) {
+            this.value = delta.value;
+            didChange = true;
         }
-        if (shouldMerge(partial.params)) {
-            this.params = partial.params;
+
+        if (defined(delta.params) && !equal(this.params, delta.params)) {
+            this.params = delta.params;
+            didChange = true;
         }
-        if (shouldMerge(partial.mode)) {
-            this.mode = partial.mode;
+
+        if (defined(delta.mode) && !equal(this.mode, delta.mode)) {
+            this.mode = delta.mode;
+            didChange = true;
         }
-        if (shouldMerge(partial.sliderMin)) {
-            this.sliderMin = partial.sliderMin;
+
+        if (defined(delta.sliderMin) && !equal(this.sliderMin, delta.sliderMin)) {
+            this.sliderMin = delta.sliderMin;
+            didChange = true;
         }
-        if (shouldMerge(partial.sliderMax)) {
-            this.sliderMax = partial.sliderMax;
+
+        if (defined(delta.sliderMax) && !equal(this.sliderMax, delta.sliderMax)) {
+            this.sliderMax = delta.sliderMax;
+            didChange = true;
         }
-        if (shouldMerge(partial.isDiscrete)) {
-            this.isDiscrete = partial.isDiscrete;
+
+        if (defined(delta.isDiscrete) && !equal(this.isDiscrete, delta.isDiscrete)) {
+            this.isDiscrete = delta.isDiscrete;
+            didChange = true;
         }
-        if (shouldMerge(partial.x)) {
-            this.x = partial.x;
+
+        if (defined(delta.x) && !equal(this.x, delta.x)) {
+            this.x = delta.x;
+            didChange = true;
         }
-        if (shouldMerge(partial.y)) {
-            this.y = partial.y;
+
+        if (defined(delta.y) && !equal(this.y, delta.y)) {
+            this.y = delta.y;
+            didChange = true;
         }
-        if (shouldMerge(partial.width)) {
-            this.width = partial.width;
+
+        if (defined(delta.width) && !equal(this.width, delta.width)) {
+            this.width = delta.width;
+            didChange = true;
         }
-        if (shouldMerge(partial.height)) {
-            this.height = partial.height;
+
+        if (defined(delta.height) && !equal(this.height, delta.height)) {
+            this.height = delta.height;
+            didChange = true;
         }
-        if (shouldMerge(partial.visible)) {
-            this.visible = partial.visible;
+
+        if (defined(delta.visible) && !equal(this.visible, delta.visible)) {
+            this.visible = delta.visible;
+            didChange = true;
         }
+
+        return didChange;
     }
 }
 

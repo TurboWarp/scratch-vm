@@ -9,7 +9,7 @@ class MonitorState {
         /**
          * @type {Map<string, MonitorRecord>}
          */
-        this._map = new Map();
+        this.map = new Map();
 
         /**
          * True if modified.
@@ -23,7 +23,7 @@ class MonitorState {
      * @returns {MonitorRecord|null}
      */
     get (id) {
-        return this._map.get(id);
+        return this.map.get(id);
     }
 
     /**
@@ -31,25 +31,22 @@ class MonitorState {
      * @returns {boolean}
      */
     has (id) {
-        return this._map.has(id);
+        return this.map.has(id);
     }
 
     /**
      * Create or update.
      * @param {string} id
-     * @param {MonitorRecord.PartialRecord} partial
+     * @param {MonitorRecord.Delta} delta
      */
-    set (id, partial) {
-        if (this._map.has(id)) {
-            const oldRecord = this._map.get(id);
-            const newRecord = new MonitorRecord(this._map.get(id));
-            newRecord.merge(partial);
-            if (!newRecord.equals(oldRecord)) {
-                this._map.set(id, newRecord);
+    set (id, delta) {
+        if (this.map.has(id)) {
+            const oldRecord = this.map.get(id);
+            if (oldRecord.merge(delta)) {
                 this.dirty = true;
             }
         } else {
-            this._map.set(id, partial instanceof MonitorRecord ? partial : new MonitorRecord(partial));
+            this.map.set(id, delta instanceof MonitorRecord ? delta : new MonitorRecord(delta));
             this.dirty = true;
         }
     }
@@ -58,8 +55,8 @@ class MonitorState {
      * @param {string} id
      */
     delete (id) {
-        if (this._map.has(id)) {
-            this._map.delete(id);
+        if (this.map.has(id)) {
+            this.map.delete(id);
             this.dirty = true;
         }
     }
@@ -68,10 +65,10 @@ class MonitorState {
      * @param {(record: MonitorRecord) => boolean} callback Returns true to keep.
      */
     filter (callback) {
-        for (const id of Array.from(this._map.keys())) {
-            const record = this._map.get(id);
+        for (const id of Array.from(this.map.keys())) {
+            const record = this.map.get(id);
             if (!callback(record)) {
-                this._map.delete(id);
+                this.map.delete(id);
                 this.dirty = true;
             }
         }
@@ -81,45 +78,39 @@ class MonitorState {
      * @returns {boolean} true if no monitors
      */
     empty () {
-        return this._map.size === 0;
+        return this.map.size === 0;
     }
 
     /**
      * @returns {number}
      */
     get size () {
-        return this._map.size;
+        return this.map.size;
     }
 
     /**
-     * @returns {Iterable<MonitorRecord>}
+     * @returns {MonitorRecord[]}
      */
     values () {
-        return this._map.values();
+        return Array.from(this.map.values());
     }
 
     /**
-     * @param {MonitorState} otherMonitorState Another MonitorState
-     * @returns {boolean}
+     * For compatibility with immutable.js.
+     * @returns {MonitorRecord[]}
      */
-    equals (otherMonitorState) {
-        if (this._map.size !== otherMonitorState._map.size) {
-            return false;
-        }
+    valueSeq () {
+        return this.values();
+    }
 
-        for (const id of this._map.keys()) {
-            const otherRecord = otherMonitorState._map.get(id);
-            if (!otherRecord) {
-                return false;
-            }
-
-            const myRecord = this._map.get(id);
-            if (!myRecord.equals(otherRecord)) {
-                return false;
-            }
-        }
-
-        return true;
+    /**
+     * You should not perform write operations on the clone.
+     * @returns {MonitorState}
+     */
+    shallowClone () {
+        const result = new MonitorState();
+        result.map = this.map;
+        return result;
     }
 }
 

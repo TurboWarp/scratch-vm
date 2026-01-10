@@ -2281,7 +2281,7 @@ class Runtime extends EventEmitter {
         // tw: explicitly emit a MONITORS_UPDATE instead of relying on implicit behavior of _step()
         if (!this._monitorState.empty()) {
             this._monitorState = new MonitorState();
-            this.emit(Runtime.MONITORS_UPDATE, this._monitorState);
+            this.emit(Runtime.MONITORS_UPDATE, this._monitorState.shallowClone());
         }
         this.emit(Runtime.RUNTIME_DISPOSED);
         this.ioDevices.clock.resetProjectTimer();
@@ -2572,7 +2572,7 @@ class Runtime extends EventEmitter {
         }
 
         if (this._monitorState.dirty) {
-            this.emit(Runtime.MONITORS_UPDATE, this._monitorState);
+            this.emit(Runtime.MONITORS_UPDATE, this._monitorState.shallowClone());
             this._monitorState.dirty = false;
         }
 
@@ -2699,14 +2699,14 @@ class Runtime extends EventEmitter {
             if (this._monitorState.size > 0) {
                 const offsetX = deltaX / 2;
                 const offsetY = deltaY / 2;
-                for (const monitor of this._monitorState.values()) {
+                for (const monitor of this._monitorState.valueSeq()) {
                     this.requestUpdateMonitor({
                         id: monitor.id,
                         x: monitor.get('x') + offsetX,
                         y: monitor.get('y') + offsetY
                     });
                 }
-                this.emit(Runtime.MONITORS_UPDATE, this._monitorState);
+                this.emit(Runtime.MONITORS_UPDATE, this._monitorState.shallowClone());
             }
 
             this.stageWidth = width;

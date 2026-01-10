@@ -62,17 +62,18 @@ test('monitorStateDoesNotEqual', t => {
     r.requestAddMonitor(prevMonitorState);
     r.requestUpdateMonitor(newMonitorDelta);
 
-    t.equals(false, prevMonitorState.equals(r._monitorState.get(id)));
+    t.equals(true, r._monitorState.dirty);
     t.equals(String(24), r._monitorState.get(id).get('value'));
 
     // Prop change
+    r._monitorState.dirty = false;
     newMonitorDelta = {
         id: 'xklj4#!',
         params: params
     };
     r.requestUpdateMonitor(newMonitorDelta);
 
-    t.equals(false, prevMonitorState.equals(r._monitorState.get(id)));
+    t.equals(true, r._monitorState.dirty);
     t.equals(String(24), r._monitorState.get(id).value);
     t.equals(params, r._monitorState.get(id).params);
 

@@ -664,8 +664,7 @@ const serializeMonitors = function (monitors, runtime, extensions) {
     // Monitors position is always stored as position from top-left corner in 480x360 stage.
     const xOffset = (runtime.stageWidth - 480) / 2;
     const yOffset = (runtime.stageHeight - 360) / 2;
-    return monitors
-        .values()
+    return monitors.valueSeq()
         // Don't include hidden monitors from extensions
         // https://github.com/LLK/scratch-vm/issues/2331
         .filter(monitorData => {
@@ -700,10 +699,7 @@ const serializeMonitors = function (monitors, runtime, extensions) {
                 serializedMonitor.isDiscrete = monitorData.isDiscrete;
             }
             return serializedMonitor;
-        })
-        // By default the sequence is lazily evaluated, but we want it to be evaluated right
-        // now to update the used extension list.
-        .toArray();
+        });
 };
 
 /**
