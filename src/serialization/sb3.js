@@ -664,7 +664,8 @@ const serializeMonitors = function (monitors, runtime, extensions) {
     // Monitors position is always stored as position from top-left corner in 480x360 stage.
     const xOffset = (runtime.stageWidth - 480) / 2;
     const yOffset = (runtime.stageHeight - 360) / 2;
-    return monitors.valueSeq()
+    return monitors
+        .values()
         // Don't include hidden monitors from extensions
         // https://github.com/LLK/scratch-vm/issues/2331
         .filter(monitorData => {
@@ -1440,7 +1441,7 @@ const deserializeMonitor = function (monitorData, runtime, targets, extensions) 
         }
     }
 
-    runtime.requestAddMonitor(MonitorRecord(monitorData));
+    runtime.requestAddMonitor(new MonitorRecord(monitorData));
 };
 
 // Replace variable IDs throughout the project with

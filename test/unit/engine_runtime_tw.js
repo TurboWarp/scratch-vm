@@ -1,6 +1,6 @@
 const tap = require('tap');
 const Runtime = require('../../src/engine/runtime');
-const {Map} = require('immutable');
+const MonitorRecord = require('../../src/engine/monitor-record');
 const makeTestStorage = require('../fixtures/make-test-storage');
 
 const test = tap.test;
@@ -157,12 +157,12 @@ test('debug', t => {
 
 test('setStageSize preserves monitor position relative to center of stage', t => {
     const rt = new Runtime();
-    rt.requestAddMonitor(new Map([
-        ['id', 'abc'],
+    rt.requestAddMonitor(new MonitorRecord({
+        id: 'abc',
         // top right corner
-        ['x', 0],
-        ['y', 0]
-    ]));
+        x: 0,
+        y: 0
+    }));
     rt.setStageSize(640, 362);
     const finalState = rt.getMonitorState().get('abc');
     t.equal(finalState.get('x'), 80);

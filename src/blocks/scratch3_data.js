@@ -99,7 +99,7 @@ class Scratch3DataBlocks {
             // Return original list value if up-to-date, which doesn't trigger monitor update.
             if (list._monitorUpToDate) return list.value;
             // If value changed, reset the flag and return a copy to trigger monitor update.
-            // Because monitors use Immutable data structures, only new objects trigger updates.
+            // MonitorState only detects updates when the object changes.
             list._monitorUpToDate = true;
             return list.value.slice();
         }
