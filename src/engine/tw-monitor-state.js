@@ -62,6 +62,7 @@ class MonitorState {
     }
 
     /**
+     * Removes monitors that do not satisfy callback.
      * @param {(record: MonitorRecord) => boolean} callback Returns true to keep.
      */
     filter (callback) {
