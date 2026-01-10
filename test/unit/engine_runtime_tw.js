@@ -2,6 +2,7 @@ const tap = require('tap');
 const Runtime = require('../../src/engine/runtime');
 const MonitorRecord = require('../../src/engine/monitor-record');
 const makeTestStorage = require('../fixtures/make-test-storage');
+const Target = require('../../src/engine/target');
 
 const test = tap.test;
 
@@ -251,5 +252,23 @@ test('convertToPackagedRuntime and attachStorage call order', t => {
     const rt2 = new Runtime();
     rt2.convertToPackagedRuntime();
     rt2.attachStorage(makeTestStorage());
+    t.end();
+});
+
+test('visual report -0', t => {
+    t.plan(1);
+
+    const rt = new Runtime();
+    const target = new Target();
+    rt.setEditingTarget(target);
+
+    rt.on(Runtime.VISUAL_REPORT, report => {
+        t.same(report, {
+            id: 'blockid',
+            value: '-0'
+        });
+    });
+    rt.visualReport(target, 'blockid', -0);
+
     t.end();
 });
