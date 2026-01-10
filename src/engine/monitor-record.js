@@ -1,23 +1,4 @@
 /**
- * Check equality in the following way:
- *  - NaN is considered equal to NaN
- *  - 0 is considered not equal to -0
- *  - Otherwise, uses ===
- * @param {unknown} a
- * @param {unknown} b
- * @returns {boolean} true if a is considered equal to b
- */
-const equal = (a, b) => {
-    if (a === b) {
-        if (a === 0) {
-            return Object.is(a, b);
-        }
-        return true;
-    }
-    return Number.isNaN(a) && Number.isNaN(b);
-};
-
-/**
  * @param {unknown} obj
  * @returns {boolean}
  */
@@ -123,77 +104,77 @@ class MonitorRecord {
     merge (delta) {
         let didChange = false;
 
-        if (defined(delta.id) && !equal(this.id, delta.id)) {
+        if (defined(delta.id) && !Object.is(this.id, delta.id)) {
             this.id = delta.id;
             didChange = true;
         }
 
-        if (defined(delta.spriteName) && !equal(this.spriteName, delta.spriteName)) {
+        if (defined(delta.spriteName) && !Object.is(this.spriteName, delta.spriteName)) {
             this.spriteName = delta.spriteName;
             didChange = true;
         }
 
-        if (defined(delta.targetId) && !equal(this.targetId, delta.targetId)) {
+        if (defined(delta.targetId) && !Object.is(this.targetId, delta.targetId)) {
             this.targetId = delta.targetId;
             didChange = true;
         }
 
-        if (defined(delta.opcode) && !equal(this.opcode, delta.opcode)) {
+        if (defined(delta.opcode) && !Object.is(this.opcode, delta.opcode)) {
             this.opcode = delta.opcode;
             didChange = true;
         }
 
-        if (defined(delta.value) && !equal(this.value, delta.value)) {
+        if (defined(delta.value) && !Object.is(this.value, delta.value)) {
             this.value = delta.value;
             didChange = true;
         }
 
-        if (defined(delta.params) && !equal(this.params, delta.params)) {
+        if (defined(delta.params) && !Object.is(this.params, delta.params)) {
             this.params = delta.params;
             didChange = true;
         }
 
-        if (defined(delta.mode) && !equal(this.mode, delta.mode)) {
+        if (defined(delta.mode) && !Object.is(this.mode, delta.mode)) {
             this.mode = delta.mode;
             didChange = true;
         }
 
-        if (defined(delta.sliderMin) && !equal(this.sliderMin, delta.sliderMin)) {
+        if (defined(delta.sliderMin) && !Object.is(this.sliderMin, delta.sliderMin)) {
             this.sliderMin = delta.sliderMin;
             didChange = true;
         }
 
-        if (defined(delta.sliderMax) && !equal(this.sliderMax, delta.sliderMax)) {
+        if (defined(delta.sliderMax) && !Object.is(this.sliderMax, delta.sliderMax)) {
             this.sliderMax = delta.sliderMax;
             didChange = true;
         }
 
-        if (defined(delta.isDiscrete) && !equal(this.isDiscrete, delta.isDiscrete)) {
+        if (defined(delta.isDiscrete) && !Object.is(this.isDiscrete, delta.isDiscrete)) {
             this.isDiscrete = delta.isDiscrete;
             didChange = true;
         }
 
-        if (defined(delta.x) && !equal(this.x, delta.x)) {
+        if (defined(delta.x) && !Object.is(this.x, delta.x)) {
             this.x = delta.x;
             didChange = true;
         }
 
-        if (defined(delta.y) && !equal(this.y, delta.y)) {
+        if (defined(delta.y) && !Object.is(this.y, delta.y)) {
             this.y = delta.y;
             didChange = true;
         }
 
-        if (defined(delta.width) && !equal(this.width, delta.width)) {
+        if (defined(delta.width) && !Object.is(this.width, delta.width)) {
             this.width = delta.width;
             didChange = true;
         }
 
-        if (defined(delta.height) && !equal(this.height, delta.height)) {
+        if (defined(delta.height) && !Object.is(this.height, delta.height)) {
             this.height = delta.height;
             didChange = true;
         }
 
-        if (defined(delta.visible) && !equal(this.visible, delta.visible)) {
+        if (defined(delta.visible) && !Object.is(this.visible, delta.visible)) {
             this.visible = delta.visible;
             didChange = true;
         }
