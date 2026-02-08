@@ -114,3 +114,17 @@ test('custom extensions', async t => {
     t.equal(vm.renderer.privateSkinAccess, false);
     t.end();
 });
+
+test('hasExternalCommunicationMethod', t => {
+    const vm = new VM();
+    t.equal(vm.runtime.privacyRestrictionsActive, false);
+    vm.runtime.setExternalCommunicationMethod('cloudVariables', true);
+    t.equal(vm.runtime.privacyRestrictionsActive, true);
+    vm.runtime.setExternalCommunicationMethod('customExtensions', true);
+    t.equal(vm.runtime.privacyRestrictionsActive, true);
+    vm.runtime.setExternalCommunicationMethod('cloudVariables', false);
+    t.equal(vm.runtime.privacyRestrictionsActive, true);
+    vm.runtime.setExternalCommunicationMethod('customExtensions', false);
+    t.equal(vm.runtime.privacyRestrictionsActive, false);
+    t.end();
+});

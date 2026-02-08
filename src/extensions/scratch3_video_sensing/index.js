@@ -531,6 +531,10 @@ class Scratch3VideoSensingBlocks {
      * @returns {number} the motion amount or direction of the stage or sprite
      */
     videoOn (args, util) {
+        if (this.runtime.privacyRestrictionsActive) {
+            return -1;
+        }
+
         this.detect.analyzeFrame();
 
         let state = this.detect;
@@ -554,6 +558,10 @@ class Scratch3VideoSensingBlocks {
      *   reference
      */
     whenMotionGreaterThan (args, util) {
+        if (this.runtime.privacyRestrictionsActive) {
+            return false;
+        }
+
         this.detect.analyzeFrame();
         const state = this._analyzeLocalMotion(util.target);
         return state.motionAmount > Number(args.REFERENCE);
