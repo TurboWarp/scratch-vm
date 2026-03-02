@@ -464,6 +464,13 @@ class Runtime extends EventEmitter {
             warpTimer: false
         };
 
+        this.serializationOptions = {
+            /**
+             * Allows variables to be saved with types other than strings, numbers, and booleans.
+             */
+            ignoreVariableSerialization: false
+        };
+
         this.debug = false;
 
         this._lastStepTime = Date.now();
