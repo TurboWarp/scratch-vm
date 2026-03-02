@@ -491,7 +491,7 @@ const isVariableValueSafeForJSON = value => (
     typeof value === 'string' ||
     typeof value === 'boolean'
 );
-const makeSafeForJSON = (value) => {
+const makeSafeForJSON = value => {
     if (Array.isArray(value)) {
         let copy = null;
         for (let i = 0; i < value.length; i++) {
@@ -581,15 +581,15 @@ const serializeComments = function (comments) {
  * for saving and loading this target.
  * @param {object} target The target to be serialized.
  * @param {Set} extensions A set of extensions to add extension IDs to
- * @param {boolean} opt_ignoreVarTypes If true, will ignore variable type serialization
+ * @param {boolean} optIgnoreVarTypes If true, will ignore variable type serialization
  * @return {object} A serialized representation of the given target.
  */
-const serializeTarget = function (target, extensions, opt_ignoreVarTypes) {
+const serializeTarget = function (target, extensions, optIgnoreVarTypes) {
     const obj = Object.create(null);
     let targetExtensions = [];
     obj.isStage = target.isStage;
     obj.name = obj.isStage ? 'Stage' : target.name;
-    const vars = opt_ignoreVarTypes ?
+    const vars = optIgnoreVarTypes ?
         target.variables :
         serializeVariables(target.variables);
     obj.variables = vars.variables;
@@ -740,15 +740,15 @@ const serialize = function (runtime, targetId, {allowOptimization = true} = {}) 
         extensions,
         serializationOptions.ignoreVariableSerialization
     ))
-    .map((serialized, index) => {
-        // can't serialize extensionStorage until the list of used extensions is fully known
-        const target = originalTargetsToSerialize[index];
-        const targetExtensionStorage = serializeExtensionStorage(target.extensionStorage, extensions);
-        if (targetExtensionStorage) {
-            serialized.extensionStorage = targetExtensionStorage;
-        }
-        return serialized;
-    });
+        .map((serialized, index) => {
+            // can't serialize extensionStorage until the list of used extensions is fully known
+            const target = originalTargetsToSerialize[index];
+            const targetExtensionStorage = serializeExtensionStorage(target.extensionStorage, extensions);
+            if (targetExtensionStorage) {
+                serialized.extensionStorage = targetExtensionStorage;
+            }
+            return serialized;
+        });
 
     const fonts = runtime.fontManager.serializeJSON();
 
