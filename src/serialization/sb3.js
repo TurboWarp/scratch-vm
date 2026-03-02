@@ -517,11 +517,12 @@ const makeSafeForJSON = value => {
 /**
  * Serialize the given variables object.
  * @param {object} variables The variables to be serialized.
+ * @param {boolean} optIgnoreVarTypes If true, will ignore variable type serialization
  * @return {object} A serialized representation of the variables. They get
  * separated by type to compress the representation of each given variable and
  * reduce duplicate information.
  */
-const serializeVariables = function (variables) {
+const serializeVariables = function (variables, optIgnoreVarTypes) {
     const obj = Object.create(null);
     // separate out variables into types at the top level so we don't have
     // keep track of a type for each
@@ -535,12 +536,18 @@ const serializeVariables = function (variables) {
             continue;
         }
         if (v.type === Variable.LIST_TYPE) {
-            obj.lists[varId] = [v.name, makeSafeForJSON(v.value)];
+            obj.lists[varId] = [
+                v.name,
+                optIgnoreVarTypes ? v.value : makeSafeForJSON(v.value)
+            ];
             continue;
         }
 
         // otherwise should be a scalar type
-        obj.variables[varId] = [v.name, makeSafeForJSON(v.value)];
+        obj.variables[varId] = [
+            v.name,
+            optIgnoreVarTypes ? v.value : makeSafeForJSON(v.value)
+        ];
         // only scalar vars have the potential to be cloud vars
         if (v.isCloud) obj.variables[varId].push(true);
     }
@@ -589,9 +596,7 @@ const serializeTarget = function (target, extensions, optIgnoreVarTypes) {
     let targetExtensions = [];
     obj.isStage = target.isStage;
     obj.name = obj.isStage ? 'Stage' : target.name;
-    const vars = optIgnoreVarTypes ?
-        target.variables :
-        serializeVariables(target.variables);
+    const vars = serializeVariables(target.variables, optIgnoreVarTypes);
     obj.variables = vars.variables;
     obj.lists = vars.lists;
     obj.broadcasts = vars.broadcasts;
