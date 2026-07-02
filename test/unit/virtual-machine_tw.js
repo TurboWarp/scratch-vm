@@ -91,3 +91,21 @@ test('convertToPackagedRuntime forwards to runtime', t => {
     vm.convertToPackagedRuntime();
     t.end();
 });
+
+test('deleteSprite does not skip half of the clones', t => {
+    const vm = new VirtualMachine();
+    const sprite = new Sprite(null, vm.runtime);
+    const original = sprite.createClone();
+    const clones = [original];
+    for (let i = 0; i < 4; i++) {
+        clones.push(original.makeClone());
+    }
+    vm.runtime.targets = clones.slice();
+
+    vm.deleteSprite(original.id);
+
+    t.equal(sprite.clones.length, 0, 'all clones removed from the sprite');
+    t.equal(vm.runtime.targets.length, 0, 'all clones removed from the runtime');
+
+    t.end();
+});
