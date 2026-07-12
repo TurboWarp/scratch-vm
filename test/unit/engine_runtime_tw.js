@@ -320,3 +320,64 @@ test('_pushMonitors queues threads once targets are installed', t => {
 
     t.end();
 });
+
+const makeCommandBlock = id => ({
+    id,
+    opcode: 'motion_movesteps',
+    fields: {},
+    inputs: {},
+    topLevel: true,
+    next: null,
+    parent: null,
+    shadow: false,
+    x: 0,
+    y: 0
+});
+
+test('toggleScript is scoped to its target when block IDs collide', t => {
+    const rt = new Runtime();
+    // Avoid compiling the fake single-block scripts.
+    rt.setCompilerOptions({enabled: false});
+
+    // Two sprites whose scripts share a top block ID. This happens when a block
+    // is copied between sprites without its ID being regenerated.
+    const spriteA = new Target(rt);
+    const spriteB = new Target(rt);
+    spriteA.blocks.createBlock(makeCommandBlock('dup'));
+    spriteB.blocks.createBlock(makeCommandBlock('dup'));
+
+    // Start the script on sprite A.
+    rt.toggleScript('dup', {target: spriteA, stackClick: true});
+    t.equal(rt.threads.length, 1, 'sprite A script started');
+    t.equal(rt.threads[0].target, spriteA);
+
+    // Clicking the same-ID script on sprite B must start B, not stop A.
+    rt.toggleScript('dup', {target: spriteB, stackClick: true});
+    t.equal(rt.threads.length, 2, 'sprite B script started as a second thread');
+    t.notOk(rt.threads[0].isKilled, 'sprite A thread was not stopped');
+    t.equal(rt.threads[1].target, spriteB);
+
+    // Toggling B again stops only B, leaving A running.
+    rt.toggleScript('dup', {target: spriteB, stackClick: true});
+    t.notOk(rt.threads[0].isKilled, 'sprite A thread still running');
+    t.ok(rt.threads[1].isKilled, 'sprite B thread stopped');
+
+    t.end();
+});
+
+test('toggleScript still toggles a running script off on the same target', t => {
+    const rt = new Runtime();
+    rt.setCompilerOptions({enabled: false});
+
+    const sprite = new Target(rt);
+    sprite.blocks.createBlock(makeCommandBlock('top'));
+
+    rt.toggleScript('top', {target: sprite, stackClick: true});
+    t.equal(rt.threads.length, 1, 'script started');
+    t.notOk(rt.threads[0].isKilled);
+
+    rt.toggleScript('top', {target: sprite, stackClick: true});
+    t.ok(rt.threads[0].isKilled, 'clicking again stopped the script');
+
+    t.end();
+});
