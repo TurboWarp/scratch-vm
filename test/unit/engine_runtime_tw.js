@@ -365,6 +365,29 @@ test('toggleScript is scoped to its target when block IDs collide', t => {
     t.end();
 });
 
+test('toggleScript scopes colliding block IDs using the editing target', t => {
+    const rt = new Runtime();
+    rt.setCompilerOptions({enabled: false});
+
+    const spriteA = new Target(rt);
+    const spriteB = new Target(rt);
+    spriteA.blocks.createBlock(makeCommandBlock('dup'));
+    spriteB.blocks.createBlock(makeCommandBlock('dup'));
+
+    rt.setEditingTarget(spriteA);
+    rt.toggleScript('dup', {stackClick: true});
+    t.equal(rt.threads.length, 1, 'sprite A script started');
+    t.equal(rt.threads[0].target, spriteA);
+
+    rt.setEditingTarget(spriteB);
+    rt.toggleScript('dup', {stackClick: true});
+    t.equal(rt.threads.length, 2, 'sprite B script started as a second thread');
+    t.notOk(rt.threads[0].isKilled, 'sprite A thread was not stopped');
+    t.equal(rt.threads[1].target, spriteB);
+
+    t.end();
+});
+
 test('toggleScript still toggles a running script off on the same target', t => {
     const rt = new Runtime();
     rt.setCompilerOptions({enabled: false});
