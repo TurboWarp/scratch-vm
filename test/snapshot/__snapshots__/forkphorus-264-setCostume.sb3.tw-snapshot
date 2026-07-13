@@ -1,0 +1,75 @@
+// TW Snapshot
+// Input SHA-256: 801a8e9ac5e607f022601f2eda4bddf37b29c30627f0e24864c7b0f9cf7b65f9
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["G3sNM{+Wa29PviNsXl~;"];
+return function* genXYZ () {
+b0.value = "4";
+runtime.ext_scratch3_looks._setCostume(target, b0.value);
+yield* thread.procedures["ZassertTrue %b %s"](((+target.getCostumes()[target.currentCostume].name || 0) === 4),"cn=4");
+yield* thread.procedures["ZassertTrue %b %s"](((target.currentCostume + 1) === 2),"c#=2");
+b0.value = 3;
+runtime.ext_scratch3_looks._setCostume(target, b0.value);
+yield* thread.procedures["ZassertTrue %b %s"]((target.getCostumes()[target.currentCostume].name.toLowerCase() === "costume3".toLowerCase()),"cn=costume3");
+yield* thread.procedures["ZassertTrue %b %s"](((target.currentCostume + 1) === 3),"c#=3");
+b0.value = ("" + "4");
+runtime.ext_scratch3_looks._setCostume(target, b0.value);
+yield* thread.procedures["ZassertTrue %b %s"](((+target.getCostumes()[target.currentCostume].name || 0) === 4),"cn=4");
+yield* thread.procedures["ZassertTrue %b %s"](((target.currentCostume + 1) === 2),"c#=2");
+b0.value = (4 * 1);
+runtime.ext_scratch3_looks._setCostume(target, b0.value);
+yield* thread.procedures["ZassertTrue %b %s"]((target.getCostumes()[target.currentCostume].name.toLowerCase() === "costume4".toLowerCase()),"cn=costume4");
+yield* thread.procedures["ZassertTrue %b %s"](((target.currentCostume + 1) === 4),"c#=4");
+b0.value = "4";
+runtime.ext_scratch3_looks._setBackdrop(stage, b0.value);
+yield* thread.procedures["ZassertTrue %b %s"](((+stage.getCostumes()[stage.currentCostume].name || 0) === 4),"bn=4");
+yield* thread.procedures["ZassertTrue %b %s"](((stage.currentCostume + 1) === 2),"b#=2");
+b0.value = 3;
+runtime.ext_scratch3_looks._setBackdrop(stage, b0.value);
+yield* thread.procedures["ZassertTrue %b %s"]((stage.getCostumes()[stage.currentCostume].name.toLowerCase() === "backdrop3".toLowerCase()),"cn=backdrop3");
+yield* thread.procedures["ZassertTrue %b %s"](((stage.currentCostume + 1) === 3),"c#=3");
+b0.value = ("" + "4");
+runtime.ext_scratch3_looks._setBackdrop(stage, b0.value);
+yield* thread.procedures["ZassertTrue %b %s"](((+stage.getCostumes()[stage.currentCostume].name || 0) === 4),"bn=4");
+yield* thread.procedures["ZassertTrue %b %s"](((stage.currentCostume + 1) === 2),"b#=2");
+b0.value = (4 * 1);
+runtime.ext_scratch3_looks._setBackdrop(stage, b0.value);
+yield* thread.procedures["ZassertTrue %b %s"]((stage.getCostumes()[stage.currentCostume].name.toLowerCase() === "backdrop4".toLowerCase()),"bn=backdrop4");
+yield* thread.procedures["ZassertTrue %b %s"](((stage.currentCostume + 1) === 4),"b#=4");
+yield* thread.procedures["ZOK %s"]("");
+retire(); return;
+}; })
+
+// Sprite1 ZassertTrue %b %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ_assertTrue__ (p0,p1) {
+if (!toBoolean(p0)) {
+yield* thread.procedures["ZFAIL %s"](p1);
+}
+return "";
+}; })
+
+// Sprite1 ZOK %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_OK_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "I", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("pass " + ("" + p0)),}, b0, false, false, "a", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "K", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })
+
+// Sprite1 ZFAIL %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_FAIL_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "M", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("fail " + ("" + p0)),}, b0, false, false, "b", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "O", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })

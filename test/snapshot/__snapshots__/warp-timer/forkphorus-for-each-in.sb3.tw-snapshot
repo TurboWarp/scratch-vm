@@ -1,0 +1,134 @@
+// TW Snapshot
+// Input SHA-256: 4a00d758e882b2fe0b57020459268c0db38afb7aee290e57f045a5dab2ece743
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["om$AKtHax/H0kJUzYbbi"];
+const b1 = stage.variables["7Oj/v$#js7a33uH`xGl;"];
+return function* genXYZ () {
+b0.value = "no change";
+b1.value = 0;
+var a0 = 0; while (a0 < 10) { a0++; b0.value = a0;
+b1.value = ((+b1.value || 0) + 1);
+yield;
+}
+yield* thread.procedures["ZassertTrue %b %s"](((+b0.value || 0) === 10),"i = 10 (each 10)");
+yield* thread.procedures["ZassertTrue %b %s"](((+b1.value || 0) === 10),"dummy = 10 (each 10)");
+b0.value = "no change";
+b1.value = 0;
+var a1 = 0; while (a1 < 1) { a1++; b0.value = a1;
+b1.value = ((+b1.value || 0) + 1);
+yield;
+}
+yield* thread.procedures["ZassertTrue %b %s"](((+b0.value || 0) === 1),"i = 1 (each 1)");
+yield* thread.procedures["ZassertTrue %b %s"](((+b1.value || 0) === 1),"dummy = 1 (each 1)");
+b0.value = "no change";
+b1.value = 0;
+var a2 = 0; while (a2 < 0) { a2++; b0.value = a2;
+b1.value = ((+b1.value || 0) + 1);
+yield;
+}
+yield* thread.procedures["ZassertTrue %b %s"]((("" + b0.value).toLowerCase() === "no change".toLowerCase()),"i = no change (each 0)");
+yield* thread.procedures["ZassertTrue %b %s"](compareEqual(b1.value, 0),"dummy = 0 (each 0)");
+b0.value = "no change";
+b1.value = 0;
+var a3 = 0; while (a3 < -5) { a3++; b0.value = a3;
+b1.value = ((+b1.value || 0) + 1);
+yield;
+}
+yield* thread.procedures["ZassertTrue %b %s"]((("" + b0.value).toLowerCase() === "no change".toLowerCase()),"i = no change (each -5)");
+yield* thread.procedures["ZassertTrue %b %s"](compareEqual(b1.value, 0),"dummy = 0 (each -5)");
+b0.value = "no change";
+b1.value = 0;
+var a4 = 0; while (a4 < 0) { a4++; b0.value = a4;
+b1.value = ((+b1.value || 0) + 1);
+yield;
+}
+yield* thread.procedures["ZassertTrue %b %s"]((("" + b0.value).toLowerCase() === "no change".toLowerCase()),"i = no change (each aaaaaa)");
+yield* thread.procedures["ZassertTrue %b %s"](compareEqual(b1.value, 0),"dummy = 0 (each aaaaaa)");
+b0.value = "no change";
+b1.value = 0;
+var a5 = 0; while (a5 < 5.9) { a5++; b0.value = a5;
+b1.value = ((+b1.value || 0) + 1);
+yield;
+}
+yield* thread.procedures["ZassertTrue %b %s"](((+b0.value || 0) === 6),"i = 6 (each 5.9)");
+yield* thread.procedures["ZassertTrue %b %s"](((+b1.value || 0) === 6),"dummy = 6 (each 5.9)");
+b0.value = "no change";
+b1.value = 0;
+var a6 = 0; while (a6 < 5.1) { a6++; b0.value = a6;
+b1.value = ((+b1.value || 0) + 1);
+yield;
+}
+yield* thread.procedures["ZassertTrue %b %s"](((+b0.value || 0) === 6),"i = 6 (each 5.1)");
+yield* thread.procedures["ZassertTrue %b %s"](((+b1.value || 0) === 6),"dummy = 6 (each 5.1)");
+b0.value = "no change";
+b1.value = 0;
+var a7 = 0; while (a7 < -0.1) { a7++; b0.value = a7;
+b1.value = ((+b1.value || 0) + 1);
+yield;
+}
+yield* thread.procedures["ZassertTrue %b %s"]((("" + b0.value).toLowerCase() === "no change".toLowerCase()),"i = no change (each -0.1)");
+yield* thread.procedures["ZassertTrue %b %s"](compareEqual(b1.value, 0),"dummy = 0 (each -0.1)");
+b0.value = "no change";
+b1.value = 0;
+var a8 = 0; while (a8 < 0.1) { a8++; b0.value = a8;
+b1.value = ((+b1.value || 0) + 1);
+yield;
+}
+yield* thread.procedures["ZassertTrue %b %s"](((+b0.value || 0) === 1),"i = 1 (each 0.1)");
+yield* thread.procedures["ZassertTrue %b %s"](((+b1.value || 0) === 1),"dummy = 1 (each 0.1)");
+b0.value = "no change";
+var a9 = 0; while (a9 < 5) { a9++; b0.value = a9;
+b0.value = 8;
+b1.value = 9;
+yield;
+}
+yield* thread.procedures["ZassertTrue %b %s"](((+b0.value || 0) === 8),"i = 8 (each 5 w/set)");
+yield* thread.procedures["ZassertTrue %b %s"](((+b1.value || 0) === 9),"dummy = 9 (each 5 w/set)");
+b0.value = "no change";
+b1.value = 1;
+var a10 = 0; while (a10 < 5) { a10++; b0.value = a10;
+yield* thread.procedures["ZassertTrue %b %s"](compareEqual(b0.value, b1.value),"i = dummy (each 5 w/set+dummy check)");
+b1.value = ((+b1.value || 0) + 1);
+b0.value = 9999;
+yield;
+}
+yield* thread.procedures["ZassertTrue %b %s"](((+b0.value || 0) === 9999),"i = 9999 (after each 5 w/set+dummy check)");
+yield* thread.procedures["ZassertTrue %b %s"](((+b1.value || 0) === 6),"dummy = 6 (after each 5 w/set+dummy check)");
+yield* thread.procedures["ZOK %s"]("ok");
+retire(); return;
+}; })
+
+// Sprite1 ZassertTrue %b %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ_assertTrue__ (p0,p1) {
+if (!toBoolean(p0)) {
+yield* thread.procedures["ZFAIL %s"](p1);
+}
+return "";
+}; })
+
+// Sprite1 ZOK %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_OK_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "O", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("pass " + ("" + p0)),}, b0, false, false, "a", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "Q", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })
+
+// Sprite1 ZFAIL %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_FAIL_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "S", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("fail " + ("" + p0)),}, b0, false, false, "b", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "U", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })

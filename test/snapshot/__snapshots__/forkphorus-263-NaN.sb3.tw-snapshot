@@ -1,0 +1,48 @@
+// TW Snapshot
+// Input SHA-256: 67ab3b26c771f54d4181fa85a76430fdb4603a171c36a918cce1374c89bf9c23
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["rL_u6{W`ET;GKBRHZrag"];
+return function* genXYZ () {
+yield* thread.procedures["ZassertTrue %b %s"]((("" + (0 / 0)).toLowerCase() === "NaN".toLowerCase()),"0/0");
+yield* thread.procedures["ZassertTrue %b %s"](compareEqual((0 / 0), (0 / 0)),"NaN == NaN");
+yield* thread.procedures["ZassertTrue %b %s"](compareEqual(Math.sqrt(-100), (0 / 0)),"sqrt negative");
+b0.value = (0 / 0);
+yield* thread.procedures["ZassertTrue %b %s"]((("" + b0.value).toLowerCase() === "NaN".toLowerCase()),"NaN storable in variables");
+yield* thread.procedures["ZOK %s"]("");
+retire(); return;
+}; })
+
+// Sprite1 ZassertTrue %b %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ_assertTrue__ (p0,p1) {
+if (!toBoolean(p0)) {
+yield* thread.procedures["ZFAIL %s"](p1);
+}
+return "";
+}; })
+
+// Sprite1 ZOK %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_OK_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "n", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("pass " + ("" + p0)),}, b0, false, false, "a", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "p", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })
+
+// Sprite1 ZFAIL %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_FAIL_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "r", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("fail " + ("" + p0)),}, b0, false, false, "b", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "t", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })

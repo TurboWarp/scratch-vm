@@ -1,0 +1,37 @@
+// TW Snapshot
+// Input SHA-256: 082b59a5b772f80c84bc6a846d9ea5023863d8f90c5b85e599b53fed7a9d6a46
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+const b1 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+return function* genXYZ () {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 8",}, b0, false, false, "j", null);
+b1.value = (1 / 0);
+if (((10 + (Math.sqrt(-1) || 0)) === 10)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "R", null);
+}
+if (((10 + ((Math.round(Math.sin((Math.PI * (+b1.value || 0)) / 180) * 1e10) / 1e10) || 0)) === 10)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "B", null);
+}
+if (((10 + ((Math.round(Math.cos((Math.PI * (+b1.value || 0)) / 180) * 1e10) / 1e10) || 0)) === 10)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "D", null);
+}
+if (((10 + (tan((+b1.value || 0)) || 0)) === 10)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "F", null);
+}
+if (((10 + (((Math.asin(2) * 180) / Math.PI) || 0)) === 10)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "H", null);
+}
+if (((10 + (((Math.acos(2) * 180) / Math.PI) || 0)) === 10)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "J", null);
+}
+if (((10 + (Math.log(-1) || 0)) === 10)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "L", null);
+}
+if (((10 + ((Math.log(-1) / Math.LN10) || 0)) === 10)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "O", null);
+}
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "N", null);
+retire(); return;
+}; })
