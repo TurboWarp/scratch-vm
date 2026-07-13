@@ -10,14 +10,8 @@ const log = require('./log');
  */
 const xmlEscape = function (unsafe) {
     if (typeof unsafe !== 'string') {
-        if (Array.isArray(unsafe)) {
-            // This happens when we have hacked blocks from 2.0
-            // See #1030
-            unsafe = String(unsafe);
-        } else {
-            log.error('Unexpected input recieved in replaceUnsafeChars');
-            return unsafe;
-        }
+        log.error('Unexpected input recieved in xmlEscape');
+        unsafe = String(unsafe);
     }
     return unsafe.replace(/[<>&'"]/g, c => {
         switch (c) {
