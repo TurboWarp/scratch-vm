@@ -696,7 +696,8 @@ class Target extends EventEmitter {
             return null;
         };
 
-        const allReferences = this.blocks.getAllVariableAndListReferences();
+        // Get all variables including broadcasts
+        const allReferences = this.blocks.getAllVariableAndListReferences(null, true);
         const unreferencedLocalVarIds = [];
         if (Object.keys(this.variables).length > 0) {
             for (const localVarId in this.variables) {
