@@ -9,6 +9,16 @@ const _cancelAnimationFrame = typeof requestAnimationFrame === 'function' ?
     cancelAnimationFrame :
     clearTimeout;
 
+/**
+ * @typedef Loop
+ * @property {() => void} cancel
+ */
+
+/**
+ * Wrapper around requestAnimationFrame(), easier to cancel
+ * @param {() => void} callback
+ * @returns {Loop}
+ */
 const animationFrameWrapper = callback => {
     let id;
     const handle = () => {
@@ -17,6 +27,32 @@ const animationFrameWrapper = callback => {
     };
     const cancel = () => _cancelAnimationFrame(id);
     id = _requestAnimationFrame(handle);
+    return {
+        cancel
+    };
+};
+
+/**
+ * Wrapper around repeated setTimeout(), easier to cancel.
+ *
+ * This is NOT the same as setInterval(). If browsers implemented setInterval() as the spec says, they
+ * would wait to schedule the next iteration until after the callback runs, so any large operations would
+ * cause the interval to run behind. The browsers realized that websites don't want that, so they added
+ * lag compensation and other things. It seems that if we schedule the next timeout ourselves and do so
+ * before we run the callback, we get less randomness in frame timing.
+ *
+ * @param {() => void} callback
+ * @param {number} period Intended milliseconds between runs
+ * @returns {Loop}
+ */
+const setTimeoutLoopWrapper = (callback, period) => {
+    let id;
+    const handle = () => {
+        id = setTimeout(handle, period);
+        callback();
+    };
+    const cancel = () => clearTimeout(id);
+    id = setTimeout(handle, period);
     return {
         cancel
     };
@@ -57,10 +93,12 @@ class FrameLoop {
         this.stepCallback = this.stepCallback.bind(this);
         this.interpolationCallback = this.interpolationCallback.bind(this);
 
-        this._stepInterval = null;
-        this._interpolationAnimation = null;
-        this._stepAnimation = null;
-        this._noopAnimation = null;
+        /** @type {Loop|null} */
+        this.interpolationLoop = null;
+        /** @type {Loop|null} */
+        this.stepLoop = null;
+        /** @type {Loop|null} */
+        this.noopLoop = null;
     }
 
     setFramerate (fps) {
@@ -95,34 +133,33 @@ class FrameLoop {
     start () {
         this.running = true;
         if (this.framerate === 0) {
-            this._stepAnimation = animationFrameWrapper(this.stepCallback);
+            this.stepLoop = animationFrameWrapper(this.stepCallback);
             this.runtime.currentStepTime = 1000 / 60;
         } else {
+            this.stepLoop = setTimeoutLoopWrapper(this.stepCallback, 1000 / this.framerate);
             // Interpolation should never be enabled when framerate === 0 as that's just redundant
             if (this.interpolation) {
-                this._interpolationAnimation = animationFrameWrapper(this.interpolationCallback);
+                this.interpolationLoop = animationFrameWrapper(this.interpolationCallback);
             } else if (shouldUseNoopAnimationFrame(this.framerate)) {
-                this._noopAnimation = animationFrameWrapper(this.noopCallback);
+                this.noopLoop = animationFrameWrapper(this.noopCallback);
             }
-            this._stepInterval = setInterval(this.stepCallback, 1000 / this.framerate);
             this.runtime.currentStepTime = 1000 / this.framerate;
         }
     }
 
     stop () {
         this.running = false;
-        clearInterval(this._stepInterval);
-        if (this._interpolationAnimation) {
-            this._interpolationAnimation.cancel();
-            this._interpolationAnimation = null;
+        if (this.stepLoop) {
+            this.stepLoop.cancel();
+            this.stepLoop = null;
         }
-        if (this._stepAnimation) {
-            this._stepAnimation.cancel();
-            this._stepAnimation = null;
+        if (this.interpolationLoop) {
+            this.interpolationLoop.cancel();
+            this.interpolationLoop = null;
         }
-        if (this._noopAnimation) {
-            this._noopAnimation.cancel();
-            this._noopAnimation = null;
+        if (this.noopLoop) {
+            this.noopLoop.cancel();
+            this.noopLoop = null;
         }
     }
 }
