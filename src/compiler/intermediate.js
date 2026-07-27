@@ -37,6 +37,12 @@ class IntermediateStackBlock {
         this.yields = yields;
 
         /**
+         * ID of the Scratch block represented by this node.
+         * @type {string?}
+         */
+        this.blockId = null;
+
+        /**
          * Should state changes made by this stack block be ignored? Used for testing.
          * @type {boolean}
          */
