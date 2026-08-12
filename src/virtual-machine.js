@@ -267,7 +267,7 @@ class VirtualMachine extends EventEmitter {
     }
 
     /**
-     * @deprecated Used by old versions of TurboWarp. Superceded by upstream's quit()
+     * @deprecated Used by old versions of TurboWarp. Superseded by upstream's quit()
      */
     stop () {
         this.quit();
@@ -917,7 +917,7 @@ class VirtualMachine extends EventEmitter {
 
     /**
      * Add a single sb3 sprite.
-     * @param {object} sprite Object rperesenting 3.0 sprite to be added.
+     * @param {object} sprite Object representing 3.0 sprite to be added.
      * @param {?ArrayBuffer} zip Optional zip of assets being referenced by target json
      * @returns {Promise} Promise that resolves after the sprite is added
      */
@@ -1801,7 +1801,7 @@ class VirtualMachine extends EventEmitter {
     }
 
     /**
-     * Reorder the sounds of a target if it exists. Return whether it occured.
+     * Reorder the sounds of a target if it exists. Return whether it occurred.
      * @param {!string} targetId ID of the target which owns the sounds.
      * @param {!number} soundIndex index of the sound to move.
      * @param {!number} newIndex index that the sound should be moved to.

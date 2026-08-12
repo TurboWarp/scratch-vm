@@ -202,7 +202,7 @@ class Scratch3DataBlocks {
         // We don't bother using .indexOf() at all, because it would end up with
         // edge cases such as the index of '123' in [4, 7, 123, '123', 9].
         // If we use indexOf(), this block would return 4 instead of 3, because
-        // indexOf() sees the first occurence of the string 123 as the fourth
+        // indexOf() sees the first occurrence of the string 123 as the fourth
         // item in the list. With Scratch, this would be confusing -- after all,
         // '123' and 123 look the same, so one would expect the block to say
         // that the first occurrence of '123' (or 123) to be the third item.

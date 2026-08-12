@@ -87,7 +87,7 @@ class Scratch3Speech2TextBlocks {
          * The list of queued `resolve` callbacks for 'Listen and Wait' blocks.
          * We only listen to for one utterance at a time.  We may encounter multiple
          * 'Listen and wait' blocks that tell us to start listening. If one starts
-         * and hasn't receieved results back yet, when we encounter more, any further ones
+         * and hasn't received results back yet, when we encounter more, any further ones
          * will all resolve when we get the next acceptable transcription result back.
          * @type {!Array}
          * @private
@@ -119,7 +119,7 @@ class Scratch3Speech2TextBlocks {
 
         /**
          * The socket used to communicate with the speech server to send microphone data
-         * and recieve transcription results.
+         * and receive transcription results.
          * @type {WebSocket}
          * @private
          */
@@ -289,7 +289,7 @@ class Scratch3Speech2TextBlocks {
     }
 
     /**
-     * Decides whether to keep a given transcirption result.
+     * Decides whether to keep a given transcription result.
      * @param {number} fuzzyMatchIndex Index of the fuzzy match or -1 if there is no match.
      * @param {object} result The json object representing the transcription result.
      * @param {string} normalizedTranscript The transcription text used for matching (i.e. lowercased, no punctuation).
@@ -336,7 +336,7 @@ class Scratch3Speech2TextBlocks {
 
     /**
      * Normalizes text a bit to facilitate matching.  Lowercases, removes some punctuation and whitespace.
-     * @param {string} text The text to normalzie
+     * @param {string} text The text to normalize
      * @returns {string} The normalized text.
      * @private
      */
@@ -391,10 +391,10 @@ class Scratch3Speech2TextBlocks {
         }
 
         this._currentUtterance = transcriptionResult;
-        log.info(`Keeing result: ${this._currentUtterance}`);
+        log.info(`Keeping result: ${this._currentUtterance}`);
         this._utteranceForEdgeTrigger = transcriptionResult;
 
-        // We're done listening so resolove all the promises and reset everying so we're ready for next time.
+        // We're done listening so resolve all the promises and reset everything so we're ready for next time.
         this._resetListening();
 
         // We got results so clear out the timeouts.
@@ -504,7 +504,7 @@ class Scratch3Speech2TextBlocks {
 
     /**
      * Callback called when it is time to setup the new web socket.
-     * @param {Function} resolve - function to call when the web socket opens succesfully.
+     * @param {Function} resolve - function to call when the web socket opens successfully.
      * @param {Function} reject - function to call if opening the web socket fails.
      */
     _newSocketCallback (resolve, reject) {
@@ -691,7 +691,7 @@ class Scratch3Speech2TextBlocks {
 
     /**
      * Reporter for the last heard phrase/utterance.
-     * @return {string} The lastest thing we heard from a listen and wait block.
+     * @return {string} The latest thing we heard from a listen and wait block.
      */
     getSpeech () {
         return this._currentUtterance;

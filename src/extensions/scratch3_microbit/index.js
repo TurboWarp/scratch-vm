@@ -57,7 +57,7 @@ const BLEUUID = {
 };
 
 /**
- * Manage communication with a MicroBit peripheral over a Scrath Link client socket.
+ * Manage communication with a MicroBit peripheral over a Scratch Link client socket.
  */
 class MicroBit {
 

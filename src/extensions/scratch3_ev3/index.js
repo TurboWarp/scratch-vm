@@ -676,7 +676,7 @@ class EV3 {
     }
 
     /**
-     * Genrates direct commands that are sent to the EV3 as a single or compounded byte arrays.
+     * Generates direct commands that are sent to the EV3 as a single or compounded byte arrays.
      * See 'EV3 Communication Developer Kit', section 4, page 24 at
      * https://education.lego.com/en-us/support/mindstorms-ev3/developer-kits.
      *
@@ -819,7 +819,7 @@ class EV3 {
      * Byte 0 – 1: Reply size, Little Endian. Reply size not including these 2 bytes
      * Byte 2 – 3: Message counter, Little Endian. Equals the Direct Command
      * Byte 4:     Reply type. Either DIRECT_REPLY or DIRECT_REPLY_ERROR
-     * Byte 5 - n: Resonse buffer. I.e. the content of the by the Command reserved global variables.
+     * Byte 5 - n: Response buffer. I.e. the content of the by the Command reserved global variables.
      *             I.e. if the command reserved 64 bytes, these bytes will be placed in the reply
      *             packet as the bytes 5 to 68.
      *

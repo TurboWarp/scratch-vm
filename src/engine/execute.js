@@ -5,7 +5,7 @@ const Thread = require('./thread');
 const cast = require('../util/cast');
 
 /**
- * Single BlockUtility instance reused by execute for every pritimive ran.
+ * Single BlockUtility instance reused by execute for every primitive ran.
  * @const
  */
 const blockUtility = new BlockUtility();
@@ -258,7 +258,7 @@ class BlockCached {
 
         /**
          * An arguments object for block implementations. All executions of this
-         * specific block will use this objecct.
+         * specific block will use this object.
          * @type {object}
          */
         this._argValues = {
@@ -357,7 +357,7 @@ class BlockCached {
         // Cache all input children blocks in the operation lists. The
         // operations can later be run in the order they appear in correctly
         // executing the operations quickly in a flat loop instead of needing to
-        // recursivly iterate them.
+        // recursively iterate them.
         for (const inputName in this._inputs) {
             const input = this._inputs[inputName];
             if (input.block) {

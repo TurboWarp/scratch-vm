@@ -102,7 +102,7 @@ class Video {
      *
      * @param {object} frameInfo A descriptor of the frame you would like to receive.
      * @param {Array.<number>} frameInfo.dimensions [width, height] array of numbers.  Defaults to [480,360]
-     * @param {boolean} frameInfo.mirror If you specificly want a mirror/non-mirror frame, defaults to the global
+     * @param {boolean} frameInfo.mirror If you specifically want a mirror/non-mirror frame, defaults to the global
      *                                   mirror state (ioDevices.video.mirror)
      * @param {string} frameInfo.format Requested video format, available formats are 'image-data' and 'canvas'.
      * @param {number} frameInfo.cacheTimeout Will reuse previous image data if the time since capture is less than
