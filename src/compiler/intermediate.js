@@ -51,6 +51,12 @@ class IntermediateStackBlock {
          * @type {import("./iroptimizer").TypeState?}
          */
         this.exitState = null;
+
+        /**
+         * ID of the Scratch block this node originated from.
+         * @type {string|null}
+         */
+        this.sourceBlockId = null;
     }
 }
 
