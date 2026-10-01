@@ -160,7 +160,8 @@ class IROptimizer {
         const script = this.optimizationStack.at(-1);
         switch (inputBlock.opcode) {
         case InputOpcode.VAR_GET:
-            return state.getVariableType(inputs.variable) & this.target.getTypehint(script?.topBlockId, inputs.variable.id);
+            return state.getVariableType(inputs.variable) &
+                this.target.getTypehint(script?.topBlockId, inputs.variable.id);
         
         case InputOpcode.LIST_GET:
             // Determining type information for lists would be a pain so we just trust what the type hint says.

@@ -2,7 +2,7 @@ const EventEmitter = require('events');
 
 const Blocks = require('./blocks');
 const Variable = require('../engine/variable');
-const { InputType } = require("../compiler/enums.js")
+const {InputType} = require('../compiler/enums.js');
 const Comment = require('../engine/comment');
 const uid = require('../util/uid');
 const log = require('../util/log');
@@ -807,25 +807,22 @@ class Target extends EventEmitter {
     }
 
     setTypehint (hatId, variableId, hint) {
-        hatId = hatId ?? "_global0"; // Block ids can't have numbers, and we need a unique id for global hints.
+        hatId = hatId ?? '_global0'; // Block ids can't have numbers, and we need a unique id for global hints.
         if (hatId in this._typeHints) {
             this._typeHints[hatId].set(variableId, hint);
-        }
-        else {
+        } else {
             this._typeHints[hatId] = new Map();
             this._typeHints[hatId].set(variableId, hint);
         }
     }
 
     getTypehint (hatId, variableId) {
-        console.log(hatId, variableId, this._typeHints[hatId ?? "_global0"]?.get(variableId));
-        return this._typeHints[hatId ?? "_global0"]?.get(variableId) ?? InputType.ANY;
+        return this._typeHints[hatId ?? '_global0']?.get(variableId) ?? InputType.ANY;
     }
 
     getTypehintUnsafe (hatId, variableId) {
         // In case you don't want to default to InputType.ANY
-        console.log(hatId, variableId);
-        return this._typeHints[hatId ?? "_global0"]?.get(variableId) ?? null;
+        return this._typeHints[hatId ?? '_global0']?.get(variableId) ?? null;
     }
 
     /**
@@ -834,7 +831,7 @@ class Target extends EventEmitter {
      * @param {Map<string, InputType>} variableTypes
      */
     mergeTypeHints (hatId, variableTypes) {
-        hatId = hatId ?? "_global0";
+        hatId = hatId ?? '_global0';
         variableTypes.forEach((value, key) => {
             this.setTypehint(hatId, key, value);
         });
@@ -842,24 +839,28 @@ class Target extends EventEmitter {
 
     /**
      * Insert the type hints from a given comment.
-     * @param {string} hatId 
-     * @param {string} text 
+     * @param {string} hatId
+     * @param {string} text
      * @returns {boolean}
      */
     tryInsertTypehints (hatId, text) {
-        console.log("inserting hints")
-        hatId = hatId ?? "_global0";
+        hatId = hatId ?? '_global0';
         const inputTypes = Object.keys(InputType);
         const numTypes = inputTypes.length;
         for (let i = 0; i < numTypes; i++) {
             inputTypes.push(`NEVER_${inputTypes[i]}`);
         }
         const allowedTypeHints = inputTypes.join('|');
-        const typeHintRegex = new RegExp(`^(typehint|argument_typehint):(${allowedTypeHints})(\\|(?:${allowedTypeHints}))*\\b`);
+        const typeHintRegex =
+            new RegExp(`^(typehint|argument_typehint):(${allowedTypeHints})(\\|(?:${allowedTypeHints}))*\\b`);
 
-        for (const line of text.split("\n")) {
+        for (const line of text.split('\n')) {
             if (!typeHintRegex.test(line)) {
-                if (line.startsWith("typehint:") || line.startsWith("argument_typehint:")) console.warn("Found a comment line that appears to be a type hint. This line is malformed, so it will be ignored: ", line);
+                if (line.startsWith('typehint:') || line.startsWith('argument_typehint:')){
+                    // eslint-disable-next-line max-len
+                    console.warn(`Found a comment line that appears to be a type hint. This line is malformed, so it will be ignored: `, line);
+                }
+
                 continue;
             }
 
@@ -875,7 +876,9 @@ class Target extends EventEmitter {
                 // We can't check if this is valid because we don't have the context for it.
                 type = this.getTypehintUnsafe(hatId, varName) ?? type;
             } else {
-                const variable = this.lookupVariableByNameAndType(varName, Variable.SCALAR_TYPE) ?? this.lookupVariableByNameAndType(varName, Variable.LIST_TYPE);
+                const variable = this.lookupVariableByNameAndType(varName, Variable.SCALAR_TYPE) ??
+                    this.lookupVariableByNameAndType(varName, Variable.LIST_TYPE);
+
                 if (!variable) {
                     // Todo: Make this error clearer because it would be a very annoying bug
                     console.error('Received invalid variable name in type hint: ', varName);
@@ -887,8 +890,8 @@ class Target extends EventEmitter {
 
             const hints = hintString.slice(isArgHint ? 18 : 9).split('|');
             for (const hint of hints) {
-                // @ts-ignore
-                if (hint.startsWith('NEVER_')) type = type & ~(InputType[hint.slice(6)]); // Remove a possible type from the field
+                // Remove a possible type from the field
+                if (hint.startsWith('NEVER_')) type = type & ~(InputType[hint.slice(6)]);
                 // @ts-ignore
                 else type = type | InputType[hint];
             }

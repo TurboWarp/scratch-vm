@@ -238,9 +238,9 @@ class JSGenerator {
             if (environment.supportsNullishCoalescing) {
                 const listType = this.target.getTypehint(this.script.topBlockId, node.list.id);
                 let defaultValue = `""`;
-                if ((listType & InputType.NUMBER) === listType) defaultValue = "0";
+                if ((listType & InputType.NUMBER) === listType) defaultValue = '0';
                 else if ((listType & InputType.STRING) === listType) defaultValue = `""`;
-                else if ((listType & InputType.BOOLEAN) === listType) defaultValue = "false";
+                else if ((listType & InputType.BOOLEAN) === listType) defaultValue = 'false';
                 // Todo: More verbose default value checking. This might break projects.
 
                 if (node.index.isAlwaysType(InputType.NUMBER_INTERPRETABLE | InputType.NUMBER_NAN)) {
@@ -1195,7 +1195,7 @@ class JSGenerator {
         const factory = this.createScriptFactory();
         const fn = jsexecute.scopedEval(factory);
 
-        if (true) {
+        if (this.debug) {
             log.info(`JS: ${this.target.getName()}: compiled ${this.script.procedureCode || 'script'}`, factory);
         }
 
