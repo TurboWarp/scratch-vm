@@ -132,8 +132,9 @@ class IROptimizer {
 
     /**
      * @param {IntermediateRepresentation} ir
+     * @param {import("../engine/target.js")} target
      */
-    constructor (ir) {
+    constructor (ir, target) {
         /** @type {IntermediateRepresentation} */
         this.ir = ir;
         /** @type {boolean} Used for testing */
@@ -144,6 +145,9 @@ class IROptimizer {
 
         /** @private @type {IntermediateScript[]} A stack of the current scripts being optimized */
         this.optimizationStack = [];
+
+        /** @private @type {import("../engine/target.js")} */
+        this.target = target;
     }
 
     /**
@@ -156,18 +160,17 @@ class IROptimizer {
         const script = this.optimizationStack.at(-1);
         switch (inputBlock.opcode) {
         case InputOpcode.VAR_GET:
-            // Todo: Check procedures for types recursively?
-            return state.getVariableType(inputs.variable) & script.getVariableHint(inputs.variable.id);
+            return state.getVariableType(inputs.variable) & this.target.getTypehint(script?.topBlockId, inputs.variable.id);
         
         case InputOpcode.LIST_GET:
             // Determining type information for lists would be a pain so we just trust what the type hint says.
-            return InputType.ANY & script.getVariableHint(inputs.list.id);
+            return InputType.ANY & this.target.getTypehint(script?.topBlockId, inputs.list.id);
 
         case InputOpcode.ADDON_CALL:
             break;
         
         case InputOpcode.PROCEDURE_ARGUMENT: {
-            return InputType.ANY & script.getArgumentHint(script.arguments[inputs.index]);
+            return InputType.ANY & this.target.getTypehint(script?.topBlockId, script.arguments[inputs.index]);
         }
 
         case InputOpcode.CAST_BOOLEAN: {

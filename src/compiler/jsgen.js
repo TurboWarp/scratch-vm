@@ -236,7 +236,7 @@ class JSGenerator {
             return `listContents(${this.referenceVariable(node.list)})`;
         case InputOpcode.LIST_GET: {
             if (environment.supportsNullishCoalescing) {
-                const listType = this.script.variableTypes.get(node.list.id) ?? InputType.ANY;
+                const listType = this.target.getTypehint(this.script.topBlockId, node.list.id);
                 let defaultValue = `""`;
                 if ((listType & InputType.NUMBER) === listType) defaultValue = "0";
                 else if ((listType & InputType.STRING) === listType) defaultValue = `""`;

@@ -360,36 +360,6 @@ class IntermediateScript {
          * @type {boolean}
          */
         this.relaxedMath = false;
-
-        /**
-         * A map of user-supplied variable type hints.
-         * @type {Map<string, InputType>}
-         */
-        this.variableTypes = new Map();
-
-        /**
-         * A map of user-supplied procedure argument type hints.
-         * @type {Map<string, InputType>}
-         */
-        this.argumentTypes = new Map();
-    }
-
-    /**
-     * 
-     * @param {string} id The variable id to get the typehint of.
-     * @returns {InputType} The hinted variable type, or ANY.
-     */
-    getVariableHint (id) {
-        return this.variableTypes.get(id) ?? InputType.ANY;
-    }
-    
-    /**
-     * 
-     * @param {string} name The argument name to get the typehint of.
-     * @returns {InputType} The hinted argument type, or ANY.
-     */
-    getArgumentHint (name) {
-        return this.argumentTypes.get(name) ?? InputType.ANY;
     }
 }
 
@@ -423,17 +393,6 @@ class IntermediateRepresentation {
      */
     getProcedure (proccode) {
         return Object.values(this.procedures).find(procedure => procedure.procedureCode === proccode);
-    }
-
-    /**
-     * Gets the type hint for a given argument of a procedure.
-     * @param {string} procCode 
-     * @param {number} index 
-     * @returns 
-     */
-    getArgumentHint (procCode, index) {
-        const procedure = this.getProcedure(procCode);
-        return (procedure?.argumentTypes?.get((procedure?.arguments ?? [])[index]) ?? InputType.ANY)
     }
 }
 
