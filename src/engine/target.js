@@ -849,21 +849,10 @@ class Target extends EventEmitter {
     tryInsertTypehints (hatId, text) {
         console.log("inserting hints")
         hatId = hatId ?? "_global0";
-        // Possibly todo:
-        // The regex creation could probably be moved to the constructor, or maybe global scope.
-        // Also, this might be a bit overkill just for determining if a type hint is valid.
-        // We could just use the steps inside of the test condition to determine if it's valid
-        // or maybe even just fix the regular expression so that it can extract the hints.
         const inputTypes = Object.keys(InputType);
         const numTypes = inputTypes.length;
         for (let i = 0; i < numTypes; i++) {
-            const type = inputTypes[i];
-            // Todo: Test if STRING_BOOLEAN is okay
-            // The compiler uses types to determine if an input should be sanitized.
-            // As such, we don't allow setting NEVER_STRING or its friends to prevent code injection.
-            if (type !== 'STRING' && type !== 'STRING_NAN' && type !== 'STRING_BOOLEAN' && type !== 'ANY') {
-                inputTypes.push(`NEVER_${type}`);
-            }
+            inputTypes.push(`NEVER_${inputTypes[i]}`);
         }
         const allowedTypeHints = inputTypes.join('|');
         const typeHintRegex = new RegExp(`^(typehint|argument_typehint):(${allowedTypeHints})(\\|(?:${allowedTypeHints}))*\\b`);
