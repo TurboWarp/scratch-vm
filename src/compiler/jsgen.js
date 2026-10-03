@@ -58,6 +58,11 @@ const isSafeInputForEqualsOptimization = (input, other) => {
     if (input.opcode !== InputOpcode.CONSTANT) return false;
     // Only optimize when the constant can always be thought of as a number
     if (input.isAlwaysType(InputType.NUMBER) || input.isAlwaysType(InputType.STRING_NUM)) {
+        if (!Number.isFinite(+input.inputs.value) && other.isSometimesType(InputType.STRING_NAN)) {
+            // Never optimize Infinity or -Infinity if the other input can be a non-numeric string.
+            // eg. "infinity" is NaN as a number, but '< "infinity" = Infinity >' is true.
+            return false;
+        }
         if (other.isSometimesType(InputType.NUMBER_NAN | InputType.STRING_NAN | InputType.BOOLEAN_INTERPRETABLE)) {
             // Never optimize 0 if the other input can be NaN, '' or a boolean.
             // eg. if '< 0 = "" >' was optimized it would turn into `0 === +""`,
