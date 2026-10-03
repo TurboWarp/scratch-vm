@@ -8,7 +8,7 @@ const xmlEscape = require('../util/xml-escape');
 
 class Variable {
     /**
-     * Do not new() instructor directly - use Vareiable.create instead.
+     * Do not new() this class directly - use Variable.create instead.
      * @param {string | null} id Id of the variable.
      * @param {string} name Name of the variable.
      * @param {string} type Type of the variable, one of '' or 'list'
