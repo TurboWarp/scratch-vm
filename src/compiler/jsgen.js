@@ -182,7 +182,7 @@ class JSGenerator {
             return `toBoolean(${this.descendInput(node.target)})`;
         case InputOpcode.CAST_NUMBER:
             if (node.target.isAlwaysType(InputType.BOOLEAN)) {
-                return `(+${this.descendInput(node.target.toType(InputType.BOOLEAN))})`;
+                return `(+${this.descendInput(node.target)})`;
             }
             if (node.target.isAlwaysType(InputType.NUMBER_OR_NAN)) {
                 return `toNotNaN(${this.descendInput(node.target)})`;
