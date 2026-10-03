@@ -45,7 +45,28 @@ class Variable {
      * @returns {Variable} The new variable.
      */
     static create (id, name, type, isCloud) {
-        return new Variable(id, name, type, isCloud);
+        // This looks silly, but all the JavaScript engines handle this by making a new hidden class for this variable.
+        // That means that the browser engine can specialize compiled JS to take advantage of "this variable is always
+        // a small integer" instead of having to use the much slower generic paths that one shared hidden class forces.
+        // This is most relevant for V8/Chrome.
+        const SpecializedVariable = class extends Variable {};
+        return new SpecializedVariable(id, name, type, isCloud);
+    }
+
+    /**
+     * Create a clone of a variable to give to a clone of a sprite.
+     * @param {Variable} original The variable whose class to reuse.
+     * @param {string | null} id Id of the variable.
+     * @param {string} name Name of the variable.
+     * @param {string} type Type of the variable, one of '' or 'list'
+     * @param {boolean} isCloud Whether the variable is stored in the cloud.
+     * @returns {Variable} The new variable.
+     */
+    static createSibling (original, id, name, type, isCloud) {
+        // Use the same hidden class. We reuse compiled JS across clones, so swapping out to a new hidden class would
+        // force that code to take slower routes instead of the specialization we want.
+        const SpecializedVariable = original.constructor;
+        return new SpecializedVariable(id, name, type, isCloud);
     }
 
     toXML (isLocal) {

@@ -1237,7 +1237,7 @@ class ScriptTreeGenerator {
             // sprite.clones has all instances of this sprite including the original and all clones
             for (const clone of target.sprite.clones) {
                 if (!Object.prototype.hasOwnProperty.call(clone.variables, id)) {
-                    clone.variables[String(id)] = Variable.create(id, name, type, false);
+                    clone.variables[String(id)] = Variable.createSibling(newVariable, id, name, type, false);
                 }
             }
         }

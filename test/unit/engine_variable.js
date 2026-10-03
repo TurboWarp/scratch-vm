@@ -108,3 +108,22 @@ test('escape variable name for XML', t => {
 
     t.end();
 });
+
+test('each variable has its own class', t => {
+    const a = Variable.create('a', 'a', Variable.SCALAR_TYPE, false);
+    const b = Variable.create('b', 'b', Variable.SCALAR_TYPE, false);
+    t.ok(a instanceof Variable);
+    t.ok(b instanceof Variable);
+    t.not(a.constructor, Variable);
+    t.not(a.constructor, b.constructor);
+    t.end();
+});
+
+test('createSibling shares class with original', t => {
+    const a = Variable.create('a', 'a', Variable.LIST_TYPE, false);
+    const b = Variable.createSibling(a, 'b', 'b', Variable.LIST_TYPE, false);
+    t.equal(b.constructor, a.constructor);
+    t.equal(b.id, 'b');
+    t.same(b.value, []);
+    t.end();
+});

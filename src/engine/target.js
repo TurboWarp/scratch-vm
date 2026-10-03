@@ -415,7 +415,8 @@ class Target extends EventEmitter {
     duplicateVariable (id, optKeepOriginalId) {
         if (Object.prototype.hasOwnProperty.call(this.variables, id)) {
             const originalVariable = this.variables[id];
-            const newVariable = Variable.create(
+            const newVariable = Variable.createSibling(
+                originalVariable,
                 optKeepOriginalId ? id : null, // conditionally keep original id or generate a new one
                 originalVariable.name,
                 originalVariable.type,

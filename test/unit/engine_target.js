@@ -315,6 +315,9 @@ test('duplicateVariable creates a new variable with a new ID by default', t => {
     // Duplicate variable should start out with the same value as the original variable
     t.equal(newVariable.value, originalVariable.value);
 
+    // Duplicate variable should share its hidden class with the original
+    t.equal(newVariable.constructor, originalVariable.constructor);
+
     // Modifying one variable should not modify the other
     newVariable.value = 15;
     t.notEqual(newVariable.value, originalVariable.value);
