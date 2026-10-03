@@ -510,10 +510,14 @@ class IROptimizer {
 
         switch (inputBlock.opcode) {
         case InputOpcode.ADDON_CALL:
+            modified = this.analyzeInputs(inputs.arguments, state) || modified;
             modified = state.clear() || modified;
             break;
-        case InputOpcode.PROCEDURE_CALL: {
+        case InputOpcode.COMPATIBILITY_LAYER:
             modified = this.analyzeInputs(inputs.inputs, state) || modified;
+            break;
+        case InputOpcode.PROCEDURE_CALL: {
+            modified = this.analyzeInputs(inputs.arguments, state) || modified;
             const script = this.ir.procedures[inputs.variant];
 
             if (!script || !script.cachedAnalysisEndState) {
@@ -605,9 +609,13 @@ class IROptimizer {
             modified = this.analyzeInputs(inputs, state) || modified;
             break;
         }
+        case StackOpcode.ADDON_CALL:
+            modified = this.analyzeInputs(inputs, state) || modified;
+            modified = this.analyzeInputs(inputs.arguments, state) || modified;
+            break;
         case StackOpcode.PROCEDURE_CALL: {
             modified = this.analyzeInputs(inputs, state) || modified;
-            modified = this.analyzeInputs(inputs.inputs, state) || modified;
+            modified = this.analyzeInputs(inputs.arguments, state) || modified;
             const script = this.ir.procedures[inputs.variant];
 
             if (!script || !script.cachedAnalysisEndState) {
@@ -621,7 +629,7 @@ class IROptimizer {
         }
         case StackOpcode.COMPATIBILITY_LAYER: {
             modified = this.analyzeInputs(inputs, state) || modified;
-            this.analyzeInputs(inputs.inputs, state);
+            modified = this.analyzeInputs(inputs.inputs, state) || modified;
             for (const substackName in inputs.substacks) {
                 const newState = state.clone();
                 modified = this.analyzeStack(inputs.substacks[substackName], newState) || modified;
