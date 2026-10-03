@@ -21,11 +21,15 @@ const isNotActuallyZero = val => {
     for (let i = 0; i < val.length; i++) {
         const code = val.charCodeAt(i);
         // '0'.charCodeAt(0) === 48
+        // '9'.charCodeAt(0) === 57
+        // Any digit between those (inclusive) mean this is not purely whitespace.
+        // Consider edge cases like 1e-324 before trying to optimize this to just checking for 0.
+        //
         // '\t'.charCodeAt(0) === 9
         // We include tab for compatibility with scratch-www's broken trim() polyfill.
         // https://github.com/TurboWarp/scratch-vm/issues/115
         // https://scratch.mit.edu/projects/788261699/
-        if (code === 48 || code === 9) {
+        if ((code >= 48 && code <= 57) || code === 9) {
             return false;
         }
     }

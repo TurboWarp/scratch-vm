@@ -276,7 +276,7 @@ baseRuntime += `const isNotActuallyZero = val => {
     if (typeof val !== 'string') return false;
     for (let i = 0; i < val.length; i++) {
         const code = val.charCodeAt(i);
-        if (code === 48 || code === 9) {
+        if ((code >= 48 && code <= 57) || code === 9) {
             return false;
         }
     }
