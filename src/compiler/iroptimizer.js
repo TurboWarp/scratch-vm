@@ -160,31 +160,31 @@ class IROptimizer {
 
         case InputOpcode.CAST_BOOLEAN: {
             const innerType = inputs.target.type;
-            if (innerType & InputType.BOOLEAN) return innerType;
+            if ((innerType & InputType.BOOLEAN) === innerType) return innerType;
             return InputType.BOOLEAN;
         }
 
         case InputOpcode.CAST_NUMBER: {
             const innerType = inputs.target.type;
-            if (innerType & InputType.NUMBER) return innerType;
+            if ((innerType & InputType.NUMBER) === innerType) return innerType;
             return InputType.NUMBER;
         }
 
         case InputOpcode.CAST_NUMBER_INDEX: {
             const innerType = inputs.target.type;
-            if (innerType & InputType.NUMBER_INDEX) return innerType;
+            if ((innerType & InputType.NUMBER_INDEX) === innerType) return innerType;
             return InputType.NUMBER_INDEX;
         }
 
         case InputOpcode.CAST_NUMBER_OR_NAN: {
             const innerType = inputs.target.type;
-            if (innerType & InputType.NUMBER_OR_NAN) return innerType;
+            if ((innerType & InputType.NUMBER_OR_NAN) === innerType) return innerType;
             return InputType.NUMBER_OR_NAN;
         }
 
         case InputOpcode.CAST_STRING: {
             const innerType = inputs.target.type;
-            if (innerType & InputType.STRING) return innerType;
+            if ((innerType & InputType.STRING) === innerType) return innerType;
             return InputType.STRING;
         }
 
