@@ -461,7 +461,8 @@ class Runtime extends EventEmitter {
 
         this.compilerOptions = {
             enabled: true,
-            warpTimer: false
+            warpTimer: false,
+            relaxedMath: false
         };
 
         this.debug = false;
