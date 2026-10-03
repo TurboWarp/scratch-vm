@@ -9,7 +9,7 @@ test('spec', t => {
     const varId = 'varId';
     const varName = 'varName';
     const varIsCloud = false;
-    let v = new Variable(
+    let v = Variable.create(
         varId,
         varName,
         Variable.SCALAR_TYPE,
@@ -28,7 +28,7 @@ test('spec', t => {
 
     t.type(v.toXML, 'function');
 
-    v = new Variable(
+    v = Variable.create(
         varId,
         varName,
         Variable.LIST_TYPE,
@@ -36,7 +36,7 @@ test('spec', t => {
     );
     t.ok(Array.isArray(v.value));
 
-    v = new Variable(
+    v = Variable.create(
         varId,
         varName,
         Variable.BROADCAST_MESSAGE_TYPE,
@@ -52,7 +52,7 @@ test('toXML', t => {
     const varName = 'varName';
     const varIsCloud = false;
     const varIsLocal = false;
-    const v = new Variable(
+    const v = Variable.create(
         varId,
         varName,
         Variable.SCALAR_TYPE,
@@ -83,7 +83,7 @@ test('escape variable name for XML', t => {
     const varName = '<>&\'"';
     const varIsCloud = false;
     const varIsLocal = false;
-    const v = new Variable(
+    const v = Variable.create(
         varId,
         varName,
         Variable.SCALAR_TYPE,

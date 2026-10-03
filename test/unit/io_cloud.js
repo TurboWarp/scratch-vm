@@ -47,7 +47,7 @@ test('setProvider sets the provider', t => {
 test('postData update message updates the variable', t => {
     const runtime = new Runtime();
     const stage = new Target(runtime);
-    const fooVar = new Variable(
+    const fooVar = Variable.create(
         'a fake var id',
         'foo',
         Variable.SCALAR_TYPE,
@@ -94,7 +94,7 @@ test('requestUpdateVariable calls provider\'s updateVariable function', t => {
 
 test('requestCreateVariable calls provider\'s createVariable function', t => {
     let createVariableCalled = false;
-    const mockVariable = new Variable('a var id', 'my var', Variable.SCALAR_TYPE, false);
+    const mockVariable = Variable.create('a var id', 'my var', Variable.SCALAR_TYPE, false);
     let mockVarName;
     let mockVarValue;
     const mockCreateVariable = (name, value) => {

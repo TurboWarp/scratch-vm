@@ -29,25 +29,25 @@ test('values in lists and variables are serialized as-is', t => {
     const sprite = new Sprite();
     const target = new RenderedTarget(sprite, vm.runtime);
 
-    target.variables.var1 = new Variable('var', 'test var', Variable.SCALAR_TYPE, false);
+    target.variables.var1 = Variable.create('var', 'test var', Variable.SCALAR_TYPE, false);
     target.variables.var1.value = null;
 
-    target.variables.var2 = new Variable('var2', 'test var', Variable.SCALAR_TYPE, false);
+    target.variables.var2 = Variable.create('var2', 'test var', Variable.SCALAR_TYPE, false);
     target.variables.var2.value = undefined;
 
-    target.variables.var3 = new Variable('var3', 'test var', Variable.SCALAR_TYPE, false);
+    target.variables.var3 = Variable.create('var3', 'test var', Variable.SCALAR_TYPE, false);
     target.variables.var3.value = {};
 
-    target.variables.var4 = new Variable('var4', 'test var', Variable.SCALAR_TYPE, false);
+    target.variables.var4 = Variable.create('var4', 'test var', Variable.SCALAR_TYPE, false);
     target.variables.var4.value = 1;
 
-    target.variables.var5 = new Variable('var5', 'test var', Variable.SCALAR_TYPE, false);
+    target.variables.var5 = Variable.create('var5', 'test var', Variable.SCALAR_TYPE, false);
     target.variables.var5.value = 'abc';
 
-    target.variables.var6 = new Variable('var6', 'test var', Variable.SCALAR_TYPE, false);
+    target.variables.var6 = Variable.create('var6', 'test var', Variable.SCALAR_TYPE, false);
     target.variables.var6.value = false;
 
-    target.variables.list = new Variable('list', 'test list', Variable.LIST_TYPE, false);
+    target.variables.list = Variable.create('list', 'test list', Variable.LIST_TYPE, false);
     target.variables.list.value = ['abc', false, 1, null, undefined, {}];
 
     vm.runtime.addTarget(target);

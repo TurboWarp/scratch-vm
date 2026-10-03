@@ -618,7 +618,7 @@ const parseScratchObject = function (object, runtime, extensions, topLevel, zip,
             // - it's a stage variable, and
             // - the runtime can support another cloud variable
             const isCloud = variable.isPersistent && topLevel && runtime.canAddCloudVariable();
-            const newVariable = new Variable(
+            const newVariable = Variable.create(
                 getVariableId(variable.name, Variable.SCALAR_TYPE),
                 variable.name,
                 Variable.SCALAR_TYPE,
@@ -711,7 +711,7 @@ const parseScratchObject = function (object, runtime, extensions, topLevel, zip,
     if (Object.prototype.hasOwnProperty.call(object, 'lists')) {
         for (let k = 0; k < object.lists.length; k++) {
             const list = object.lists[k];
-            const newVariable = new Variable(
+            const newVariable = Variable.create(
                 getVariableId(list.listName, Variable.LIST_TYPE),
                 list.listName,
                 Variable.LIST_TYPE,
@@ -852,7 +852,7 @@ const parseScratchObject = function (object, runtime, extensions, topLevel, zip,
                 // target).
                 for (const msgName in allBroadcastMsgs) {
                     const msgId = allBroadcastMsgs[msgName];
-                    const newMsg = new Variable(
+                    const newMsg = Variable.create(
                         msgId,
                         msgName,
                         Variable.BROADCAST_MESSAGE_TYPE,
