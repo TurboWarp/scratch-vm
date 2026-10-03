@@ -125,6 +125,10 @@ class JSGenerator {
         this.isInHat = false;
 
         this.debug = this.target.runtime.debug;
+        this.enableDebuggerProfiling = Boolean(
+            this.target.runtime.debuggerCompiledProfiler &&
+            this.target.runtime.debuggerCompiledProfiler.enabled
+        );
 
         this.oldCompilerStub = new oldCompilerCompatibility.JSGeneratorStub(this);
     }
@@ -507,6 +511,10 @@ class JSGenerator {
      */
     descendStackedBlock (block) {
         const node = block.inputs;
+        if (this.enableDebuggerProfiling && block.blockId) {
+            this.source +=
+                `runtime.debuggerCompiledProfiler.block(thread, "${sanitize(block.blockId)}");\n`;
+        }
         switch (block.opcode) {
         case StackOpcode.ADDON_CALL: {
             this.source += `${this.descendAddonCall(node)};\n`;
