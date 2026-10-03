@@ -127,3 +127,14 @@ test('createSibling shares class with original', t => {
     t.same(b.value, []);
     t.end();
 });
+
+test('lists share one class', t => {
+    const a = Variable.create('a', 'a', Variable.LIST_TYPE, false);
+    const b = Variable.create('b', 'b', Variable.LIST_TYPE, false);
+    const c = Variable.create('c', 'c', Variable.SCALAR_TYPE, false);
+    t.ok(a instanceof Variable);
+    t.not(a.constructor, Variable);
+    t.equal(a.constructor, b.constructor);
+    t.not(a.constructor, c.constructor);
+    t.end();
+});

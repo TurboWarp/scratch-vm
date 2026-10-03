@@ -49,6 +49,14 @@ class Variable {
         // That means that the browser engine can specialize compiled JS to take advantage of "this variable is always
         // a small integer" instead of having to use the much slower generic paths that one shared hidden class forces.
         // This is most relevant for V8/Chrome.
+
+        if (type === Variable.LIST_TYPE) {
+            // For lists, there is no benefit to using specialized-per-variable hidden class.
+            // Reusing one is the same speed but avoids wasting some memory on those extra classes.
+            // eslint-disable-next-line no-use-before-define
+            return new ListSpecializedVariable(id, name, type, isCloud);
+        }
+
         const SpecializedVariable = class extends Variable {};
         return new SpecializedVariable(id, name, type, isCloud);
     }
@@ -101,5 +109,10 @@ class Variable {
         return 'broadcast_msg';
     }
 }
+
+/**
+ * See Variable.create()
+ */
+class ListSpecializedVariable extends Variable {}
 
 module.exports = Variable;
