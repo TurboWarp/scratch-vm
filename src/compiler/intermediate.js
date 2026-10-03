@@ -174,7 +174,7 @@ class IntermediateInput {
             case InputOpcode.CAST_NUMBER:
             case InputOpcode.CAST_NUMBER_INDEX:
             case InputOpcode.CAST_NUMBER_OR_NAN: {
-                if (this.isAlwaysType(InputType.BOOLEAN_INTERPRETABLE)) {
+                if (this.isAlwaysType(InputType.BOOLEAN)) {
                     this.type = InputType.NUMBER;
                     this.inputs.value = +Cast.toBoolean(this.inputs.value);
                 }
