@@ -243,7 +243,7 @@ class VideoMotion {
                     }
                 }
 
-                // Use the accumalated values from the for loop to determine a
+                // Use the accumulated values from the for loop to determine a
                 // motion direction.
                 const {u, v} = motionVector(A2, A1B2, B1, C2, C1);
 
@@ -349,7 +349,7 @@ class VideoMotion {
                 }
             }
 
-            // Use the accumalated values from the for loop to determine a
+            // Use the accumulated values from the for loop to determine a
             // motion direction.
             let {u, v} = motionVector(A2, A1B2, B1, C2, C1);
 

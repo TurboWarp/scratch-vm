@@ -90,7 +90,7 @@ const OUTPUT = {
 
     /**
      * Render the horizontal pixel difference times the temporal difference as
-     * red and the vertical and temporal difference as green. Multiplcation of
+     * red and the vertical and temporal difference as green. Multiplication of
      * these values ends up with sharp differences in the output showing edge
      * details where motion is happening.
      * @type {number}
@@ -121,7 +121,7 @@ const OUTPUT = {
     UV: 10,
 
     /**
-     * Render cells of mulitple pixels at a step in the motion code that has
+     * Render cells of multiple pixels at a step in the motion code that has
      * the same cell values and turns them into motion vectors showing the
      * amount of motion in the x axis and y axis separately. Those values are a
      * step away from becoming a motion amount and direction through standard
@@ -198,7 +198,7 @@ class VideoMotionView {
      * Iterate each pixel address location and call a function with that address.
      * @param {number} xStart - start location on the x axis of the output pixel buffer
      * @param {number} yStart - start location on the y axis of the output pixel buffer
-     * @param {nubmer} xStop - location to stop at on the x axis
+     * @param {number} xStop - location to stop at on the x axis
      * @param {number} yStop - location to stop at on the y axis
      * @param {function} fn - handle to call with each iterated address
      */
@@ -215,7 +215,7 @@ class VideoMotionView {
      * Iterate over cells of pixels and call a function with a function to
      * iterate over pixel addresses.
      * @param {number} xStart - start location on the x axis
-     * @param {number} yStart - start lcoation on the y axis
+     * @param {number} yStart - start location on the y axis
      * @param {number} xStop - location to stop at on the x axis
      * @param {number} yStop - location to stop at on the y axis
      * @param {number} xStep - width of the cells

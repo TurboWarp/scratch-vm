@@ -35,13 +35,13 @@ class Cloud {
 
     /**
      * Cloud IO Device responsible for sending and receiving messages from
-     * cloud provider (mananging the cloud server connection) and interacting
+     * cloud provider (managing the cloud server connection) and interacting
      * with cloud variables in the current project.
      * @param {Runtime} runtime The runtime context for this cloud io device.
      */
     constructor (runtime) {
         /**
-         * Reference to the cloud data provider, responsible for mananging
+         * Reference to the cloud data provider, responsible for managing
          * the web socket connection to the cloud data server.
          * @type {?CloudProvider}
          */

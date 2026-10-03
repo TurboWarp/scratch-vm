@@ -834,7 +834,7 @@ class Scratch3GdxForBlocks {
         }
 
         // If the sensor is already facing up or down, reduce the threshold.
-        // This prevents small fluctations in acceleration while it is being
+        // This prevents small fluctuations in acceleration while it is being
         // turned from causing the hat block to trigger multiple times.
         let threshold = FACING_THRESHOLD;
         if (this._facingUp || this._facingDown) {

@@ -662,7 +662,7 @@ class JSGenerator {
         case StackOpcode.CONTROL_CLEAR_COUNTER:
             this.source += 'runtime.ext_scratch3_control._counter = 0;\n';
             break;
-        case StackOpcode.CONTORL_INCR_COUNTER:
+        case StackOpcode.CONTROL_INCR_COUNTER:
             this.source += 'runtime.ext_scratch3_control._counter++;\n';
             break;
 

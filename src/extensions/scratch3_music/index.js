@@ -1188,7 +1188,7 @@ class Scratch3MusicBlocks {
     }
 
     /**
-     * Calcuate the frequency ratio for a given musical interval.
+     * Calculate the frequency ratio for a given musical interval.
      * @param  {number} interval - the pitch interval to convert.
      * @return {number} a ratio corresponding to the input interval.
      * @private

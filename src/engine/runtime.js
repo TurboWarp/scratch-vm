@@ -111,7 +111,7 @@ const ArgumentTypeMap = (() => {
     };
     map[ArgumentType.IMAGE] = {
         // Inline images are weird because they're not actually "arguments".
-        // They are more analagous to the label on a block.
+        // They are more analogous to the label on a block.
         fieldType: 'field_image'
     };
     map[ArgumentType.COSTUME] = {
@@ -344,7 +344,7 @@ class Runtime extends EventEmitter {
          */
         this.currentStepTime = 1000 / 30;
 
-        // Set an intial value for this.currentMSecs
+        // Set an initial value for this.currentMSecs
         this.updateCurrentMSecs();
 
         /**
@@ -391,7 +391,7 @@ class Runtime extends EventEmitter {
         const newCloudDataManager = cloudDataManager(this.cloudOptions);
 
         /**
-         * Check wether the runtime has any cloud data.
+         * Check whether the runtime has any cloud data.
          * @type {function}
          * @return {boolean} Whether or not the runtime currently has any
          * cloud variables.
@@ -1432,7 +1432,7 @@ class Runtime extends EventEmitter {
             break;
         }
 
-        // Allow extensiosn to override outputShape
+        // Allow extension to override outputShape
         if (blockInfo.blockShape) {
             blockJSON.outputShape = blockInfo.blockShape;
         }
@@ -1582,7 +1582,7 @@ class Runtime extends EventEmitter {
     }
 
     /**
-     * Helper for _convertPlaceholdes which handles inline images which are a specialized case of block "arguments".
+     * Helper for _convertPlaceholders which handles inline images which are a specialized case of block "arguments".
      * @param {object} argInfo Metadata about the inline image as specified by the extension
      * @return {object} JSON blob for a scratch-blocks image field.
      * @private
@@ -2339,7 +2339,7 @@ class Runtime extends EventEmitter {
     /**
      * Move a target in the execution order by a relative amount.
      *
-     * A positve number will make the target execute earlier. A negative number
+     * A positive number will make the target execute earlier. A negative number
      * will make the target execute later in the order.
      *
      * @param {Target} executableTarget target to move
@@ -3388,7 +3388,7 @@ class Runtime extends EventEmitter {
     }
 
     /**
-     * @deprecated Used by old versions of TurboWarp. Superceded by upstream's quit()
+     * @deprecated Used by old versions of TurboWarp. Superseded by upstream's quit()
      */
     stop () {
         this.quit();

@@ -110,7 +110,7 @@ class Target extends EventEmitter {
     }
 
     /**
-     * Clear all edge-activaed hat values.
+     * Clear all edge-activated hat values.
      */
     clearEdgeActivatedValues () {
         this._edgeActivatedHatValues = {};
@@ -776,7 +776,7 @@ class Target extends EventEmitter {
         // Handle global var conflicts with existing global vars (e.g. a sprite is uploaded, and has
         // blocks referencing some variable that the sprite does not own, and this
         // variable conflicts with a global var)
-        // In this case, we want to merge the new variable referenes with the
+        // In this case, we want to merge the new variable references with the
         // existing global variable
         for (const conflictId in conflictIdsToReplace) {
             const existingId = conflictIdsToReplace[conflictId];
@@ -786,7 +786,7 @@ class Target extends EventEmitter {
 
         // Handle global var conflicts existing local vars (e.g a sprite is uploaded,
         // and has blocks referencing some variable that the sprite does not own, and this
-        // variable conflcits with another sprite's local var).
+        // variable conflicts with another sprite's local var).
         // In this case, we want to go through the variable references and update
         // the name of the variable in that reference.
         for (const conflictId in conflictNamesToReplace) {
