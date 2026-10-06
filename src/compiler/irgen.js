@@ -414,8 +414,8 @@ class ScriptTreeGenerator {
                 }
                 // If both are ints, hint this to the compiler
                 if (Cast.isInt(sFrom) && Cast.isInt(sTo)) {
-                    // Both inputs are ints, so we know neither are NaN
-                    return new IntermediateInput(InputOpcode.OP_RANDOM, InputType.NUMBER, {
+                    const type = (Number.isFinite(nFrom) && Number.isFinite(nTo)) ? InputType.NUMBER : InputType.NUMBER_OR_NAN;
+                    return new IntermediateInput(InputOpcode.OP_RANDOM, type, {
                         low: (nFrom <= nTo ? from : to).toType(InputType.NUMBER),
                         high: (nFrom <= nTo ? to : from).toType(InputType.NUMBER),
                         useInts: true,
