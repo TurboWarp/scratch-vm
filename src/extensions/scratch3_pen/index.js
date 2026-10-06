@@ -659,7 +659,7 @@ class Scratch3PenBlocks {
 
     /**
      * The "change pen {ColorParam} by {number}" block changes one of the pen's color parameters
-     * by a given amound.
+     * by a given amount.
      * @param {object} args - the block arguments.
      *  @property {ColorParam} COLOR_PARAM - the name of the selected color parameter.
      *  @property {number} VALUE - the amount to change the selected parameter by.
@@ -672,7 +672,7 @@ class Scratch3PenBlocks {
 
     /**
      * The "set pen {ColorParam} to {number}" block sets one of the pen's color parameters
-     * to a given amound.
+     * to a given amount.
      * @param {object} args - the block arguments.
      *  @property {ColorParam} COLOR_PARAM - the name of the selected color parameter.
      *  @property {number} VALUE - the amount to set the selected parameter to.
@@ -713,7 +713,7 @@ class Scratch3PenBlocks {
 
     /* LEGACY OPCODES */
     /**
-     * Scratch 2 "hue" param is equivelant to twice the new "color" param.
+     * Scratch 2 "hue" param is equivalent to twice the new "color" param.
      * @param {object} args - the block arguments.
      *  @property {number} HUE - the amount to set the hue to.
      * @param {object} util - utility object provided by the runtime.
@@ -730,7 +730,7 @@ class Scratch3PenBlocks {
     }
 
     /**
-     * Scratch 2 "hue" param is equivelant to twice the new "color" param.
+     * Scratch 2 "hue" param is equivalent to twice the new "color" param.
      * @param {object} args - the block arguments.
      *  @property {number} HUE - the amount of desired hue change.
      * @param {object} util - utility object provided by the runtime.

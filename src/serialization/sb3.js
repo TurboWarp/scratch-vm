@@ -106,7 +106,7 @@ const UPSTREAM_MAX_COMMENT_LENGTH = 8000;
  * or null if the given block is not one of the primitives described above.
  */
 const serializePrimitiveBlock = function (block) {
-    // Returns an array represeting a primitive block or null if not one of
+    // Returns an array representing a primitive block or null if not one of
     // the primitive types above
     if (hasOwnProperty.call(primitiveOpcodeInfoMap, block.opcode)) {
         const primitiveInfo = primitiveOpcodeInfoMap[block.opcode];
@@ -998,7 +998,7 @@ const deserializeFields = function (fields) {
 };
 
 /**
- * Covnert serialized INPUT and FIELD primitives back to hydrated block templates.
+ * Convert serialized INPUT and FIELD primitives back to hydrated block templates.
  * Should be able to deserialize a format that has already been deserialized.  The only
  * "east" path to adding new targets/code requires going through deserialize, so it should
  * work with pre-parsed deserialized blocks.
@@ -1143,7 +1143,7 @@ const fixSporkCompatibility = function (blocks) {
         }
 
         // control_stop used to define a mutation for whether it has a connection below, which is what old
-        // scratch-blocks relies on to determine if there is another conneciton below or not. Spork does not define
+        // scratch-blocks relies on to determine if there is another connection below or not. Spork does not define
         // this mutation and relies only on the STOP_OPTION field. We will generate the mutation if it's missing so
         // that a "stop other scripts in sprite" block doesn't cause the workspace to fail to load.
         case 'control_stop': {
@@ -1475,7 +1475,7 @@ const replaceUnsafeCharsInVariableIds = function (targets) {
         });
     });
 
-    // Replace the IDs in the blocks refrencing variables or lists
+    // Replace the IDs in the blocks referencing variables or lists
     for (const id in allVarRefs) {
         const newId = StringUtil.replaceUnsafeChars(id);
         if (id === newId) continue; // ID was already safe, skip
