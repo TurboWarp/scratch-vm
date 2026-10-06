@@ -92,12 +92,71 @@ class Sprite {
     }
 
     /**
-     * Delete a costume by index.
+     * Delete a costume by index. Does not destroy its skin.
      * @param {number} index Costume index to be deleted
-     * @return {?object} The deleted costume
+     * @returns {object|null} The deleted costume, if any
      */
     deleteCostumeAt (index) {
         return this.costumes.splice(index, 1)[0];
+    }
+
+    /**
+     * Delete a costume by index, destroy its skin, and update clones' current costume.
+     * @param {number} index Costume index to be deleted
+     * @returns {object|null} The deleted costume, if any
+     */
+    deleteCostume (index) {
+        const originalCostumeCount = this.costumes_.length;
+        if (
+            originalCostumeCount === 1 ||
+            index < 0 ||
+            index >= originalCostumeCount
+        ) {
+            return null;
+        }
+
+        const deletedCostume = this.deleteCostumeAt(index);
+        if (this.runtime.renderer && typeof deletedCostume.skinId === 'number') {
+            this.runtime.renderer.destroySkin(deletedCostume.skinId);
+        }
+
+        for (const clone of this.clones) {
+            if (clone.currentCostume > index) {
+                clone.setCostume(clone.currentCostume - 1);
+            } else if (clone.currentCostume === index) {
+                clone.setCostume(Math.min(index, this.costumes_.length - 1));
+            }
+        }
+
+        return deletedCostume;
+    }
+
+    /**
+     * Delete a sound by index. Does not dispose its sound player.
+     * @param {number} index Sound index to be deleted
+     * @returns {object|null} The deleted sound, if any
+     */
+    deleteSoundAt (index) {
+        return this.sounds.splice(index, 1)[0];
+    }
+
+    /**
+     * Delete a sound by index and dispose its sound player.
+     * @param {number} index Sound index to be deleted
+     * @returns {object|null} The deleted sound, if any
+     */
+    deleteSound (index) {
+        if (index < 0 || index >= this.sounds.length) return null;
+        const deletedSound = this.deleteSoundAt(index);
+        // Older versions of scratch-audio don't have removeSoundPlayer
+        if (
+            this.soundBank &&
+            typeof deletedSound.soundId === 'string' &&
+            typeof this.soundBank.removeSoundPlayer === 'function'
+        ) {
+            this.soundBank.removeSoundPlayer(deletedSound.soundId);
+        }
+        return deletedSound;
     }
 
     /**
@@ -132,6 +191,9 @@ class Sprite {
         const cloneIndex = this.clones.indexOf(clone);
         if (cloneIndex >= 0) {
             this.clones.splice(cloneIndex, 1);
+        }
+        if (this.clones.length === 0) {
+            this.dispose();
         }
     }
 
@@ -168,8 +230,20 @@ class Sprite {
     }
 
     dispose () {
+        if (this.runtime.renderer) {
+            for (const costume of this.costumes_) {
+                if (typeof costume.skinId === 'number') {
+                    this.runtime.renderer.destroySkin(costume.skinId);
+                }
+            }
+        }
+        // toJSON() exposes these arrays by reference so it's better to make new ones than
+        // to modify in place and probably break things.
+        this.costumes_ = [];
+        this.sounds = [];
         if (this.soundBank) {
             this.soundBank.dispose();
+            this.soundBank = null;
         }
     }
 }
