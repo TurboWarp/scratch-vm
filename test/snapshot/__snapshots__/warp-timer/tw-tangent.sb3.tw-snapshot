@@ -1,5 +1,5 @@
 // TW Snapshot
-// Input SHA-256: 1446684578b41ff41cf29fbe14696ef717cca636e8d46babd7d9dec6df723a33
+// Input SHA-256: d8096fc8134b8ae8e489866d8c9aa134368d8c05b9d090c14ba3c8b56713d7af
 
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
@@ -17,7 +17,7 @@ runtime.ext_scratch3_looks._say("pass 180", target);
 if ((toNotNaN(tan(270)) === -Infinity)) {
 runtime.ext_scratch3_looks._say("pass 270", target);
 }
-if (compareEqual(tan(360), 0)) {
+if (((1 / toNotNaN(tan(360))) === Infinity)) {
 runtime.ext_scratch3_looks._say("pass 360", target);
 }
 if ((toNotNaN(tan(450)) === Infinity)) {
