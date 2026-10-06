@@ -179,11 +179,13 @@ class JSGenerator {
             return `(${this.descendAddonCall(node)})`;
 
         case InputOpcode.CAST_BOOLEAN:
+            // Disabling casting does not affect CAST_BOOLEAN because 'false' is a common boolean-ish value
             return `toBoolean(${this.descendInput(node.target)})`;
         case InputOpcode.CAST_NUMBER:
             if (node.target.isAlwaysType(InputType.BOOLEAN)) {
                 return `(+${this.descendInput(node.target)})`;
             }
+            if (this.script.disableCast) return `(+${this.descendInput(node.target)})`;
             if (node.target.isAlwaysType(InputType.NUMBER_OR_NAN)) {
                 return `toNotNaN(${this.descendInput(node.target)})`;
             }
@@ -191,7 +193,7 @@ class JSGenerator {
         case InputOpcode.CAST_NUMBER_OR_NAN:
             return `(+${this.descendInput(node.target)})`;
         case InputOpcode.CAST_NUMBER_INDEX:
-            return `(${this.descendInput(node.target.toType(InputType.NUMBER_OR_NAN))} | 0)`;
+            return this.script.disableCast ? `(+${this.descendInput(node.target)})` : `(${this.descendInput(node.target.toType(InputType.NUMBER_OR_NAN))} | 0)`;
         case InputOpcode.CAST_STRING:
             return `("" + ${this.descendInput(node.target)})`;
         case InputOpcode.CAST_COLOR:
@@ -234,11 +236,18 @@ class JSGenerator {
             return `listContents(${this.referenceVariable(node.list)})`;
         case InputOpcode.LIST_GET: {
             if (environment.supportsNullishCoalescing) {
+                const listType = this.target.getTypehint(this.script.topBlockId, node.list.id);
+                let defaultValue = `""`;
+                if ((listType & InputType.NUMBER) === listType) defaultValue = '0';
+                else if ((listType & InputType.STRING) === listType) defaultValue = `""`;
+                else if ((listType & InputType.BOOLEAN) === listType) defaultValue = 'false';
+                // Todo: More verbose default value checking. This might break projects.
+
                 if (node.index.isAlwaysType(InputType.NUMBER_INTERPRETABLE | InputType.NUMBER_NAN)) {
-                    return `(${this.referenceVariable(node.list)}.value[${this.descendInput(node.index.toType(InputType.NUMBER_INDEX))} - 1] ?? "")`;
+                    return `(${this.referenceVariable(node.list)}.value[${this.descendInput(node.index.toType(InputType.NUMBER_INDEX))} - 1] ?? ${defaultValue})`;
                 }
                 if (node.index.isConstant('last')) {
-                    return `(${this.referenceVariable(node.list)}.value[${this.referenceVariable(node.list)}.value.length - 1] ?? "")`;
+                    return `(${this.referenceVariable(node.list)}.value[${this.referenceVariable(node.list)}.value.length - 1] ?? ${defaultValue})`;
                 }
             }
             return `listGet(${this.referenceVariable(node.list)}.value, ${this.descendInput(node.index)})`;
@@ -334,13 +343,14 @@ class JSGenerator {
             // No compile-time optimizations possible - use fallback method.
             return `compareGreaterThan(${this.descendInput(left)}, ${this.descendInput(right)})`;
         }
-        case InputOpcode.OP_JOIN:
+        case InputOpcode.OP_JOIN: // Todo: This won't play well without casting
             return `(${this.descendInput(node.left)} + ${this.descendInput(node.right)})`;
         case InputOpcode.OP_LENGTH:
             return `${this.descendInput(node.string)}.length`;
         case InputOpcode.OP_LESS: {
             const left = node.left;
             const right = node.right;
+
             // When the left operand is a number or NaN and the right operand is a number, we can use <
             if (left.isAlwaysType(InputType.NUMBER_INTERPRETABLE | InputType.NUMBER_NAN) && right.isAlwaysType(InputType.NUMBER_INTERPRETABLE)) {
                 return `(${this.descendInput(left.toType(InputType.NUMBER_OR_NAN))} < ${this.descendInput(right.toType(InputType.NUMBER))})`;

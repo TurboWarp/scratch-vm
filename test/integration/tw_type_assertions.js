@@ -119,7 +119,7 @@ test('type assertions', async t => {
             block.ignoreState = true;
         }
 
-        const irOptimizer = new IROptimizer(ir);
+        const irOptimizer = new IROptimizer(ir, thread.target);
         irOptimizer.ignoreYields = ignoreYields;
         irOptimizer.optimize();
 

@@ -164,7 +164,7 @@ test('operator type matrix', async t => {
 
         const irGenerator = new IRGenerator(thread);
         const ir = irGenerator.generate();
-        const irOptimizer = new IROptimizer(ir);
+        const irOptimizer = new IROptimizer(ir, thread.target);
         irOptimizer.optimize();
 
 

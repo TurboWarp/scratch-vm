@@ -1013,6 +1013,10 @@ class RenderedTarget extends Target {
      * For a rendered target, this clears graphic effects.
      */
     onGreenFlag () {
+        this._typeHints = {};
+        for (const comment of Object.values(this.comments)) {
+            this.tryInsertTypehints(comment.blockId, comment.text);
+        }
         this.clearEffects();
     }
 

@@ -349,6 +349,17 @@ class IntermediateScript {
          */
         this.executableHat = false;
 
+        /**
+         * If enabled, inputs will not be explicitly cast
+         * @type {boolean}
+         */
+        this.disableCast = false;
+
+        /**
+         * If enabled, some math operations will less readily assume infinity and NaN
+         * @type {boolean}
+         */
+        this.relaxedMath = false;
     }
 }
 

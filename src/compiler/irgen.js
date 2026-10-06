@@ -237,7 +237,11 @@ class ScriptTreeGenerator {
             if (index === -1) {
                 return this.createConstantInput(0);
             }
-            return new IntermediateInput(InputOpcode.PROCEDURE_ARGUMENT, InputType.ANY, {index});
+            return new IntermediateInput(InputOpcode.PROCEDURE_ARGUMENT, InputType.ANY & this.target.getTypehint(this.script.topBlockId, name),
+                {
+                    index,
+                    procCode: this.script.procedureCode
+                });
         }
         case 'argument_reporter_boolean': {
             // see argument_reporter_string_number above
@@ -249,18 +253,28 @@ class ScriptTreeGenerator {
                 }
                 return this.createConstantInput(0);
             }
-            return new IntermediateInput(InputOpcode.PROCEDURE_ARGUMENT, InputType.ANY, {index});
+            return new IntermediateInput(InputOpcode.PROCEDURE_ARGUMENT, InputType.ANY & this.target.getTypehint(this.script.topBlockId, name),
+                {
+                    index,
+                    procCode: this.script.procedureCode
+                });
         }
 
-        case 'data_variable':
-            return new IntermediateInput(InputOpcode.VAR_GET, InputType.ANY, {
-                variable: this.descendVariable(block, 'VARIABLE', SCALAR_TYPE)
+        case 'data_variable': {
+            const variable = this.descendVariable(block, 'VARIABLE', SCALAR_TYPE);
+            return new IntermediateInput(InputOpcode.VAR_GET, InputType.ANY & this.target.getTypehint(this.script.topBlockId, variable.id), {
+                variable
             });
-        case 'data_itemoflist':
-            return new IntermediateInput(InputOpcode.LIST_GET, InputType.ANY, {
-                list: this.descendVariable(block, 'LIST', LIST_TYPE),
+        }
+
+        case 'data_itemoflist': {
+            const list = this.descendVariable(block, 'LIST', LIST_TYPE);
+            return new IntermediateInput(InputOpcode.LIST_GET, InputType.ANY & this.target.getTypehint(this.script.topBlockId, list.id), {
+                list,
                 index: this.descendInputOfBlock(block, 'INDEX')
             });
+        }
+
         case 'data_lengthoflist':
             return new IntermediateInput(InputOpcode.LIST_LENGTH, InputType.NUMBER_POS_INT | InputType.NUMBER_ZERO, {
                 list: this.descendVariable(block, 'LIST', LIST_TYPE)
@@ -713,7 +727,7 @@ class ScriptTreeGenerator {
             return new IntermediateStackBlock(StackOpcode.VAR_SET, {
                 variable,
                 value: new IntermediateInput(InputOpcode.OP_ADD, InputType.NUMBER_OR_NAN, {
-                    left: new IntermediateInput(InputOpcode.VAR_GET, InputType.ANY, {variable}).toType(InputType.NUMBER),
+                    left: new IntermediateInput(InputOpcode.VAR_GET, InputType.ANY & this.target.getTypehint(this.script.topBlockId, variable.id), {variable}).toType(InputType.NUMBER),
                     right: this.descendInputOfBlock(block, 'VALUE').toType(InputType.NUMBER)
                 })
             });
@@ -1321,6 +1335,7 @@ class ScriptTreeGenerator {
         return !this.script.isWarp || this.script.warpTimer;
     }
 
+
     readTopBlockComment (commentId) {
         const comment = this.target.comments[commentId];
         if (!comment) {
@@ -1332,23 +1347,32 @@ class ScriptTreeGenerator {
         const text = comment.text;
 
         for (const line of text.split('\n')) {
-            if (!/^tw\b/.test(line)) {
-                continue;
-            }
-
-            const flags = line.split(' ');
-            for (const flag of flags) {
-                switch (flag) {
-                case 'nocompile':
-                    throw new Error('Script explicitly disables compilation');
-                case 'stuck':
-                    this.script.warpTimer = true;
-                    break;
+            if (/^tw\b/.test(line)) {
+                const flags = line.split(' ');
+                for (const flag of flags) {
+                    switch (flag) {
+                    case 'nocompile':
+                        throw new Error('Script explicitly disables compilation');
+                    case 'stuck':
+                        this.script.warpTimer = true;
+                        break;
+                    case 'nocast':
+                        this.script.disableCast = true;
+                        break;
+                    case 'allowcast':
+                        this.script.disableCast = false;
+                        break;
+                    case 'relaxedmath':
+                        this.script.relaxedMath = true;
+                        break;
+                    case 'strictmath':
+                        this.script.relaxedMath = false;
+                        break;
+                    }
                 }
             }
 
-            // Only the first 'tw' line is parsed.
-            break;
+
         }
     }
 
@@ -1411,6 +1435,7 @@ class ScriptTreeGenerator {
         this.blocks.populateProcedureCache();
 
         this.script.topBlockId = topBlockId;
+        this.script.relaxedMath = this.runtime.compilerOptions.relaxedMath;
 
         const topBlock = this.getBlockById(topBlockId);
         if (!topBlock) {
