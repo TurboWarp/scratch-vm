@@ -135,6 +135,7 @@ test('deleteCostume', t => {
     const s = new Sprite(null, r);
     s.costumes = [o1, o2, o3];
     const a = new RenderedTarget(s, r);
+    s.clones.push(a);
     const renderer = new FakeRenderer();
     a.renderer = renderer;
 

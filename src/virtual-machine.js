@@ -1019,17 +1019,27 @@ class VirtualMachine extends EventEmitter {
     /**
      * Delete a costume from the current editing target.
      * @param {int} costumeIndex - the index of the costume to be removed.
-     * @return {?function} A function to restore the deleted costume, or null,
+     * @returns {(() => Promise<void>)|null} A function to restore the deleted costume, or null
      * if no costume was deleted.
      */
     deleteCostume (costumeIndex) {
-        const deletedCostume = this.editingTarget.deleteCostume(costumeIndex);
+        const target = this.editingTarget;
+        const deletedCostume = target.deleteCostume(costumeIndex);
         if (deletedCostume) {
-            const target = this.editingTarget;
             this.runtime.emitProjectChanged();
             return () => {
-                target.addCostume(deletedCostume);
-                this.emitTargetsUpdate();
+                const md5ext = `${deletedCostume.assetId}.${deletedCostume.dataFormat}`;
+                return loadCostume(md5ext, deletedCostume, this.runtime).then(() => {
+                    if (target.sprite.clones.length === 0) {
+                        // Sprite was deleted while we were loading
+                        if (this.runtime.renderer && typeof deletedCostume.skinId === 'number') {
+                            this.runtime.renderer.destroySkin(deletedCostume.skinId);
+                        }
+                        return;
+                    }
+                    target.addCostume(deletedCostume);
+                    this.emitTargetsUpdate();
+                });
             };
         }
         return null;
@@ -1122,8 +1132,8 @@ class VirtualMachine extends EventEmitter {
     /**
      * Delete a sound from the current editing target.
      * @param {int} soundIndex - the index of the sound to be removed.
-     * @return {?Function} A function to restore the sound that was deleted,
-     * or null, if no sound was deleted.
+     * @returns {(() => Promise<void>)|null} A function to restore the deleted sound, or null
+     * if no sound was deleted.
      */
     deleteSound (soundIndex) {
         const target = this.editingTarget;
@@ -1131,8 +1141,18 @@ class VirtualMachine extends EventEmitter {
         if (deletedSound) {
             this.runtime.emitProjectChanged();
             const restoreFun = () => {
-                target.addSound(deletedSound);
-                this.emitTargetsUpdate();
+                const soundBank = target.sprite.soundBank;
+                return loadSound(deletedSound, this.runtime, soundBank).then(() => {
+                    if (target.sprite.clones.length === 0) {
+                        // Sprite was deleted while we were loading
+                        if (soundBank && typeof soundBank.removeSoundPlayer === 'function') {
+                            soundBank.removeSoundPlayer(deletedSound.soundId);
+                        }
+                        return;
+                    }
+                    target.addSound(deletedSound);
+                    this.emitTargetsUpdate();
+                });
             };
             return restoreFun;
         }
@@ -1356,7 +1376,6 @@ class VirtualMachine extends EventEmitter {
         const target = this.runtime.getTargetById(targetId);
 
         if (target) {
-            const targetIndexBeforeDelete = this.runtime.targets.map(t => t.id).indexOf(target.id);
             if (!target.isSprite()) {
                 throw new Error('Cannot delete non-sprite targets.');
             }
@@ -1369,19 +1388,21 @@ class VirtualMachine extends EventEmitter {
             // Remove monitors from the runtime state and remove the
             // target-specific monitored blocks (e.g. local variables)
             target.deleteMonitors();
-            const currentEditingTarget = this.editingTarget;
-            for (let i = 0; i < sprite.clones.length; i++) {
-                const clone = sprite.clones[i];
-                this.runtime.stopForTarget(sprite.clones[i]);
-                this.runtime.disposeTarget(sprite.clones[i]);
-                // Ensure editing target is switched if we are deleting it.
-                if (clone === currentEditingTarget) {
-                    const nextTargetIndex = Math.min(this.runtime.targets.length - 1, targetIndexBeforeDelete);
-                    if (this.runtime.targets.length > 0){
-                        this.setEditingTarget(this.runtime.targets[nextTargetIndex].id);
-                    } else {
-                        this.editingTarget = null;
-                    }
+            const targetIndexBeforeDelete = this.runtime.targets.indexOf(target);
+
+            // disposeTarget removes from sprite.clones, so iterate over a copy
+            const clones = sprite.clones.slice();
+            for (const clone of clones) {
+                this.runtime.stopForTarget(clone);
+                this.runtime.disposeTarget(clone);
+            }
+
+            if (this.editingTarget && this.editingTarget.sprite === sprite) {
+                const targets = this.runtime.targets;
+                if (targets.length > 0) {
+                    this.setEditingTarget(targets[Math.min(targets.length - 1, targetIndexBeforeDelete)].id);
+                } else {
+                    this.editingTarget = null;
                 }
             }
             // Sprite object should be deleted by GC.

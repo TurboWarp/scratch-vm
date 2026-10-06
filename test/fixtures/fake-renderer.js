@@ -95,4 +95,8 @@ FakeRenderer.prototype.isTouchingColor = function (a, b) { // eslint-disable-lin
 
 FakeRenderer.prototype.setLayerGroupOrdering = function (a) {}; // eslint-disable-line no-unused-vars
 
+FakeRenderer.prototype.destroySkin = function (skinId) {}; // eslint-disable-line no-unused-vars
+
+FakeRenderer.prototype.destroyDrawable = function (d, layerGroup) {}; // eslint-disable-line no-unused-vars
+
 module.exports = FakeRenderer;
