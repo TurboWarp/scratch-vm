@@ -177,7 +177,30 @@ class Sequencer {
      */
     stepThread (thread) {
         if (thread.isCompiled) {
-            compilerExecute(thread);
+            const result = compilerExecute(thread);
+
+            if (result.value && result.value.frames) {
+                while (thread.stack.length > 0) thread.popStack();
+                for (const deoptFrame of result.value.frames) {
+                    thread.pushStack(deoptFrame.blockId);
+
+                    const frame = thread.peekStackFrame();
+
+                    frame.isLoop = deoptFrame.isLoop;
+                    frame.warpMode = deoptFrame.warpMode;
+
+                    frame.executionContext =
+                        deoptFrame.executionContext === null ?
+                            null :
+                            {...deoptFrame.executionContext};
+
+                    if (deoptFrame.params) {
+                        frame.params = {...deoptFrame.params};
+                    }
+                }
+                thread.isCompiled = false;
+            }
+
             return;
         }
 
