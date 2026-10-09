@@ -1,0 +1,33 @@
+// TW Snapshot
+// Input SHA-256: 39e78a33b378af447e20383b00cb9216242ba552f9a6d6e154e588708c6c944f
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+return function* genXYZ () {
+runtime.ext_scratch3_looks._say("plan 1", target);
+b0.value = 5;
+thread.procedures["Zwhatever %s"](thread.procedures["Zside effect"]());
+if (((toNotNaN(+b0.value) + 1) === 1)) {
+runtime.ext_scratch3_looks._say("pass", target);
+}
+runtime.ext_scratch3_looks._say("end", target);
+retire(); return;
+}; })
+
+// Sprite1 Zwhatever %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["+cSX(xE;GM*W-4/B%-j="];
+return function funXYZ_whatever_ (p0) {
+b0.value = p0;
+return "";
+}; })
+
+// Sprite1 Zside effect
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+return function funXYZ_side_effect () {
+b0.value = "xyz";
+return "whatever";
+return "";
+}; })
