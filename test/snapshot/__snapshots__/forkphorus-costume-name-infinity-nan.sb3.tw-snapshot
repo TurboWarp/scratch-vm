@@ -1,0 +1,35 @@
+// TW Snapshot
+// Input SHA-256: dad2d51129eae742bdde75772afed267945ce57ccbc8890e504519ff6fd55318
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ () {
+runtime.ext_scratch3_looks._setCostume(target, "initial");
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 6",}, b0, false, false, "m", null);
+runtime.ext_scratch3_looks._setCostume(target, (1 / 0));
+if ((target.getCostumes()[target.currentCostume].name.toLowerCase() === "good".toLowerCase())) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass infinity costume name",}, b0, false, false, "x", null);
+}
+if (((target.currentCostume + 1) === 1)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass infinity costume number",}, b0, false, false, "z", null);
+}
+runtime.ext_scratch3_looks._setCostume(target, "initial");
+runtime.ext_scratch3_looks._setCostume(target, (1 / -0));
+if ((target.getCostumes()[target.currentCostume].name.toLowerCase() === "good".toLowerCase())) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass -infinity costume name",}, b0, false, false, "E", null);
+}
+if (((target.currentCostume + 1) === 1)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass -infinity costume number",}, b0, false, false, "G", null);
+}
+runtime.ext_scratch3_looks._setCostume(target, "initial");
+runtime.ext_scratch3_looks._setCostume(target, (0 / 0));
+if ((target.getCostumes()[target.currentCostume].name.toLowerCase() === "good".toLowerCase())) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass nan costume name",}, b0, false, false, "L", null);
+}
+if (((target.currentCostume + 1) === 1)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass nan costume number",}, b0, false, false, "O", null);
+}
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "N", null);
+retire(); return;
+}; })

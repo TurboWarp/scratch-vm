@@ -1,0 +1,43 @@
+// TW Snapshot
+// Input SHA-256: 02a87b5a1b3b7a692c904422b1b22ea0fb6a7240ab3ca998a921674f4152b04e
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ () {
+thread.timer = timer();
+var a0 = Math.max(0, 1000 * 0);
+runtime.requestRedraw();
+yield;
+while (thread.timer.timeElapsed() < a0) {
+yield;
+}
+thread.timer = null;
+thread.timer = timer();
+var a1 = Math.max(0, 1000 * 0);
+runtime.requestRedraw();
+yield;
+while (thread.timer.timeElapsed() < a1) {
+yield;
+}
+thread.timer = null;
+if ((limitPrecision(target.x) === 100)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "m", null);
+} else {
+yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "n", null);
+}
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "l", null);
+retire(); return;
+}; })
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+const b1 = runtime.getOpcodeFunction("motion_glidesecstoxy");
+return function* genXYZ () {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "d", null);
+target.setXY(0, 0);
+startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "message1" });
+yield* executeInCompatibilityLayer({"SECS":-1,"X":100,"Y":0,}, b1, false, false, "h", null);
+retire(); return;
+}; })

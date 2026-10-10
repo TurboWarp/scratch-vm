@@ -1,0 +1,442 @@
+// TW Snapshot
+// Input SHA-256: 81139c5bfe7cf38a74769e99279d2d211e5acb5dbc301dbd2bae79a6676015a3
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ () {
+yield* thread.procedures["Wcopy input"]();
+yield* thread.procedures["Zbefunge"]();
+retire(); return;
+}; })
+
+// Sprite1 Wcopy input
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["o4+OyKx[M=quu6p{=kRl-P-list"];
+const b1 = stage.variables["o4+OyKx[M=quu6p{=kRl-i-"];
+const b2 = stage.variables["o4+OyKx[M=quu6p{=kRl-input-list"];
+return function* genXYZ_copy_input () {
+b0.value = [];
+b1.value = 0;
+for (var a0 = b2.value.length; a0 > 0; a0--) {
+b1.value = ((+b1.value || 0) + 1);
+b0.value.push((b2.value[(b1.value | 0) - 1] ?? ""));
+b0._monitorUpToDate = false;
+if (isStuck()) yield;
+}
+return "";
+}; })
+
+// Sprite1 Zbefunge
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["o4+OyKx[M=quu6p{=kRl-px-"];
+const b1 = stage.variables["o4+OyKx[M=quu6p{=kRl-py-"];
+const b2 = stage.variables["o4+OyKx[M=quu6p{=kRl-direction-"];
+const b3 = runtime.getSpriteTargetByName("directions");
+const b4 = b3 && b3.lookupVariableByNameAndType("RIGHT", "", true);
+const b5 = stage.variables["o4+OyKx[M=quu6p{=kRl-mem-list"];
+const b6 = stage.variables["4s|,s}H*n$XE+1ez}%eC"];
+return function* genXYZ_befunge () {
+b0.value = 1;
+b1.value = 1;
+b2.value = (b4 ? b4.value : 0);
+b5.value = [];
+b6.value = [];
+yield* thread.procedures["Wget max length"]();
+while (true) {
+yield* thread.procedures["Zstep"]();
+yield;
+}
+return "";
+}; })
+
+// Sprite1 Wget max length
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["o4+OyKx[M=quu6p{=kRl-max length-"];
+const b1 = stage.variables["o4+OyKx[M=quu6p{=kRl-i-"];
+const b2 = stage.variables["o4+OyKx[M=quu6p{=kRl-input-list"];
+return function* genXYZ_get_max_length () {
+b0.value = 0;
+b1.value = 0;
+for (var a0 = b2.value.length; a0 > 0; a0--) {
+b1.value = ((+b1.value || 0) + 1);
+if (compareGreaterThan(("" + (b2.value[(b1.value | 0) - 1] ?? "")).length, b0.value)) {
+b0.value = ("" + (b2.value[(b1.value | 0) - 1] ?? "")).length;
+}
+if (isStuck()) yield;
+}
+return "";
+}; })
+
+// Sprite1 Zstep
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["o4+OyKx[M=quu6p{=kRl-char-"];
+const b1 = stage.variables["o4+OyKx[M=quu6p{=kRl-P-list"];
+const b2 = stage.variables["o4+OyKx[M=quu6p{=kRl-py-"];
+const b3 = stage.variables["o4+OyKx[M=quu6p{=kRl-px-"];
+const b4 = stage.variables["o4+OyKx[M=quu6p{=kRl-direction-"];
+const b5 = runtime.getSpriteTargetByName("directions");
+const b6 = b5 && b5.lookupVariableByNameAndType("RIGHT", "", true);
+const b7 = b5 && b5.lookupVariableByNameAndType("LEFT", "", true);
+const b8 = b5 && b5.lookupVariableByNameAndType("UP", "", true);
+const b9 = b5 && b5.lookupVariableByNameAndType("DOWN", "", true);
+const b10 = stage.variables["o4+OyKx[M=quu6p{=kRl-pop-list"];
+const b11 = stage.variables["o4+OyKx[M=quu6p{=kRl-result-"];
+const b12 = stage.variables["o4+OyKx[M=quu6p{=kRl-mem-list"];
+const b13 = stage.variables["4s|,s}H*n$XE+1ez}%eC"];
+const b14 = stage.variables["o4+OyKx[M=quu6p{=kRl-ascii-list"];
+const b15 = stage.variables["o4+OyKx[M=quu6p{=kRl-ascii2-list"];
+const b16 = stage.variables["o4+OyKx[M=quu6p{=kRl-numbers-list"];
+return function* genXYZ_step () {
+b0.value = ((("" + listGet(b1.value, b2.value)))[((+b3.value) | 0) - 1] || "");
+if ((b0.value.toLowerCase() === ">".toLowerCase())) {
+b4.value = (b6 ? b6.value : 0);
+}
+if ((b0.value.toLowerCase() === "<".toLowerCase())) {
+b4.value = (b7 ? b7.value : 0);
+}
+if ((b0.value.toLowerCase() === "^".toLowerCase())) {
+b4.value = (b8 ? b8.value : 0);
+}
+if ((b0.value.toLowerCase() === "v".toLowerCase())) {
+b4.value = (b9 ? b9.value : 0);
+}
+if ((b0.value.toLowerCase() === "?".toLowerCase())) {
+b4.value = randomInt(1, 4);
+}
+if ((b0.value.toLowerCase() === "@".toLowerCase())) {
+yield* thread.procedures["Zexit & verify"]();
+}
+if ((("" + b0.value).toLowerCase() === "+".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](2);
+thread.procedures["Zpush %n"](((+(b10.value[1 - 1] ?? "") || 0) + (+(b10.value[2 - 1] ?? "") || 0)));
+}
+if ((("" + b0.value).toLowerCase() === "-".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](2);
+thread.procedures["Zpush %n"](((+(b10.value[2 - 1] ?? "") || 0) - (+(b10.value[1 - 1] ?? "") || 0)));
+}
+if ((("" + b0.value).toLowerCase() === "*".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](2);
+thread.procedures["Zpush %n"](((+(b10.value[2 - 1] ?? "") || 0) * (+(b10.value[1 - 1] ?? "") || 0)));
+}
+if ((("" + b0.value).toLowerCase() === "/".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](2);
+thread.procedures["Zpush %n"](Math.floor((((+(b10.value[2 - 1] ?? "") || 0) / (+(b10.value[1 - 1] ?? "") || 0)) || 0)));
+}
+if ((("" + b0.value).toLowerCase() === "%".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](2);
+thread.procedures["Zpush %n"](mod((+(b10.value[2 - 1] ?? "") || 0), (+(b10.value[1 - 1] ?? "") || 0)));
+}
+if ((("" + b0.value).toLowerCase() === "!".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](1);
+thread.procedures["Zpush bool %b"](compareEqual((b10.value[1 - 1] ?? ""), 0));
+}
+if ((("" + b0.value).toLowerCase() === "`".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](2);
+thread.procedures["Zpush bool %b"](compareGreaterThan((b10.value[2 - 1] ?? ""), (b10.value[1 - 1] ?? "")));
+}
+if ((("" + b0.value).toLowerCase() === "_".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](1);
+if ((compareEqual((b10.value[1 - 1] ?? ""), 0) || (("" + (b10.value[1 - 1] ?? "")).toLowerCase() === "".toLowerCase()))) {
+b4.value = (b6 ? b6.value : 0);
+} else {
+b4.value = (b7 ? b7.value : 0);
+}
+}
+if ((("" + b0.value).toLowerCase() === "|".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](1);
+if ((compareEqual((b10.value[1 - 1] ?? ""), 0) || (("" + (b10.value[1 - 1] ?? "")).toLowerCase() === "".toLowerCase()))) {
+b4.value = (b9 ? b9.value : 0);
+} else {
+b4.value = (b8 ? b8.value : 0);
+}
+}
+if ((("" + b0.value).toLowerCase() === "\"".toLowerCase())) {
+yield* thread.procedures["Znext char"]();
+while (!(((("" + listGet(b1.value, b2.value)))[((+b3.value) | 0) - 1] || "").toLowerCase() === "\"".toLowerCase())) {
+yield* thread.procedures["Wascii to number %s"](((("" + listGet(b1.value, b2.value)))[((+b3.value) | 0) - 1] || ""));
+thread.procedures["Zpush %n"](b11.value);
+yield* thread.procedures["Znext char"]();
+yield;
+}
+}
+if ((("" + b0.value).toLowerCase() === ":".toLowerCase())) {
+thread.procedures["Zpush %n"]((b12.value[b12.value.length - 1] ?? ""));
+}
+if ((("" + b0.value).toLowerCase() === "\\".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](2);
+thread.procedures["Zpush %n"]((b10.value[1 - 1] ?? ""));
+thread.procedures["Zpush %n"]((b10.value[2 - 1] ?? ""));
+}
+if ((("" + b0.value).toLowerCase() === "$".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](1);
+}
+if ((("" + b0.value).toLowerCase() === ".".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](1);
+b13.value.push((b10.value[1 - 1] ?? ""));
+b13._monitorUpToDate = false;
+}
+if ((("" + b0.value).toLowerCase() === ",".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](1);
+yield* thread.procedures["ZFAIL %s"](("did not expect ascii output: " + ("" + (b14.value[(((+(b10.value[1 - 1] ?? "") || 0) + 1) | 0) - 1] ?? ""))));
+}
+if ((("" + b0.value).toLowerCase() === "#".toLowerCase())) {
+yield* thread.procedures["Znext char"]();
+}
+if ((("" + b0.value).toLowerCase() === "g".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](2);
+yield* thread.procedures["Zascii to number but it lies %s"](((("" + (b1.value[(((+(b10.value[1 - 1] ?? "") || 0) + 1) | 0) - 1] ?? "")))[(((+(b10.value[2 - 1] ?? "") || 0) + 1) | 0) - 1] || ""));
+thread.procedures["Zpush %n"](b11.value);
+}
+if ((("" + b0.value).toLowerCase() === "p".toLowerCase())) {
+yield* thread.procedures["Zpop %n"](3);
+listReplace(b10, 1, ((+(b10.value[1 - 1] ?? "") || 0) + 1));
+listReplace(b10, 2, ((+(b10.value[2 - 1] ?? "") || 0) + 1));
+if (compareLessThan(b1.value.length, (b10.value[1 - 1] ?? ""))) {
+while (!compareEqual(b1.value.length, (b10.value[1 - 1] ?? ""))) {
+b1.value.push("");
+b1._monitorUpToDate = false;
+yield;
+}
+}
+if (compareLessThan(("" + listGet(b1.value, (b10.value[1 - 1] ?? ""))).length, (b10.value[2 - 1] ?? ""))) {
+while (!compareEqual(("" + listGet(b1.value, (b10.value[1 - 1] ?? ""))).length, (b10.value[2 - 1] ?? ""))) {
+listReplace(b1, (b10.value[1 - 1] ?? ""), (("" + listGet(b1.value, (b10.value[1 - 1] ?? ""))) + " "));
+yield;
+}
+}
+yield* thread.procedures["Winsert %s %n %s"](listGet(b1.value, (b10.value[1 - 1] ?? "")),(b10.value[2 - 1] ?? ""),(b15.value[(((+(b10.value[3 - 1] ?? "") || 0) + 1) | 0) - 1] ?? ""));
+listReplace(b1, (b10.value[1 - 1] ?? ""), b11.value);
+}
+if ((("" + b0.value).toLowerCase() === "&".toLowerCase())) {
+yield* thread.procedures["ZFAIL %s"]("unexpected ask for integer input");
+}
+if ((("" + b0.value).toLowerCase() === "~".toLowerCase())) {
+yield* thread.procedures["ZFAIL %s"]("unexpected ask for ascii input");
+}
+if (listContains(b16, b0.value)) {
+thread.procedures["Zpush %n"](b0.value);
+}
+yield* thread.procedures["Znext char"]();
+return "";
+}; })
+
+// Sprite1 Zexit & verify
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["4s|,s}H*n$XE+1ez}%eC"];
+const b1 = stage.variables["o4+OyKx[M=quu6p{=kRl-i-"];
+const b2 = stage.variables["f]9Ph]^v5P2CT7ju($Qb"];
+return function* genXYZ_exit___verify () {
+yield* thread.procedures["ZassertTrue %b %s"]((b0.value.length === 22),"should output 22 items");
+b1.value = 0;
+for (var a0 = b0.value.length; a0 > 0; a0--) {
+b1.value = ((+b1.value || 0) + 1);
+yield* thread.procedures["ZassertTrue %b %s"](compareEqual(listGet(b0.value, b1.value), listGet(b2.value, b1.value)),("item " + (("" + b1.value) + " should match expected output")));
+yield;
+}
+yield* thread.procedures["ZOKAY %s"]((("" + runtime.ioDevices.clock.projectTimer()) + " seconds"));
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })
+
+// Sprite1 Zpop %n
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["o4+OyKx[M=quu6p{=kRl-pop-list"];
+const b1 = stage.variables["o4+OyKx[M=quu6p{=kRl-mem-list"];
+return function* genXYZ_pop_ (p0) {
+b0.value = [];
+for (var a0 = (+p0 || 0); a0 >= 0.5; a0--) {
+if ((b1.value.length > 0)) {
+b0.value.push((b1.value[b1.value.length - 1] ?? ""));
+b0._monitorUpToDate = false;
+b1.value.pop();
+b1._monitorUpToDate = false;
+} else {
+b0.value.push(0);
+b0._monitorUpToDate = false;
+}
+yield;
+}
+return "";
+}; })
+
+// Sprite1 Zpush %n
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["o4+OyKx[M=quu6p{=kRl-mem-list"];
+return function funXYZ_push_ (p0) {
+b0.value.push(p0);
+b0._monitorUpToDate = false;
+return "";
+}; })
+
+// Sprite1 Zpush bool %b
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function funXYZ_push_bool_ (p0) {
+if (toBoolean(p0)) {
+thread.procedures["Zpush %n"](1);
+} else {
+thread.procedures["Zpush %n"](0);
+}
+return "";
+}; })
+
+// Sprite1 Znext char
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["o4+OyKx[M=quu6p{=kRl-direction-"];
+const b1 = runtime.getSpriteTargetByName("directions");
+const b2 = b1 && b1.lookupVariableByNameAndType("RIGHT", "", true);
+const b3 = stage.variables["o4+OyKx[M=quu6p{=kRl-px-"];
+const b4 = b1 && b1.lookupVariableByNameAndType("LEFT", "", true);
+const b5 = b1 && b1.lookupVariableByNameAndType("UP", "", true);
+const b6 = stage.variables["o4+OyKx[M=quu6p{=kRl-py-"];
+const b7 = b1 && b1.lookupVariableByNameAndType("DOWN", "", true);
+const b8 = runtime.getOpcodeFunction("sensing_askandwait");
+const b9 = stage.variables["o4+OyKx[M=quu6p{=kRl-P-list"];
+const b10 = stage.variables["o4+OyKx[M=quu6p{=kRl-max length-"];
+return function* genXYZ_next_char () {
+if (compareEqual(b0.value, (b2 ? b2.value : 0))) {
+b3.value = ((+b3.value || 0) + 1);
+} else {
+if (compareEqual(b0.value, (b4 ? b4.value : 0))) {
+b3.value = ((+b3.value || 0) + -1);
+} else {
+if (compareEqual(b0.value, (b5 ? b5.value : 0))) {
+b6.value = ((+b6.value || 0) + -1);
+} else {
+if (compareEqual(b0.value, (b7 ? b7.value : 0))) {
+b6.value = ((+b6.value || 0) + 1);
+} else {
+yield* executeInCompatibilityLayer({"QUESTION":("ERROR: Unkown direction (" + (("" + b0.value) + ")")),}, b8, false, false, "/", null);
+runtime.stopAll();
+retire(); yield;
+}
+}
+}
+}
+if (compareGreaterThan(b6.value, b9.value.length)) {
+b6.value = 1;
+}
+if (compareLessThan(b6.value, 0)) {
+b6.value = b9.value.length;
+}
+if (compareGreaterThan(b3.value, b10.value)) {
+b3.value = 1;
+}
+if (compareLessThan(b3.value, 0)) {
+b3.value = b10.value;
+}
+return "";
+}; })
+
+// Sprite1 Wascii to number %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["o4+OyKx[M=quu6p{=kRl-costumes-list"];
+const b1 = stage.variables["o4+OyKx[M=quu6p{=kRl-result-"];
+const b2 = stage.variables["o4+OyKx[M=quu6p{=kRl-i-"];
+const b3 = stage.variables["o4+OyKx[M=quu6p{=kRl-ascii-list"];
+return function* genXYZ_ascii_to_number_ (p0) {
+if (listContains(b0, p0)) {
+runtime.ext_scratch3_looks._setCostume(target, p0);
+if (((target.currentCostume + 1) > 26)) {
+b1.value = ((target.currentCostume + 1) + 38);
+} else {
+b1.value = ((target.currentCostume + 1) + 96);
+}
+} else {
+b2.value = 0;
+for (var a0 = b3.value.length; a0 > 0; a0--) {
+b2.value = ((+b2.value || 0) + 1);
+if (compareEqual((b3.value[(b2.value | 0) - 1] ?? ""), p0)) {
+b1.value = (b2.value - 1);
+return "";
+}
+if (isStuck()) yield;
+}
+b1.value = -1;
+}
+return "";
+}; })
+
+// Sprite1 ZFAIL %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_FAIL_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "aF", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("fail " + "0"),}, b0, false, false, "+", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "aH", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })
+
+// Sprite1 Zascii to number but it lies %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["o4+OyKx[M=quu6p{=kRl-costumes-list"];
+const b1 = stage.variables["o4+OyKx[M=quu6p{=kRl-result-"];
+const b2 = stage.variables["o4+OyKx[M=quu6p{=kRl-i-"];
+const b3 = stage.variables["o4+OyKx[M=quu6p{=kRl-ascii2-list"];
+return function* genXYZ_ascii_to_number_but_ (p0) {
+if (listContains(b0, p0)) {
+runtime.ext_scratch3_looks._setCostume(target, p0);
+if (((target.currentCostume + 1) > 26)) {
+b1.value = ((target.currentCostume + 1) + 38);
+} else {
+b1.value = ((target.currentCostume + 1) + 96);
+}
+} else {
+b2.value = 0;
+for (var a0 = b3.value.length; a0 > 0; a0--) {
+b2.value = ((+b2.value || 0) + 1);
+if (compareEqual((b3.value[(b2.value | 0) - 1] ?? ""), p0)) {
+b1.value = (b2.value - 1);
+return "";
+}
+yield;
+}
+b1.value = 0;
+}
+return "";
+}; })
+
+// Sprite1 Winsert %s %n %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["o4+OyKx[M=quu6p{=kRl-result-"];
+const b1 = stage.variables["o4+OyKx[M=quu6p{=kRl-i-"];
+return function* genXYZ_insert___ (p0,p1,p2) {
+b0.value = "";
+b1.value = 0;
+for (var a0 = ((+p1 || 0) - 1); a0 >= 0.5; a0--) {
+b1.value = ((+b1.value || 0) + 1);
+b0.value = (("" + b0.value) + ((("" + p0))[(b1.value | 0) - 1] || ""));
+if (isStuck()) yield;
+}
+b0.value = (("" + b0.value) + ("" + p2));
+b1.value = ((+b1.value || 0) + 1);
+for (var a1 = (("" + p0).length - (+b1.value || 0)); a1 >= 0.5; a1--) {
+b1.value = ((+b1.value || 0) + 1);
+b0.value = (("" + b0.value) + ((("" + p0))[(b1.value | 0) - 1] || ""));
+if (isStuck()) yield;
+}
+return "";
+}; })
+
+// Sprite1 ZassertTrue %b %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ_assertTrue__ (p0,p1) {
+if (!toBoolean(p0)) {
+yield* thread.procedures["ZFAIL %s"](p1);
+}
+return "";
+}; })
+
+// Sprite1 ZOKAY %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_OKAY_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "aB", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("pass " + "0"),}, b0, false, false, "*", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "aD", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })

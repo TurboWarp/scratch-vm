@@ -1,0 +1,27 @@
+// TW Snapshot
+// Input SHA-256: 7bc7268ef7d0d00b445b003aa683b39bcdb3c4c1d4bb7ae03679f553ad22f5a6
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+const b1 = stage.variables["q9l+ZDG${I3p$=:TPs`3"];
+return function* genXYZ () {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 3",}, b0, false, false, "f", null);
+if ((("_" + ("" + (toBoolean((b1.value[2 - 1] ?? "")) && toBoolean((b1.value[2 - 1] ?? ""))))).toLowerCase() === "_true".toLowerCase())) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "m", null);
+} else {
+yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "n", null);
+}
+if ((("_" + ("" + (toBoolean((b1.value[1 - 1] ?? "")) || toBoolean((b1.value[2 - 1] ?? ""))))).toLowerCase() === "_true".toLowerCase())) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "q", null);
+} else {
+yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "r", null);
+}
+if (!toBoolean((b1.value[1 - 1] ?? ""))) {
+yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "v", null);
+} else {
+yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "w", null);
+}
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "u", null);
+retire(); return;
+}; })

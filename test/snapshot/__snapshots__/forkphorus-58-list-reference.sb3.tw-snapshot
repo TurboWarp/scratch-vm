@@ -1,0 +1,60 @@
+// TW Snapshot
+// Input SHA-256: 95f7dfd29f2a3aec8027d03eab202b439a7630a1ee6b9a7cf534c7d971e41ef7
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables[")@7t1F9WM1F[_jBWx]7["];
+const b1 = stage.variables[",VHjOaLurDh*^;8kZ~I?"];
+return function* genXYZ () {
+b0.value = [];
+b1.value = [];
+b0.value.push(3);
+b0._monitorUpToDate = false;
+b0.value.push(2);
+b0._monitorUpToDate = false;
+b0.value.push(8);
+b0._monitorUpToDate = false;
+b0.value.push(4);
+b0._monitorUpToDate = false;
+b1.value.push(listContents(b0));
+b1._monitorUpToDate = false;
+b0.value = [];
+yield* thread.procedures["ZassertTrue %b %s"]((b1.value.length === 1),"output length = 1");
+yield* thread.procedures["ZassertTrue %b %s"]((b0.value.length === 0),"data length = 0");
+yield* thread.procedures["ZassertTrue %b %s"](((+(b1.value[1 - 1] ?? "") || 0) === 3284),"output item 1");
+yield* thread.procedures["ZOK %s"]("");
+retire(); return;
+}; })
+
+// Sprite1 ZassertTrue %b %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ_assertTrue__ (p0,p1) {
+if (!toBoolean(p0)) {
+yield* thread.procedures["ZFAIL %s"](p1);
+}
+return "";
+}; })
+
+// Sprite1 ZOK %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_OK_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "j", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("pass " + ("" + p0)),}, b0, false, false, "a", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "l", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })
+
+// Sprite1 ZFAIL %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_FAIL_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "n", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("fail " + ("" + p0)),}, b0, false, false, "b", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "p", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })

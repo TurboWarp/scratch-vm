@@ -1,0 +1,93 @@
+// TW Snapshot
+// Input SHA-256: 53f9471a2e476b366db519bae1d739833c0210dd92ca501a29a3dfce9a1f960d
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ () {
+startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "3loop" });
+retire(); return;
+}; })
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["5*)/o6gQzEw)31Ah!j:j"];
+const b1 = stage.variables["sYUvu8`..xuGcWX3!B1k"];
+return function* genXYZ () {
+while (!compareGreaterThan(b0.value, 2)) {
+b0.value = ((+b0.value || 0) + 1);
+yield;
+}
+if (((+b1.value || 0) === 1)) {
+yield* thread.procedures["ZOK %s"]("");
+} else {
+if (compareEqual(b1.value, 0)) {
+yield* thread.procedures["ZFAIL %s"]("variable 1 haven't been incremented");
+} else {
+yield* thread.procedures["ZFAIL %s"]("variable 1 got incremented multiple times");
+}
+}
+retire(); return;
+}; })
+
+// Sprite1 ZOK %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_OK_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "f", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("pass " + ("" + p0)),}, b0, false, false, "d", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "h", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })
+
+// Sprite1 ZFAIL %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_FAIL_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "j", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("fail " + ("" + p0)),}, b0, false, false, "e", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "l", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["sYUvu8`..xuGcWX3!B1k"];
+const b1 = stage.variables["5*)/o6gQzEw)31Ah!j:j"];
+return function* genXYZ () {
+b0.value = 0;
+b1.value = 0;
+startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "1" });
+startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "2" });
+startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "3" });
+retire(); return;
+}; })
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ () {
+runtime.stopAll();
+retire(); return;
+retire(); return;
+}; })
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ () {
+startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "1loop" });
+retire(); return;
+}; })
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["sYUvu8`..xuGcWX3!B1k"];
+return function* genXYZ () {
+while (true) {
+b0.value = ((+b0.value || 0) + 1);
+yield;
+}
+retire(); return;
+}; })

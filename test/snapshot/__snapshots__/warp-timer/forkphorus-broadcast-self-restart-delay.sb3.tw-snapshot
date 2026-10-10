@@ -1,0 +1,61 @@
+// TW Snapshot
+// Input SHA-256: a018442bac20400dc82b159894be4f188118b41c2f85528416cdbe2eb221b01f
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+const b1 = stage.variables["XpJYYJ:ZH%1jU!x!l(ZP"];
+return function* genXYZ () {
+b0.value = 0;
+b1.value = 0;
+startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "message1" });
+while (true) {
+b1.value = 0;
+yield;
+}
+retire(); return;
+}; })
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+const b1 = stage.variables["XpJYYJ:ZH%1jU!x!l(ZP"];
+return function* genXYZ () {
+if (compareGreaterThan(b0.value, 3)) {
+if (compareLessThan(b1.value, b0.value)) {
+yield* thread.procedures["ZOK %s"]("");
+} else {
+yield* thread.procedures["ZFAIL %s"]("");
+}
+} else {
+target.setCostume(target.currentCostume + 1);
+b0.value = ((+b0.value || 0) + 1);
+b1.value = ((+b1.value || 0) + 1);
+startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "message1" });
+}
+retire(); return;
+}; })
+
+// Sprite1 ZOK %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_OK_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "e", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("pass " + ("" + p0)),}, b0, false, false, "c", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "g", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })
+
+// Sprite1 ZFAIL %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_FAIL_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "i", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("fail " + ("" + p0)),}, b0, false, false, "d", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "k", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })
