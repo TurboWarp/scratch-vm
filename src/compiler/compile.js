@@ -33,8 +33,29 @@ const compile = (/** @type {import("../engine/thread")} */ thread) => {
         procedures[procedureVariant] = procedureTree;
     }
 
+    const debuggerProfiling = Boolean(
+        target.runtime.debuggerCompiledProfiler &&
+        target.runtime.debuggerCompiledProfiler.enabled
+    );
+    const startingFunction = debuggerProfiling ? compiledThread => {
+        const script = entry(compiledThread);
+        return () => {
+            const generator = script();
+            const compiledProfiler = compiledThread.target.runtime.debuggerCompiledProfiler;
+            return {
+                next: () => {
+                    try {
+                        return generator.next();
+                    } finally {
+                        compiledProfiler.end(compiledThread);
+                    }
+                }
+            };
+        };
+    } : entry;
+
     return {
-        startingFunction: entry,
+        startingFunction,
         procedures,
         executableHat: ir.entry.executableHat
     };

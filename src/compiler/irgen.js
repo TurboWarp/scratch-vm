@@ -1019,6 +1019,7 @@ class ScriptTreeGenerator {
             }
 
             const node = this.descendStackedBlock(block);
+            node.blockId = block.id;
             this.script.yields = this.script.yields || node.yields;
             result.blocks.push(node);
 
