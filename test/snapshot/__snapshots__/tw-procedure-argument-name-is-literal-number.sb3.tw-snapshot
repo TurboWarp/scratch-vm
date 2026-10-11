@@ -1,0 +1,25 @@
+// TW Snapshot
+// Input SHA-256: a5dce1a400e6f3db5f89451bef4b0c23e2233349e261e4f1e498136b1d43e2ce
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+return function* genXYZ () {
+let t;
+runtime.ext_scratch3_looks._say("plan 1", target);
+b0.value = 5;
+thread.procedures["Zblock name %s"](10);
+if ((((t = +b0.value) === t ? t : 0) === 10)) {
+runtime.ext_scratch3_looks._say("pass", target);
+}
+runtime.ext_scratch3_looks._say("end", target);
+retire(); return;
+}; })
+
+// Sprite1 Zblock name %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+return function funXYZ_block_name_ (p0) {
+b0.value = p0;
+return "";
+}; })
