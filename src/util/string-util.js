@@ -89,7 +89,7 @@ class StringUtil {
                 // See #1030
                 unsafe = String(unsafe);
             } else {
-                log.error('Unexpected input recieved in replaceUnsafeChars');
+                log.error('Unexpected input received in replaceUnsafeChars');
                 return unsafe;
             }
         }

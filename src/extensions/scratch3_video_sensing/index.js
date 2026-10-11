@@ -45,7 +45,7 @@ const SensingSubject = {
     /** The sensor traits of the whole stage. */
     STAGE: 'Stage',
 
-    /** The senosr traits of the area overlapped by this sprite. */
+    /** The sensor traits of the area overlapped by this sprite. */
     SPRITE: 'this sprite'
 };
 
@@ -79,7 +79,7 @@ class Scratch3VideoSensingBlocks {
         this.runtime = runtime;
 
         /**
-         * The motion detection algoritm used to power the motion amount and
+         * The motion detection algorithm used to power the motion amount and
          * direction values.
          * @type {VideoMotion}
          */

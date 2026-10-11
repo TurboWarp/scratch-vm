@@ -101,7 +101,7 @@ class ProfilerFrame {
 
         /**
          * The depth of the recorded frame. This can help compare recursive
-         * funtions that are recorded. Each level of recursion with have a
+         * functions that are recorded. Each level of recursion with have a
          * different depth value.
          * @type {number}
          */
@@ -288,7 +288,7 @@ class Profiler {
                 // Remove this frames totalTime from the parent's selfTime.
                 stack[depth - 1].selfTime -= frame.totalTime;
 
-                // This frame occured once.
+                // This frame occurred once.
                 frame.count = 1;
 
                 this.onFrame(frame);

@@ -10,7 +10,7 @@
  *
  * At compile time, often we don't know exactly type a value will be but we can tell it must be one of a
  * set of types. For this reason, the number value of each type represents a possibility space, where set
- * bits indicate that their corropoding type *could* be encountered at runtime.
+ * bits indicate that their corresponding type *could* be encountered at runtime.
  * For example, a type of InputType.NUMBER | InputType.STRING means the value will be either a number or
  * a string at runtime, the compiler can't tell which, but we do know that it's not a boolean or NaN as
  * those bits are not set.
@@ -31,11 +31,11 @@ const InputType = {
     NUMBER_ZERO: 0x008,
     /** The value -0 */
     NUMBER_NEG_ZERO: 0x010,
-    /** Any negitive integer excluding -0 */
+    /** Any negative integer excluding -0 */
     NUMBER_NEG_INT: 0x020,
-    /** Any negitive fractional number, excluding integers. */
+    /** Any negative fractional number, excluding integers. */
     NUMBER_NEG_FRACT: 0x040,
-    /** Any negitive number excluding -0 and -Infinity. Equal to NUMBER_NEG_INT | NUMBER_NEG_FRACT */
+    /** Any negative number excluding -0 and -Infinity. Equal to NUMBER_NEG_INT | NUMBER_NEG_FRACT */
     NUMBER_NEG_REAL: 0x060,
     /** The value -Infinity */
     NUMBER_NEG_INF: 0x080,
@@ -49,7 +49,7 @@ const InputType = {
     NUMBER_INF: 0x081,
     /** Any positive number, excluding 0. Equal to NUMBER_POS_REAL | NUMBER_POS_INF */
     NUMBER_POS: 0x007,
-    /** Any negitive number, excluding -0. Equal to NUMBER_NEG_REAL | NUMBER_NEG_INF */
+    /** Any negative number, excluding -0. Equal to NUMBER_NEG_REAL | NUMBER_NEG_INF */
     NUMBER_NEG: 0x0E0,
     /** Any whole number. Equal to NUMBER_POS_INT | NUMBER_ZERO */
     NUMBER_WHOLE: 0x00A,
@@ -66,12 +66,12 @@ const InputType = {
     NUMBER: 0x0FF,
     /** Any number, including NaN. Equal to NUMBER | NUMBER_NAN */
     NUMBER_OR_NAN: 0x1FF,
-    /** Anything that can be interperated as a number. Equal to NUMBER | STRING_NUM | BOOLEAN */
+    /** Anything that can be interpreted as a number. Equal to NUMBER | STRING_NUM | BOOLEAN */
     NUMBER_INTERPRETABLE: 0x12FF,
 
-    /** Any string which as a non-NaN neumeric interpretation, excluding ''.  */
+    /** Any string which as a non-NaN numeric interpretation, excluding ''.  */
     STRING_NUM: 0x200,
-    /** Any string which has no non-NaN neumeric interpretation, including ''. */
+    /** Any string which has no non-NaN numeric interpretation, including ''. */
     STRING_NAN: 0x400,
     /** Either of the strings 'true' or 'false'. */
     STRING_BOOLEAN: 0x800,
@@ -81,7 +81,7 @@ const InputType = {
 
     /** Any boolean. */
     BOOLEAN: 0x1000,
-    /** Any input that can be interperated as a boolean. Equal to BOOLEAN | STRING_BOOLEAN */
+    /** Any input that can be interpreted as a boolean. Equal to BOOLEAN | STRING_BOOLEAN */
     BOOLEAN_INTERPRETABLE: 0x1800,
 
     /** Any value type (a type a scratch variable can hold). Equal to NUMBER_OR_NAN | STRING | BOOLEAN */
@@ -120,10 +120,10 @@ const StackOpcode = {
     CONTROL_WAIT: 'control.wait',
     CONTROL_WAIT_UNTIL: 'control.waitUntil',
     CONTROL_CLEAR_COUNTER: 'control.counterClear',
-    CONTORL_INCR_COUNTER: 'control.counterIncr',
+    CONTROL_INCR_COUNTER: 'control.counterIncr',
 
     LIST_ADD: 'list.add',
-    LIST_INSERT: 'list.instert',
+    LIST_INSERT: 'list.insert',
     LIST_REPLACE: 'list.replace',
     LIST_DELETE_ALL: 'list.deleteAll',
     LIST_DELETE: 'list.delete',

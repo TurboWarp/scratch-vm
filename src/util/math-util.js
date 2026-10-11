@@ -85,7 +85,7 @@ class MathUtil {
      * For instance, (1, 5, 3) will only pick 1, 2, 4, or 5 (with equal
      * probability)
      *
-     * @param {number} lower - The lower bound (inlcusive)
+     * @param {number} lower - The lower bound (inclusive)
      * @param {number} upper - The upper bound (inclusive), such that lower <= upper
      * @param {number} excluded - The number to exclude (MUST be in the range)
      * @return {number} A random integer in the range [lower, upper] that is not "excluded"

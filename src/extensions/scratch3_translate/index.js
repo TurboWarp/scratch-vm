@@ -139,7 +139,7 @@ class Scratch3TranslateBlocks {
                     text: formatMessage({
                         id: 'translate.viewerLanguage',
                         default: 'language',
-                        description: 'the languge of the project viewer'
+                        description: 'the language of the project viewer'
                     }),
                     blockType: BlockType.REPORTER,
                     arguments: {}
@@ -157,7 +157,7 @@ class Scratch3TranslateBlocks {
     /**
      * Computes a list of language code and name pairs for the given language.
      * @param {string} code The language code to get the list of language pairs
-     * @return {Array.<object.<string, string>>} An array of languge name and
+     * @return {Array.<object.<string, string>>} An array of language name and
      *   language code pairs.
      * @private
      */
@@ -176,7 +176,7 @@ class Scratch3TranslateBlocks {
         const names = languageNames.menuMap[this._viewerLanguageCode];
         let langNameObj = names.find(obj => obj.code === this._viewerLanguageCode);
 
-        // If we don't have a name entry yet, try looking it up via the Google langauge
+        // If we don't have a name entry yet, try looking it up via the Google language
         // code instead of Scratch's (e.g. for es-419 we look up es to get espanol)
         if (!langNameObj && languageNames.scratchToGoogleMap[this._viewerLanguageCode]) {
             const lookupCode = languageNames.scratchToGoogleMap[this._viewerLanguageCode];

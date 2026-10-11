@@ -77,7 +77,7 @@ class Blocks {
             _monitored: null,
 
             /**
-             * A cache of hat opcodes to collection of theads to execute.
+             * A cache of hat opcodes to collection of threads to execute.
              * @type {object.<string, object>}
              */
             scripts: {},

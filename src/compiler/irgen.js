@@ -14,7 +14,7 @@ const {
     IntermediateScript,
     IntermediateRepresentation
 } = require('./intermediate');
-const oldCompilerCompatiblity = require('./old-compiler-compatibility.js');
+const oldCompilerCompatibility = require('./old-compiler-compatibility.js');
 
 /**
  * @fileoverview Generate intermediate representations from Scratch blocks.
@@ -99,8 +99,8 @@ class ScriptTreeGenerator {
         }
 
         this.oldCompilerStub = (
-            oldCompilerCompatiblity.enabled ?
-                new oldCompilerCompatiblity.ScriptTreeGeneratorStub(this) :
+            oldCompilerCompatibility.enabled ?
+                new oldCompilerCompatibility.ScriptTreeGeneratorStub(this) :
                 null
         );
     }
@@ -701,7 +701,7 @@ class ScriptTreeGenerator {
         case 'control_clear_counter':
             return new IntermediateStackBlock(StackOpcode.CONTROL_CLEAR_COUNTER);
         case 'control_incr_counter':
-            return new IntermediateStackBlock(StackOpcode.CONTORL_INCR_COUNTER);
+            return new IntermediateStackBlock(StackOpcode.CONTROL_INCR_COUNTER);
 
         case 'data_addtolist':
             return new IntermediateStackBlock(StackOpcode.LIST_ADD, {
@@ -1363,7 +1363,7 @@ class ScriptTreeGenerator {
 
         if (this.thread.stackClick) {
             // We still need to treat the hat as a normal block (so executableHat should be false) for
-            // interpreter parity, but the reuslt is ignored.
+            // interpreter parity, but the result is ignored.
             const opcodeFunction = this.runtime.getOpcodeFunction(opcode);
             if (opcodeFunction) {
                 return new IntermediateStack([

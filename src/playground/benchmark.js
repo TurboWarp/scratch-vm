@@ -1,6 +1,6 @@
 // Track loading time with timestamps and if possible the performance api.
 if (window.performance) {
-    // Mark with the performance API when benchmark.js and its dependecies start
+    // Mark with the performance API when benchmark.js and its dependencies start
     // evaluation. This can tell us once measured how long the code spends time
     // turning into execution code for the first time. Skipping evaluation of
     // some of the code can help us make it faster.

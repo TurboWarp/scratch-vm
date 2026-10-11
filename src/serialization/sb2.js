@@ -161,7 +161,7 @@ const flatten = function (blocks) {
  * or a list of blocks in an argument (e.g., move [pick random...]).
  * @param {Array.<object>} blockList SB2 JSON-format block list.
  * @param {Function} addBroadcastMsg function to update broadcast message name map
- * @param {Function} getVariableId function to retreive a variable's ID based on name
+ * @param {Function} getVariableId function to retrieve a variable's ID based on name
  * @param {ImportedExtensionsInfo} extensions - (in/out) parsed extension information will be stored here.
  * @param {ParseState} parseState - info on the state of parsing beyond the current block.
  * @param {object<int, Comment>} comments - Comments from sb2 project that need to be attached to blocks.
@@ -202,7 +202,7 @@ const parseBlockList = function (blockList, addBroadcastMsg, getVariableId, exte
  * @param {!object} scripts Scripts object from SB2 JSON.
  * @param {!Blocks} blocks Blocks object to load parsed blocks into.
  * @param {Function} addBroadcastMsg function to update broadcast message name map
- * @param {Function} getVariableId function to retreive a variable's ID based on name
+ * @param {Function} getVariableId function to retrieve a variable's ID based on name
  * @param {ImportedExtensionsInfo} extensions - (in/out) parsed extension information will be stored here.
  * @param {object} comments Comments that need to be attached to the blocks that need to be parsed
  */
@@ -379,7 +379,7 @@ const parseMonitorObject = (object, runtime, targets, extensions) => {
         block.id = block.opcode;
     }
 
-    // Block needs a targetId if it is targetting something other than the stage
+    // Block needs a targetId if it is targeting something other than the stage
     block.targetId = target.isStage ? null : target.id;
 
     // Property required for running monitored blocks.
