@@ -225,7 +225,7 @@ class ScriptTreeGenerator {
         case 'text':
             return this.createConstantInput(block.fields.TEXT.value, preserveStrings);
         case 'argument_reporter_string_number': {
-            const name = block.fields.VALUE.value;
+            const name = String(block.fields.VALUE.value);
             // lastIndexOf because multiple parameters with the same name will use the value of the last definition
             const index = this.script.arguments.lastIndexOf(name);
             if (index === -1) {
@@ -241,7 +241,7 @@ class ScriptTreeGenerator {
         }
         case 'argument_reporter_boolean': {
             // see argument_reporter_string_number above
-            const name = block.fields.VALUE.value;
+            const name = String(block.fields.VALUE.value);
             const index = this.script.arguments.lastIndexOf(name);
             if (index === -1) {
                 if (name.toLowerCase() === 'is compiled?' || name.toLowerCase() === 'is turbowarp?') {
