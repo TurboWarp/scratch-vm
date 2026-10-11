@@ -746,7 +746,7 @@ class VirtualMachine extends EventEmitter {
             return Promise.reject('Unable to verify Scratch Project version.');
         };
         return deserializePromise()
-            .then(({targets, extensions}) => {
+            .then(({targets, extensions, layerOrder}) => {
                 if (typeof performance !== 'undefined') {
                     performance.mark('scratch-vm-deserialize-end');
                     try {
@@ -760,7 +760,7 @@ class VirtualMachine extends EventEmitter {
                         log.error(e);
                     }
                 }
-                return this.installTargets(targets, extensions, true);
+                return this.installTargets(targets, extensions, true, layerOrder);
             });
     }
 
@@ -801,10 +801,21 @@ class VirtualMachine extends EventEmitter {
      * @param {Array.<Target>} targets - the targets to be installed
      * @param {ImportedExtensionsInfo} extensions - metadata about extensions used by these targets
      * @param {boolean} wholeProject - set to true if installing a whole project, as opposed to a single sprite.
+     * @param {number[]} [layerOrder] - layer order of each target, same order as targets.
      * @returns {Promise} resolved once targets have been installed
      */
-    async installTargets (targets, extensions, wholeProject) {
+    async installTargets (targets, extensions, wholeProject, layerOrder) {
         await this.extensionManager.allAsyncExtensionsLoaded();
+
+        let layerOrders = null;
+        if (layerOrder) {
+            layerOrders = new Map();
+            targets.forEach((target, index) => {
+                if (target) {
+                    layerOrders.set(target, layerOrder[index]);
+                }
+            });
+        }
 
         targets = targets.filter(target => !!target);
 
@@ -815,12 +826,10 @@ class VirtualMachine extends EventEmitter {
                 // Ensure unique sprite name
                 if (target.isSprite()) this.renameSprite(target.id, target.getName());
             });
-            // Sort the executable targets by layerOrder.
-            // Remove layerOrder property after use.
-            this.runtime.executableTargets.sort((a, b) => a.layerOrder - b.layerOrder);
-            targets.forEach(target => {
-                delete target.layerOrder;
-            });
+            if (layerOrders) {
+                // Sort the executable targets by layer order.
+                this.runtime.executableTargets.sort((a, b) => layerOrders.get(a) - layerOrders.get(b));
+            }
 
             // Select the first target for editing, e.g., the first sprite.
             if (wholeProject && (targets.length > 1)) {
@@ -911,8 +920,8 @@ class VirtualMachine extends EventEmitter {
 
         const sb2 = require('./serialization/sb2');
         return sb2.deserialize(sprite, this.runtime, true, zip)
-            .then(({targets, extensions}) =>
-                this.installTargets(targets, extensions, false));
+            .then(({targets, extensions, layerOrder}) =>
+                this.installTargets(targets, extensions, false, layerOrder));
     }
 
     /**
@@ -926,7 +935,7 @@ class VirtualMachine extends EventEmitter {
         const sb3 = require('./serialization/sb3');
         return sb3
             .deserialize(sprite, this.runtime, zip, true)
-            .then(({targets, extensions}) => this.installTargets(targets, extensions, false));
+            .then(({targets, extensions, layerOrder}) => this.installTargets(targets, extensions, false, layerOrder));
     }
 
     /**

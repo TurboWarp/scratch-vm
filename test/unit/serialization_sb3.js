@@ -190,7 +190,7 @@ test('serializing and deserializing sb3 preserves sprite layer order', t => {
         .then(serializedObject =>
             sb3.deserialize(
                 JSON.parse(JSON.stringify(serializedObject)), new Runtime(), null, false)
-                .then(({targets}) => {
+                .then(({targets, layerOrder}) => {
                     // First check that the sprites are ordered correctly (as they would
                     // appear in the target pane)
                     t.equal(targets[0].sprite.name, 'Stage');
@@ -200,10 +200,7 @@ test('serializing and deserializing sb3 preserves sprite layer order', t => {
 
                     // Check that they are in the correct layer order (as they would render
                     // back to front on the stage)
-                    t.equal(targets[0].layerOrder, 0);
-                    t.equal(targets[1].layerOrder, 2);
-                    t.equal(targets[2].layerOrder, 1);
-                    t.equal(targets[3].layerOrder, 3);
+                    t.same(layerOrder, [0, 2, 1, 3]);
 
                     t.end();
                 }));
