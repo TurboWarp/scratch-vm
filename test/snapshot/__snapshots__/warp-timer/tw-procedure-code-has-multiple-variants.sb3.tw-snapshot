@@ -1,0 +1,43 @@
+// TW Snapshot
+// Input SHA-256: 80d4acbc6049ae14c69abf2f7caf76283f89d2b869d8864052d6b27bd3c94411
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ () {
+runtime.ext_scratch3_looks._say("plan 2", target);
+thread.procedures["Wwrapper"]();
+thread.procedures["Zinner"]();
+runtime.ext_scratch3_looks._say("end", target);
+retire(); return;
+}; })
+
+// Sprite1 Wwrapper
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function funXYZ_wrapper () {
+thread.procedures["Winner"]();
+return "";
+}; })
+
+// Sprite1 Zinner
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["2RhZ|2@pLo8UqcDKlYn4"];
+return function funXYZ_inner () {
+b0.value = 0;
+b0.value = (b0.value + 1);
+if ((b0.value === 1)) {
+runtime.ext_scratch3_looks._say("pass", target);
+}
+return "";
+}; })
+
+// Sprite1 Winner
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["2RhZ|2@pLo8UqcDKlYn4"];
+return function funXYZ_inner () {
+b0.value = 0;
+b0.value = (b0.value + 1);
+if ((b0.value === 1)) {
+runtime.ext_scratch3_looks._say("pass", target);
+}
+return "";
+}; })

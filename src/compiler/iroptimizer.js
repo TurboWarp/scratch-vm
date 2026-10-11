@@ -798,10 +798,10 @@ class IROptimizer {
      */
     optimizeScript (script, alreadyOptimized) {
         if (script.isProcedure) {
-            if (alreadyOptimized.has(script.procedureCode)) {
+            if (alreadyOptimized.has(script.procedureVariant)) {
                 return;
             }
-            alreadyOptimized.add(script.procedureCode);
+            alreadyOptimized.add(script.procedureVariant);
         }
 
         for (const procVariant of script.dependedProcedures) {
