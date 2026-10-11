@@ -13,10 +13,10 @@ runtime.ext_scratch3_looks._say("pass simplest", target);
 if ((("" + thread.procedures["Znesting 1"]()).toLowerCase() === "42-54".toLowerCase())) {
 runtime.ext_scratch3_looks._say("pass nesting1", target);
 }
-if (((t = +thread.procedures["Wwarp fib %s"](12), t === t ? t : 0) === 144)) {
+if ((((t = +thread.procedures["Wwarp fib %s"](12)) === t ? t : 0) === 144)) {
 runtime.ext_scratch3_looks._say("pass fib 12", target);
 }
-if (((t = +thread.procedures["Wfactorial %s"](12), t === t ? t : 0) === 479001600)) {
+if ((((t = +thread.procedures["Wfactorial %s"](12)) === t ? t : 0) === 479001600)) {
 runtime.ext_scratch3_looks._say("pass factorial 12", target);
 }
 b0.value = thread.procedures["Zno shadowing 1 %s %s"]("f","g");
@@ -54,7 +54,7 @@ return "";
 return function funXYZ_factorial_ (p0) {
 let t;
 if (compareGreaterThan(p0, 1)) {
-return ((t = +p0, t === t ? t : 0) * (t = +thread.procedures["Wfactorial %s"](((t = +p0, t === t ? t : 0) - 1)), t === t ? t : 0));
+return (((t = +p0) === t ? t : 0) * ((t = +thread.procedures["Wfactorial %s"]((((t = +p0) === t ? t : 0) - 1))) === t ? t : 0));
 }
 return 1;
 return "";
@@ -89,7 +89,7 @@ return "";
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 return function funXYZ_nesting_3__ (p0,p1) {
 let t;
-return ((t = +p0, t === t ? t : 0) * (t = +p1, t === t ? t : 0));
+return (((t = +p0) === t ? t : 0) * ((t = +p1) === t ? t : 0));
 return "";
 }; })
 
@@ -100,7 +100,7 @@ let t;
 if (compareLessThan(p0, 2)) {
 return p0;
 } else {
-return ((t = +thread.procedures["Wfib %s"](((t = +p0, t === t ? t : 0) - 1)), t === t ? t : 0) + (t = +thread.procedures["Wfib %s"](((t = +p0, t === t ? t : 0) - 2)), t === t ? t : 0));
+return (((t = +thread.procedures["Wfib %s"]((((t = +p0) === t ? t : 0) - 1))) === t ? t : 0) + ((t = +thread.procedures["Wfib %s"]((((t = +p0) === t ? t : 0) - 2))) === t ? t : 0));
 }
 return "";
 }; })

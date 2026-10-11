@@ -15,7 +15,7 @@ runtime.ext_scratch3_looks._say("pass variable", target);
 b1.value = [];
 b1.value.push(3);
 b1._monitorUpToDate = false;
-if (((t = +(b1.value[1 - 1] ?? ""), t === t ? t : 0) === 3)) {
+if ((((t = +(b1.value[1 - 1] ?? "")) === t ? t : 0) === 3)) {
 runtime.ext_scratch3_looks._say("pass list", target);
 }
 runtime.ext_scratch3_looks._say("end", target);

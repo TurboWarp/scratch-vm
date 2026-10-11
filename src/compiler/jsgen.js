@@ -187,9 +187,9 @@ class JSGenerator {
             }
             this.usesTemporaryLocal = true;
             if (node.target.isAlwaysType(InputType.NUMBER_OR_NAN)) {
-                return `(t = ${this.descendInput(node.target)}, t === t ? t : 0)`;
+                return `((t = ${this.descendInput(node.target)}) === t ? t : 0)`;
             }
-            return `(t = +${this.descendInput(node.target)}, t === t ? t : 0)`;
+            return `((t = +${this.descendInput(node.target)}) === t ? t : 0)`;
         case InputOpcode.CAST_NUMBER_OR_NAN:
             return `(+${this.descendInput(node.target)})`;
         case InputOpcode.CAST_NUMBER_INDEX:

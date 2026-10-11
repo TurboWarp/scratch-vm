@@ -12,61 +12,61 @@ runtime.ext_scratch3_looks._say("pass", target);
 if ((("" + (0 * Infinity)).toLowerCase() === "NaN".toLowerCase())) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
-if ((((t = (0 * Infinity), t === t ? t : 0) * 1) === 0)) {
+if (((((t = (0 * Infinity)) === t ? t : 0) * 1) === 0)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 if ((("" + ((Math.acos(1.01) * 180) / Math.PI)).toLowerCase() === "NaN".toLowerCase())) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
-if ((((t = ((Math.acos(1.01) * 180) / Math.PI), t === t ? t : 0) * 1) === 0)) {
+if (((((t = ((Math.acos(1.01) * 180) / Math.PI)) === t ? t : 0) * 1) === 0)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 if ((("" + ((Math.asin(1.01) * 180) / Math.PI)).toLowerCase() === "NaN".toLowerCase())) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
-if ((((t = ((Math.asin(1.01) * 180) / Math.PI), t === t ? t : 0) * 1) === 0)) {
+if (((((t = ((Math.asin(1.01) * 180) / Math.PI)) === t ? t : 0) * 1) === 0)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 if ((("" + (0 / 0)).toLowerCase() === "NaN".toLowerCase())) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
-if ((((t = (0 / 0), t === t ? t : 0) * 1) === 0)) {
+if (((((t = (0 / 0)) === t ? t : 0) * 1) === 0)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 if ((("" + Math.sqrt(-1)).toLowerCase() === "NaN".toLowerCase())) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
-if ((((t = Math.sqrt(-1), t === t ? t : 0) * 1) === 0)) {
+if (((((t = Math.sqrt(-1)) === t ? t : 0) * 1) === 0)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 if ((("" + mod(0, 0)).toLowerCase() === "NaN".toLowerCase())) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
-if ((((t = mod(0, 0), t === t ? t : 0) * 1) === 0)) {
+if (((((t = mod(0, 0)) === t ? t : 0) * 1) === 0)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 if ((("" + Math.log(-1)).toLowerCase() === "NaN".toLowerCase())) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
-if ((((t = Math.log(-1), t === t ? t : 0) * 1) === 0)) {
+if (((((t = Math.log(-1)) === t ? t : 0) * 1) === 0)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 if ((("" + (Math.log(-1) / Math.LN10)).toLowerCase() === "NaN".toLowerCase())) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
-if ((((t = (Math.log(-1) / Math.LN10), t === t ? t : 0) * 1) === 0)) {
+if (((((t = (Math.log(-1) / Math.LN10)) === t ? t : 0) * 1) === 0)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
-if ((((t = (Math.round(Math.sin((Math.PI * (1 / 0)) / 180) * 1e10) / 1e10), t === t ? t : 0) * 1) === 0)) {
+if (((((t = (Math.round(Math.sin((Math.PI * (1 / 0)) / 180) * 1e10) / 1e10)) === t ? t : 0) * 1) === 0)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
-if ((((t = (Math.round(Math.cos((Math.PI * (1 / 0)) / 180) * 1e10) / 1e10), t === t ? t : 0) * 1) === 0)) {
+if (((((t = (Math.round(Math.cos((Math.PI * (1 / 0)) / 180) * 1e10) / 1e10)) === t ? t : 0) * 1) === 0)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
-if ((((t = tan((1 / 0)), t === t ? t : 0) * 1) === 0)) {
+if (((((t = tan((1 / 0))) === t ? t : 0) * 1) === 0)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
-if ((((t = runtime.ext_scratch3_operators._random((-1 / 0), (1 / 0)), t === t ? t : 0) * 1) === 0)) {
+if (((((t = runtime.ext_scratch3_operators._random((-1 / 0), (1 / 0))) === t ? t : 0) * 1) === 0)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 runtime.ext_scratch3_looks._say("end", target);

@@ -20,7 +20,7 @@ retire(); return;
 const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 return function* genXYZ () {
 let t;
-if (((t = +b0.value, t === t ? t : 0) === 1)) {
+if ((((t = +b0.value) === t ? t : 0) === 1)) {
 runtime.ext_scratch3_looks._say("pass variable 1", target);
 }
 retire(); return;
@@ -31,7 +31,7 @@ retire(); return;
 const b0 = stage.variables[")|GMR5fz;%F_H,c0wGVM"];
 return function* genXYZ () {
 let t;
-if (((t = +b0.value, t === t ? t : 0) === 2)) {
+if ((((t = +b0.value) === t ? t : 0) === 2)) {
 runtime.ext_scratch3_looks._say("pass variable 2", target);
 }
 retire(); return;

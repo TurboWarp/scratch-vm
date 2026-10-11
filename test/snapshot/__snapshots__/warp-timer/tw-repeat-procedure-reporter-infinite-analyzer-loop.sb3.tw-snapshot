@@ -15,8 +15,8 @@ retire(); return;
 const b0 = target.variables["ts-.PQ{/]mN_9@MbG:m/"];
 return function* genXYZ_test_1 () {
 let t;
-for (var a0 = (t = +thread.procedures["Wany procedure reporter"](), t === t ? t : 0); a0 >= 0.5; a0--) {
-b0.value = ((t = +b0.value, t === t ? t : 0) + 1);
+for (var a0 = ((t = +thread.procedures["Wany procedure reporter"]()) === t ? t : 0); a0 >= 0.5; a0--) {
+b0.value = (((t = +b0.value) === t ? t : 0) + 1);
 if (isStuck()) yield;
 }
 return "";

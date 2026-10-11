@@ -16,7 +16,7 @@ b0._monitorUpToDate = false;
 b0.value.push("final");
 b0._monitorUpToDate = false;
 yield* thread.procedures["Wtest"]();
-if (((t = +b1.value, t === t ? t : 0) === 4)) {
+if ((((t = +b1.value) === t ? t : 0) === 4)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 runtime.ext_scratch3_looks._say("end", target);
@@ -34,7 +34,7 @@ b0.value = "";
 b1.value = 1;
 while (!(("" + b0.value).toLowerCase() === "final".toLowerCase())) {
 b0.value = listGet(b2.value, b1.value);
-b1.value = ((t = +b1.value, t === t ? t : 0) + 1);
+b1.value = (((t = +b1.value) === t ? t : 0) + 1);
 if (isStuck()) yield;
 }
 return "";

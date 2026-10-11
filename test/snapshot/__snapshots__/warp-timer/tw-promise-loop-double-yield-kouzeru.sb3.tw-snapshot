@@ -29,7 +29,7 @@ let t;
 b0.value = 0;
 runtime.ext_scratch3_looks._say("plan 15", target);
 for (var a0 = 15; a0 > 0; a0--) {
-if (((t = +b1.value, t === t ? t : 0) === 200)) {
+if ((((t = +b1.value) === t ? t : 0) === 200)) {
 b1.value = 50;
 } else {
 b1.value = 200;

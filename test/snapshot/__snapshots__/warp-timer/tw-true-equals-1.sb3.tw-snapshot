@@ -22,10 +22,10 @@ runtime.ext_scratch3_looks._say("pass", target);
 }
 b0.value = (2 === 2);
 b1.value = ("tr" + "ue");
-if (!((t = +b1.value, t === t ? t : 0) === 1)) {
+if (!(((t = +b1.value) === t ? t : 0) === 1)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
-if (!(1 === (t = +b1.value, t === t ? t : 0))) {
+if (!(1 === ((t = +b1.value) === t ? t : 0))) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 if (((+b0.value) === 1)) {

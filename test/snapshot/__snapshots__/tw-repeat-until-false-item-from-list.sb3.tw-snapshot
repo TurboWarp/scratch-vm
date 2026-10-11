@@ -15,10 +15,10 @@ b0.value.push((1 === 1));
 b0._monitorUpToDate = false;
 b1.value = 1;
 while (!toBoolean(listGet(b0.value, b1.value))) {
-b1.value = ((t = +b1.value, t === t ? t : 0) + 1);
+b1.value = (((t = +b1.value) === t ? t : 0) + 1);
 yield;
 }
-if (((t = +b1.value, t === t ? t : 0) === 2)) {
+if ((((t = +b1.value) === t ? t : 0) === 2)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 runtime.ext_scratch3_looks._say("end", target);

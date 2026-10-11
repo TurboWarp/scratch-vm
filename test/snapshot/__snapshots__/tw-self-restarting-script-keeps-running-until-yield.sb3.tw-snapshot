@@ -28,7 +28,7 @@ yield;
 }
 b1.value = 2;
 } else {
-if (((t = +b1.value, t === t ? t : 0) === 1)) {
+if ((((t = +b1.value) === t ? t : 0) === 1)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 runtime.ext_scratch3_looks._say("end", target);

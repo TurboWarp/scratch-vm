@@ -7,11 +7,11 @@ return function* genXYZ () {
 let t;
 runtime.ext_scratch3_looks._say("plan 2", target);
 thread.procedures["Zswitch %s"]("1");
-if ((((target.currentCostume + 1) === 2) && ((t = +target.getCostumes()[target.currentCostume].name, t === t ? t : 0) === 1))) {
+if ((((target.currentCostume + 1) === 2) && (((t = +target.getCostumes()[target.currentCostume].name) === t ? t : 0) === 1))) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 thread.procedures["Zswitch %s"]("2");
-if ((((target.currentCostume + 1) === 1) && ((t = +target.getCostumes()[target.currentCostume].name, t === t ? t : 0) === 2))) {
+if ((((target.currentCostume + 1) === 1) && (((t = +target.getCostumes()[target.currentCostume].name) === t ? t : 0) === 2))) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 runtime.ext_scratch3_looks._say("end", target);

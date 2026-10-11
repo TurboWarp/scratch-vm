@@ -8,11 +8,11 @@ return function* genXYZ () {
 let t;
 runtime.ext_scratch3_looks._say("plan 1", target);
 b0.value = 0;
-for (var a0 = (t = +thread.procedures["Zblock name"](), t === t ? t : 0); a0 >= 0.5; a0--) {
-b0.value = ((t = +b0.value, t === t ? t : 0) + 1);
+for (var a0 = ((t = +thread.procedures["Zblock name"]()) === t ? t : 0); a0 >= 0.5; a0--) {
+b0.value = (((t = +b0.value) === t ? t : 0) + 1);
 yield;
 }
-if (((t = +b0.value, t === t ? t : 0) === 40)) {
+if ((((t = +b0.value) === t ? t : 0) === 40)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 runtime.ext_scratch3_looks._say("end", target);

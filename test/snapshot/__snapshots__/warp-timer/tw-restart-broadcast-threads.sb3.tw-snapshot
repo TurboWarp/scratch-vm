@@ -18,7 +18,7 @@ while (thread.timer.timeElapsed() < a0) {
 yield;
 }
 thread.timer = null;
-if (((t = +b0.value, t === t ? t : 0) === 1)) {
+if ((((t = +b0.value) === t ? t : 0) === 1)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 runtime.ext_scratch3_looks._say("end", target);
@@ -30,6 +30,6 @@ retire(); return;
 const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 return function* genXYZ () {
 let t;
-b0.value = ((t = +b0.value, t === t ? t : 0) + 1);
+b0.value = (((t = +b0.value) === t ? t : 0) + 1);
 retire(); return;
 }; })

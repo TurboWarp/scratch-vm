@@ -61,16 +61,16 @@ const b8 = target.variables["JIHtr29*ug5G;5*`f2.K-j-"];
 return function funXYZ_qsort__ (p0,p1) {
 let t;
 if (compareLessThan(p0, p1)) {
-if (!(((t = +p1, t === t ? t : 0) - (t = +p0, t === t ? t : 0)) <= 7)) {
-b0.value = (b1.value[(((t = ((t = +p1, t === t ? t : 0) + (t = +p0, t === t ? t : 0)), t === t ? t : 0) / 2) | 0) - 1] ?? "");
+if (!((((t = +p1) === t ? t : 0) - ((t = +p0) === t ? t : 0)) <= 7)) {
+b0.value = (b1.value[((((t = (((t = +p1) === t ? t : 0) + ((t = +p0) === t ? t : 0))) === t ? t : 0) / 2) | 0) - 1] ?? "");
 b2.value = p0;
 b3.value = p1;
 while (true) {
 while (compareLessThan(listGet(b1.value, b2.value), b0.value)) {
-b2.value = ((t = +b2.value, t === t ? t : 0) + 1);
+b2.value = (((t = +b2.value) === t ? t : 0) + 1);
 }
 while (compareGreaterThan(listGet(b1.value, b3.value), b0.value)) {
-b3.value = ((t = +b3.value, t === t ? t : 0) + -1);
+b3.value = (((t = +b3.value) === t ? t : 0) + -1);
 }
 if (compareGreaterThan(b2.value, b3.value)) {
 thread.procedures["Wqsort %s %s"](p0,b3.value);
@@ -80,17 +80,17 @@ return "";
 b4.value = listGet(b1.value, b2.value);
 listReplace(b1, b2.value, listGet(b1.value, b3.value));
 listReplace(b1, b3.value, b4.value);
-b2.value = ((t = +b2.value, t === t ? t : 0) + 1);
-b3.value = ((t = +b3.value, t === t ? t : 0) + -1);
+b2.value = (((t = +b2.value) === t ? t : 0) + 1);
+b3.value = (((t = +b3.value) === t ? t : 0) + -1);
 }
 }
 } else {
 b5.value = p0;
-for (var a0 = (t = ((t = +p1, t === t ? t : 0) - (t = +p0, t === t ? t : 0)), t === t ? t : 0); a0 >= 0.5; a0--) {
+for (var a0 = ((t = (((t = +p1) === t ? t : 0) - ((t = +p0) === t ? t : 0))) === t ? t : 0); a0 >= 0.5; a0--) {
 b6.value = b5.value;
 b7.value = listGet(b1.value, b5.value);
-b8.value = ((t = +b5.value, t === t ? t : 0) + 1);
-for (var a1 = (t = ((t = +p1, t === t ? t : 0) - (t = +b5.value, t === t ? t : 0)), t === t ? t : 0); a1 >= 0.5; a1--) {
+b8.value = (((t = +b5.value) === t ? t : 0) + 1);
+for (var a1 = ((t = (((t = +p1) === t ? t : 0) - ((t = +b5.value) === t ? t : 0))) === t ? t : 0); a1 >= 0.5; a1--) {
 if (compareLessThan((b1.value[(b8.value | 0) - 1] ?? ""), b7.value)) {
 b7.value = (b1.value[(b8.value | 0) - 1] ?? "");
 b6.value = b8.value;
@@ -103,7 +103,7 @@ b4.value = listGet(b1.value, b5.value);
 listReplace(b1, b5.value, b7.value);
 listReplace(b1, b6.value, b4.value);
 }
-b5.value = ((t = +b5.value, t === t ? t : 0) + 1);
+b5.value = (((t = +b5.value) === t ? t : 0) + 1);
 }
 }
 }

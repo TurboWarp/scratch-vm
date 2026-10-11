@@ -30,7 +30,7 @@ b1.value = (("" + b1.value) + "b");
 } else {
 b1.value = (("" + b1.value) + "a");
 }
-b2.value = ((t = +b2.value, t === t ? t : 0) + 1);
+b2.value = (((t = +b2.value) === t ? t : 0) + 1);
 if (isStuck()) yield;
 }
 return "";

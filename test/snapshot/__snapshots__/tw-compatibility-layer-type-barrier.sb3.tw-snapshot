@@ -10,7 +10,7 @@ let t;
 runtime.ext_scratch3_looks._say("plan 1", target);
 b0.value = (0 + 0);
 yield* executeInCompatibilityLayer({"MESSAGE":"Hello!","SECS":0.1,}, b1, false, false, "d", null);
-if ((((t = +b0.value, t === t ? t : 0) + 2) === 2)) {
+if (((((t = +b0.value) === t ? t : 0) + 2) === 2)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 runtime.ext_scratch3_looks._say("end", target);

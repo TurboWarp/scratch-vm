@@ -10,7 +10,7 @@ let t;
 runtime.ext_scratch3_looks._say("plan 18", target);
 b0.value = 0;
 b1.value = (yield* thread.procedures["Znon warp recursion should yield %s"](8));
-if (((t = +b0.value, t === t ? t : 0) === 4)) {
+if ((((t = +b0.value) === t ? t : 0) === 4)) {
 runtime.ext_scratch3_looks._say("pass non warp recursion yields", target);
 }
 b0.value = 0;
@@ -20,7 +20,7 @@ runtime.ext_scratch3_looks._say("pass warp recursion does not yield", target);
 }
 b0.value = 0;
 b1.value = (yield* thread.procedures["Zfib %s"](7));
-if (((t = +b0.value, t === t ? t : 0) === 20)) {
+if ((((t = +b0.value) === t ? t : 0) === 20)) {
 runtime.ext_scratch3_looks._say("pass non warp fib yielded", target);
 }
 yield* thread.procedures["Zrecursing yields between each %s"]("initial");
@@ -35,7 +35,7 @@ retire(); return;
 return function* genXYZ_non_warp_recursion_s (p0) {
 let t;
 if (compareGreaterThan(p0, 0)) {
-return (yield* yieldThenCallGenerator(thread.procedures["Znon warp recursion should yield %s"], ((t = +p0, t === t ? t : 0) - 1)));
+return (yield* yieldThenCallGenerator(thread.procedures["Znon warp recursion should yield %s"], (((t = +p0) === t ? t : 0) - 1)));
 }
 return "";
 }; })
@@ -45,7 +45,7 @@ return "";
 return function funXYZ_warp_recursion_shoul (p0) {
 let t;
 if (compareGreaterThan(p0, 0)) {
-return thread.procedures["Wwarp recursion should not yield %s"](((t = +p0, t === t ? t : 0) - 1));
+return thread.procedures["Wwarp recursion should not yield %s"]((((t = +p0) === t ? t : 0) - 1));
 }
 return "";
 }; })
@@ -57,7 +57,7 @@ let t;
 if (compareLessThan(p0, 2)) {
 return p0;
 } else {
-return ((t = +(yield* yieldThenCallGenerator(thread.procedures["Zfib %s"], ((t = +p0, t === t ? t : 0) - 1))), t === t ? t : 0) + (t = +(yield* yieldThenCallGenerator(thread.procedures["Zfib %s"], ((t = +p0, t === t ? t : 0) - 2))), t === t ? t : 0));
+return (((t = +(yield* yieldThenCallGenerator(thread.procedures["Zfib %s"], (((t = +p0) === t ? t : 0) - 1)))) === t ? t : 0) + ((t = +(yield* yieldThenCallGenerator(thread.procedures["Zfib %s"], (((t = +p0) === t ? t : 0) - 2)))) === t ? t : 0));
 }
 return "";
 }; })
@@ -70,8 +70,8 @@ return function* genXYZ_recursing_yields_bet (p0) {
 let t;
 if ((("" + p0).toLowerCase() === "initial".toLowerCase())) {
 b0.value = 0;
-b1.value = ((t = +(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 1)), t === t ? t : 0) + (t = ((t = +(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 1)), t === t ? t : 0) + (t = ((t = +(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 2)), t === t ? t : 0) + (t = ((t = +(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 2)), t === t ? t : 0) + (t = ((t = +(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 3)), t === t ? t : 0) + (t = +(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 3)), t === t ? t : 0)), t === t ? t : 0)), t === t ? t : 0)), t === t ? t : 0)), t === t ? t : 0));
-if (((t = +b0.value, t === t ? t : 0) === 3)) {
+b1.value = (((t = +(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 1))) === t ? t : 0) + ((t = (((t = +(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 1))) === t ? t : 0) + ((t = (((t = +(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 2))) === t ? t : 0) + ((t = (((t = +(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 2))) === t ? t : 0) + ((t = (((t = +(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 3))) === t ? t : 0) + ((t = +(yield* yieldThenCallGenerator(thread.procedures["Zrecursing yields between each %s"], 3))) === t ? t : 0))) === t ? t : 0))) === t ? t : 0))) === t ? t : 0))) === t ? t : 0));
+if ((((t = +b0.value) === t ? t : 0) === 3)) {
 runtime.ext_scratch3_looks._say("pass recursing between calls yields final", target);
 } else {
 runtime.ext_scratch3_looks._say("fail recursing between calls yields final", target);
@@ -134,7 +134,7 @@ return function* genXYZ () {
 let t;
 b0.value = 0;
 while (true) {
-b0.value = ((t = +b0.value, t === t ? t : 0) + 1);
+b0.value = (((t = +b0.value) === t ? t : 0) + 1);
 thread.timer = timer();
 var a0 = Math.max(0, 1000 * -1);
 runtime.requestRedraw();

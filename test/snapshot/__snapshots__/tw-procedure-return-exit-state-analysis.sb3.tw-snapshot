@@ -9,7 +9,7 @@ return function* genXYZ () {
 let t;
 runtime.ext_scratch3_looks._say("plan 1", target);
 b0.value = thread.procedures["Zeval"]();
-if ((((t = +b1.value, t === t ? t : 0) + 0) === 0)) {
+if (((((t = +b1.value) === t ? t : 0) + 0) === 0)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 runtime.ext_scratch3_looks._say("end", target);

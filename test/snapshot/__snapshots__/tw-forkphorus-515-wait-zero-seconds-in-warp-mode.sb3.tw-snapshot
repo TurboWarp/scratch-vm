@@ -73,7 +73,7 @@ const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 return function* genXYZ () {
 let t;
 while (true) {
-b0.value = ((t = +b0.value, t === t ? t : 0) + 1);
+b0.value = (((t = +b0.value) === t ? t : 0) + 1);
 yield;
 }
 retire(); return;

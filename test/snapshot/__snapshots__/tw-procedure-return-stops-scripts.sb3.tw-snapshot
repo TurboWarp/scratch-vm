@@ -12,7 +12,7 @@ if ((b0.value === 25)) {
 runtime.ext_scratch3_looks._say("pass return stopped the script immediately", target);
 }
 yield* waitThreads(startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "Test return outside of custom block" }));
-if (((t = +b0.value, t === t ? t : 0) === 18)) {
+if ((((t = +b0.value) === t ? t : 0) === 18)) {
 runtime.ext_scratch3_looks._say("pass return worked to stop outside of custom block", target);
 }
 runtime.ext_scratch3_looks._say("end", target);
@@ -41,7 +41,7 @@ return function* genXYZ () {
 let t;
 b0.value = 0;
 while (true) {
-b0.value = ((t = +b0.value, t === t ? t : 0) + 1);
+b0.value = (((t = +b0.value) === t ? t : 0) + 1);
 if ((b0.value === 18)) {
 retire(); return;
 }
