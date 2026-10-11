@@ -17,6 +17,15 @@ const StageLayering = require('../../engine/stage-layering');
 const blockIconURI = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48dGl0bGU+cGVuLWljb248L3RpdGxlPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjNTc1ZTc1IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Im04Ljc1MyAzNC42MDItNC4yNSAxLjc4IDEuNzgzLTQuMjM3YzEuMjE4LTIuODkyIDIuOTA3LTUuNDIzIDUuMDMtNy41MzhMMzEuMDY2IDQuOTNjLjg0Ni0uODQyIDIuNjUtLjQxIDQuMDMyLjk2NyAxLjM4IDEuMzc1IDEuODE2IDMuMTczLjk3IDQuMDE1TDE2LjMxOCAyOS41OWMtMi4xMjMgMi4xMTYtNC42NjQgMy44LTcuNTY1IDUuMDEyIi8+PHBhdGggZD0iTTI5LjQxIDYuMTFzLTQuNDUtMi4zNzgtOC4yMDIgNS43NzJjLTEuNzM0IDMuNzY2LTQuMzUgMS41NDYtNC4zNSAxLjU0NiIvPjxwYXRoIGZpbGw9IiM0Yzk3ZmYiIGQ9Ik0zNi40MiA4LjgyNWMwIC40NjMtLjE0Ljg3My0uNDMyIDEuMTY0bC05LjMzNSA5LjNjLjI4Mi0uMjkuNDEtLjY2OC40MS0xLjEyIDAtLjg3NC0uNTA3LTEuOTYzLTEuNDA2LTIuODY4LTEuMzYyLTEuMzU4LTMuMTQ3LTEuOC00LjAwMi0uOTlMMzAuOTkgNS4wMWMuODQ0LS44NCAyLjY1LS40MSA0LjAzNS45Ni44OTguOTA0IDEuMzk2IDEuOTgyIDEuMzk2IDIuODU1TTEwLjUxNSAzMy43NzRhMjQgMjQgMCAwIDEtMS43NjQuODNMNC41IDM2LjM4MmwxLjc4Ni00LjIzNWMuMjU4LS42MDQuNTMtMS4xODYuODMzLTEuNzU3LjY5LjE4MyAxLjQ0OC42MjUgMi4xMDggMS4yODIuNjYuNjU4IDEuMTAyIDEuNDEyIDEuMjg3IDIuMTAyIi8+PHBhdGggZmlsbD0iIzU3NWU3NSIgZD0iTTM2LjQ5OCA4Ljc0OGMwIC40NjQtLjE0Ljg3NC0uNDMzIDEuMTY1bC0xOS43NDIgMTkuNjhjLTIuMTMgMi4xMS00LjY3MyAzLjc5My03LjU3MiA1LjAxTDQuNSAzNi4zOGwuOTc0LTIuMzE2IDEuOTI1LS44MDhjMi44OTgtMS4yMTggNS40NC0yLjkgNy41Ny01LjAxbDE5Ljc0My0xOS42OGMuMjkyLS4yOTIuNDMyLS43MDIuNDMyLTEuMTY1IDAtLjY0Ni0uMjctMS40LS43OC0yLjEyMi4yNS4xNzIuNS4zNzcuNzM3LjYxNC44OTguOTA1IDEuMzk2IDEuOTgzIDEuMzk2IDIuODU2IiBvcGFjaXR5PSIuMTUiLz48cGF0aCBmaWxsPSIjNTc1ZTc1IiBkPSJNMTguNDUgMTIuODNhLjkwNC45MDQgMCAxIDEtLjkwMy0uOTAyYy41IDAgLjkwNC40MDQuOTA0LjkwNHoiLz48L2c+PC9zdmc+';
 
 /**
+ * LUT for integer / 255 as a float.
+ * @type {Float64Array}
+ */
+const DIVIDE_255_LUT = new Float64Array(256);
+for (let i = 0; i < 256; i++) {
+    DIVIDE_255_LUT[i] = i / 255;
+}
+
+/**
  * Enum for pen color parameter values.
  * @readonly
  * @enum {string}
@@ -594,16 +603,54 @@ class Scratch3PenBlocks {
     }
     _setPenColorToColor (color, target) { // used by compiler
         const penState = this._getPenState(target);
-        const rgb = Cast.toRgbColorObject(color);
-        const hsv = Color.rgbToHsv(rgb);
-        penState.color = (hsv.h / 360) * 100;
-        penState.saturation = hsv.s * 100;
-        penState.brightness = hsv.v * 100;
-        if (Object.prototype.hasOwnProperty.call(rgb, 'a')) {
-            penState.transparency = 100 * (1 - (rgb.a / 255.0));
-        } else {
+
+        let r;
+        let g;
+        let b;
+        if (typeof color === 'string' && color.charCodeAt(0) === 35 /* # */) {
+            const rgb = Color.hexToRgb(color);
+            if (rgb) {
+                r = rgb.r;
+                g = rgb.g;
+                b = rgb.b;
+            } else {
+                // Invalid hex colors are black
+                r = 0;
+                g = 0;
+                b = 0;
+            }
             penState.transparency = 0;
+        } else {
+            const decimal = Cast.toNumber(color);
+            const a = (decimal >> 24) & 0xFF;
+            r = (decimal >> 16) & 0xFF;
+            g = (decimal >> 8) & 0xFF;
+            b = decimal & 0xFF;
+            penState.transparency = 100 * (1 - ((a > 0 ? a : 255) / 255.0));
         }
+
+        const rFloat = DIVIDE_255_LUT[r];
+        const gFloat = DIVIDE_255_LUT[g];
+        const bFloat = DIVIDE_255_LUT[b];
+
+        // Now, we convert to HSV.
+        const x = Math.min(Math.min(rFloat, gFloat), bFloat);
+        const v = Math.max(Math.max(rFloat, gFloat), bFloat);
+        let h = 0;
+        let s = 0;
+        if (x !== v) {
+            const f = (rFloat === x) ? gFloat - bFloat : ((gFloat === x) ? bFloat - rFloat : rFloat - gFloat);
+            const i = (rFloat === x) ? 3 : ((gFloat === x) ? 5 : 1);
+            h = (i - (f / (v - x))) * 60;
+            // h is in [0, 360] here, so this is equivalent to h % 360 without the slow floating point modulo.
+            // Pure reds give exactly 360.
+            if (h === 360) h = 0;
+            s = (v - x) / v;
+        }
+
+        penState.color = (h / 360) * 100;
+        penState.saturation = s * 100;
+        penState.brightness = v * 100;
 
         // Set the legacy "shade" value the same way scratch 2 did.
         penState._shade = penState.brightness / 2;
