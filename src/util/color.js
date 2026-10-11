@@ -115,8 +115,12 @@ class Color {
      * @return {RGBObject} rgb - {r: red [0,255], g: green [0,255], b: blue [0,255]}.
      */
     static hsvToRgb (hsv) {
-        let h = hsv.h % 360;
-        if (h < 0) h += 360;
+        let h = hsv.h;
+        // Equivalent to always doing h % 360, but floating point modulo is slow.
+        if (h < 0 || h >= 360) {
+            h %= 360;
+            if (h < 0) h += 360;
+        }
         const s = Math.max(0, Math.min(hsv.s, 1));
         const v = Math.max(0, Math.min(hsv.v, 1));
 
@@ -189,7 +193,9 @@ class Color {
         if (x !== v) {
             const f = (r === x) ? g - b : ((g === x) ? b - r : r - g);
             const i = (r === x) ? 3 : ((g === x) ? 5 : 1);
-            h = ((i - (f / (v - x))) * 60) % 360;
+            h = (i - (f / (v - x))) * 60;
+            // Pure red reports as 360 from above. We want to treat that as 0.
+            if (h === 360) h = 0;
             s = (v - x) / v;
         }
 
