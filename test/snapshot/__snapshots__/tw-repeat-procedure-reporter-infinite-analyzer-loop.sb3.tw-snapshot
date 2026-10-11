@@ -14,8 +14,9 @@ retire(); return;
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = target.variables["ts-.PQ{/]mN_9@MbG:m/"];
 return function funXYZ_test_1 () {
-for (var a0 = toNotNaN(+thread.procedures["Wany procedure reporter"]()); a0 >= 0.5; a0--) {
-b0.value = (toNotNaN(+b0.value) + 1);
+let t;
+for (var a0 = (t = +thread.procedures["Wany procedure reporter"](), t === t ? t : 0); a0 >= 0.5; a0--) {
+b0.value = ((t = +b0.value, t === t ? t : 0) + 1);
 }
 return "";
 }; })

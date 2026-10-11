@@ -7,6 +7,7 @@ const b0 = stage.variables["%ehs:~!Y0l-5=!mnd-B?"];
 const b1 = stage.variables["=3aHfv[mKa)v,Wfpy:y?"];
 const b2 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 return function* genXYZ () {
+let t;
 runtime.ext_scratch3_looks._say("plan 1", target);
 b0.value = [];
 b0.value.push((1 + 2));
@@ -16,11 +17,11 @@ b0._monitorUpToDate = false;
 b1.value = 0;
 b2.value = "bwah";
 while (!(("" + b2.value).toLowerCase() === "eof".toLowerCase())) {
-b1.value = (toNotNaN(+b1.value) + 1);
+b1.value = ((t = +b1.value, t === t ? t : 0) + 1);
 b2.value = (b0.value[(b1.value | 0) - 1] ?? "");
 yield;
 }
-if ((toNotNaN(+b1.value) === 2)) {
+if (((t = +b1.value, t === t ? t : 0) === 2)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 runtime.ext_scratch3_looks._say("end", target);

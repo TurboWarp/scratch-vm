@@ -5,13 +5,14 @@
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = stage.variables["PsAI*C{QHI3*4?O8p#TM"];
 return function* genXYZ () {
+let t;
 runtime.ext_scratch3_looks._say("plan 2", target);
 thread.procedures["Wreturn stops the script immediately"]();
 if ((b0.value === 25)) {
 runtime.ext_scratch3_looks._say("pass return stopped the script immediately", target);
 }
 yield* waitThreads(startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "Test return outside of custom block" }));
-if ((toNotNaN(+b0.value) === 18)) {
+if (((t = +b0.value, t === t ? t : 0) === 18)) {
 runtime.ext_scratch3_looks._say("pass return worked to stop outside of custom block", target);
 }
 runtime.ext_scratch3_looks._say("end", target);
@@ -37,9 +38,10 @@ return "";
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = stage.variables["PsAI*C{QHI3*4?O8p#TM"];
 return function* genXYZ () {
+let t;
 b0.value = 0;
 while (true) {
-b0.value = (toNotNaN(+b0.value) + 1);
+b0.value = ((t = +b0.value, t === t ? t : 0) + 1);
 if ((b0.value === 18)) {
 retire(); return;
 }

@@ -18,15 +18,16 @@ const b2 = stage.variables["n^wm8jw#b24sggt.S^tD"];
 const b3 = stage.variables["_]6^lq+-%H0{ov`tKt7$"];
 const b4 = stage.variables["3lyKRepBc$tx)EWlpr!y"];
 return function* genXYZ_run_test () {
+let t;
 thread.procedures["Wsetup values"]();
 b0.value = 0;
 b1.value = 0;
 for (var a0 = b2.value.length; a0 > 0; a0--) {
-b1.value = (toNotNaN(+b1.value) + 1);
+b1.value = ((t = +b1.value, t === t ? t : 0) + 1);
 b3.value = 0;
 for (var a1 = b2.value.length; a1 > 0; a1--) {
-b3.value = (toNotNaN(+b3.value) + 1);
-b0.value = (toNotNaN(+b0.value) + 1);
+b3.value = ((t = +b3.value, t === t ? t : 0) + 1);
+b0.value = ((t = +b0.value, t === t ? t : 0) + 1);
 if (!compareEqual(compareGreaterThan(listGet(b2.value, b1.value), (b2.value[(b3.value | 0) - 1] ?? "")), (b4.value[(b0.value | 0) - 1] ?? ""))) {
 runtime.ext_scratch3_looks._say(("fail " + (("" + listGet(b2.value, b1.value)) + (" should be > " + ("" + (b2.value[(b3.value | 0) - 1] ?? ""))))), target);
 }

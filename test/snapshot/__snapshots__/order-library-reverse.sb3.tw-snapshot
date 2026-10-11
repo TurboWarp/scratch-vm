@@ -6,16 +6,17 @@
 const b0 = stage.variables["p]KODv+)+:l=%NT~j3/d-order"];
 const b1 = stage.variables["p]KODv+)+:l=%NT~j3/d-wait"];
 return function* genXYZ () {
+let t;
 b0.value = 0;
 thread.timer = timer();
-var a0 = Math.max(0, 1000 * toNotNaN(+b1.value));
+var a0 = Math.max(0, 1000 * (t = +b1.value, t === t ? t : 0));
 runtime.requestRedraw();
 yield;
 while (thread.timer.timeElapsed() < a0) {
 yield;
 }
 thread.timer = null;
-b0.value = (toNotNaN(+b0.value) + 1);
+b0.value = ((t = +b0.value, t === t ? t : 0) + 1);
 if ((b0.value === 1)) {
 runtime.ext_scratch3_looks._say("pass order is correct (1)", target);
 } else {
@@ -28,9 +29,10 @@ retire(); return;
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = stage.variables["p]KODv+)+:l=%NT~j3/d-wait"];
 return function* genXYZ () {
+let t;
 runtime.ext_scratch3_looks._say("plan 2", target);
 thread.timer = timer();
-var a0 = Math.max(0, 1000 * toNotNaN(+b0.value));
+var a0 = Math.max(0, 1000 * (t = +b0.value, t === t ? t : 0));
 runtime.requestRedraw();
 yield;
 while (thread.timer.timeElapsed() < a0) {
@@ -38,7 +40,7 @@ yield;
 }
 thread.timer = null;
 thread.timer = timer();
-var a1 = Math.max(0, 1000 * toNotNaN(+b0.value));
+var a1 = Math.max(0, 1000 * (t = +b0.value, t === t ? t : 0));
 runtime.requestRedraw();
 yield;
 while (thread.timer.timeElapsed() < a1) {
@@ -46,7 +48,7 @@ yield;
 }
 thread.timer = null;
 thread.timer = timer();
-var a2 = Math.max(0, 1000 * toNotNaN(+b0.value));
+var a2 = Math.max(0, 1000 * (t = +b0.value, t === t ? t : 0));
 runtime.requestRedraw();
 yield;
 while (thread.timer.timeElapsed() < a2) {
@@ -62,16 +64,17 @@ retire(); return;
 const b0 = stage.variables["p]KODv+)+:l=%NT~j3/d-order"];
 const b1 = stage.variables["p]KODv+)+:l=%NT~j3/d-wait"];
 return function* genXYZ () {
+let t;
 b0.value = 0;
 thread.timer = timer();
-var a0 = Math.max(0, 1000 * toNotNaN(+b1.value));
+var a0 = Math.max(0, 1000 * (t = +b1.value, t === t ? t : 0));
 runtime.requestRedraw();
 yield;
 while (thread.timer.timeElapsed() < a0) {
 yield;
 }
 thread.timer = null;
-b0.value = (toNotNaN(+b0.value) + 1);
+b0.value = ((t = +b0.value, t === t ? t : 0) + 1);
 if ((b0.value === 2)) {
 runtime.ext_scratch3_looks._say("pass order is correct (2)", target);
 } else {

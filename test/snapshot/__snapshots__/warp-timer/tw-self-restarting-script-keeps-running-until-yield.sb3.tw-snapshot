@@ -18,6 +18,7 @@ retire(); return;
 const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 const b1 = stage.variables["G{NQ*NXG*qzywe1Q3?FM"];
 return function* genXYZ () {
+let t;
 if (compareEqual(b0.value, 0)) {
 b0.value = 1;
 startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "message1" });
@@ -27,7 +28,7 @@ yield;
 }
 b1.value = 2;
 } else {
-if ((toNotNaN(+b1.value) === 1)) {
+if (((t = +b1.value, t === t ? t : 0) === 1)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 runtime.ext_scratch3_looks._say("end", target);

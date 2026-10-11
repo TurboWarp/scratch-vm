@@ -20,6 +20,7 @@ const b0 = stage.variables["uEt-Ix{%|r3`}-W%+kdm"];
 const b1 = stage.variables["PJl9-2GypE.OstQk*B_*"];
 const b2 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 return function* genXYZ_a () {
+let t;
 b0.value = "ababa";
 b1.value = "";
 b2.value = 1;
@@ -29,7 +30,7 @@ b1.value = (("" + b1.value) + "b");
 } else {
 b1.value = (("" + b1.value) + "a");
 }
-b2.value = (toNotNaN(+b2.value) + 1);
+b2.value = ((t = +b2.value, t === t ? t : 0) + 1);
 if (isStuck()) yield;
 }
 return "";

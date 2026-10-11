@@ -19,7 +19,8 @@ retire(); return;
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 return function* genXYZ () {
-if ((toNotNaN(+b0.value) === 1)) {
+let t;
+if (((t = +b0.value, t === t ? t : 0) === 1)) {
 runtime.ext_scratch3_looks._say("pass variable 1", target);
 }
 retire(); return;
@@ -29,7 +30,8 @@ retire(); return;
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = stage.variables[")|GMR5fz;%F_H,c0wGVM"];
 return function* genXYZ () {
-if ((toNotNaN(+b0.value) === 2)) {
+let t;
+if (((t = +b0.value, t === t ? t : 0) === 2)) {
 runtime.ext_scratch3_looks._say("pass variable 2", target);
 }
 retire(); return;

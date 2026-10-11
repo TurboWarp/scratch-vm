@@ -4,50 +4,51 @@
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 return function* genXYZ () {
+let t;
 runtime.ext_scratch3_looks._say("plan 15", target);
 if (compareEqual(tan(0), 0)) {
 runtime.ext_scratch3_looks._say("pass 0", target);
 }
-if ((toNotNaN(tan(90)) === Infinity)) {
+if (((t = tan(90), t === t ? t : 0) === Infinity)) {
 runtime.ext_scratch3_looks._say("pass 90", target);
 }
 if (compareEqual(tan(180), 0)) {
 runtime.ext_scratch3_looks._say("pass 180", target);
 }
-if ((toNotNaN(tan(270)) === -Infinity)) {
+if (((t = tan(270), t === t ? t : 0) === -Infinity)) {
 runtime.ext_scratch3_looks._say("pass 270", target);
 }
-if (((1 / toNotNaN(tan(360))) === Infinity)) {
+if (((1 / (t = tan(360), t === t ? t : 0)) === Infinity)) {
 runtime.ext_scratch3_looks._say("pass 360", target);
 }
-if ((toNotNaN(tan(450)) === Infinity)) {
+if (((t = tan(450), t === t ? t : 0) === Infinity)) {
 runtime.ext_scratch3_looks._say("pass 450", target);
 }
 if (compareEqual(tan(540), 0)) {
 runtime.ext_scratch3_looks._say("pass 540", target);
 }
-if ((toNotNaN(tan(630)) === -Infinity)) {
+if (((t = tan(630), t === t ? t : 0) === -Infinity)) {
 runtime.ext_scratch3_looks._say("pass 630", target);
 }
 if (compareEqual(tan(720), 0)) {
 runtime.ext_scratch3_looks._say("pass 720", target);
 }
-if ((toNotNaN(tan(810)) === Infinity)) {
+if (((t = tan(810), t === t ? t : 0) === Infinity)) {
 runtime.ext_scratch3_looks._say("pass 810", target);
 }
-if ((toNotNaN(tan(-90)) === -Infinity)) {
+if (((t = tan(-90), t === t ? t : 0) === -Infinity)) {
 runtime.ext_scratch3_looks._say("pass -90", target);
 }
 if (compareEqual(tan(-180), 0)) {
 runtime.ext_scratch3_looks._say("pass -180", target);
 }
-if ((toNotNaN(tan(-270)) === Infinity)) {
+if (((t = tan(-270), t === t ? t : 0) === Infinity)) {
 runtime.ext_scratch3_looks._say("pass -270", target);
 }
 if (compareEqual(tan(-360), 0)) {
 runtime.ext_scratch3_looks._say("pass -360", target);
 }
-if ((toNotNaN(tan(-450)) === -Infinity)) {
+if (((t = tan(-450), t === t ? t : 0) === -Infinity)) {
 runtime.ext_scratch3_looks._say("pass -450", target);
 }
 runtime.ext_scratch3_looks._say("end", target);

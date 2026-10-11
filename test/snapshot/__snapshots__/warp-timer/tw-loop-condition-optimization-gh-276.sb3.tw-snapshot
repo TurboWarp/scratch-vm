@@ -19,9 +19,10 @@ retire(); return;
 const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 const b1 = stage.variables["t)]?yi[*8XU73qhMqOa8"];
 return function* genXYZ_test_ (p0) {
+let t;
 b0.value = p0;
 while (!(("" + listGet(b1.value, b0.value)).toLowerCase() === "something".toLowerCase())) {
-b0.value = (toNotNaN(+b0.value) + 1);
+b0.value = ((t = +b0.value, t === t ? t : 0) + 1);
 if (isStuck()) yield;
 }
 return "";

@@ -6,9 +6,10 @@
 const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
 const b1 = stage.variables[",ea{fAW5kF+a,G5W.|*L"];
 return function* genXYZ () {
+let t;
 runtime.ext_scratch3_looks._say("plan 1", target);
 b0.value = thread.procedures["Zeval"]();
-if (((toNotNaN(+b1.value) + 0) === 0)) {
+if ((((t = +b1.value, t === t ? t : 0) + 0) === 0)) {
 runtime.ext_scratch3_looks._say("pass", target);
 }
 runtime.ext_scratch3_looks._say("end", target);

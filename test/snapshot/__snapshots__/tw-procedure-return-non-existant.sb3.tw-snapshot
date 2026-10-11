@@ -5,9 +5,10 @@
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = stage.variables["Go=PJS7BFXYo_qi2S:kQ"];
 return function* genXYZ () {
+let t;
 b0.value = 0;
 while (true) {
-b0.value = (toNotNaN(+b0.value) + 1);
+b0.value = ((t = +b0.value, t === t ? t : 0) + 1);
 thread.timer = timer();
 var a0 = Math.max(0, 1000 * -1);
 runtime.requestRedraw();
