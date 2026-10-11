@@ -495,6 +495,7 @@ class Thread {
         } else {
             try {
                 result = compile(this);
+                this.compiledGeneration = this.blockContainer.compileGeneration;
                 if (canCache) {
                     blocks.cacheCompileResult(topBlock, result);
                 }

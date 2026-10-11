@@ -596,7 +596,7 @@ runtimeFunctions.yieldThenCallGenerator = `const yieldThenCallGenerator = functi
  */
 const execute = thread => {
     globalState.thread = thread;
-    thread.generator.next();
+    return thread.generator.next();
 };
 
 const threadStack = [];

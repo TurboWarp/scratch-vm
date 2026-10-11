@@ -87,7 +87,7 @@ class Blocks {
              * @type {object.<string, object>}
              */
             compiledScripts: {},
-            
+
             /**
              * tw: A cache of procedure code opcodes to a parsed intermediate representation
              * @type {object.<string, object>}
@@ -99,6 +99,8 @@ class Blocks {
              */
             proceduresPopulated: false
         };
+
+        this._compileGeneration = 0;
 
         /**
          * Flag which indicates that blocks in this container should not glow.
@@ -623,6 +625,12 @@ class Blocks {
         this._cache.compiledScripts = {};
         this._cache.compiledProcedures = {};
         this._cache.proceduresPopulated = false;
+
+        this._compileGeneration++;
+    }
+
+    get compileGeneration () {
+        return this._compileGeneration;
     }
 
     /**

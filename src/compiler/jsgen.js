@@ -117,6 +117,8 @@ class JSGenerator {
          */
         this.currentFrame = null;
 
+        this.deoptFrames = [];
+
         this.localVariables = new VariablePool('a');
         this._setupVariablesPool = new VariablePool('b');
         this._setupVariables = {};
@@ -612,6 +614,13 @@ class JSGenerator {
             break;
         case StackOpcode.CONTROL_REPEAT: {
             const i = this.localVariables.next();
+            this.deoptFrames.push({
+                blockId: block.sourceBlockId,
+                isLoop: true,
+                executionContext: {
+                    loopCounter: `${i} - 1`
+                }
+            });
             if (node.times.isAlwaysType(InputType.NUMBER_INT | InputType.NUMBER_INF)) {
                 this.source += `for (var ${i} = ${this.descendInput(node.times)}; ${i} > 0; ${i}--) {\n`;
             } else {
@@ -620,6 +629,7 @@ class JSGenerator {
             this.descendStack(node.do, new Frame(true));
             this.yieldLoop();
             this.source += `}\n`;
+            this.deoptFrames.pop();
             break;
         }
         case StackOpcode.CONTROL_STOP_ALL:
@@ -652,6 +662,7 @@ class JSGenerator {
             break;
         }
         case StackOpcode.CONTROL_WHILE:
+            this.deoptFrames.push({blockId: block.sourceBlockId, isLoop: true});
             this.source += `while (${this.descendInput(node.condition)}) {\n`;
             this.descendStack(node.do, new Frame(true));
             if (node.warpTimer) {
@@ -660,6 +671,7 @@ class JSGenerator {
                 this.yieldLoop();
             }
             this.source += `}\n`;
+            this.deoptFrames.pop();
             break;
         case StackOpcode.CONTROL_CLEAR_COUNTER:
             this.source += 'runtime.ext_scratch3_control._counter = 0;\n';
@@ -1037,7 +1049,7 @@ class JSGenerator {
      */
     yieldNotWarp () {
         if (!this.isWarp) {
-            this.source += 'yield;\n';
+            this.emitYield();
             this.yielded();
         }
     }
@@ -1047,9 +1059,11 @@ class JSGenerator {
      */
     yieldStuckOrNotWarp () {
         if (this.isWarp) {
-            this.source += 'if (isStuck()) yield;\n';
+            this.source += 'if (isStuck()) {';
+            this.emitYield();
+            this.source += '}\n';
         } else {
-            this.source += 'yield;\n';
+            this.emitYield();
         }
         this.yielded();
     }
@@ -1061,11 +1075,48 @@ class JSGenerator {
         // Control may have been yielded to another script -- all bets are off.
     }
 
+    emitYield () {
+        // TODO: Add a compiler option for enabling live script editing.
+        const liveScriptEditing = true;
+
+        if (!liveScriptEditing) {
+            this.source += 'yield;\n';
+            return;
+        }
+        this.source += 'yield (';
+        this.source += '  thread.compiledGeneration !== thread.blockContainer.compileGeneration';
+        this.source += `  ? ${this.generateDeoptSnapshot(this.deoptFrames)} : undefined`;
+        this.source += ');\n';
+    }
+
     /**
      * Write JS to request a redraw.
      */
     requestRedraw () {
         this.source += 'runtime.requestRedraw();\n';
+    }
+
+    generateDeoptSnapshot (deoptFrames) {
+        let result = '{frames: [\n';
+
+        for (const deoptFrame of deoptFrames) {
+            result += '{\n';
+            result += `  blockId: ${JSON.stringify(deoptFrame.blockId)},\n`;
+            result += `  isLoop: ${deoptFrame.isLoop},\n`;
+            result += `  warpMode: ${this.isWarp},\n`;
+            if (deoptFrame.executionContext) {
+                result += '  executionContext: {\n';
+                for (const [key, value] of Object.entries(deoptFrame.executionContext)) {
+                    result += `    ${key}: ${value},\n`;
+                }
+                result += '  }\n';
+            }
+            // todo: params
+            result += '}\n';
+        }
+
+        result += ']}';
+        return result;
     }
 
     /**
