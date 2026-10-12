@@ -246,7 +246,7 @@ class JSGenerator {
             return `listGet(${this.referenceVariable(node.list)}.value, ${this.descendInput(node.index)})`;
         }
         case InputOpcode.LIST_INDEX_OF:
-            return `listIndexOf(${this.referenceVariable(node.list)}, ${this.descendInput(node.item)})`;
+            return `(listFind(${this.referenceVariable(node.list)}.value, ${this.descendInput(node.item)}) + 1)`;
         case InputOpcode.LIST_LENGTH:
             return `${this.referenceVariable(node.list)}.value.length`;
 

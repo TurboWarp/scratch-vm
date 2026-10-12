@@ -286,6 +286,38 @@ baseRuntime += `const compareEqualSlow = (v1, v2) => {
 const compareEqual = (v1, v2) => (typeof v1 === 'number' && typeof v2 === 'number' && v1 === v1 && v2 === v2 || v1 === v2) ? v1 === v2 : compareEqualSlow(v1, v2);`;
 
 /**
+ * Find the first item in a list that is equal to a value according to compareEqual.
+ * @param {unknown[]} list The list's array.
+ * @param {any} item The value to search for.
+ * @returns {number} The 0-indexed index of the item, otherwise -1.
+ */
+baseRuntime += `const listFind = (list, item) => {
+    const itemNumber = +item;
+    const itemString = ('' + item).toLowerCase();
+    if (itemNumber !== itemNumber || (itemNumber === 0 && isNotActuallyZero(item))) {
+        for (let i = 0; i < list.length; i++) {
+            const value = list[i];
+            if (value === item || ('' + value).toLowerCase() === itemString) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    for (let i = 0; i < list.length; i++) {
+        const value = list[i];
+        const n = +value;
+        if (n !== n || (n === 0 && isNotActuallyZero(value))) {
+            if (('' + value).toLowerCase() === itemString) {
+                return i;
+            }
+        } else if (n === itemNumber) {
+            return i;
+        }
+    }
+    return -1;
+};`;
+
+/**
  * Determine if one value is greater than another.
  * @param {*} v1 First value
  * @param {*} v2 Second value
@@ -503,27 +535,7 @@ runtimeFunctions.listContains = `const listContains = (list, item) => {
     if (list.value.indexOf(item) !== -1) {
         return true;
     }
-    for (let i = 0; i < list.value.length; i++) {
-        if (compareEqual(list.value[i], item)) {
-            return true;
-        }
-    }
-    return false;
-}`;
-
-/**
- * Find the 1-indexed index of an item in a list.
- * @param {import('../engine/variable')} list The list.
- * @param {*} item The item to search for
- * @returns {number} The 1-indexed index of the item in the list, otherwise 0
- */
-runtimeFunctions.listIndexOf = `const listIndexOf = (list, item) => {
-    for (let i = 0; i < list.value.length; i++) {
-        if (compareEqual(list.value[i], item)) {
-            return i + 1;
-        }
-    }
-    return 0;
+    return listFind(list.value, item) !== -1;
 }`;
 
 /**
