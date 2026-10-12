@@ -483,11 +483,20 @@ const listGet = (list, idx) => {
  * @param {*} idx List index, Scratch style.
  * @param {*} value The new value.
  */
-runtimeFunctions.listReplace = `const listReplace = (list, idx, value) => {
-    const index = typeof idx === 'number' ? (idx | 0) - 1 : listIndexSlow(idx, list.value.length);
-    if (index >= 0 && index < list.value.length) {
-        list.value[index] = value;
+runtimeFunctions.listReplace = `const listReplaceSlow = (list, idx, value) => {
+    const index = listIndex(idx, list.value.length);
+    if (index === -1) {
+        return;
+    }
+    list.value[index] = value;
+    list._monitorUpToDate = false;
+};
+const listReplace = (list, idx, value) => {
+    if (typeof idx === 'number' && idx >= 1 && idx <= list.value.length) {
+        list.value[(idx | 0) - 1] = value;
         list._monitorUpToDate = false;
+    } else {
+        listReplaceSlow(list, idx, value);
     }
 }`;
 

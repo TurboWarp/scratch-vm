@@ -1,0 +1,57 @@
+// TW Snapshot
+// Input SHA-256: 7d3b421806b70889174ed7454bedd065adf050092da975c836ebe8655f709d4a
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["listid"];
+const b1 = stage.variables["indexvar"];
+return function* genXYZ () {
+let t;
+runtime.ext_scratch3_looks._say("plan 13", target);
+if (((listFind(b0.value, "banana") + 1) === 2)) {
+runtime.ext_scratch3_looks._say("pass item # of is case insensitive", target);
+}
+if (((listFind(b0.value, 3) + 1) === 3)) {
+runtime.ext_scratch3_looks._say("pass item # of numeric string finds number", target);
+}
+if (((listFind(b0.value, "4.0") + 1) === 4)) {
+runtime.ext_scratch3_looks._say("pass item # of compares numerically", target);
+}
+if (((listFind(b0.value, "pear") + 1) === 0)) {
+runtime.ext_scratch3_looks._say("pass item # of missing item", target);
+}
+if (((listFind(b0.value, "") + 1) === 5)) {
+runtime.ext_scratch3_looks._say("pass item # of empty string", target);
+}
+if (listContains(b0, "APPLE")) {
+runtime.ext_scratch3_looks._say("pass contains APPLE", target);
+}
+if (listContains(b0, "3.00")) {
+runtime.ext_scratch3_looks._say("pass contains 3.00", target);
+}
+b1.value = 2;
+if ((("" + (b0.value[b1.value - 1] ?? "")).toLowerCase() === "banana".toLowerCase())) {
+runtime.ext_scratch3_looks._say("pass item of string index", target);
+}
+b1.value = 2.9;
+if ((("" + (b0.value[(b1.value | 0) - 1] ?? "")).toLowerCase() === "banana".toLowerCase())) {
+runtime.ext_scratch3_looks._say("pass item of fractional index", target);
+}
+b1.value = 0;
+if ((("" + (b0.value[b1.value - 1] ?? "")).toLowerCase() === "".toLowerCase())) {
+runtime.ext_scratch3_looks._say("pass item of index 0", target);
+}
+b1.value = 7;
+if ((("" + (b0.value[b1.value - 1] ?? "")).toLowerCase() === "".toLowerCase())) {
+runtime.ext_scratch3_looks._say("pass item of index past end", target);
+}
+b1.value = "last";
+if ((("" + listGet(b0.value, b1.value)).toLowerCase() === "last".toLowerCase())) {
+runtime.ext_scratch3_looks._say("pass item of last", target);
+}
+if ((((t = +listGet(b0.value, (b0.value[3 - 1] ?? ""))) === t ? t : 0) === 3)) {
+runtime.ext_scratch3_looks._say("pass item of unknown number index", target);
+}
+runtime.ext_scratch3_looks._say("end", target);
+retire(); return;
+}; })
