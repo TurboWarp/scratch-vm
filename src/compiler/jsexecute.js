@@ -487,23 +487,46 @@ runtimeFunctions.listDelete = `const listDelete = (list, idx) => {
 }`;
 
 /**
+ * Find the 0-based index of the first list item that is equal to `item` according to Scratch's
+ * comparison rules or -1 if it is not found. Behaves exactly like looping with compareEqual(list.value[i], item), but
+ * the work that only depends on `item` (number conversion, lowercasing) is done once instead of
+ * once per list item.
+ * @param {import('../engine/variable')} list The list.
+ * @param {*} item The value to search for.
+ * @returns {number} 0-based index, or -1 if not found.
+ */
+baseRuntime += `const listFind = (list, item) => {
+    const items = list.value;
+    const length = items.length;
+    if (length === 0) return -1;
+    const itemNumber = +item;
+    const itemIsString = Number.isNaN(itemNumber) || (itemNumber === 0 && isNotActuallyZero(item));
+    let itemLower = null;
+    for (let i = 0; i < length; i++) {
+        const value = items[i];
+        if (value === item) return i;
+        if (typeof value === 'number' && !itemIsString && value === value) {
+            if (value === itemNumber) return i;
+            continue;
+        }
+        const valueNumber = +value;
+        if (Number.isNaN(valueNumber) || (valueNumber === 0 && isNotActuallyZero(value)) || itemIsString) {
+            if (itemLower === null) itemLower = ('' + item).toLowerCase();
+            if (('' + value).toLowerCase() === itemLower) return i;
+        } else if (valueNumber === itemNumber) {
+            return i;
+        }
+    }
+    return -1;
+};`;
+
+/**
  * Return whether a list contains a value.
  * @param {import('../engine/variable')} list The list.
  * @param {*} item The value to search for.
  * @returns {boolean} True if the list contains the item
  */
-runtimeFunctions.listContains = `const listContains = (list, item) => {
-    // TODO: evaluate whether indexOf is worthwhile here
-    if (list.value.indexOf(item) !== -1) {
-        return true;
-    }
-    for (let i = 0; i < list.value.length; i++) {
-        if (compareEqual(list.value[i], item)) {
-            return true;
-        }
-    }
-    return false;
-}`;
+runtimeFunctions.listContains = `const listContains = (list, item) => list.value.indexOf(item) !== -1 || listFind(list, item) !== -1;`;
 
 /**
  * Find the 1-indexed index of an item in a list.
@@ -511,14 +534,7 @@ runtimeFunctions.listContains = `const listContains = (list, item) => {
  * @param {*} item The item to search for
  * @returns {number} The 1-indexed index of the item in the list, otherwise 0
  */
-runtimeFunctions.listIndexOf = `const listIndexOf = (list, item) => {
-    for (let i = 0; i < list.value.length; i++) {
-        if (compareEqual(list.value[i], item)) {
-            return i + 1;
-        }
-    }
-    return 0;
-}`;
+runtimeFunctions.listIndexOf = `const listIndexOf = (list, item) => listFind(list, item) + 1`;
 
 /**
  * Get the stringified form of a list.
