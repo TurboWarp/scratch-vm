@@ -482,7 +482,13 @@ runtimeFunctions.listDelete = `const listDelete = (list, idx) => {
     if (index === -1) {
         return;
     }
-    list.value.splice(index, 1);
+    if (index === 0) {
+        list.value.shift();
+    } else if (index === list.value.length - 1) {
+        list.value.pop();
+    } else {
+        list.value.splice(index, 1);
+    }
     list._monitorUpToDate = false;
 }`;
 
