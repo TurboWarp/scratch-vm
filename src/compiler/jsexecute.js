@@ -462,12 +462,19 @@ const listIndex = (index, length) => {
  * @param {*} idx The 1-indexed index in the list.
  * @returns {*} The list item, otherwise empty string if it does not exist.
  */
-runtimeFunctions.listGet = `const listGet = (list, idx) => {
+runtimeFunctions.listGet = `const listGetSlow = (list, idx) => {
     const index = listIndex(idx, list.length);
     if (index === -1) {
         return '';
     }
     return list[index];
+};
+const listGet = (list, idx) => {
+    if (typeof idx === 'number' && idx >= 1) {
+        const item = list[(idx | 0) - 1];
+        return item === undefined ? '' : item;
+    }
+    return listGetSlow(list, idx);
 }`;
 
 /**
@@ -477,12 +484,11 @@ runtimeFunctions.listGet = `const listGet = (list, idx) => {
  * @param {*} value The new value.
  */
 runtimeFunctions.listReplace = `const listReplace = (list, idx, value) => {
-    const index = listIndex(idx, list.value.length);
-    if (index === -1) {
-        return;
+    const index = typeof idx === 'number' ? (idx | 0) - 1 : listIndexSlow(idx, list.value.length);
+    if (index >= 0 && index < list.value.length) {
+        list.value[index] = value;
+        list._monitorUpToDate = false;
     }
-    list.value[index] = value;
-    list._monitorUpToDate = false;
 }`;
 
 /**
