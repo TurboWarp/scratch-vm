@@ -1,0 +1,165 @@
+// TW Snapshot
+// Input SHA-256: 1142c0dcd16b015bae6b8df3e70e1e4572decc653e0c5f4af57a9a7313e8d458
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ () {
+yield* thread.procedures["Zassert %b %s"]((((0.1 + 0.2) || 0) === 0.30000000000000004),"adding must work w/ floating point errors");
+yield* thread.procedures["Zassert %b %s"]((((0.2 - -0.1) || 0) === 0.30000000000000004),"subtraction must work w/ floating point errors");
+yield* thread.procedures["Zassert %b %s"]((((0 - 5) || 0) === -5),"substraction should invert with empty right side");
+yield* thread.procedures["Zassert %b %s"]((((222 * 2) || 0) === 444),"multiplication must work");
+yield* thread.procedures["Zassert %b %s"]((((222 / 2) || 0) === 111),"division must work");
+yield* thread.procedures["Zassert %b %s"]((((100 / 0) || 0) === Infinity),"100/0 must equal Infinity");
+for (var a0 = 5; a0 > 0; a0--) {
+yield* thread.procedures["Zassert %b %s"](!(randomInt(1, 10) < 1),"pick random should have a lower bound (inclusive)");
+yield* thread.procedures["Zassert %b %s"](!(randomInt(1, 10) > 10),"pick random should have an upper bound (inclusive)");
+yield* thread.procedures["Zassert %b %s"]((1 === 1),"pick random of range 0 should return either bound");
+yield* thread.procedures["Zassert %b %s"](!compareEqual(mod((randomFloat(1, 2) || 0), 1), 0),"pick random w/ decimal bounds should return decimals");
+yield* thread.procedures["Zassert %b %s"](!compareEqual(mod((randomFloat(1, 2) || 0), 1), 0),"pick random w/ decimal (.0) bounds should return decimals");
+yield* thread.procedures["Zassert %b %s"](!compareEqual(mod((randomFloat(1, 2) || 0), 1), 0),"pick random w/ decimal (.0) bounds should return decimals");
+yield* thread.procedures["Zassert %b %s"](!compareEqual(mod((randomFloat(1.1, 2) || 0), 1), 0),"pick random w/ decimal bounds should return decimals");
+yield* thread.procedures["Zassert %b %s"](!compareEqual(mod((randomFloat(1, 2.1) || 0), 1), 0),"pick random w/ decimal bounds should return decimals");
+yield;
+}
+yield* thread.procedures["Zassert %b %s"]((1 > 0),"1 must be greater than 0");
+yield* thread.procedures["Zassert %b %s"](!(0 > 1),"0 must not be greater than 1");
+yield* thread.procedures["Zassert %b %s"]((0 < 1),"0 must  be less than 1");
+yield* thread.procedures["Zassert %b %s"](!(1 < 0),"1 must not be greater than 1");
+yield* thread.procedures["Zassert %b %s"]((1 === 1),"1 must equal 1");
+yield* thread.procedures["Zassert %b %s"](!("hello".toLowerCase() === "world".toLowerCase()),"hello must not equal world");
+yield* thread.procedures["Zassert %b %s"](("hello".toLowerCase() === "hello".toLowerCase()),"hello must equal hello");
+yield* thread.procedures["Zassert %b %s"](("".toLowerCase() === "".toLowerCase()),"empty must equal empty");
+yield* thread.procedures["Zassert %b %s"](!(" ".toLowerCase() === "".toLowerCase()),"spaces must not be ignored in equal");
+yield* thread.procedures["Zassert %b %s"](("👌".toLowerCase() === "👌".toLowerCase()),"equal should support emoji");
+yield* thread.procedures["Zassert %b %s"](!(0.30000000000000004 === 0.3),"number comparison must be precise");
+yield* thread.procedures["Zassert %b %s"]((0.1 === 0.1),"number comparison should disregard following zeros");
+yield* thread.procedures["Zassert %b %s"]((0.1 === 0.1),"number comparison should disregard leading zeros");
+yield* thread.procedures["Zassert %b %s"](compareEqual((0 / 0), (0 / 0)),"number NaN must equal number NaN");
+yield* thread.procedures["Zassert %b %s"](!false,"empty negate must be true");
+yield* thread.procedures["Zassert %b %s"](!!!false,"negate true must be false");
+yield* thread.procedures["Zassert %b %s"](!!!!!!!false,"negates must be stackable to the moon");
+yield* thread.procedures["Zassert %b %s"]((("apple " + "banana").toLowerCase() === "apple banana".toLowerCase()),"join must join strings");
+yield* thread.procedures["Zassert %b %s"](((("apple")[1 - 1] || "").toLowerCase() === "a".toLowerCase()),"letter 1 of apple must be apple");
+yield* thread.procedures["Zassert %b %s"](((("apple")[0 - 1] || "").toLowerCase() === "".toLowerCase()),"letter 0 of apple must be empty");
+yield* thread.procedures["Zassert %b %s"](((("apple")[((0 - 1) | 0) - 1] || "").toLowerCase() === "".toLowerCase()),"letter -1 of apple must be empty");
+yield* thread.procedures["Zassert %b %s"](((("apple")[9999 - 1] || "").toLowerCase() === "".toLowerCase()),"letter 9999 of apple must be empty");
+yield* thread.procedures["Zassert %b %s"](("apple".length === 5),"length of apple must be 5");
+yield* thread.procedures["Zassert %b %s"](("".length === 0),"length of empty string must be 0");
+yield* thread.procedures["Zassert %b %s"](("apple".toLowerCase().indexOf("a".toLowerCase()) !== -1),"apple must contain a");
+yield* thread.procedures["Zassert %b %s"](!("apple".toLowerCase().indexOf("b".toLowerCase()) !== -1),"apple must not contain b");
+yield* thread.procedures["Zassert %b %s"](!("👌".toLowerCase().indexOf("👏".toLowerCase()) !== -1),"👌 must not contain 👏");
+yield* thread.procedures["Zassert %b %s"](("👌👌".toLowerCase().indexOf("👌".toLowerCase()) !== -1),"👌👌 must contain 👌");
+yield* thread.procedures["Zassert %b %s"](((mod(3, 4) || 0) === 3),"3 mod 4 must be 3");
+yield* thread.procedures["Zassert %b %s"](((mod(3, -4) || 0) === -1),"3 mod -4 must be -1");
+yield* thread.procedures["Zassert %b %s"](((mod(-3, 4) || 0) === 1),"-3 mod 4 must be 1");
+yield* thread.procedures["Zassert %b %s"](compareEqual(mod(3, 3), 0),"a number mod itself must be 0");
+yield* thread.procedures["Zassert %b %s"](compareEqual(mod(-3, 3), 0),"a number mod it's positive inverse must be 0");
+yield* thread.procedures["Zassert %b %s"](compareEqual(mod(3, -3), 0),"a number mod it's negative inverse must be 0");
+yield* thread.procedures["Zassert %b %s"]((("" + mod(3, 0)).toLowerCase() === "NaN".toLowerCase()),"any number mod 0 must be NaN");
+yield* thread.procedures["Zassert %b %s"](((mod(1.5, 1) || 0) === 0.5),"mod 1 must result in only decimal part");
+yield* thread.procedures["Zassert %b %s"](((mod(3.3, 1) || 0) === 0.2999999999999998),"3.3 mod 1 must have floating point errors");
+yield* thread.procedures["Zassert %b %s"]((Math.round(0) === 0),"rounding 0 must be 0");
+yield* thread.procedures["Zassert %b %s"]((Math.round(0.1) === 0),"rounding .1 must be 0");
+yield* thread.procedures["Zassert %b %s"]((Math.round(0.9) === 1),"rounding .9 must be 1");
+yield* thread.procedures["Zassert %b %s"]((Math.round(-0.5) === 0),"rounding -.5 must be 0");
+yield* thread.procedures["Zassert %b %s"]((Math.round(-0.1) === 0),"roudning -.1 must be 0");
+yield* thread.procedures["Zassert %b %s"]((Math.round(-0.51) === -1),"roudning -.51 must be -1");
+yield* thread.procedures["Zassert %b %s"](((+!false) === 1),"true must equal 1");
+yield* thread.procedures["Zassert %b %s"](((+!!false) === 0),"false must equal 0");
+yield* thread.procedures["Zassert %b %s"]((((9007199254740992 + 1) || 0) === 9007199254740992),"math should start breaking after 9007199254740991");
+yield* thread.procedures["Zassert %b %s"]((Math.abs(5) === 5),"absolute value of a position number should be itself");
+yield* thread.procedures["Zassert %b %s"]((Math.abs(-5) === 5),"absolute value of a negative number should be its inverse");
+yield* thread.procedures["Zassert %b %s"]((Math.floor(5.9) === 5),"floor of a number should round it down");
+yield* thread.procedures["Zassert %b %s"]((Math.ceil(5.9) === 6),"ceiling of a number should round it up");
+yield* thread.procedures["Zassert %b %s"](((Math.sqrt(4) || 0) === 2),"sqrt of 4 must be 2");
+yield* thread.procedures["Zassert %b %s"](((Math.sqrt(2) || 0) === 1.4142135623730951),"sqrt of 2 must be 1.4142135623730951");
+yield* thread.procedures["Zassert %b %s"]((Math.round((((Math.asin(0.5) * 180) / Math.PI) || 0)) === 30),"asin of .5 must be roughly 30");
+yield* thread.procedures["Zassert %b %s"](compareEqual(Math.log(1), 0),"ln 1 must be 0");
+yield* thread.procedures["Zassert %b %s"](((Math.log(2) || 0) === 0.6931471805599453),"ln 2 must be 0.69314...");
+yield* thread.procedures["Zassert %b %s"](((Math.log(2.718281828459045) || 0) === 1),"ln e must be 1");
+yield* thread.procedures["Zassert %b %s"](((Math.log(Math.exp(2)) || 0) === 2),"ln e^2 must be 2");
+yield* thread.procedures["Zassert %b %s"](compareEqual((Math.log(1) / Math.LN10), 0),"log 1 must be 0");
+yield* thread.procedures["Zassert %b %s"]((((Math.log(2) / Math.LN10) || 0) === 0.30102999566398114),"log 2 must be 0.3010...");
+yield* thread.procedures["Zassert %b %s"]((((Math.log(10) / Math.LN10) || 0) === 1),"log 10 must be 1");
+yield* thread.procedures["Zassert %b %s"]((((Math.log(100) / Math.LN10) || 0) === 2),"log 100 must be 2");
+yield* thread.procedures["Zassert %b %s"]((Math.exp(1) === 2.718281828459045),"e ^ 1 must be 2.718281828459045");
+yield* thread.procedures["Zassert %b %s"]((Math.exp(0) === 1),"e ^ 0 must be 1");
+yield* thread.procedures["Zassert %b %s"](((10 ** 1) === 10),"10 ^ 1 must be 10");
+yield* thread.procedures["Zassert %b %s"](((10 ** 0) === 1),"10 ^ 0 must be 1");
+yield* thread.procedures["Zassert %b %s"](((10 ** 2) === 100),"10 ^ 2 must be 100");
+yield* thread.procedures["Zassert %b %s"](((+(0 === 50)) === (+(0 === 50))),"real false = real false");
+yield* thread.procedures["Zassert %b %s"](((+("".toLowerCase() === "".toLowerCase())) === (+("".toLowerCase() === "".toLowerCase()))),"real true = real true");
+yield* thread.procedures["Zassert %b %s"](("true".toLowerCase() === ("" + ("".toLowerCase() === "".toLowerCase())).toLowerCase()),"string true = real true");
+yield* thread.procedures["Zassert %b %s"](("false".toLowerCase() === ("" + (0 === 50)).toLowerCase()),"string false = real false");
+yield* thread.procedures["Zassert %b %s"]((("" + ("".toLowerCase() === "".toLowerCase())).toLowerCase() === "true".toLowerCase()),"real true = string true");
+yield* thread.procedures["Zassert %b %s"]((("" + (0 === 50)).toLowerCase() === "false".toLowerCase()),"real false = string false");
+yield* thread.procedures["Zassert %b %s"](((+(0 === 1)) === 0),"real false = string 0");
+yield* thread.procedures["Zassert %b %s"](((+(0 === 0)) === 1),"real true = string 1");
+yield* thread.procedures["Zassert %b %s"](compareEqual((0 === 1), (0 + 0)),"real false = number 0");
+yield* thread.procedures["Zassert %b %s"](compareEqual((0 === 0), (1 + 0)),"real true = number 1");
+yield* thread.procedures["Zassert %b %s"](((((+("0x" + "12f3") || 0) + 0) || 0) === 4851),"positive hex");
+yield* thread.procedures["Zassert %b %s"](((((+("0o" + "127") || 0) + 0) || 0) === 87),"positive octal");
+yield* thread.procedures["Zassert %b %s"](((((+("0b" + "1010101") || 0) + 0) || 0) === 85),"positive binary");
+yield* thread.procedures["Zassert %b %s"](compareEqual(((+("-0x" + "123") || 0) + 0), 0),"negative hex is 0");
+yield* thread.procedures["Zassert %b %s"](compareEqual(((+("-0o" + "123") || 0) + 0), 0),"negative octal is 0");
+yield* thread.procedures["Zassert %b %s"](compareEqual(((+("-0b" + "10101") || 0) + 0), 0),"negative binary is 0");
+yield* thread.procedures["Zassert %b %s"]((((Math.round(Math.sin((Math.PI * 57.7) / 180) * 1e10) / 1e10) || 0) === 0.8452618332),"sin 57.7");
+yield* thread.procedures["Zassert %b %s"](compareEqual((Math.round(Math.sin((Math.PI * 0) / 180) * 1e10) / 1e10), 0),"sin 0");
+yield* thread.procedures["Zassert %b %s"]((((Math.round(Math.sin((Math.PI * 90) / 180) * 1e10) / 1e10) || 0) === 1),"sin 90");
+yield* thread.procedures["Zassert %b %s"](compareEqual((Math.round(Math.sin((Math.PI * 180) / 180) * 1e10) / 1e10), 0),"sin 180");
+yield* thread.procedures["Zassert %b %s"]((((Math.round(Math.sin((Math.PI * 270) / 180) * 1e10) / 1e10) || 0) === -1),"sin 270");
+yield* thread.procedures["Zassert %b %s"](compareEqual((Math.round(Math.sin((Math.PI * 360) / 180) * 1e10) / 1e10), 0),"sin 360");
+yield* thread.procedures["Zassert %b %s"]((((Math.round(Math.sin((Math.PI * 450) / 180) * 1e10) / 1e10) || 0) === 1),"sin 450");
+yield* thread.procedures["Zassert %b %s"]((((Math.round(Math.sin((Math.PI * -90) / 180) * 1e10) / 1e10) || 0) === -1),"sin -90");
+yield* thread.procedures["Zassert %b %s"](compareEqual((Math.round(Math.sin((Math.PI * -180) / 180) * 1e10) / 1e10), 0),"sin -180");
+yield* thread.procedures["Zassert %b %s"]((((Math.round(Math.sin((Math.PI * -270) / 180) * 1e10) / 1e10) || 0) === 1),"sin -270");
+yield* thread.procedures["Zassert %b %s"](compareEqual((Math.round(Math.sin((Math.PI * -360) / 180) * 1e10) / 1e10), 0),"sin -360");
+yield* thread.procedures["Zassert %b %s"]((((Math.round(Math.sin((Math.PI * -450) / 180) * 1e10) / 1e10) || 0) === -1),"sin -450");
+yield* thread.procedures["Zassert %b %s"]((((Math.round(Math.cos((Math.PI * 57.7) / 180) * 1e10) / 1e10) || 0) === 0.5343523494),"cos 57.7");
+yield* thread.procedures["Zassert %b %s"]((((Math.round(Math.cos((Math.PI * 0) / 180) * 1e10) / 1e10) || 0) === 1),"cos 0");
+yield* thread.procedures["Zassert %b %s"](compareEqual((Math.round(Math.cos((Math.PI * 90) / 180) * 1e10) / 1e10), 0),"cos 90");
+yield* thread.procedures["Zassert %b %s"]((((Math.round(Math.cos((Math.PI * 180) / 180) * 1e10) / 1e10) || 0) === -1),"cos 180");
+yield* thread.procedures["Zassert %b %s"](compareEqual((Math.round(Math.cos((Math.PI * 270) / 180) * 1e10) / 1e10), 0),"cos 270");
+yield* thread.procedures["Zassert %b %s"]((((Math.round(Math.cos((Math.PI * 360) / 180) * 1e10) / 1e10) || 0) === 1),"cos 360");
+yield* thread.procedures["Zassert %b %s"](compareEqual((Math.round(Math.cos((Math.PI * 450) / 180) * 1e10) / 1e10), 0),"cos 450");
+yield* thread.procedures["Zassert %b %s"](compareEqual((Math.round(Math.cos((Math.PI * -90) / 180) * 1e10) / 1e10), 0),"cos -90");
+yield* thread.procedures["Zassert %b %s"]((((Math.round(Math.cos((Math.PI * -180) / 180) * 1e10) / 1e10) || 0) === -1),"cos -180");
+yield* thread.procedures["Zassert %b %s"](compareEqual((Math.round(Math.cos((Math.PI * -270) / 180) * 1e10) / 1e10), 0),"cos -270");
+yield* thread.procedures["Zassert %b %s"]((((Math.round(Math.cos((Math.PI * -360) / 180) * 1e10) / 1e10) || 0) === 1),"cos -360");
+yield* thread.procedures["Zassert %b %s"](compareEqual((Math.round(Math.cos((Math.PI * -450) / 180) * 1e10) / 1e10), 0),"cos -450");
+yield* thread.procedures["ZOKAY"]();
+retire(); return;
+}; })
+
+// Sprite1 Zassert %b %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ_assert__ (p0,p1) {
+if (!toBoolean(p0)) {
+yield* thread.procedures["ZFAIL %s"](p1);
+}
+return "";
+}; })
+
+// Sprite1 ZOKAY
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_OKAY () {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "cL", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("pass " + "0"),}, b0, false, false, "aX", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "cM", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })
+
+// Sprite1 ZFAIL %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ_FAIL_ (p0) {
+yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "a!", null);
+yield* executeInCompatibilityLayer({"MESSAGE":("fail " + "0"),}, b0, false, false, "a", null);
+yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "a%", null);
+runtime.stopAll();
+retire(); yield;
+return "";
+}; })
