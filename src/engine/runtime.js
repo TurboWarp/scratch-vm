@@ -2570,7 +2570,7 @@ class Runtime extends EventEmitter {
             // tw: do not draw if document is hidden or a rAF loop is running
             // Checking for the animation frame loop is more reliable than using
             // interpolationEnabled in some edge cases
-            if (!document.hidden && !this.frameLoop._interpolationAnimation) {
+            if (!document.hidden && !this.frameLoop.interpolationLoop) {
                 this.renderer.draw();
             }
             if (this.profiler !== null) {
