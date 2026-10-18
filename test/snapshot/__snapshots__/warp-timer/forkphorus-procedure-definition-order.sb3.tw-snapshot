@@ -3,25 +3,25 @@
 
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ () {
-yield* thread.procedures["ZA"]();
+return function funXYZ () {
+thread.procedures["ZA"]();
 retire(); return;
 }; })
 
 // Sprite1 ZA
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_A () {
-yield* thread.procedures["ZOK %s"]("");
+return function funXYZ_A () {
+thread.procedures["ZOK %s"]("");
 return "";
 }; })
 
 // Sprite1 ZOK %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_OK_ (p0) {
+return function funXYZ_OK_ (p0) {
 runtime.ext_scratch3_looks._say("plan 1", target);
 runtime.ext_scratch3_looks._say(("pass " + ("" + p0)), target);
 runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 return "";
 }; })

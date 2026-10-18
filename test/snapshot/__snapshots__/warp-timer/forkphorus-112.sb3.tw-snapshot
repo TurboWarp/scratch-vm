@@ -3,41 +3,41 @@
 
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ () {
+return function funXYZ () {
 runtime.ext_scratch3_looks._setCostume(target, "costume2");
 runtime.ext_scratch3_looks._setCostume(target, (" " + ""));
-yield* thread.procedures["ZassertTrue %b %s"](((target.currentCostume + 1) === 2),"costume should not change");
-yield* thread.procedures["ZOK %s"]("");
+thread.procedures["ZassertTrue %b %s"](((target.currentCostume + 1) === 2),"costume should not change");
+thread.procedures["ZOK %s"]("");
 retire(); return;
 }; })
 
 // Sprite1 ZassertTrue %b %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_assertTrue__ (p0,p1) {
+return function funXYZ_assertTrue__ (p0,p1) {
 if (!toBoolean(p0)) {
-yield* thread.procedures["ZFAIL %s"](p1);
+thread.procedures["ZFAIL %s"](p1);
 }
 return "";
 }; })
 
 // Sprite1 ZOK %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_OK_ (p0) {
+return function funXYZ_OK_ (p0) {
 runtime.ext_scratch3_looks._say("plan 1", target);
 runtime.ext_scratch3_looks._say(("pass " + ("" + p0)), target);
 runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 return "";
 }; })
 
 // Sprite1 ZFAIL %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_FAIL_ (p0) {
+return function funXYZ_FAIL_ (p0) {
 runtime.ext_scratch3_looks._say("plan 1", target);
 runtime.ext_scratch3_looks._say(("fail " + ("" + p0)), target);
 runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 return "";
 }; })

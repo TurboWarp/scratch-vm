@@ -5,7 +5,7 @@
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = stage.variables[")@7t1F9WM1F[_jBWx]7["];
 const b1 = stage.variables[",VHjOaLurDh*^;8kZ~I?"];
-return function* genXYZ () {
+return function funXYZ () {
 let t;
 b0.value = [];
 b1.value = [];
@@ -20,40 +20,40 @@ b0._monitorUpToDate = false;
 b1.value.push(listContents(b0));
 b1._monitorUpToDate = false;
 b0.value = [];
-yield* thread.procedures["ZassertTrue %b %s"]((b1.value.length === 1),"output length = 1");
-yield* thread.procedures["ZassertTrue %b %s"]((b0.value.length === 0),"data length = 0");
-yield* thread.procedures["ZassertTrue %b %s"]((((t = +(b1.value[1 - 1] ?? "")) === t ? t : 0) === 3284),"output item 1");
-yield* thread.procedures["ZOK %s"]("");
+thread.procedures["ZassertTrue %b %s"]((b1.value.length === 1),"output length = 1");
+thread.procedures["ZassertTrue %b %s"]((b0.value.length === 0),"data length = 0");
+thread.procedures["ZassertTrue %b %s"]((((t = +(b1.value[1 - 1] ?? "")) === t ? t : 0) === 3284),"output item 1");
+thread.procedures["ZOK %s"]("");
 retire(); return;
 }; })
 
 // Sprite1 ZassertTrue %b %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_assertTrue__ (p0,p1) {
+return function funXYZ_assertTrue__ (p0,p1) {
 if (!toBoolean(p0)) {
-yield* thread.procedures["ZFAIL %s"](p1);
+thread.procedures["ZFAIL %s"](p1);
 }
 return "";
 }; })
 
 // Sprite1 ZOK %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_OK_ (p0) {
+return function funXYZ_OK_ (p0) {
 runtime.ext_scratch3_looks._say("plan 1", target);
 runtime.ext_scratch3_looks._say(("pass " + ("" + p0)), target);
 runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 return "";
 }; })
 
 // Sprite1 ZFAIL %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_FAIL_ (p0) {
+return function funXYZ_FAIL_ (p0) {
 runtime.ext_scratch3_looks._say("plan 1", target);
 runtime.ext_scratch3_looks._say(("fail " + ("" + p0)), target);
 runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 return "";
 }; })

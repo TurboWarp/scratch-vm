@@ -23,32 +23,32 @@ yield;
 }
 thread.timer = null;
 if ((((t = +listContents(b0)) === t ? t : 0) === 312)) {
-yield* thread.procedures["ZOK %s"]("");
+thread.procedures["ZOK %s"]("");
 } else {
-yield* thread.procedures["ZFAIL %s"]("");
+thread.procedures["ZFAIL %s"]("");
 }
 retire(); return;
 }; })
 
 // Sprite1 ZOK %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_OK_ (p0) {
+return function funXYZ_OK_ (p0) {
 runtime.ext_scratch3_looks._say("plan 1", target);
 runtime.ext_scratch3_looks._say(("pass " + ("" + p0)), target);
 runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 return "";
 }; })
 
 // Sprite1 ZFAIL %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_FAIL_ (p0) {
+return function funXYZ_FAIL_ (p0) {
 runtime.ext_scratch3_looks._say("plan 1", target);
 runtime.ext_scratch3_looks._say(("fail " + ("" + p0)), target);
 runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 return "";
 }; })
 

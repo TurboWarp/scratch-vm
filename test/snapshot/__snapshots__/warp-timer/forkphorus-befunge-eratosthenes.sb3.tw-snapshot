@@ -180,7 +180,7 @@ b13._monitorUpToDate = false;
 }
 if ((("" + b0.value).toLowerCase() === ",".toLowerCase())) {
 yield* thread.procedures["Zpop %n"](1);
-yield* thread.procedures["ZFAIL %s"](("did not expect ascii output: " + ("" + (b14.value[((((t = +(b10.value[1 - 1] ?? "")) === t ? t : 0) + 1) | 0) - 1] ?? ""))));
+thread.procedures["ZFAIL %s"](("did not expect ascii output: " + ("" + (b14.value[((((t = +(b10.value[1 - 1] ?? "")) === t ? t : 0) + 1) | 0) - 1] ?? ""))));
 }
 if ((("" + b0.value).toLowerCase() === "#".toLowerCase())) {
 yield* thread.procedures["Znext char"]();
@@ -211,10 +211,10 @@ yield* thread.procedures["Winsert %s %n %s"](listGet(b1.value, (b10.value[1 - 1]
 listReplace(b1, (b10.value[1 - 1] ?? ""), b11.value);
 }
 if ((("" + b0.value).toLowerCase() === "&".toLowerCase())) {
-yield* thread.procedures["ZFAIL %s"]("unexpected ask for integer input");
+thread.procedures["ZFAIL %s"]("unexpected ask for integer input");
 }
 if ((("" + b0.value).toLowerCase() === "~".toLowerCase())) {
-yield* thread.procedures["ZFAIL %s"]("unexpected ask for ascii input");
+thread.procedures["ZFAIL %s"]("unexpected ask for ascii input");
 }
 if (listContains(b16, b0.value)) {
 thread.procedures["Zpush %n"](b0.value);
@@ -230,16 +230,16 @@ const b1 = stage.variables["o4+OyKx[M=quu6p{=kRl-i-"];
 const b2 = stage.variables["f]9Ph]^v5P2CT7ju($Qb"];
 return function* genXYZ_exit___verify () {
 let t;
-yield* thread.procedures["ZassertTrue %b %s"]((b0.value.length === 22),"should output 22 items");
+thread.procedures["ZassertTrue %b %s"]((b0.value.length === 22),"should output 22 items");
 b1.value = 0;
 for (var a0 = b0.value.length; a0 > 0; a0--) {
 b1.value = (((t = +b1.value) === t ? t : 0) + 1);
-yield* thread.procedures["ZassertTrue %b %s"](compareEqual(listGet(b0.value, b1.value), listGet(b2.value, b1.value)),("item " + (("" + b1.value) + " should match expected output")));
+thread.procedures["ZassertTrue %b %s"](compareEqual(listGet(b0.value, b1.value), listGet(b2.value, b1.value)),("item " + (("" + b1.value) + " should match expected output")));
 yield;
 }
-yield* thread.procedures["ZOKAY %s"]((("" + runtime.ioDevices.clock.projectTimer()) + " seconds"));
+thread.procedures["ZOKAY %s"]((("" + runtime.ioDevices.clock.projectTimer()) + " seconds"));
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 return "";
 }; })
 
@@ -314,7 +314,7 @@ b6.value = (((t = +b6.value) === t ? t : 0) + 1);
 } else {
 yield* executeInCompatibilityLayer({"QUESTION":("ERROR: Unkown direction (" + (("" + b0.value) + ")")),}, b8, false, false, "/", null);
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 }
 }
 }
@@ -366,12 +366,12 @@ return "";
 
 // Sprite1 ZFAIL %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_FAIL_ (p0) {
+return function funXYZ_FAIL_ (p0) {
 runtime.ext_scratch3_looks._say("plan 1", target);
 runtime.ext_scratch3_looks._say(("fail " + "0"), target);
 runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 return "";
 }; })
 
@@ -430,20 +430,20 @@ return "";
 
 // Sprite1 ZassertTrue %b %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_assertTrue__ (p0,p1) {
+return function funXYZ_assertTrue__ (p0,p1) {
 if (!toBoolean(p0)) {
-yield* thread.procedures["ZFAIL %s"](p1);
+thread.procedures["ZFAIL %s"](p1);
 }
 return "";
 }; })
 
 // Sprite1 ZOKAY %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_OKAY_ (p0) {
+return function funXYZ_OKAY_ (p0) {
 runtime.ext_scratch3_looks._say("plan 1", target);
 runtime.ext_scratch3_looks._say(("pass " + "0"), target);
 runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 return "";
 }; })

@@ -9,7 +9,7 @@ yield* thread.procedures["Ztest startsWith"]();
 yield* thread.procedures["Ztest includes"]();
 yield* thread.procedures["Ztest indexOf"]();
 yield* thread.procedures["Ztest replace"]();
-yield* thread.procedures["ZOKAY %s"]((("" + runtime.ioDevices.clock.projectTimer()) + " seconds"));
+thread.procedures["ZOKAY %s"]((("" + runtime.ioDevices.clock.projectTimer()) + " seconds"));
 retire(); return;
 }; })
 
@@ -18,17 +18,17 @@ retire(); return;
 const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
 return function* genXYZ_test_endsWith () {
 yield* thread.procedures["W%s .endsWith( %s )"](12333,333);
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must end with 333");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must end with 333");
 yield* thread.procedures["W%s .endsWith( %s )"](12333,33);
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must end with 33");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must end with 33");
 yield* thread.procedures["W%s .endsWith( %s )"](12333,"");
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must end with empty string");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must end with empty string");
 yield* thread.procedures["W%s .endsWith( %s )"](12333,4);
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "false".toLowerCase()),"12333 must not end with 4");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "false".toLowerCase()),"12333 must not end with 4");
 yield* thread.procedures["W%s .endsWith( %s )"](12333,123334);
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "false".toLowerCase()),"12333 must not end with 123334");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "false".toLowerCase()),"12333 must not end with 123334");
 yield* thread.procedures["W%s .endsWith( %s )"](12333,12333);
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must end with itself");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must end with itself");
 yield* thread.procedures["W%s .includes( %s )"]("abc","");
 return "";
 }; })
@@ -38,19 +38,19 @@ return "";
 const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
 return function* genXYZ_test_startsWith () {
 yield* thread.procedures["W%s .startsWith( %s )"](12333,12333);
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 12333");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 12333");
 yield* thread.procedures["W%s .startsWith( %s )"](12333,1233);
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 1233");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 1233");
 yield* thread.procedures["W%s .startsWith( %s )"](12333,123);
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 123");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 123");
 yield* thread.procedures["W%s .startsWith( %s )"](12333,12);
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 12");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 12");
 yield* thread.procedures["W%s .startsWith( %s )"](12333,1);
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 1");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with 1");
 yield* thread.procedures["W%s .startsWith( %s )"](12333,"");
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with empty string");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"12333 must start with empty string");
 yield* thread.procedures["W%s .startsWith( %s )"](12333,33);
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "false".toLowerCase()),"12333 must not start with 33");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "false".toLowerCase()),"12333 must not start with 33");
 return "";
 }; })
 
@@ -59,23 +59,23 @@ return "";
 const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
 return function* genXYZ_test_includes () {
 yield* thread.procedures["W%s .includes( %s )"]("abc","");
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include empty string");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include empty string");
 yield* thread.procedures["W%s .includes( %s )"]("","");
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"empty string must include empty string");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"empty string must include empty string");
 yield* thread.procedures["W%s .includes( %s )"]("abc","abc");
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include abc");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include abc");
 yield* thread.procedures["W%s .includes( %s )"]("abc","a");
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include a");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include a");
 yield* thread.procedures["W%s .includes( %s )"]("abc","b");
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include b");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include b");
 yield* thread.procedures["W%s .includes( %s )"]("abc","c");
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include c");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include c");
 yield* thread.procedures["W%s .includes( %s )"]("abc","ab");
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include ab");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include ab");
 yield* thread.procedures["W%s .includes( %s )"]("abc","bc");
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include bc");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "true".toLowerCase()),"abc must include bc");
 yield* thread.procedures["W%s .includes( %s )"]("abc","aa");
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "false".toLowerCase()),"abc must not include aa");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "false".toLowerCase()),"abc must not include aa");
 return "";
 }; })
 
@@ -85,13 +85,13 @@ const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
 return function* genXYZ_test_indexOf () {
 let t;
 yield* thread.procedures["W%s .indexOf( %s )"](123,1);
-yield* thread.procedures["Zassert %b %s"]((((t = +b0.value) === t ? t : 0) === 1),"index of 1 in 123 is 1");
+thread.procedures["Zassert %b %s"]((((t = +b0.value) === t ? t : 0) === 1),"index of 1 in 123 is 1");
 yield* thread.procedures["W%s .indexOf( %s )"](123,2);
-yield* thread.procedures["Zassert %b %s"]((((t = +b0.value) === t ? t : 0) === 2),"index of 2 in 123 is 2");
+thread.procedures["Zassert %b %s"]((((t = +b0.value) === t ? t : 0) === 2),"index of 2 in 123 is 2");
 yield* thread.procedures["W%s .indexOf( %s )"](123,3);
-yield* thread.procedures["Zassert %b %s"]((((t = +b0.value) === t ? t : 0) === 3),"index of 3 in 123 is 3");
+thread.procedures["Zassert %b %s"]((((t = +b0.value) === t ? t : 0) === 3),"index of 3 in 123 is 3");
 yield* thread.procedures["W%s .indexOf( %s )"](123,"aaaa");
-yield* thread.procedures["Zassert %b %s"]((((t = +b0.value) === t ? t : 0) === -1),"index of aaaa in 123 is -1");
+thread.procedures["Zassert %b %s"]((((t = +b0.value) === t ? t : 0) === -1),"index of aaaa in 123 is -1");
 return "";
 }; })
 
@@ -107,11 +107,11 @@ const b0 = stage.variables["aBQ}o|vZt_fHtB~ZyHPZ-@return-"];
 return function* genXYZ_test_replace () {
 let t;
 yield* thread.procedures["W%s .replace( %s with %s )"](123456,345,"a");
-yield* thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "12a6".toLowerCase()),"replace expected 12a6");
+thread.procedures["Zassert %b %s"]((("" + b0.value).toLowerCase() === "12a6".toLowerCase()),"replace expected 12a6");
 yield* thread.procedures["W%s .replace( %s with %s )"](123,123,456);
-yield* thread.procedures["Zassert %b %s"]((((t = +b0.value) === t ? t : 0) === 456),"replace expected 456");
+thread.procedures["Zassert %b %s"]((((t = +b0.value) === t ? t : 0) === 456),"replace expected 456");
 yield* thread.procedures["W%s .replace( %s with %s )"](123,1234,456);
-yield* thread.procedures["Zassert %b %s"]((((t = +b0.value) === t ? t : 0) === 123),"replace expected 123");
+thread.procedures["Zassert %b %s"]((((t = +b0.value) === t ? t : 0) === 123),"replace expected 123");
 return "";
 }; })
 
@@ -123,12 +123,12 @@ return "";
 
 // Sprite1 ZOKAY %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_OKAY_ (p0) {
+return function funXYZ_OKAY_ (p0) {
 runtime.ext_scratch3_looks._say("plan 1", target);
 runtime.ext_scratch3_looks._say(("pass " + "0"), target);
 runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 return "";
 }; })
 
@@ -153,9 +153,9 @@ return "";
 
 // Sprite1 Zassert %b %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_assert__ (p0,p1) {
+return function funXYZ_assert__ (p0,p1) {
 if (!toBoolean(p0)) {
-yield* thread.procedures["ZFAIL %s"](p1);
+thread.procedures["ZFAIL %s"](p1);
 }
 return "";
 }; })
@@ -277,11 +277,11 @@ return "";
 
 // Sprite1 ZFAIL %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_FAIL_ (p0) {
+return function funXYZ_FAIL_ (p0) {
 runtime.ext_scratch3_looks._say("plan 1", target);
 runtime.ext_scratch3_looks._say(("fail " + "0"), target);
 runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 return "";
 }; })

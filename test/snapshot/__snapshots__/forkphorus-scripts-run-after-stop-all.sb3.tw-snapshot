@@ -19,12 +19,12 @@ b0.value = (((t = +b0.value) === t ? t : 0) + 1);
 yield;
 }
 if ((((t = +b1.value) === t ? t : 0) === 1)) {
-yield* thread.procedures["ZOK %s"]("");
+thread.procedures["ZOK %s"]("");
 } else {
 if (compareEqual(b1.value, 0)) {
-yield* thread.procedures["ZFAIL %s"]("variable 1 haven't been incremented");
+thread.procedures["ZFAIL %s"]("variable 1 haven't been incremented");
 } else {
-yield* thread.procedures["ZFAIL %s"]("variable 1 got incremented multiple times");
+thread.procedures["ZFAIL %s"]("variable 1 got incremented multiple times");
 }
 }
 retire(); return;
@@ -32,23 +32,23 @@ retire(); return;
 
 // Sprite1 ZOK %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_OK_ (p0) {
+return function funXYZ_OK_ (p0) {
 runtime.ext_scratch3_looks._say("plan 1", target);
 runtime.ext_scratch3_looks._say(("pass " + ("" + p0)), target);
 runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 return "";
 }; })
 
 // Sprite1 ZFAIL %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ_FAIL_ (p0) {
+return function funXYZ_FAIL_ (p0) {
 runtime.ext_scratch3_looks._say("plan 1", target);
 runtime.ext_scratch3_looks._say(("fail " + ("" + p0)), target);
 runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
-retire(); yield;
+retire(); throw 1;
 return "";
 }; })
 
@@ -67,7 +67,7 @@ retire(); return;
 
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ () {
+return function funXYZ () {
 runtime.stopAll();
 retire(); return;
 retire(); return;
