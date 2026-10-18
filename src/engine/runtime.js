@@ -24,6 +24,7 @@ const fetchWithTimeout = require('../util/fetch-with-timeout');
 const platform = require('./tw-platform.js');
 const safeStringify = require('../util/tw-safe-stringify.js');
 const MonitorState = require('./tw-monitor-state.js');
+const Sampler = require('./tw-sampler.js');
 
 // Virtual I/O devices.
 const Clock = require('../io/clock');
@@ -379,10 +380,18 @@ class Runtime extends EventEmitter {
 
         /**
          * A runtime profiler that records timed events for later playback to
-         * diagnose Scratch performance.
+         * diagnose Scratch performance. This uses an instrumentation approach
+         * and gathers limited data. The sampler is more useful for analyzing
+         * performance on a per-block basis.
          * @type {Profiler}
          */
         this.profiler = null;
+
+        /**
+         * Sampling profiler.
+         * @type {Sampler}
+         */
+        this.sampler = new Sampler(this);
 
         this.cloudOptions = {
             limit: 10
@@ -2495,7 +2504,9 @@ class Runtime extends EventEmitter {
         interpolate.interpolate(this, progressInFrame);
 
         if (this.renderer) {
+            if (this.sampler.enableBasic) this.sampler.pc[0] = Sampler.RENDERER;
             this.renderer.draw();
+            if (this.sampler.enableBasic) this.sampler.pc[0] = Sampler.IDLE;
         }
     }
 
@@ -2513,6 +2524,8 @@ class Runtime extends EventEmitter {
      * inactive threads after each iteration.
      */
     _step () {
+        if (this.sampler.enableBasic) this.sampler.pc[0] = Sampler.RUNTIME;
+
         if (this.interpolationEnabled) {
             interpolate.setupInitialState(this);
         }
@@ -2571,7 +2584,9 @@ class Runtime extends EventEmitter {
             // Checking for the animation frame loop is more reliable than using
             // interpolationEnabled in some edge cases
             if (!document.hidden && !this.frameLoop._interpolationAnimation) {
+                if (this.sampler.enableBasic) this.sampler.pc[0] = Sampler.RENDERER;
                 this.renderer.draw();
+                if (this.sampler.enableBasic) this.sampler.pc[0] = Sampler.RUNTIME;
             }
             if (this.profiler !== null) {
                 this.profiler.stop();
@@ -2596,6 +2611,8 @@ class Runtime extends EventEmitter {
         if (this.interpolationEnabled) {
             this._lastStepTime = Date.now();
         }
+
+        if (this.sampler.enableBasic) this.sampler.pc[0] = Sampler.IDLE;
     }
 
     /**

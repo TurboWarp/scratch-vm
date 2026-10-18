@@ -2,6 +2,7 @@ const Timer = require('../util/timer');
 const Thread = require('./thread');
 const execute = require('./execute.js');
 const compilerExecute = require('../compiler/jsexecute');
+const Sampler = require('./tw-sampler');
 
 /**
  * Profiler frame name for stepping a single thread.
@@ -178,6 +179,7 @@ class Sequencer {
     stepThread (thread) {
         if (thread.isCompiled) {
             compilerExecute(thread);
+            if (this.runtime.sampler.enableBasic) this.runtime.sampler.pc[0] = Sampler.RUNTIME;
             return;
         }
 
