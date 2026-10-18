@@ -1,0 +1,44 @@
+// TW Snapshot
+// Input SHA-256: 7782540909fd8654cc6ae927f490cb38477bbe4cd2878bb3a4c1df04db4c8935
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+return function funXYZ () {
+b0.value = 1;
+runtime.ext_scratch3_looks._say("plan 0", target);
+thread.procedures["Zstop all"]();
+runtime.ext_scratch3_looks._say("fail", target);
+retire(); return;
+}; })
+
+// Sprite1 Zstop all
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function funXYZ_stop_all () {
+runtime.stopAll();
+retire(); throw 1;
+return "";
+}; })
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("event_whengreaterthan");
+const b1 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+return function* genXYZ () {
+let t;
+{
+const resolvedValue = toBoolean((yield* executeInCompatibilityLayer({"VALUE":0,"WHENGREATERTHANMENU":"TIMER",}, b0, false, false, "i", null)));
+const id = "i";
+const hasOldEdgeValue = target.hasEdgeActivatedValue(id);
+const oldEdgeValue = target.updateEdgeActivatedValue(id, resolvedValue);
+const edgeWasActivated = hasOldEdgeValue ? (!oldEdgeValue && resolvedValue) : resolvedValue;
+if (!edgeWasActivated) {
+retire(); return;
+}
+yield;
+}
+if ((((t = +b1.value) === t ? t : 0) === 1)) {
+runtime.ext_scratch3_looks._say("end", target);
+}
+retire(); return;
+}; })

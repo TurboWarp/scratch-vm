@@ -1,0 +1,39 @@
+// TW Snapshot
+// Input SHA-256: db3634cfd2648762fc1a8761cfa6dde596070b53961309cecc36e30977a01811
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function funXYZ () {
+runtime.ext_scratch3_looks._say("pass", target);
+thread.procedures["Zdelete me"]();
+runtime.ext_scratch3_looks._say("fail", target);
+retire(); return;
+}; })
+
+// Sprite1 Zdelete me
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function funXYZ_delete_me () {
+if (!target.isOriginal) {
+  runtime.disposeTarget(target);
+  runtime.stopForTarget(target);
+retire(); throw 1;
+}
+return "";
+}; })
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+return function* genXYZ () {
+runtime.ext_scratch3_looks._say("plan 1", target);
+runtime.ext_scratch3_control._createClone("_myself_", target);
+thread.timer = timer();
+var a0 = Math.max(0, 1000 * 0);
+runtime.requestRedraw();
+yield;
+while (thread.timer.timeElapsed() < a0) {
+yield;
+}
+thread.timer = null;
+runtime.ext_scratch3_looks._say("end", target);
+retire(); return;
+}; })

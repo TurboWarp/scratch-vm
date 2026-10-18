@@ -8,6 +8,13 @@
 /* eslint-disable valid-jsdoc */
 /* eslint-disable max-len */
 
+/**
+ * Magic value thrown when a procedure needs to end the whole thread's execution.
+ * Must be a number because this is inlined directly into compiled JS.
+ * @type {number}
+ */
+const RETIRE_MAGIC = 1;
+
 const globalState = {
     Timer: require('../util/timer'),
     Cast: require('../util/cast'),
@@ -595,11 +602,17 @@ runtimeFunctions.yieldThenCallGenerator = `const yieldThenCallGenerator = functi
  * @param {import("../engine/thread")} thread The thread to step.
  */
 const execute = thread => {
-    globalState.thread = thread;
-    if (thread.compiledFunction) {
-        thread.compiledFunction();
-    } else {
-        thread.generator.next();
+    try {
+        globalState.thread = thread;
+        if (thread.compiledFunction) {
+            thread.compiledFunction();
+        } else {
+            thread.generator.next();
+        }
+    } catch (e) {
+        if (e !== RETIRE_MAGIC) {
+            throw e;
+        }
     }
 };
 
@@ -641,5 +654,6 @@ execute.scopedEval = scopedEval;
 execute.runtimeFunctions = runtimeFunctions;
 execute.saveGlobalState = saveGlobalState;
 execute.restoreGlobalState = restoreGlobalState;
+execute.RETIRE_MAGIC = RETIRE_MAGIC;
 
 module.exports = execute;

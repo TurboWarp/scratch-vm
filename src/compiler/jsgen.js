@@ -1015,10 +1015,10 @@ class JSGenerator {
 
     retire () {
         // After running retire() (sets thread status and cleans up some unused data), we need to return to the event loop.
-        // When in a procedure, return will only send us back to the previous procedure, so instead we yield back to the sequencer.
-        // Outside of a procedure, return will correctly bring us back to the sequencer.
+        // In procedures return just goes back 1 layer of the stack, so instead we throw a magic value that the runtime will
+        // know to ignore.
         if (this.isProcedure) {
-            this.source += 'retire(); yield;\n';
+            this.source += `retire(); throw ${jsexecute.RETIRE_MAGIC};\n`;
         } else {
             this.source += 'retire(); return;\n';
         }
