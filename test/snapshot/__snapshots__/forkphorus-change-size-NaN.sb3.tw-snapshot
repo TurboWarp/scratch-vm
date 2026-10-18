@@ -3,16 +3,16 @@
 
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
-return function* genXYZ () {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "d", null);
+return function funXYZ () {
+let t;
+runtime.ext_scratch3_looks._say("plan 1", target);
 target.setSize(100);
-target.setSize(target.size + ((0 / 0) || 0));
+target.setSize(target.size + ((t = (0 / 0)) === t ? t : 0));
 if ((Math.round(target.size) === 100)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "i", null);
+runtime.ext_scratch3_looks._say("pass", target);
 } else {
-yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "j", null);
+runtime.ext_scratch3_looks._say("fail", target);
 }
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "h", null);
+runtime.ext_scratch3_looks._say("end", target);
 retire(); return;
 }; })

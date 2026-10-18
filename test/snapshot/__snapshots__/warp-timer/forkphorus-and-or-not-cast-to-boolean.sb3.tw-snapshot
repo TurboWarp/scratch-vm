@@ -3,25 +3,24 @@
 
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
-const b1 = stage.variables["q9l+ZDG${I3p$=:TPs`3"];
-return function* genXYZ () {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 3",}, b0, false, false, "f", null);
-if ((("_" + ("" + (toBoolean((b1.value[2 - 1] ?? "")) && toBoolean((b1.value[2 - 1] ?? ""))))).toLowerCase() === "_true".toLowerCase())) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "m", null);
+const b0 = stage.variables["q9l+ZDG${I3p$=:TPs`3"];
+return function funXYZ () {
+runtime.ext_scratch3_looks._say("plan 3", target);
+if ((("_" + ("" + (toBoolean((b0.value[2 - 1] ?? "")) && toBoolean((b0.value[2 - 1] ?? ""))))).toLowerCase() === "_true".toLowerCase())) {
+runtime.ext_scratch3_looks._say("pass", target);
 } else {
-yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "n", null);
+runtime.ext_scratch3_looks._say("fail", target);
 }
-if ((("_" + ("" + (toBoolean((b1.value[1 - 1] ?? "")) || toBoolean((b1.value[2 - 1] ?? ""))))).toLowerCase() === "_true".toLowerCase())) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "q", null);
+if ((("_" + ("" + (toBoolean((b0.value[1 - 1] ?? "")) || toBoolean((b0.value[2 - 1] ?? ""))))).toLowerCase() === "_true".toLowerCase())) {
+runtime.ext_scratch3_looks._say("pass", target);
 } else {
-yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "r", null);
+runtime.ext_scratch3_looks._say("fail", target);
 }
-if (!toBoolean((b1.value[1 - 1] ?? ""))) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "v", null);
+if (!toBoolean((b0.value[1 - 1] ?? ""))) {
+runtime.ext_scratch3_looks._say("pass", target);
 } else {
-yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "w", null);
+runtime.ext_scratch3_looks._say("fail", target);
 }
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "u", null);
+runtime.ext_scratch3_looks._say("end", target);
 retire(); return;
 }; })

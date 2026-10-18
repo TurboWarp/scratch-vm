@@ -3,7 +3,7 @@
 
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ () {
+return function funXYZ () {
 startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "3loop" });
 retire(); return;
 }; })
@@ -13,11 +13,12 @@ retire(); return;
 const b0 = stage.variables["5*)/o6gQzEw)31Ah!j:j"];
 const b1 = stage.variables["sYUvu8`..xuGcWX3!B1k"];
 return function* genXYZ () {
+let t;
 while (!compareGreaterThan(b0.value, 2)) {
-b0.value = ((+b0.value || 0) + 1);
+b0.value = (((t = +b0.value) === t ? t : 0) + 1);
 yield;
 }
-if (((+b1.value || 0) === 1)) {
+if ((((t = +b1.value) === t ? t : 0) === 1)) {
 yield* thread.procedures["ZOK %s"]("");
 } else {
 if (compareEqual(b1.value, 0)) {
@@ -31,11 +32,10 @@ retire(); return;
 
 // Sprite1 ZOK %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ_OK_ (p0) {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "f", null);
-yield* executeInCompatibilityLayer({"MESSAGE":("pass " + ("" + p0)),}, b0, false, false, "d", null);
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "h", null);
+runtime.ext_scratch3_looks._say("plan 1", target);
+runtime.ext_scratch3_looks._say(("pass " + ("" + p0)), target);
+runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
 retire(); yield;
 return "";
@@ -43,11 +43,10 @@ return "";
 
 // Sprite1 ZFAIL %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ_FAIL_ (p0) {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "j", null);
-yield* executeInCompatibilityLayer({"MESSAGE":("fail " + ("" + p0)),}, b0, false, false, "e", null);
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "l", null);
+runtime.ext_scratch3_looks._say("plan 1", target);
+runtime.ext_scratch3_looks._say(("fail " + ("" + p0)), target);
+runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
 retire(); yield;
 return "";
@@ -57,7 +56,7 @@ return "";
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = stage.variables["sYUvu8`..xuGcWX3!B1k"];
 const b1 = stage.variables["5*)/o6gQzEw)31Ah!j:j"];
-return function* genXYZ () {
+return function funXYZ () {
 b0.value = 0;
 b1.value = 0;
 startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "1" });
@@ -76,7 +75,7 @@ retire(); return;
 
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-return function* genXYZ () {
+return function funXYZ () {
 startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "1loop" });
 retire(); return;
 }; })
@@ -85,8 +84,9 @@ retire(); return;
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = stage.variables["sYUvu8`..xuGcWX3!B1k"];
 return function* genXYZ () {
+let t;
 while (true) {
-b0.value = ((+b0.value || 0) + 1);
+b0.value = (((t = +b0.value) === t ? t : 0) + 1);
 yield;
 }
 retire(); return;

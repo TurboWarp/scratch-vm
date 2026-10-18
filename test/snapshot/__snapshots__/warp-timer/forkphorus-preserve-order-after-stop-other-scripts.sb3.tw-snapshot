@@ -5,6 +5,7 @@
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = stage.variables["C7VGwqE9rvJgpw(oV^?E"];
 return function* genXYZ () {
+let t;
 startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "3" });
 startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "1" });
 startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "2" });
@@ -21,7 +22,7 @@ while (thread.timer.timeElapsed() < a0) {
 yield;
 }
 thread.timer = null;
-if (((+listContents(b0) || 0) === 312)) {
+if ((((t = +listContents(b0)) === t ? t : 0) === 312)) {
 yield* thread.procedures["ZOK %s"]("");
 } else {
 yield* thread.procedures["ZFAIL %s"]("");
@@ -31,11 +32,10 @@ retire(); return;
 
 // Sprite1 ZOK %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ_OK_ (p0) {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "d", null);
-yield* executeInCompatibilityLayer({"MESSAGE":("pass " + ("" + p0)),}, b0, false, false, "b", null);
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "f", null);
+runtime.ext_scratch3_looks._say("plan 1", target);
+runtime.ext_scratch3_looks._say(("pass " + ("" + p0)), target);
+runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
 retire(); yield;
 return "";
@@ -43,11 +43,10 @@ return "";
 
 // Sprite1 ZFAIL %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ_FAIL_ (p0) {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "h", null);
-yield* executeInCompatibilityLayer({"MESSAGE":("fail " + ("" + p0)),}, b0, false, false, "c", null);
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "j", null);
+runtime.ext_scratch3_looks._say("plan 1", target);
+runtime.ext_scratch3_looks._say(("fail " + ("" + p0)), target);
+runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
 retire(); yield;
 return "";
@@ -56,7 +55,7 @@ return "";
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = stage.variables["C7VGwqE9rvJgpw(oV^?E"];
-return function* genXYZ () {
+return function funXYZ () {
 b0.value.push(1);
 b0._monitorUpToDate = false;
 retire(); return;
@@ -65,7 +64,7 @@ retire(); return;
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = stage.variables["C7VGwqE9rvJgpw(oV^?E"];
-return function* genXYZ () {
+return function funXYZ () {
 b0.value.push(2);
 b0._monitorUpToDate = false;
 retire(); return;
@@ -74,7 +73,7 @@ retire(); return;
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = stage.variables["C7VGwqE9rvJgpw(oV^?E"];
-return function* genXYZ () {
+return function funXYZ () {
 b0.value.push(3);
 b0._monitorUpToDate = false;
 retire(); return;

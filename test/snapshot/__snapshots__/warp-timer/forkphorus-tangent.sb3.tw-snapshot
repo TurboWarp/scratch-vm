@@ -3,54 +3,54 @@
 
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
-return function* genXYZ () {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 15",}, b0, false, false, "p", null);
+return function funXYZ () {
+let t;
+runtime.ext_scratch3_looks._say("plan 15", target);
 if (compareEqual(tan(0), 0)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass 0",}, b0, false, false, "O", null);
+runtime.ext_scratch3_looks._say("pass 0", target);
 }
-if (((tan(90) || 0) === Infinity)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass 90",}, b0, false, false, "G", null);
+if ((((t = tan(90)) === t ? t : 0) === Infinity)) {
+runtime.ext_scratch3_looks._say("pass 90", target);
 }
 if (compareEqual(tan(180), 0)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass 180",}, b0, false, false, "I", null);
+runtime.ext_scratch3_looks._say("pass 180", target);
 }
-if (((tan(270) || 0) === -Infinity)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass 270",}, b0, false, false, "K", null);
+if ((((t = tan(270)) === t ? t : 0) === -Infinity)) {
+runtime.ext_scratch3_looks._say("pass 270", target);
 }
 if (compareEqual(tan(360), 0)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass 360",}, b0, false, false, "M", null);
+runtime.ext_scratch3_looks._say("pass 360", target);
 }
-if (((tan(450) || 0) === Infinity)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass 450",}, b0, false, false, "Q", null);
+if ((((t = tan(450)) === t ? t : 0) === Infinity)) {
+runtime.ext_scratch3_looks._say("pass 450", target);
 }
 if (compareEqual(tan(540), 0)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass 540",}, b0, false, false, "S", null);
+runtime.ext_scratch3_looks._say("pass 540", target);
 }
-if (((tan(630) || 0) === -Infinity)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass 630",}, b0, false, false, "U", null);
+if ((((t = tan(630)) === t ? t : 0) === -Infinity)) {
+runtime.ext_scratch3_looks._say("pass 630", target);
 }
 if (compareEqual(tan(720), 0)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass 720",}, b0, false, false, "W", null);
+runtime.ext_scratch3_looks._say("pass 720", target);
 }
-if (((tan(810) || 0) === Infinity)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass 810",}, b0, false, false, "Y", null);
+if ((((t = tan(810)) === t ? t : 0) === Infinity)) {
+runtime.ext_scratch3_looks._say("pass 810", target);
 }
-if (((tan(-90) || 0) === -Infinity)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass -90",}, b0, false, false, "0", null);
+if ((((t = tan(-90)) === t ? t : 0) === -Infinity)) {
+runtime.ext_scratch3_looks._say("pass -90", target);
 }
 if (compareEqual(tan(-180), 0)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass -180",}, b0, false, false, "2", null);
+runtime.ext_scratch3_looks._say("pass -180", target);
 }
-if (((tan(-270) || 0) === Infinity)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass -270",}, b0, false, false, "4", null);
+if ((((t = tan(-270)) === t ? t : 0) === Infinity)) {
+runtime.ext_scratch3_looks._say("pass -270", target);
 }
 if (compareEqual(tan(-360), 0)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass -360",}, b0, false, false, "6", null);
+runtime.ext_scratch3_looks._say("pass -360", target);
 }
-if (((tan(-450) || 0) === -Infinity)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass -450",}, b0, false, false, "9", null);
+if ((((t = tan(-450)) === t ? t : 0) === -Infinity)) {
+runtime.ext_scratch3_looks._say("pass -450", target);
 }
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "8", null);
+runtime.ext_scratch3_looks._say("end", target);
 retire(); return;
 }; })

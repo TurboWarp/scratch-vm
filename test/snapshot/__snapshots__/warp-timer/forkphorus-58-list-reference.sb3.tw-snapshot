@@ -6,6 +6,7 @@
 const b0 = stage.variables[")@7t1F9WM1F[_jBWx]7["];
 const b1 = stage.variables[",VHjOaLurDh*^;8kZ~I?"];
 return function* genXYZ () {
+let t;
 b0.value = [];
 b1.value = [];
 b0.value.push(3);
@@ -21,7 +22,7 @@ b1._monitorUpToDate = false;
 b0.value = [];
 yield* thread.procedures["ZassertTrue %b %s"]((b1.value.length === 1),"output length = 1");
 yield* thread.procedures["ZassertTrue %b %s"]((b0.value.length === 0),"data length = 0");
-yield* thread.procedures["ZassertTrue %b %s"](((+(b1.value[1 - 1] ?? "") || 0) === 3284),"output item 1");
+yield* thread.procedures["ZassertTrue %b %s"]((((t = +(b1.value[1 - 1] ?? "")) === t ? t : 0) === 3284),"output item 1");
 yield* thread.procedures["ZOK %s"]("");
 retire(); return;
 }; })
@@ -37,11 +38,10 @@ return "";
 
 // Sprite1 ZOK %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ_OK_ (p0) {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "j", null);
-yield* executeInCompatibilityLayer({"MESSAGE":("pass " + ("" + p0)),}, b0, false, false, "a", null);
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "l", null);
+runtime.ext_scratch3_looks._say("plan 1", target);
+runtime.ext_scratch3_looks._say(("pass " + ("" + p0)), target);
+runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
 retire(); yield;
 return "";
@@ -49,11 +49,10 @@ return "";
 
 // Sprite1 ZFAIL %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ_FAIL_ (p0) {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "n", null);
-yield* executeInCompatibilityLayer({"MESSAGE":("fail " + ("" + p0)),}, b0, false, false, "b", null);
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "p", null);
+runtime.ext_scratch3_looks._say("plan 1", target);
+runtime.ext_scratch3_looks._say(("fail " + ("" + p0)), target);
+runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
 retire(); yield;
 return "";

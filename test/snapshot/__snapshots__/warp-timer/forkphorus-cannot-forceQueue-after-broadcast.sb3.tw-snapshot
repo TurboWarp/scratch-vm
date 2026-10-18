@@ -3,11 +3,10 @@
 
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
-const b1 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
-return function* genXYZ () {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "b", null);
-b1.value = 0;
+const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+return function funXYZ () {
+runtime.ext_scratch3_looks._say("plan 1", target);
+b0.value = 0;
 startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "1" });
 retire(); return;
 }; })
@@ -15,9 +14,9 @@ retire(); return;
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
-const b1 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ () {
-b0.value = ((+b0.value || 0) + 1);
+let t;
+b0.value = (((t = +b0.value) === t ? t : 0) + 1);
 if ((b0.value === 1)) {
 startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "1" });
 thread.timer = timer();
@@ -28,10 +27,10 @@ while (thread.timer.timeElapsed() < a0) {
 yield;
 }
 thread.timer = null;
-yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b1, false, false, "l", null);
+runtime.ext_scratch3_looks._say("fail", target);
 } else {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b1, false, false, "e", null);
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b1, false, false, "m", null);
+runtime.ext_scratch3_looks._say("pass", target);
+runtime.ext_scratch3_looks._say("end", target);
 }
 retire(); return;
 }; })

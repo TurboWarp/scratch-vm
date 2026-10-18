@@ -3,25 +3,24 @@
 
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
-const b1 = stage.variables["k|@-`:^^Mo+E}$({|2/P"];
-const b2 = stage.variables["t2m05.oW;5f0=GL30@pV"];
-return function* genXYZ () {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 4",}, b0, false, false, "g", null);
-b1.value = (1 / 0);
-b2.value = (-1 / 0);
-if ((("" + (b1.value + b2.value)).toLowerCase() === "NaN".toLowerCase())) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass 1",}, b0, false, false, "m", null);
+const b0 = stage.variables["k|@-`:^^Mo+E}$({|2/P"];
+const b1 = stage.variables["t2m05.oW;5f0=GL30@pV"];
+return function funXYZ () {
+runtime.ext_scratch3_looks._say("plan 4", target);
+b0.value = (1 / 0);
+b1.value = (-1 / 0);
+if ((("" + (b0.value + b1.value)).toLowerCase() === "NaN".toLowerCase())) {
+runtime.ext_scratch3_looks._say("pass 1", target);
 }
-if ((("" + ((+b1.value || 0) - (+b1.value || 0))).toLowerCase() === "NaN".toLowerCase())) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass 1",}, b0, false, false, "n", null);
+if ((("" + (b0.value - b0.value)).toLowerCase() === "NaN".toLowerCase())) {
+runtime.ext_scratch3_looks._say("pass 1", target);
 }
-if ((("" + ((+b1.value || 0) * 0)).toLowerCase() === "NaN".toLowerCase())) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass 1",}, b0, false, false, "o", null);
+if ((("" + (b0.value * 0)).toLowerCase() === "NaN".toLowerCase())) {
+runtime.ext_scratch3_looks._say("pass 1", target);
 }
 if ((("" + (0 / 0)).toLowerCase() === "NaN".toLowerCase())) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass 1",}, b0, false, false, "q", null);
+runtime.ext_scratch3_looks._say("pass 1", target);
 }
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "p", null);
+runtime.ext_scratch3_looks._say("end", target);
 retire(); return;
 }; })

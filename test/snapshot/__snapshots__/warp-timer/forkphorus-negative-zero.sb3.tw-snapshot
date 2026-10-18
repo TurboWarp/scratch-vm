@@ -4,8 +4,9 @@
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 return function* genXYZ () {
-yield* thread.procedures["ZassertTrue %b %s"]((((1 / 0) || 0) === Infinity),"1/0");
-yield* thread.procedures["ZassertTrue %b %s"]((((1 / -0) || 0) === -Infinity),"1/-0");
+let t;
+yield* thread.procedures["ZassertTrue %b %s"]((((t = (1 / 0)) === t ? t : 0) === Infinity),"1/0");
+yield* thread.procedures["ZassertTrue %b %s"]((((t = (1 / -0)) === t ? t : 0) === -Infinity),"1/-0");
 yield* thread.procedures["ZOK %s"]("ok");
 retire(); return;
 }; })
@@ -21,11 +22,10 @@ return "";
 
 // Sprite1 ZOK %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ_OK_ (p0) {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "i", null);
-yield* executeInCompatibilityLayer({"MESSAGE":("pass " + ("" + p0)),}, b0, false, false, "a", null);
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "k", null);
+runtime.ext_scratch3_looks._say("plan 1", target);
+runtime.ext_scratch3_looks._say(("pass " + ("" + p0)), target);
+runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
 retire(); yield;
 return "";
@@ -33,11 +33,10 @@ return "";
 
 // Sprite1 ZFAIL %s
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
 return function* genXYZ_FAIL_ (p0) {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "m", null);
-yield* executeInCompatibilityLayer({"MESSAGE":("fail " + ("" + p0)),}, b0, false, false, "b", null);
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "o", null);
+runtime.ext_scratch3_looks._say("plan 1", target);
+runtime.ext_scratch3_looks._say(("fail " + ("" + p0)), target);
+runtime.ext_scratch3_looks._say("end", target);
 runtime.stopAll();
 retire(); yield;
 return "";

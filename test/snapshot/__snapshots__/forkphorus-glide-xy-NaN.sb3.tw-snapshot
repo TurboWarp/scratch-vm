@@ -3,17 +3,16 @@
 
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
-const b1 = runtime.getOpcodeFunction("motion_glidesecstoxy");
+const b0 = runtime.getOpcodeFunction("motion_glidesecstoxy");
 return function* genXYZ () {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 1",}, b0, false, false, "d", null);
+runtime.ext_scratch3_looks._say("plan 1", target);
 target.setXY(-100, -100);
-yield* executeInCompatibilityLayer({"SECS":0,"X":(0 / 0),"Y":100,}, b1, false, false, "b", null);
+yield* executeInCompatibilityLayer({"SECS":0,"X":(0 / 0),"Y":100,}, b0, false, false, "b", null);
 if ((limitPrecision(target.x) === 0)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "i", null);
+runtime.ext_scratch3_looks._say("pass", target);
 } else {
-yield* executeInCompatibilityLayer({"MESSAGE":"fail",}, b0, false, false, "j", null);
+runtime.ext_scratch3_looks._say("fail", target);
 }
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "h", null);
+runtime.ext_scratch3_looks._say("end", target);
 retire(); return;
 }; })

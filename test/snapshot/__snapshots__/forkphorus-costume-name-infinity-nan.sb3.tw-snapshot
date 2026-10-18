@@ -3,33 +3,32 @@
 
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
-return function* genXYZ () {
+return function funXYZ () {
 runtime.ext_scratch3_looks._setCostume(target, "initial");
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 6",}, b0, false, false, "m", null);
+runtime.ext_scratch3_looks._say("plan 6", target);
 runtime.ext_scratch3_looks._setCostume(target, (1 / 0));
 if ((target.getCostumes()[target.currentCostume].name.toLowerCase() === "good".toLowerCase())) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass infinity costume name",}, b0, false, false, "x", null);
+runtime.ext_scratch3_looks._say("pass infinity costume name", target);
 }
 if (((target.currentCostume + 1) === 1)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass infinity costume number",}, b0, false, false, "z", null);
+runtime.ext_scratch3_looks._say("pass infinity costume number", target);
 }
 runtime.ext_scratch3_looks._setCostume(target, "initial");
 runtime.ext_scratch3_looks._setCostume(target, (1 / -0));
 if ((target.getCostumes()[target.currentCostume].name.toLowerCase() === "good".toLowerCase())) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass -infinity costume name",}, b0, false, false, "E", null);
+runtime.ext_scratch3_looks._say("pass -infinity costume name", target);
 }
 if (((target.currentCostume + 1) === 1)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass -infinity costume number",}, b0, false, false, "G", null);
+runtime.ext_scratch3_looks._say("pass -infinity costume number", target);
 }
 runtime.ext_scratch3_looks._setCostume(target, "initial");
 runtime.ext_scratch3_looks._setCostume(target, (0 / 0));
 if ((target.getCostumes()[target.currentCostume].name.toLowerCase() === "good".toLowerCase())) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass nan costume name",}, b0, false, false, "L", null);
+runtime.ext_scratch3_looks._say("pass nan costume name", target);
 }
 if (((target.currentCostume + 1) === 1)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass nan costume number",}, b0, false, false, "O", null);
+runtime.ext_scratch3_looks._say("pass nan costume number", target);
 }
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "N", null);
+runtime.ext_scratch3_looks._say("end", target);
 retire(); return;
 }; })

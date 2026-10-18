@@ -3,35 +3,35 @@
 
 // Sprite1 script
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
-const b0 = runtime.getOpcodeFunction("looks_say");
-const b1 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
-return function* genXYZ () {
-yield* executeInCompatibilityLayer({"MESSAGE":"plan 8",}, b0, false, false, "j", null);
-b1.value = (1 / 0);
-if (((10 + (Math.sqrt(-1) || 0)) === 10)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "R", null);
+const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+return function funXYZ () {
+let t;
+runtime.ext_scratch3_looks._say("plan 8", target);
+b0.value = (1 / 0);
+if (((10 + ((t = Math.sqrt(-1)) === t ? t : 0)) === 10)) {
+runtime.ext_scratch3_looks._say("pass", target);
 }
-if (((10 + ((Math.round(Math.sin((Math.PI * (+b1.value || 0)) / 180) * 1e10) / 1e10) || 0)) === 10)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "B", null);
+if (((10 + ((t = (Math.round(Math.sin((Math.PI * b0.value) / 180) * 1e10) / 1e10)) === t ? t : 0)) === 10)) {
+runtime.ext_scratch3_looks._say("pass", target);
 }
-if (((10 + ((Math.round(Math.cos((Math.PI * (+b1.value || 0)) / 180) * 1e10) / 1e10) || 0)) === 10)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "D", null);
+if (((10 + ((t = (Math.round(Math.cos((Math.PI * b0.value) / 180) * 1e10) / 1e10)) === t ? t : 0)) === 10)) {
+runtime.ext_scratch3_looks._say("pass", target);
 }
-if (((10 + (tan((+b1.value || 0)) || 0)) === 10)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "F", null);
+if (((10 + ((t = tan(b0.value)) === t ? t : 0)) === 10)) {
+runtime.ext_scratch3_looks._say("pass", target);
 }
-if (((10 + (((Math.asin(2) * 180) / Math.PI) || 0)) === 10)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "H", null);
+if (((10 + ((t = ((Math.asin(2) * 180) / Math.PI)) === t ? t : 0)) === 10)) {
+runtime.ext_scratch3_looks._say("pass", target);
 }
-if (((10 + (((Math.acos(2) * 180) / Math.PI) || 0)) === 10)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "J", null);
+if (((10 + ((t = ((Math.acos(2) * 180) / Math.PI)) === t ? t : 0)) === 10)) {
+runtime.ext_scratch3_looks._say("pass", target);
 }
-if (((10 + (Math.log(-1) || 0)) === 10)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "L", null);
+if (((10 + ((t = Math.log(-1)) === t ? t : 0)) === 10)) {
+runtime.ext_scratch3_looks._say("pass", target);
 }
-if (((10 + ((Math.log(-1) / Math.LN10) || 0)) === 10)) {
-yield* executeInCompatibilityLayer({"MESSAGE":"pass",}, b0, false, false, "O", null);
+if (((10 + ((t = (Math.log(-1) / Math.LN10)) === t ? t : 0)) === 10)) {
+runtime.ext_scratch3_looks._say("pass", target);
 }
-yield* executeInCompatibilityLayer({"MESSAGE":"end",}, b0, false, false, "N", null);
+runtime.ext_scratch3_looks._say("end", target);
 retire(); return;
 }; })
