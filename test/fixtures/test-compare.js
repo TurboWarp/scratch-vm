@@ -1,14 +1,15 @@
-const testCompare = (t, lhs, op, rhs, message) => {
-    const details = `Expected: ${lhs} ${op} ${rhs}`;
-    const extra = {details};
+const assert = require('node:assert');
+
+const testCompare = (lhs, op, rhs, message) => {
+    const details = `${message}. Expected: ${lhs} ${op} ${rhs}`;
     switch (op) {
-    case '<': return t.ok(lhs < rhs, message, extra);
-    case '<=': return t.ok(lhs <= rhs, message, extra);
-    case '===': return t.ok(lhs === rhs, message, extra);
-    case '!==': return t.ok(lhs !== rhs, message, extra);
-    case '>=': return t.ok(lhs >= rhs, message, extra);
-    case '>': return t.ok(lhs > rhs, message, extra);
-    default: return t.fail(`Unrecognized op: ${op}`);
+    case '<': return assert.ok(lhs < rhs, details);
+    case '<=': return assert.ok(lhs <= rhs, details);
+    case '===': return assert.ok(lhs === rhs, details);
+    case '!==': return assert.ok(lhs !== rhs, details);
+    case '>=': return assert.ok(lhs >= rhs, details);
+    case '>': return assert.ok(lhs > rhs, details);
+    default: return assert.fail(`Unrecognized op: ${op}`);
     }
 };
 

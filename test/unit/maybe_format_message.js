@@ -1,4 +1,5 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const maybeFormatMessage = require('../../src/util/maybe-format-message');
 
 const nonMessages = [
@@ -45,33 +46,27 @@ const complexMessage = {
 const quickExpectedResult = 'The quick brown fox jumped over the lazy dog.';
 const otherExpectedResult = 'Too slow, Gobo!';
 
-test('preserve non-messages', t => {
-    t.plan(nonMessages.length);
-
+test('preserve non-messages', () => {
     for (const x of nonMessages) {
         const result = maybeFormatMessage(x);
-        t.strictSame(x, result);
+        assert.deepStrictEqual(x, result);
     }
-
-    t.end();
 });
 
-test('format messages', t => {
+test('format messages', () => {
     const quickResult1 = maybeFormatMessage(simpleMessage);
-    t.strictNotSame(quickResult1, simpleMessage);
-    t.same(quickResult1, quickExpectedResult);
+    assert.notDeepStrictEqual(quickResult1, simpleMessage);
+    assert.deepEqual(quickResult1, quickExpectedResult);
 
     const quickResult2 = maybeFormatMessage(complexMessage, argsQuick);
-    t.strictNotSame(quickResult2, complexMessage);
-    t.same(quickResult2, quickExpectedResult);
+    assert.notDeepStrictEqual(quickResult2, complexMessage);
+    assert.deepEqual(quickResult2, quickExpectedResult);
 
     const otherResult1 = maybeFormatMessage(complexMessage, argsOther);
-    t.strictNotSame(otherResult1, complexMessage);
-    t.same(otherResult1, otherExpectedResult);
+    assert.notDeepStrictEqual(otherResult1, complexMessage);
+    assert.deepEqual(otherResult1, otherExpectedResult);
 
     const otherResult2 = maybeFormatMessage(complexMessage, argsEmpty);
-    t.strictNotSame(otherResult2, complexMessage);
-    t.same(otherResult2, otherExpectedResult);
-
-    t.end();
+    assert.notDeepStrictEqual(otherResult2, complexMessage);
+    assert.deepEqual(otherResult2, otherExpectedResult);
 });

@@ -1,4 +1,5 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const fs = require('fs');
 const path = require('path');
 const VM = require('../../src/virtual-machine');
@@ -35,68 +36,64 @@ class TestExtension {
 }
 
 for (const enableCompiler of [true, false]) {
-    test(`COMMAND returns rejected promise - ${enableCompiler ? 'compiler' : 'interpreter'}`, t => {
+    test(`COMMAND returns rejected promise - ${enableCompiler ? 'compiler' : 'interpreter'}`, async () => {
         const vm = new VM();
         vm.extensionManager.addBuiltinExtension('test123', TestExtension);
 
         vm.setCompilerOptions({
             enabled: enableCompiler
         });
-        t.equal(vm.runtime.compilerOptions.enabled, enableCompiler);
+        assert.strictEqual(vm.runtime.compilerOptions.enabled, enableCompiler);
 
-        vm.loadProject(commandFixture).then(async () => {
-            vm.greenFlag();
+        await vm.loadProject(commandFixture);
+        vm.greenFlag();
 
-            for (let i = 0; i < 12; i++) {
-                vm.runtime._step();
-    
-                // wait for promise rejection to be handled
-                await Promise.resolve();
-            }
+        for (let i = 0; i < 12; i++) {
+            vm.runtime._step();
 
-            const stage = vm.runtime.getTargetForStage();
-            t.equal(stage.lookupVariableByNameAndType('before', '').value, 10);
-            t.equal(stage.lookupVariableByNameAndType('after', '').value, 10);
-            t.end();
-        });
+            // wait for promise rejection to be handled
+            await Promise.resolve();
+        }
+
+        const stage = vm.runtime.getTargetForStage();
+        assert.strictEqual(stage.lookupVariableByNameAndType('before', '').value, 10);
+        assert.strictEqual(stage.lookupVariableByNameAndType('after', '').value, 10);
     });
 
-    test(`REPORTER returns rejected promise - ${enableCompiler ? 'compiler' : 'interpreter'}`, t => {
+    test(`REPORTER returns rejected promise - ${enableCompiler ? 'compiler' : 'interpreter'}`, async () => {
         const vm = new VM();
         vm.extensionManager.addBuiltinExtension('test123', TestExtension);
 
         vm.setCompilerOptions({
             enabled: enableCompiler
         });
-        t.equal(vm.runtime.compilerOptions.enabled, enableCompiler);
+        assert.strictEqual(vm.runtime.compilerOptions.enabled, enableCompiler);
 
-        vm.loadProject(reporterFixture).then(async () => {
-            vm.greenFlag();
+        await vm.loadProject(reporterFixture);
+        vm.greenFlag();
 
-            for (let i = 0; i < 12; i++) {
-                vm.runtime._step();
-    
-                // wait for promise rejection to be handled
-                await Promise.resolve();
-            }
+        for (let i = 0; i < 12; i++) {
+            vm.runtime._step();
 
-            const stage = vm.runtime.getTargetForStage();
-            t.equal(stage.lookupVariableByNameAndType('before', '').value, 10);
-            t.equal(stage.lookupVariableByNameAndType('after', '').value, 10);
-            t.same(stage.lookupVariableByNameAndType('values', 'list').value, [
-                'Error: Test error 2',
-                'Error: Test error 2',
-                'Error: Test error 2',
-                'Error: Test error 2',
-                'Error: Test error 2',
-                'Error: Test error 2',
-                'Error: Test error 2',
-                'Error: Test error 2',
-                'Error: Test error 2',
-                'Error: Test error 2',
-                'Error: Test error 2'
-            ]);
-            t.end();
-        });
+            // wait for promise rejection to be handled
+            await Promise.resolve();
+        }
+
+        const stage = vm.runtime.getTargetForStage();
+        assert.strictEqual(stage.lookupVariableByNameAndType('before', '').value, 10);
+        assert.strictEqual(stage.lookupVariableByNameAndType('after', '').value, 10);
+        assert.deepEqual(stage.lookupVariableByNameAndType('values', 'list').value, [
+            'Error: Test error 2',
+            'Error: Test error 2',
+            'Error: Test error 2',
+            'Error: Test error 2',
+            'Error: Test error 2',
+            'Error: Test error 2',
+            'Error: Test error 2',
+            'Error: Test error 2',
+            'Error: Test error 2',
+            'Error: Test error 2',
+            'Error: Test error 2'
+        ]);
     });
 }

@@ -1,18 +1,18 @@
 const Runtime = require('../../src/engine/runtime');
 const Sprite = require('../../src/sprites/sprite');
 
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 
-test('clone counter', t => {
+test('clone counter', () => {
     const rt = new Runtime();
     const sprite = new Sprite(null, rt);
     const original = sprite.createClone();
-    t.equal(rt._cloneCounter, 0);
+    assert.strictEqual(rt._cloneCounter, 0);
     const clone = original.makeClone();
-    t.equal(rt._cloneCounter, 1);
+    assert.strictEqual(rt._cloneCounter, 1);
     clone.dispose();
-    t.equal(rt._cloneCounter, 0);
+    assert.strictEqual(rt._cloneCounter, 0);
     original.dispose();
-    t.equal(rt._cloneCounter, 0);
-    t.end();
+    assert.strictEqual(rt._cloneCounter, 0);
 });

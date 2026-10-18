@@ -1,22 +1,19 @@
 const VM = require('../../src/virtual-machine');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const fs = require('fs');
 const path = require('path');
 
 const compilerAndInterpreter = (name, callback) => {
-    test(`${name} - interpreted`, t => {
-        callback(t, {
-            enabled: false
-        });
-    });
-    test(`${name} - compiled`, t => {
-        callback(t, {
-            enabled: true
-        });
-    });
+    test(`${name} - interpreted`, () => callback({
+        enabled: false
+    }));
+    test(`${name} - compiled`, () => callback({
+        enabled: true
+    }));
 };
 
-compilerAndInterpreter('edge activated hats returning promises work properly', async (t, co) => {
+compilerAndInterpreter('edge activated hats returning promises work properly', async co => {
     const vm = new VM();
     vm.setCompilerOptions(co);
 
@@ -44,28 +41,26 @@ compilerAndInterpreter('edge activated hats returning promises work properly', a
 
     hatValue = false;
     await step(10);
-    t.equal(sayCounter, 0);
+    assert.strictEqual(sayCounter, 0);
 
     hatValue = true;
     await step();
     // promise can't resolve in this tick, so block shouldn't run yet
-    t.equal(sayCounter, 0);
+    assert.strictEqual(sayCounter, 0);
     await step();
-    t.equal(sayCounter, 1);
+    assert.strictEqual(sayCounter, 1);
     await step(10);
-    t.equal(sayCounter, 1);
+    assert.strictEqual(sayCounter, 1);
 
     hatValue = false;
     await step(10);
-    t.equal(sayCounter, 1);
+    assert.strictEqual(sayCounter, 1);
 
     hatValue = true;
     await step();
-    t.equal(sayCounter, 1);
+    assert.strictEqual(sayCounter, 1);
     await step();
-    t.equal(sayCounter, 2);
+    assert.strictEqual(sayCounter, 2);
     await step(10);
-    t.equal(sayCounter, 2);
-
-    t.end();
+    assert.strictEqual(sayCounter, 2);
 });

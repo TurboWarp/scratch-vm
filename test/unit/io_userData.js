@@ -1,25 +1,23 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const UserData = require('../../src/io/userData');
 
-test('spec', t => {
+test('spec', () => {
     const userData = new UserData();
 
-    t.type(userData, 'object');
-    t.type(userData.postData, 'function');
-    t.type(userData.getUsername, 'function');
-    t.end();
+    assert.strictEqual(typeof userData, 'object');
+    assert.strictEqual(typeof userData.postData, 'function');
+    assert.strictEqual(typeof userData.getUsername, 'function');
 });
 
-test('getUsername returns empty string initially', t => {
+test('getUsername returns empty string initially', () => {
     const userData = new UserData();
 
-    t.strictEquals(userData.getUsername(), '');
-    t.end();
+    assert.strictEqual(userData.getUsername(), '');
 });
 
-test('postData sets the username', t => {
+test('postData sets the username', () => {
     const userData = new UserData();
     userData.postData({username: 'TEST'});
-    t.strictEquals(userData.getUsername(), 'TEST');
-    t.end();
+    assert.strictEqual(userData.getUsername(), 'TEST');
 });

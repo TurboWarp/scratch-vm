@@ -1,36 +1,36 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VirtualMachine = require('../../src/index');
 
-test('interface', t => {
+test('interface', () => {
     const vm = new VirtualMachine();
-    t.type(vm, 'object');
-    t.type(vm.start, 'function');
-    t.type(vm.greenFlag, 'function');
-    t.type(vm.setTurboMode, 'function');
-    t.type(vm.setCompatibilityMode, 'function');
-    t.type(vm.stopAll, 'function');
-    t.type(vm.clear, 'function');
+    assert.strictEqual(typeof vm, 'object');
+    assert.strictEqual(typeof vm.start, 'function');
+    assert.strictEqual(typeof vm.greenFlag, 'function');
+    assert.strictEqual(typeof vm.setTurboMode, 'function');
+    assert.strictEqual(typeof vm.setCompatibilityMode, 'function');
+    assert.strictEqual(typeof vm.stopAll, 'function');
+    assert.strictEqual(typeof vm.clear, 'function');
 
-    t.type(vm.getPlaygroundData, 'function');
-    t.type(vm.postIOData, 'function');
+    assert.strictEqual(typeof vm.getPlaygroundData, 'function');
+    assert.strictEqual(typeof vm.postIOData, 'function');
 
-    t.type(vm.loadProject, 'function');
-    t.type(vm.addSprite, 'function');
-    t.type(vm.addCostume, 'function');
-    t.type(vm.addBackdrop, 'function');
-    t.type(vm.addSound, 'function');
-    t.type(vm.deleteCostume, 'function');
-    t.type(vm.deleteSound, 'function');
-    t.type(vm.renameSprite, 'function');
-    t.type(vm.deleteSprite, 'function');
+    assert.strictEqual(typeof vm.loadProject, 'function');
+    assert.strictEqual(typeof vm.addSprite, 'function');
+    assert.strictEqual(typeof vm.addCostume, 'function');
+    assert.strictEqual(typeof vm.addBackdrop, 'function');
+    assert.strictEqual(typeof vm.addSound, 'function');
+    assert.strictEqual(typeof vm.deleteCostume, 'function');
+    assert.strictEqual(typeof vm.deleteSound, 'function');
+    assert.strictEqual(typeof vm.renameSprite, 'function');
+    assert.strictEqual(typeof vm.deleteSprite, 'function');
 
-    t.type(vm.attachRenderer, 'function');
-    t.type(vm.blockListener, 'function');
-    t.type(vm.flyoutBlockListener, 'function');
-    t.type(vm.setEditingTarget, 'function');
+    assert.strictEqual(typeof vm.attachRenderer, 'function');
+    assert.strictEqual(typeof vm.blockListener, 'function');
+    assert.strictEqual(typeof vm.flyoutBlockListener, 'function');
+    assert.strictEqual(typeof vm.setEditingTarget, 'function');
 
-    t.type(vm.emitTargetsUpdate, 'function');
-    t.type(vm.emitWorkspaceUpdate, 'function');
-    t.type(vm.postSpriteInfo, 'function');
-    t.end();
+    assert.strictEqual(typeof vm.emitTargetsUpdate, 'function');
+    assert.strictEqual(typeof vm.emitWorkspaceUpdate, 'function');
+    assert.strictEqual(typeof vm.postSpriteInfo, 'function');
 });

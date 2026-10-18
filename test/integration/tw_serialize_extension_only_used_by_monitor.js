@@ -1,8 +1,9 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VM = require('../../src/virtual-machine');
 const MonitorRecord = require('../../src/engine/monitor-record');
 
-test('Correctly serializes native extension only used by monitors', t => {
+test('Correctly serializes native extension only used by monitors', () => {
     const vm = new VM();
     vm.runtime.requestAddMonitor(new MonitorRecord({
         id: 'fakeblock1',
@@ -15,12 +16,11 @@ test('Correctly serializes native extension only used by monitors', t => {
         visiblle: false
     }));
     const json = JSON.parse(vm.toJSON());
-    t.same(json.extensions, ['pen', 'translate']);
-    t.not('customExtensions' in json);
-    t.end();
+    assert.deepEqual(json.extensions, ['pen', 'translate']);
+    assert.ok(!('customExtensions' in json));
 });
 
-test('Correctly serializes custom extension only used by monitors', t => {
+test('Correctly serializes custom extension only used by monitors', () => {
     const vm = new VM();
     vm.runtime.requestAddMonitor(new MonitorRecord({
         id: 'fakeblock1',
@@ -37,9 +37,8 @@ test('Correctly serializes custom extension only used by monitors', t => {
         fetch: 'https://extensions.turbowarp.org/fetch.js'
     });
     const json = JSON.parse(vm.toJSON());
-    t.same(json.extensions, ['fetch']);
-    t.same(json.extensionURLs, {
+    assert.deepEqual(json.extensions, ['fetch']);
+    assert.deepEqual(json.extensionURLs, {
         fetch: 'https://extensions.turbowarp.org/fetch.js'
     });
-    t.end();
 });

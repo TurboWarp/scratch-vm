@@ -1,5 +1,6 @@
 const path = require('path');
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const readFileToBuffer = require('../fixtures/readProjectFile').readFileToBuffer;
 const VirtualMachine = require('../../src/index');
@@ -9,23 +10,23 @@ const Runtime = require('../../src/engine/runtime');
 const projectUri = path.resolve(__dirname, '../fixtures/timer-monitor.sb3');
 const project = readFileToBuffer(projectUri);
 
-const checkMonitorThreadPresent = (t, threads) => {
-    t.equal(threads.length, 1);
+const checkMonitorThreadPresent = threads => {
+    assert.strictEqual(threads.length, 1);
     const monitorThread = threads[0];
-    t.equal(monitorThread.stackClick, false);
-    t.equal(monitorThread.updateMonitor, true);
-    t.equal(monitorThread.topBlock.toString(), 'timer');
+    assert.strictEqual(monitorThread.stackClick, false);
+    assert.strictEqual(monitorThread.updateMonitor, true);
+    assert.strictEqual(monitorThread.topBlock.toString(), 'timer');
 };
 
 /**
  * Creates a monitor and then checks if it gets run every frame.
  */
-test('monitor thread runs every frame', t => {
+test('monitor thread runs every frame', (t, done) => {
     const vm = new VirtualMachine();
     vm.attachStorage(makeTestStorage());
 
     // Start VM, load project, and run
-    t.doesNotThrow(() => {
+    assert.doesNotThrow(() => {
         // Note: don't run vm.start(), we handle calling _step() manually in this test
         vm.runtime.currentStepTime = Runtime.THREAD_STEP_INTERVAL;
         vm.clear();
@@ -33,23 +34,23 @@ test('monitor thread runs every frame', t => {
         vm.setTurboMode(false);
 
         vm.loadProject(project).then(() => {
-            t.equal(vm.runtime.threads.length, 0);
+            assert.strictEqual(vm.runtime.threads.length, 0);
 
             vm.runtime._step();
             let doneThreads = vm.runtime._lastStepDoneThreads;
-            t.equal(vm.runtime.threads.length, 0);
-            t.equal(doneThreads.length, 1);
-            checkMonitorThreadPresent(t, doneThreads);
-            t.assert(doneThreads[0].status === Thread.STATUS_DONE);
+            assert.strictEqual(vm.runtime.threads.length, 0);
+            assert.strictEqual(doneThreads.length, 1);
+            checkMonitorThreadPresent(doneThreads);
+            assert.ok(doneThreads[0].status === Thread.STATUS_DONE);
 
             // Check that both are added again when another step is taken
             vm.runtime._step();
             doneThreads = vm.runtime._lastStepDoneThreads;
-            t.equal(vm.runtime.threads.length, 0);
-            t.equal(doneThreads.length, 1);
-            checkMonitorThreadPresent(t, doneThreads);
-            t.assert(doneThreads[0].status === Thread.STATUS_DONE);
-            t.end();
+            assert.strictEqual(vm.runtime.threads.length, 0);
+            assert.strictEqual(doneThreads.length, 1);
+            checkMonitorThreadPresent(doneThreads);
+            assert.ok(doneThreads[0].status === Thread.STATUS_DONE);
+            done();
         });
     });
 });
@@ -58,12 +59,12 @@ test('monitor thread runs every frame', t => {
  * If the monitor doesn't finish evaluating within one frame, it shouldn't be added again
  * on the next frame. (We skip execution by setting the step time to 0)
  */
-test('monitor thread not added twice', t => {
+test('monitor thread not added twice', (t, done) => {
     const vm = new VirtualMachine();
     vm.attachStorage(makeTestStorage());
 
     // Start VM, load project, and run
-    t.doesNotThrow(() => {
+    assert.doesNotThrow(() => {
         // Note: don't run vm.start(), we handle calling _step() manually in this test
         vm.runtime.currentStepTime = 0;
 
@@ -72,24 +73,24 @@ test('monitor thread not added twice', t => {
         vm.setTurboMode(false);
 
         vm.loadProject(project).then(() => {
-            t.equal(vm.runtime.threads.length, 0);
+            assert.strictEqual(vm.runtime.threads.length, 0);
 
             vm.runtime._step();
             let doneThreads = vm.runtime._lastStepDoneThreads;
-            t.equal(vm.runtime.threads.length, 1);
-            t.equal(doneThreads.length, 0);
-            checkMonitorThreadPresent(t, vm.runtime.threads);
-            t.assert(vm.runtime.threads[0].status === Thread.STATUS_RUNNING);
+            assert.strictEqual(vm.runtime.threads.length, 1);
+            assert.strictEqual(doneThreads.length, 0);
+            checkMonitorThreadPresent(vm.runtime.threads);
+            assert.ok(vm.runtime.threads[0].status === Thread.STATUS_RUNNING);
             const prevThread = vm.runtime.threads[0];
 
             // Check that both are added again when another step is taken
             vm.runtime._step();
             doneThreads = vm.runtime._lastStepDoneThreads;
-            t.equal(vm.runtime.threads.length, 1);
-            t.equal(doneThreads.length, 0);
-            checkMonitorThreadPresent(t, vm.runtime.threads);
-            t.equal(vm.runtime.threads[0], prevThread);
-            t.end();
+            assert.strictEqual(vm.runtime.threads.length, 1);
+            assert.strictEqual(doneThreads.length, 0);
+            checkMonitorThreadPresent(vm.runtime.threads);
+            assert.strictEqual(vm.runtime.threads[0], prevThread);
+            done();
         });
     });
 });

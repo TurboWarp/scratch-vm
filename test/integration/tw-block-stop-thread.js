@@ -1,4 +1,5 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const fs = require('fs');
 const path = require('path');
 const VM = require('../../src/virtual-machine');
@@ -16,9 +17,8 @@ const stopBySetStatus = thread => {
     thread.status = Thread.STATUS_DONE;
 };
 
-test('constants', t => {
-    t.equal(Thread.STATUS_DONE, 4);
-    t.end();
+test('constants', () => {
+    assert.strictEqual(Thread.STATUS_DONE, 4);
 });
 
 for (const [enableCompiler, stopFunction] of [
@@ -29,10 +29,10 @@ for (const [enableCompiler, stopFunction] of [
 ]) {
     const subtestName = `${enableCompiler ? 'compiler' : 'interpreter'} - ${stopFunction.name}`;
 
-    test(`${subtestName} - stop in command block`, t => {
+    test(`${subtestName} - stop in command block`, async () => {
         const vm = new VM();
         vm.setCompilerOptions({enabled: enableCompiler});
-        t.equal(vm.runtime.compilerOptions.enabled, enableCompiler);
+        assert.strictEqual(vm.runtime.compilerOptions.enabled, enableCompiler);
 
         const callOrder = [];
         vm.addAddonBlock({
@@ -58,21 +58,19 @@ for (const [enableCompiler, stopFunction] of [
             }
         });
 
-        vm.loadProject(fixtureData).then(() => {
-            vm.greenFlag();
-            vm.runtime._step();
-            t.same(callOrder, [
-                ['input block', {}],
-                ['first block', {'number or text': 1}]
-            ]);
-            t.end();
-        });
+        await vm.loadProject(fixtureData);
+        vm.greenFlag();
+        vm.runtime._step();
+        assert.deepEqual(callOrder, [
+            ['input block', {}],
+            ['first block', {'number or text': 1}]
+        ]);
     });
 
-    test(`${subtestName} - stop in command block after yielding once`, t => {
+    test(`${subtestName} - stop in command block after yielding once`, async () => {
         const vm = new VM();
         vm.setCompilerOptions({enabled: enableCompiler});
-        t.equal(vm.runtime.compilerOptions.enabled, enableCompiler);
+        assert.strictEqual(vm.runtime.compilerOptions.enabled, enableCompiler);
 
         const callOrder = [];
         vm.addAddonBlock({
@@ -100,21 +98,19 @@ for (const [enableCompiler, stopFunction] of [
             }
         });
 
-        vm.loadProject(fixtureData).then(() => {
-            vm.greenFlag();
-            vm.runtime._step();
-            t.same(callOrder, [
-                ['first block', {'number or text': 5}],
-                ['first block', {'number or text': 5}]
-            ]);
-            t.end();
-        });
+        await vm.loadProject(fixtureData);
+        vm.greenFlag();
+        vm.runtime._step();
+        assert.deepEqual(callOrder, [
+            ['first block', {'number or text': 5}],
+            ['first block', {'number or text': 5}]
+        ]);
     });
 
-    test(`${subtestName} - stop in reporter block`, t => {
+    test(`${subtestName} - stop in reporter block`, async () => {
         const vm = new VM();
         vm.setCompilerOptions({enabled: enableCompiler});
-        t.equal(vm.runtime.compilerOptions.enabled, enableCompiler);
+        assert.strictEqual(vm.runtime.compilerOptions.enabled, enableCompiler);
 
         const callOrder = [];
         vm.addAddonBlock({
@@ -140,20 +136,18 @@ for (const [enableCompiler, stopFunction] of [
             }
         });
 
-        vm.loadProject(fixtureData).then(() => {
-            vm.greenFlag();
-            vm.runtime._step();
-            t.same(callOrder, [
-                ['input block', {}]
-            ]);
-            t.end();
-        });
+        await vm.loadProject(fixtureData);
+        vm.greenFlag();
+        vm.runtime._step();
+        assert.deepEqual(callOrder, [
+            ['input block', {}]
+        ]);
     });
 
-    test(`${subtestName} - stop in reporter block after yielding once`, t => {
+    test(`${subtestName} - stop in reporter block after yielding once`, async () => {
         const vm = new VM();
         vm.setCompilerOptions({enabled: enableCompiler});
-        t.equal(vm.runtime.compilerOptions.enabled, enableCompiler);
+        assert.strictEqual(vm.runtime.compilerOptions.enabled, enableCompiler);
 
         const callOrder = [];
         vm.addAddonBlock({
@@ -185,14 +179,12 @@ for (const [enableCompiler, stopFunction] of [
             }
         });
 
-        vm.loadProject(fixtureData).then(() => {
-            vm.greenFlag();
-            vm.runtime._step();
-            t.same(callOrder, [
-                ['input block', {}],
-                ['input block', {}]
-            ]);
-            t.end();
-        });
+        await vm.loadProject(fixtureData);
+        vm.greenFlag();
+        vm.runtime._step();
+        assert.deepEqual(callOrder, [
+            ['input block', {}],
+            ['input block', {}]
+        ]);
     });
 }

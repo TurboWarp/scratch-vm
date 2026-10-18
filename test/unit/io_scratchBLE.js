@@ -1,26 +1,14 @@
-const test = require('tap').test;
+const {test} = require('node:test');
 // const ScratchBLE = require('../../src/io/scratchBLE');
 
-test('constructor', t => {
-    t.end();
-});
+test('constructor', () => {});
 
-test('waitForSocket', t => {
-    t.end();
-});
+test('waitForSocket', () => {});
 
-test('requestPeripheral', t => {
-    t.end();
-});
+test('requestPeripheral', () => {});
 
-test('didReceiveCall', t => {
-    t.end();
-});
+test('didReceiveCall', () => {});
 
-test('read', t => {
-    t.end();
-});
+test('read', () => {});
 
-test('write', t => {
-    t.end();
-});
+test('write', () => {});

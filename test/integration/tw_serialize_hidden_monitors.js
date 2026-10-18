@@ -1,9 +1,10 @@
 const Runtime = require('../../src/engine/runtime');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const {serialize} = require('../../src/serialization/sb3');
 const MonitorRecord = require('../../src/engine/monitor-record');
 
-test('does not serialize hidden monitors from extensions', t => {
+test('does not serialize hidden monitors from extensions', () => {
     const rt = new Runtime();
     rt.requestAddMonitor(new MonitorRecord({
         id: 'timer',
@@ -17,15 +18,13 @@ test('does not serialize hidden monitors from extensions', t => {
     }));
 
     const monitorsWhenVisible = serialize(rt).monitors;
-    t.ok(monitorsWhenVisible[0].id === 'timer');
-    t.ok(monitorsWhenVisible[1].id === 'other_monitor');
-    t.equal(monitorsWhenVisible.length, 2);
+    assert.ok(monitorsWhenVisible[0].id === 'timer');
+    assert.ok(monitorsWhenVisible[1].id === 'other_monitor');
+    assert.strictEqual(monitorsWhenVisible.length, 2);
 
     rt.requestHideMonitor('timer');
     rt.requestHideMonitor('other_monitor');
     const monitorsWhenHidden = serialize(rt).monitors;
-    t.ok(monitorsWhenHidden[0].id === 'timer');
-    t.equal(monitorsWhenHidden.length, 1);
-
-    t.end();
+    assert.ok(monitorsWhenHidden[0].id === 'timer');
+    assert.strictEqual(monitorsWhenHidden.length, 1);
 });

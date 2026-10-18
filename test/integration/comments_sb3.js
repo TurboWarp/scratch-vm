@@ -1,5 +1,6 @@
 const path = require('path');
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const readFileToBuffer = require('../fixtures/readProjectFile').readFileToBuffer;
 const VirtualMachine = require('../../src/index');
@@ -7,14 +8,14 @@ const VirtualMachine = require('../../src/index');
 const projectUri = path.resolve(__dirname, '../fixtures/comments.sb3');
 const project = readFileToBuffer(projectUri);
 
-test('load an sb3 project with comments', t => {
+test('load an sb3 project with comments', (t, done) => {
     const vm = new VirtualMachine();
     vm.attachStorage(makeTestStorage());
 
     // Evaluate playground data and exit
     vm.on('playgroundData', e => {
         const threads = JSON.parse(e.threads);
-        t.equal(threads.length, 0);
+        assert.strictEqual(threads.length, 0);
 
         const stage = vm.runtime.targets[0];
         const target = vm.runtime.targets[1];
@@ -22,60 +23,60 @@ test('load an sb3 project with comments', t => {
         const stageComments = Object.values(stage.comments);
 
         // Stage has 1 comment, and it is minimized.
-        t.equal(stageComments.length, 1);
-        t.equal(stageComments[0].minimized, true);
-        t.equal(stageComments[0].text, 'A minimized stage comment.');
+        assert.strictEqual(stageComments.length, 1);
+        assert.strictEqual(stageComments[0].minimized, true);
+        assert.strictEqual(stageComments[0].text, 'A minimized stage comment.');
         // The stage comment is a workspace comment
-        t.equal(stageComments[0].blockId, null);
+        assert.strictEqual(stageComments[0].blockId, null);
 
         // Sprite 1 has 6 Comments, 1 workspace comment, and 5 block comments
         const targetComments = Object.values(target.comments);
-        t.equal(targetComments.length, 6);
+        assert.strictEqual(targetComments.length, 6);
         const spriteWorkspaceComments = targetComments.filter(comment => comment.blockId === null);
-        t.equal(spriteWorkspaceComments.length, 1);
-        t.equal(spriteWorkspaceComments[0].minimized, false);
-        t.equal(spriteWorkspaceComments[0].text, 'This is a workspace comment.');
+        assert.strictEqual(spriteWorkspaceComments.length, 1);
+        assert.strictEqual(spriteWorkspaceComments[0].minimized, false);
+        assert.strictEqual(spriteWorkspaceComments[0].text, 'This is a workspace comment.');
 
         // Test the sprite block comments
         const blockComments = targetComments.filter(comment => !!comment.blockId);
-        t.equal(blockComments.length, 5);
+        assert.strictEqual(blockComments.length, 5);
 
-        t.equal(blockComments[0].minimized, true);
-        t.equal(blockComments[0].text, '1. Green Flag Comment.');
+        assert.strictEqual(blockComments[0].minimized, true);
+        assert.strictEqual(blockComments[0].text, '1. Green Flag Comment.');
         const greenFlagBlock = target.blocks.getBlock(blockComments[0].blockId);
-        t.equal(greenFlagBlock.comment, blockComments[0].id);
-        t.equal(greenFlagBlock.opcode, 'event_whenflagclicked');
+        assert.strictEqual(greenFlagBlock.comment, blockComments[0].id);
+        assert.strictEqual(greenFlagBlock.opcode, 'event_whenflagclicked');
 
-        t.equal(blockComments[1].minimized, true);
-        t.equal(blockComments[1].text, '2. Turn 15 Degrees Comment.');
+        assert.strictEqual(blockComments[1].minimized, true);
+        assert.strictEqual(blockComments[1].text, '2. Turn 15 Degrees Comment.');
         const turnRightBlock = target.blocks.getBlock(blockComments[1].blockId);
-        t.equal(turnRightBlock.comment, blockComments[1].id);
-        t.equal(turnRightBlock.opcode, 'motion_turnright');
+        assert.strictEqual(turnRightBlock.comment, blockComments[1].id);
+        assert.strictEqual(turnRightBlock.opcode, 'motion_turnright');
 
-        t.equal(blockComments[2].minimized, false);
-        t.equal(blockComments[2].text, '3. Comment for a loop.');
+        assert.strictEqual(blockComments[2].minimized, false);
+        assert.strictEqual(blockComments[2].text, '3. Comment for a loop.');
         const repeatBlock = target.blocks.getBlock(blockComments[2].blockId);
-        t.equal(repeatBlock.comment, blockComments[2].id);
-        t.equal(repeatBlock.opcode, 'control_repeat');
+        assert.strictEqual(repeatBlock.comment, blockComments[2].id);
+        assert.strictEqual(repeatBlock.opcode, 'control_repeat');
 
-        t.equal(blockComments[3].minimized, false);
-        t.equal(blockComments[3].text, '4. Comment for a block nested in a loop.');
+        assert.strictEqual(blockComments[3].minimized, false);
+        assert.strictEqual(blockComments[3].text, '4. Comment for a block nested in a loop.');
         const changeColorBlock = target.blocks.getBlock(blockComments[3].blockId);
-        t.equal(changeColorBlock.comment, blockComments[3].id);
-        t.equal(changeColorBlock.opcode, 'looks_changeeffectby');
+        assert.strictEqual(changeColorBlock.comment, blockComments[3].id);
+        assert.strictEqual(changeColorBlock.opcode, 'looks_changeeffectby');
 
-        t.equal(blockComments[4].minimized, false);
-        t.equal(blockComments[4].text, '5. Comment for a block outside of a loop.');
+        assert.strictEqual(blockComments[4].minimized, false);
+        assert.strictEqual(blockComments[4].text, '5. Comment for a block outside of a loop.');
         const stopAllBlock = target.blocks.getBlock(blockComments[4].blockId);
-        t.equal(stopAllBlock.comment, blockComments[4].id);
-        t.equal(stopAllBlock.opcode, 'control_stop');
+        assert.strictEqual(stopAllBlock.comment, blockComments[4].id);
+        assert.strictEqual(stopAllBlock.opcode, 'control_stop');
 
         vm.quit();
-        t.end();
+        done();
     });
 
     // Start VM, load project, and run
-    t.doesNotThrow(() => {
+    assert.doesNotThrow(() => {
         vm.start();
         vm.clear();
         vm.setCompatibilityMode(false);

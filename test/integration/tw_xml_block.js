@@ -1,9 +1,10 @@
 const htmlparser = require('htmlparser2');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VirtualMachine = require('../../src/virtual-machine');
 const BlockType = require('../../src/extension-support/block-type');
 
-test('XML blocks', t => {
+test('XML blocks', () => {
     const vm = new VirtualMachine();
     vm.extensionManager._registerInternalExtension({
         getInfo: () => ({
@@ -19,20 +20,18 @@ test('XML blocks', t => {
     });
 
     const xmlList = vm.runtime.getBlocksXML();
-    t.equal(xmlList.length, 1);
+    assert.strictEqual(xmlList.length, 1);
 
     const parsedXML = htmlparser.parseDOM(xmlList[0].xml);
-    t.equal(parsedXML.length, 1);
+    assert.strictEqual(parsedXML.length, 1);
 
     const category = parsedXML[0];
-    t.equal(category.name, 'category');
-    t.equal(category.children.length, 1);
+    assert.strictEqual(category.name, 'category');
+    assert.strictEqual(category.children.length, 1);
 
     const label = category.children[0];
-    t.equal(label.name, 'test');
-    t.equal(label.attribs.it, 'works');
-    t.equal(label.children.length, 1);
-    t.equal(label.children[0].data, '!');
-
-    t.end();
+    assert.strictEqual(label.name, 'test');
+    assert.strictEqual(label.attribs.it, 'works');
+    assert.strictEqual(label.children.length, 1);
+    assert.strictEqual(label.children[0].data, '!');
 });

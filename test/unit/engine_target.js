@@ -1,77 +1,70 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Target = require('../../src/engine/target');
 const Variable = require('../../src/engine/variable');
 const adapter = require('../../src/engine/adapter');
 const Runtime = require('../../src/engine/runtime');
 const events = require('../fixtures/events.json');
 
-test('spec', t => {
+test('spec', () => {
     const target = new Target(new Runtime());
 
-    t.type(Target, 'function');
-    t.type(target, 'object');
-    t.ok(target instanceof Target);
+    assert.strictEqual(typeof Target, 'function');
+    assert.strictEqual(typeof target, 'object');
+    assert.ok(target instanceof Target);
 
-    t.type(target.id, 'string');
-    t.type(target.blocks, 'object');
-    t.type(target.variables, 'object');
-    t.type(target.comments, 'object');
-    t.type(target._customState, 'object');
+    assert.strictEqual(typeof target.id, 'string');
+    assert.strictEqual(typeof target.blocks, 'object');
+    assert.strictEqual(typeof target.variables, 'object');
+    assert.strictEqual(typeof target.comments, 'object');
+    assert.strictEqual(typeof target._customState, 'object');
 
-    t.type(target.createVariable, 'function');
-    t.type(target.renameVariable, 'function');
-
-    t.end();
+    assert.strictEqual(typeof target.createVariable, 'function');
+    assert.strictEqual(typeof target.renameVariable, 'function');
 });
 
 // Create Variable tests.
-test('createVariable', t => {
+test('createVariable', () => {
     const target = new Target(new Runtime());
     target.createVariable('foo', 'bar', Variable.SCALAR_TYPE);
 
     const variables = target.variables;
-    t.equal(Object.keys(variables).length, 1);
+    assert.strictEqual(Object.keys(variables).length, 1);
     const variable = variables[Object.keys(variables)[0]];
-    t.equal(variable.id, 'foo');
-    t.equal(variable.name, 'bar');
-    t.equal(variable.type, Variable.SCALAR_TYPE);
-    t.equal(variable.value, 0);
-    t.equal(variable.isCloud, false);
-
-    t.end();
+    assert.strictEqual(variable.id, 'foo');
+    assert.strictEqual(variable.name, 'bar');
+    assert.strictEqual(variable.type, Variable.SCALAR_TYPE);
+    assert.strictEqual(variable.value, 0);
+    assert.strictEqual(variable.isCloud, false);
 });
 
 // Create Same Variable twice.
-test('createVariable2', t => {
+test('createVariable2', () => {
     const target = new Target(new Runtime());
     target.createVariable('foo', 'bar', Variable.SCALAR_TYPE);
     target.createVariable('foo', 'bar', Variable.SCALAR_TYPE);
 
     const variables = target.variables;
-    t.equal(Object.keys(variables).length, 1);
-
-    t.end();
+    assert.strictEqual(Object.keys(variables).length, 1);
 });
 
 // Create a list
-test('createListVariable creates a list', t => {
+test('createListVariable creates a list', () => {
     const target = new Target(new Runtime());
     target.createVariable('foo', 'bar', Variable.LIST_TYPE);
 
     const variables = target.variables;
-    t.equal(Object.keys(variables).length, 1);
+    assert.strictEqual(Object.keys(variables).length, 1);
     const variable = variables[Object.keys(variables)[0]];
-    t.equal(variable.id, 'foo');
-    t.equal(variable.name, 'bar');
-    t.equal(variable.type, Variable.LIST_TYPE);
-    t.assert(variable.value instanceof Array, true);
-    t.equal(variable.value.length, 0);
-    t.equal(variable.isCloud, false);
-
-    t.end();
+    assert.strictEqual(variable.id, 'foo');
+    assert.strictEqual(variable.name, 'bar');
+    assert.strictEqual(variable.type, Variable.LIST_TYPE);
+    assert.ok(variable.value instanceof Array, true);
+    assert.strictEqual(variable.value.length, 0);
+    assert.strictEqual(variable.isCloud, false);
 });
 
-test('createVariable calls cloud io device\'s requestCreateVariable', t => {
+test('createVariable calls cloud io device\'s requestCreateVariable', () => {
     const runtime = new Runtime();
     // Mock the requestCreateVariable function
     let requestCreateCloudWasCalled = false;
@@ -84,19 +77,17 @@ test('createVariable calls cloud io device\'s requestCreateVariable', t => {
     target.createVariable('foo', 'bar', Variable.SCALAR_TYPE, true /* isCloud */);
 
     const variables = target.variables;
-    t.equal(Object.keys(variables).length, 1);
+    assert.strictEqual(Object.keys(variables).length, 1);
     const variable = variables[Object.keys(variables)[0]];
-    t.equal(variable.id, 'foo');
-    t.equal(variable.name, 'bar');
-    t.equal(variable.type, Variable.SCALAR_TYPE);
-    t.equal(variable.value, 0);
-    t.equal(variable.isCloud, true);
-    t.equal(requestCreateCloudWasCalled, true);
-
-    t.end();
+    assert.strictEqual(variable.id, 'foo');
+    assert.strictEqual(variable.name, 'bar');
+    assert.strictEqual(variable.type, Variable.SCALAR_TYPE);
+    assert.strictEqual(variable.value, 0);
+    assert.strictEqual(variable.isCloud, true);
+    assert.strictEqual(requestCreateCloudWasCalled, true);
 });
 
-test('createVariable does not call cloud io device\'s requestCreateVariable if target is not stage', t => {
+test('createVariable does not call cloud io device\'s requestCreateVariable if target is not stage', () => {
     const runtime = new Runtime();
     // Mock the requestCreateVariable function
     let requestCreateCloudWasCalled = false;
@@ -109,74 +100,64 @@ test('createVariable does not call cloud io device\'s requestCreateVariable if t
     target.createVariable('foo', 'bar', Variable.SCALAR_TYPE, true /* isCloud */);
 
     const variables = target.variables;
-    t.equal(Object.keys(variables).length, 1);
+    assert.strictEqual(Object.keys(variables).length, 1);
     const variable = variables[Object.keys(variables)[0]];
-    t.equal(variable.id, 'foo');
-    t.equal(variable.name, 'bar');
-    t.equal(variable.type, Variable.SCALAR_TYPE);
-    t.equal(variable.value, 0);
+    assert.strictEqual(variable.id, 'foo');
+    assert.strictEqual(variable.name, 'bar');
+    assert.strictEqual(variable.type, Variable.SCALAR_TYPE);
+    assert.strictEqual(variable.value, 0);
     // isCloud flag doesn't get set if the target is not the stage
-    t.equal(variable.isCloud, false);
-    t.equal(requestCreateCloudWasCalled, false);
-
-    t.end();
+    assert.strictEqual(variable.isCloud, false);
+    assert.strictEqual(requestCreateCloudWasCalled, false);
 });
 
-test('createVariable throws when given invalid type', t => {
+test('createVariable throws when given invalid type', () => {
     const target = new Target(new Runtime());
-    t.throws(
+    assert.throws(
         (() => target.createVariable('foo', 'bar', 'baz')),
         new Error('Invalid variable type: baz')
     );
-
-    t.end();
 });
 
 // Rename Variable tests.
-test('renameVariable', t => {
+test('renameVariable', () => {
     const target = new Target(new Runtime());
     target.createVariable('foo', 'bar', Variable.SCALAR_TYPE);
     target.renameVariable('foo', 'bar2');
 
     const variables = target.variables;
-    t.equal(Object.keys(variables).length, 1);
+    assert.strictEqual(Object.keys(variables).length, 1);
     const variable = variables[Object.keys(variables)[0]];
-    t.equal(variable.id, 'foo');
-    t.equal(variable.name, 'bar2');
-    t.equal(variable.value, 0);
-    t.equal(variable.isCloud, false);
-
-    t.end();
+    assert.strictEqual(variable.id, 'foo');
+    assert.strictEqual(variable.name, 'bar2');
+    assert.strictEqual(variable.value, 0);
+    assert.strictEqual(variable.isCloud, false);
 });
 
 // Rename Variable that doesn't exist.
-test('renameVariable2', t => {
+test('renameVariable2', () => {
     const target = new Target(new Runtime());
     target.renameVariable('foo', 'bar2');
 
     const variables = target.variables;
-    t.equal(Object.keys(variables).length, 0);
-
-    t.end();
+    assert.strictEqual(Object.keys(variables).length, 0);
 });
 
 // Rename Variable that with id that exists as another variable's name.
 // Expect no change.
-test('renameVariable3', t => {
+test('renameVariable3', () => {
     const target = new Target(new Runtime());
     target.createVariable('foo1', 'foo', Variable.SCALAR_TYPE);
     target.renameVariable('foo', 'bar2');
 
     const variables = target.variables;
-    t.equal(Object.keys(variables).length, 1);
+    assert.strictEqual(Object.keys(variables).length, 1);
     const variable = variables[Object.keys(variables)[0]];
-    t.equal(variable.id, 'foo1');
-    t.equal(variable.name, 'foo');
-
-    t.end();
+    assert.strictEqual(variable.id, 'foo1');
+    assert.strictEqual(variable.name, 'foo');
 });
 
-test('renameVariable calls cloud io device\'s requestRenameVariable function', t => {
+test('renameVariable calls cloud io device\'s requestRenameVariable function', () => {
     const runtime = new Runtime();
 
     let requestRenameVariableWasCalled = false;
@@ -193,18 +174,16 @@ test('renameVariable calls cloud io device\'s requestRenameVariable function', t
     target.renameVariable('foo', 'bar2');
 
     const variables = target.variables;
-    t.equal(Object.keys(variables).length, 1);
+    assert.strictEqual(Object.keys(variables).length, 1);
     const variable = variables[Object.keys(variables)[0]];
-    t.equal(variable.id, 'foo');
-    t.equal(variable.name, 'bar2');
-    t.equal(variable.value, 0);
-    t.equal(variable.isCloud, true);
-    t.equal(requestRenameVariableWasCalled, true);
-
-    t.end();
+    assert.strictEqual(variable.id, 'foo');
+    assert.strictEqual(variable.name, 'bar2');
+    assert.strictEqual(variable.value, 0);
+    assert.strictEqual(variable.isCloud, true);
+    assert.strictEqual(requestRenameVariableWasCalled, true);
 });
 
-test('renameVariable does not call cloud io device\'s requestRenameVariable function if target is not stage', t => {
+test('renameVariable does not call cloud io device\'s requestRenameVariable function if target is not stage', () => {
     const runtime = new Runtime();
 
     let requestRenameVariableWasCalled = false;
@@ -220,41 +199,35 @@ test('renameVariable does not call cloud io device\'s requestRenameVariable func
     target.renameVariable('foo', 'bar2');
 
     const variables = target.variables;
-    t.equal(Object.keys(variables).length, 1);
+    assert.strictEqual(Object.keys(variables).length, 1);
     const variable = variables[Object.keys(variables)[0]];
-    t.equal(variable.id, 'foo');
-    t.equal(variable.name, 'bar2');
-    t.equal(variable.value, 0);
-    t.equal(variable.isCloud, true);
-    t.equal(requestRenameVariableWasCalled, false);
-
-    t.end();
+    assert.strictEqual(variable.id, 'foo');
+    assert.strictEqual(variable.name, 'bar2');
+    assert.strictEqual(variable.value, 0);
+    assert.strictEqual(variable.isCloud, true);
+    assert.strictEqual(requestRenameVariableWasCalled, false);
 });
 
 // Delete Variable tests.
-test('deleteVariable', t => {
+test('deleteVariable', () => {
     const target = new Target(new Runtime());
     target.createVariable('foo', 'bar', Variable.SCALAR_TYPE);
     target.deleteVariable('foo');
 
     const variables = target.variables;
-    t.equal(Object.keys(variables).length, 0);
-
-    t.end();
+    assert.strictEqual(Object.keys(variables).length, 0);
 });
 
 // Delete Variable that doesn't exist.
-test('deleteVariable2', t => {
+test('deleteVariable2', () => {
     const target = new Target(new Runtime());
     target.deleteVariable('foo');
 
     const variables = target.variables;
-    t.equal(Object.keys(variables).length, 0);
-
-    t.end();
+    assert.strictEqual(Object.keys(variables).length, 0);
 });
 
-test('deleteVariable calls cloud io device\'s requestRenameVariable function', t => {
+test('deleteVariable calls cloud io device\'s requestRenameVariable function', () => {
     const runtime = new Runtime();
 
     let requestDeleteVariableWasCalled = false;
@@ -271,13 +244,11 @@ test('deleteVariable calls cloud io device\'s requestRenameVariable function', t
     target.deleteVariable('foo');
 
     const variables = target.variables;
-    t.equal(Object.keys(variables).length, 0);
-    t.equal(requestDeleteVariableWasCalled, true);
-
-    t.end();
+    assert.strictEqual(Object.keys(variables).length, 0);
+    assert.strictEqual(requestDeleteVariableWasCalled, true);
 });
 
-test('deleteVariable calls cloud io device\'s requestRenameVariable function', t => {
+test('deleteVariable calls cloud io device\'s requestRenameVariable function', () => {
     const runtime = new Runtime();
 
     let requestDeleteVariableWasCalled = false;
@@ -293,40 +264,36 @@ test('deleteVariable calls cloud io device\'s requestRenameVariable function', t
     target.deleteVariable('foo');
 
     const variables = target.variables;
-    t.equal(Object.keys(variables).length, 0);
-    t.equal(requestDeleteVariableWasCalled, false);
-
-    t.end();
+    assert.strictEqual(Object.keys(variables).length, 0);
+    assert.strictEqual(requestDeleteVariableWasCalled, false);
 });
 
-test('duplicateVariable creates a new variable with a new ID by default', t => {
+test('duplicateVariable creates a new variable with a new ID by default', () => {
     const target = new Target(new Runtime());
     target.createVariable('a var ID', 'foo', Variable.SCALAR_TYPE);
-    t.equal(Object.keys(target.variables).length, 1);
+    assert.strictEqual(Object.keys(target.variables).length, 1);
     const originalVariable = target.variables['a var ID'];
     originalVariable.value = 10;
     const newVariable = target.duplicateVariable('a var ID');
     // Duplicating a variable should not add the variable to the current target
-    t.equal(Object.keys(target.variables).length, 1);
+    assert.strictEqual(Object.keys(target.variables).length, 1);
     // Duplicate variable should have a different ID from the original unless specified to keep the original ID.
-    t.notEqual(newVariable.id, 'a var ID');
-    t.type(target.variables[newVariable.id], 'undefined');
+    assert.notStrictEqual(newVariable.id, 'a var ID');
+    assert.strictEqual(typeof target.variables[newVariable.id], 'undefined');
 
     // Duplicate variable should start out with the same value as the original variable
-    t.equal(newVariable.value, originalVariable.value);
+    assert.strictEqual(newVariable.value, originalVariable.value);
 
     // Duplicate variable should share its hidden class with the original
-    t.equal(newVariable.constructor, originalVariable.constructor);
+    assert.strictEqual(newVariable.constructor, originalVariable.constructor);
 
     // Modifying one variable should not modify the other
     newVariable.value = 15;
-    t.notEqual(newVariable.value, originalVariable.value);
-    t.equal(originalVariable.value, 10);
-
-    t.end();
+    assert.notStrictEqual(newVariable.value, originalVariable.value);
+    assert.strictEqual(originalVariable.value, 10);
 });
 
-test('duplicateVariable creates new array reference for list variable.value', t => {
+test('duplicateVariable creates new array reference for list variable.value', () => {
     const target = new Target(new Runtime());
     const arr = [1, 2, 3];
     target.createVariable('a var ID', 'arr', Variable.LIST_TYPE);
@@ -334,62 +301,57 @@ test('duplicateVariable creates new array reference for list variable.value', t 
     originalVariable.value = arr;
     const newVariable = target.duplicateVariable('a var ID');
     // Values are deeply equal but not the same object
-    t.deepEqual(originalVariable.value, newVariable.value);
-    t.notEqual(originalVariable.value, newVariable.value);
-    t.end();
+    assert.deepEqual(originalVariable.value, newVariable.value);
+    assert.notStrictEqual(originalVariable.value, newVariable.value);
 });
 
-test('duplicateVariable creates a new variable with a original ID if specified', t => {
+test('duplicateVariable creates a new variable with a original ID if specified', () => {
     const target = new Target(new Runtime());
     target.createVariable('a var ID', 'foo', Variable.SCALAR_TYPE);
-    t.equal(Object.keys(target.variables).length, 1);
+    assert.strictEqual(Object.keys(target.variables).length, 1);
     const originalVariable = target.variables['a var ID'];
     originalVariable.value = 10;
     const newVariable = target.duplicateVariable('a var ID', true);
     // Duplicating a variable should not add the variable to the current target
-    t.equal(Object.keys(target.variables).length, 1);
+    assert.strictEqual(Object.keys(target.variables).length, 1);
     // Duplicate variable should have the same ID as the original when specified
-    t.equal(newVariable.id, 'a var ID');
+    assert.strictEqual(newVariable.id, 'a var ID');
 
     // Duplicate variable should start out with the same value as the original variable
-    t.equal(newVariable.value, originalVariable.value);
+    assert.strictEqual(newVariable.value, originalVariable.value);
 
     // Modifying one variable should not modify the other
     newVariable.value = 15;
-    t.notEqual(newVariable.value, originalVariable.value);
-    t.equal(originalVariable.value, 10);
+    assert.notStrictEqual(newVariable.value, originalVariable.value);
+    assert.strictEqual(originalVariable.value, 10);
     // The target should still have the original variable with the original value
-    t.equal(target.variables['a var ID'].value, 10);
-
-    t.end();
+    assert.strictEqual(target.variables['a var ID'].value, 10);
 });
 
-test('duplicateVariable returns null if variable with specified ID does not exist', t => {
+test('duplicateVariable returns null if variable with specified ID does not exist', () => {
     const target = new Target(new Runtime());
 
     const variable = target.duplicateVariable('a var ID');
-    t.equal(variable, null);
-    t.equal(Object.keys(target.variables).length, 0);
+    assert.strictEqual(variable, null);
+    assert.strictEqual(Object.keys(target.variables).length, 0);
 
     target.createVariable('var id', 'foo', Variable.SCALAR_TYPE);
-    t.equal(Object.keys(target.variables).length, 1);
+    assert.strictEqual(Object.keys(target.variables).length, 1);
 
     const anotherVariable = target.duplicateVariable('another var ID');
-    t.equal(anotherVariable, null);
-    t.equal(Object.keys(target.variables).length, 1);
-    t.type(target.variables['another var ID'], 'undefined');
-    t.type(target.variables['var id'], 'object');
-    t.notEqual(target.variables['var id'], null);
-
-    t.end();
+    assert.strictEqual(anotherVariable, null);
+    assert.strictEqual(Object.keys(target.variables).length, 1);
+    assert.strictEqual(typeof target.variables['another var ID'], 'undefined');
+    assert.strictEqual(typeof target.variables['var id'], 'object');
+    assert.notStrictEqual(target.variables['var id'], null);
 });
 
-test('duplicateVariables duplicates all variables', t => {
+test('duplicateVariables duplicates all variables', () => {
     const target = new Target(new Runtime());
     target.createVariable('var ID 1', 'var1', Variable.SCALAR_TYPE);
     target.createVariable('var ID 2', 'var2', Variable.SCALAR_TYPE);
 
-    t.equal(Object.keys(target.variables).length, 2);
+    assert.strictEqual(Object.keys(target.variables).length, 2);
 
     const var1 = target.variables['var ID 1'];
     const var2 = target.variables['var ID 2'];
@@ -400,43 +362,41 @@ test('duplicateVariables duplicates all variables', t => {
     const duplicateVariables = target.duplicateVariables();
 
     // Duplicating a target's variables should not change the target's own variables.
-    t.equal(Object.keys(target.variables).length, 2);
-    t.equal(Object.keys(duplicateVariables).length, 2);
+    assert.strictEqual(Object.keys(target.variables).length, 2);
+    assert.strictEqual(Object.keys(duplicateVariables).length, 2);
 
     // Should be able to find original var IDs in both this target's variables and
     // the duplicate variables since a blocks container was not specified.
-    t.equal(Object.prototype.hasOwnProperty.call(target.variables, 'var ID 1'), true);
-    t.equal(Object.prototype.hasOwnProperty.call(target.variables, 'var ID 2'), true);
-    t.equal(Object.prototype.hasOwnProperty.call(duplicateVariables, 'var ID 1'), true);
-    t.equal(Object.prototype.hasOwnProperty.call(duplicateVariables, 'var ID 1'), true);
+    assert.strictEqual(Object.prototype.hasOwnProperty.call(target.variables, 'var ID 1'), true);
+    assert.strictEqual(Object.prototype.hasOwnProperty.call(target.variables, 'var ID 2'), true);
+    assert.strictEqual(Object.prototype.hasOwnProperty.call(duplicateVariables, 'var ID 1'), true);
+    assert.strictEqual(Object.prototype.hasOwnProperty.call(duplicateVariables, 'var ID 1'), true);
 
     // Values of the duplicate varaiables should match the value of the original values at the time of duplication
-    t.equal(target.variables['var ID 1'].value, duplicateVariables['var ID 1'].value);
-    t.equal(duplicateVariables['var ID 1'].value, 3);
-    t.equal(target.variables['var ID 2'].value, duplicateVariables['var ID 2'].value);
-    t.equal(duplicateVariables['var ID 2'].value, 'foo');
+    assert.strictEqual(target.variables['var ID 1'].value, duplicateVariables['var ID 1'].value);
+    assert.strictEqual(duplicateVariables['var ID 1'].value, 3);
+    assert.strictEqual(target.variables['var ID 2'].value, duplicateVariables['var ID 2'].value);
+    assert.strictEqual(duplicateVariables['var ID 2'].value, 'foo');
 
     // The two sets of variables should still be distinct, modifying the target's variables
     // should not affect the duplicated variables, and vice-versa
 
     var1.value = 10;
-    t.equal(target.variables['var ID 1'].value, 10);
-    t.equal(duplicateVariables['var ID 1'].value, 3); // should remain unchanged from initial value
+    assert.strictEqual(target.variables['var ID 1'].value, 10);
+    assert.strictEqual(duplicateVariables['var ID 1'].value, 3); // should remain unchanged from initial value
 
     duplicateVariables['var ID 2'].value = 'bar';
-    t.equal(target.variables['var ID 2'].value, 'foo');
+    assert.strictEqual(target.variables['var ID 2'].value, 'foo');
 
     // Deleting a variable on the target should not change the duplicated variables
     target.deleteVariable('var ID 1');
-    t.equal(Object.keys(target.variables).length, 1);
-    t.equal(Object.keys(duplicateVariables).length, 2);
-    t.type(duplicateVariables['var ID 1'], 'object');
-    t.notEqual(duplicateVariables['var ID 1'], null);
-
-    t.end();
+    assert.strictEqual(Object.keys(target.variables).length, 1);
+    assert.strictEqual(Object.keys(duplicateVariables).length, 2);
+    assert.strictEqual(typeof duplicateVariables['var ID 1'], 'object');
+    assert.notStrictEqual(duplicateVariables['var ID 1'], null);
 });
 
-test('duplicateVariables re-IDs variables when a block container is provided', t => {
+test('duplicateVariables re-IDs variables when a block container is provided', () => {
     const target = new Target(new Runtime());
 
     target.createVariable('mock var id', 'a mock variable', Variable.SCALAR_TYPE);
@@ -445,163 +405,149 @@ test('duplicateVariables re-IDs variables when a block container is provided', t
     // Create a block on the target which references the variable with id 'mock var id'
     target.blocks.createBlock(adapter(events.mockVariableBlock)[0]);
 
-    t.type(target.blocks.getBlock('a block'), 'object');
-    t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.value, 'a mock variable');
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.value, 'a mock variable');
 
     // Deep clone this target's blocks to pass in to 'duplicateVariables'
     const copiedBlocks = target.blocks.duplicate();
 
     // The copied block should still have the same ID, and its VARIABLE field should still refer to
     // the original variable id
-    t.type(copiedBlocks.getBlock('a block'), 'object');
-    t.type(copiedBlocks.getBlock('a block').fields.VARIABLE, 'object');
-    t.equal(copiedBlocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
-    t.equal(copiedBlocks.getBlock('a block').fields.VARIABLE.value, 'a mock variable');
+    assert.strictEqual(typeof copiedBlocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof copiedBlocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(copiedBlocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    assert.strictEqual(copiedBlocks.getBlock('a block').fields.VARIABLE.value, 'a mock variable');
 
     const duplicateVariables = target.duplicateVariables(copiedBlocks);
 
     // Duplicate variables should have new IDs
-    t.equal(Object.keys(duplicateVariables).length, 2);
-    t.type(duplicateVariables['mock var id'], 'undefined');
-    t.type(duplicateVariables['another var id'], 'undefined');
+    assert.strictEqual(Object.keys(duplicateVariables).length, 2);
+    assert.strictEqual(typeof duplicateVariables['mock var id'], 'undefined');
+    assert.strictEqual(typeof duplicateVariables['another var id'], 'undefined');
 
     // Duplicate variables still have the same names..
     const dupes = Object.values(duplicateVariables);
     const dupeVarNames = dupes.map(v => v.name);
 
-    t.notEqual(dupeVarNames.indexOf('a mock variable'), -1);
-    t.notEqual(dupeVarNames.indexOf('var2'), -1);
+    assert.notStrictEqual(dupeVarNames.indexOf('a mock variable'), -1);
+    assert.notStrictEqual(dupeVarNames.indexOf('var2'), -1);
 
     // Duplicating variables should not change blocks on current target
-    t.type(target.blocks.getBlock('a block'), 'object');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.value, 'a mock variable');
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.value, 'a mock variable');
 
     // The copied blocks passed into duplicateVariables should now reference the new
     // variable ID
     const mockVariableDupe = dupes[dupeVarNames.indexOf('a mock variable')];
     const mockVarDupeID = mockVariableDupe.id;
 
-    t.type(copiedBlocks.getBlock('a block'), 'object');
-    t.equal(copiedBlocks.getBlock('a block').fields.VARIABLE.id, mockVarDupeID);
-    t.equal(copiedBlocks.getBlock('a block').fields.VARIABLE.value, 'a mock variable');
-
-    t.end();
+    assert.strictEqual(typeof copiedBlocks.getBlock('a block'), 'object');
+    assert.strictEqual(copiedBlocks.getBlock('a block').fields.VARIABLE.id, mockVarDupeID);
+    assert.strictEqual(copiedBlocks.getBlock('a block').fields.VARIABLE.value, 'a mock variable');
 });
 
-test('lookupOrCreateList creates a list if var with given id or var with given name does not exist', t => {
+test('lookupOrCreateList creates a list if var with given id or var with given name does not exist', () => {
     const target = new Target(new Runtime());
     const variables = target.variables;
 
-    t.equal(Object.keys(variables).length, 0);
+    assert.strictEqual(Object.keys(variables).length, 0);
     const listVar = target.lookupOrCreateList('foo', 'bar');
-    t.equal(Object.keys(variables).length, 1);
-    t.equal(listVar.id, 'foo');
-    t.equal(listVar.name, 'bar');
-
-    t.end();
+    assert.strictEqual(Object.keys(variables).length, 1);
+    assert.strictEqual(listVar.id, 'foo');
+    assert.strictEqual(listVar.name, 'bar');
 });
 
-test('lookupOrCreateList returns list if one with given id exists', t => {
+test('lookupOrCreateList returns list if one with given id exists', () => {
     const target = new Target(new Runtime());
     const variables = target.variables;
 
-    t.equal(Object.keys(variables).length, 0);
+    assert.strictEqual(Object.keys(variables).length, 0);
     target.createVariable('foo', 'bar', Variable.LIST_TYPE);
-    t.equal(Object.keys(variables).length, 1);
+    assert.strictEqual(Object.keys(variables).length, 1);
 
     const listVar = target.lookupOrCreateList('foo', 'bar');
-    t.equal(Object.keys(variables).length, 1);
-    t.equal(listVar.id, 'foo');
-    t.equal(listVar.name, 'bar');
-
-    t.end();
+    assert.strictEqual(Object.keys(variables).length, 1);
+    assert.strictEqual(listVar.id, 'foo');
+    assert.strictEqual(listVar.name, 'bar');
 });
 
-test('lookupOrCreateList succeeds in finding list if id is incorrect but name matches', t => {
+test('lookupOrCreateList succeeds in finding list if id is incorrect but name matches', () => {
     const target = new Target(new Runtime());
     const variables = target.variables;
 
-    t.equal(Object.keys(variables).length, 0);
+    assert.strictEqual(Object.keys(variables).length, 0);
     target.createVariable('foo', 'bar', Variable.LIST_TYPE);
-    t.equal(Object.keys(variables).length, 1);
+    assert.strictEqual(Object.keys(variables).length, 1);
 
     const listVar = target.lookupOrCreateList('not foo', 'bar');
-    t.equal(Object.keys(variables).length, 1);
-    t.equal(listVar.id, 'foo');
-    t.equal(listVar.name, 'bar');
-
-    t.end();
+    assert.strictEqual(Object.keys(variables).length, 1);
+    assert.strictEqual(listVar.id, 'foo');
+    assert.strictEqual(listVar.name, 'bar');
 });
 
-test('lookupBroadcastMsg returns the var with given id if exists', t => {
+test('lookupBroadcastMsg returns the var with given id if exists', () => {
     const target = new Target(new Runtime());
     const variables = target.variables;
 
-    t.equal(Object.keys(variables).length, 0);
+    assert.strictEqual(Object.keys(variables).length, 0);
     target.createVariable('foo', 'bar', Variable.BROADCAST_MESSAGE_TYPE);
-    t.equal(Object.keys(variables).length, 1);
+    assert.strictEqual(Object.keys(variables).length, 1);
 
     const broadcastMsg = target.lookupBroadcastMsg('foo', 'bar');
-    t.equal(Object.keys(variables).length, 1);
-    t.equal(broadcastMsg.id, 'foo');
-    t.equal(broadcastMsg.name, 'bar');
-
-    t.end();
+    assert.strictEqual(Object.keys(variables).length, 1);
+    assert.strictEqual(broadcastMsg.id, 'foo');
+    assert.strictEqual(broadcastMsg.name, 'bar');
 });
 
-test('createComment adds a comment to the target', t => {
+test('createComment adds a comment to the target', () => {
     const target = new Target(new Runtime());
     const comments = target.comments;
 
-    t.equal(Object.keys(comments).length, 0);
+    assert.strictEqual(Object.keys(comments).length, 0);
     target.createComment('a comment', null, 'some comment text',
         10, 20, 200, 300, true);
-    t.equal(Object.keys(comments).length, 1);
+    assert.strictEqual(Object.keys(comments).length, 1);
 
     const comment = comments['a comment'];
-    t.notEqual(comment, null);
-    t.equal(comment.blockId, null);
-    t.equal(comment.text, 'some comment text');
-    t.equal(comment.x, 10);
-    t.equal(comment.y, 20);
-    t.equal(comment.width, 200);
-    t.equal(comment.height, 300);
-    t.equal(comment.minimized, true);
-
-    t.end();
+    assert.notStrictEqual(comment, null);
+    assert.strictEqual(comment.blockId, null);
+    assert.strictEqual(comment.text, 'some comment text');
+    assert.strictEqual(comment.x, 10);
+    assert.strictEqual(comment.y, 20);
+    assert.strictEqual(comment.width, 200);
+    assert.strictEqual(comment.height, 300);
+    assert.strictEqual(comment.minimized, true);
 });
 
-test('creating comment with id that already exists does not change existing comment', t => {
+test('creating comment with id that already exists does not change existing comment', () => {
     const target = new Target(new Runtime());
     const comments = target.comments;
 
-    t.equal(Object.keys(comments).length, 0);
+    assert.strictEqual(Object.keys(comments).length, 0);
     target.createComment('a comment', null, 'some comment text',
         10, 20, 200, 300, true);
-    t.equal(Object.keys(comments).length, 1);
+    assert.strictEqual(Object.keys(comments).length, 1);
 
     target.createComment('a comment', null,
         'some new comment text', 40, 50, 300, 400, false);
 
     const comment = comments['a comment'];
-    t.notEqual(comment, null);
+    assert.notStrictEqual(comment, null);
     // All of the comment properties should remain unchanged from the first
     // time createComment was called
-    t.equal(comment.blockId, null);
-    t.equal(comment.text, 'some comment text');
-    t.equal(comment.x, 10);
-    t.equal(comment.y, 20);
-    t.equal(comment.width, 200);
-    t.equal(comment.height, 300);
-    t.equal(comment.minimized, true);
-
-    t.end();
+    assert.strictEqual(comment.blockId, null);
+    assert.strictEqual(comment.text, 'some comment text');
+    assert.strictEqual(comment.x, 10);
+    assert.strictEqual(comment.y, 20);
+    assert.strictEqual(comment.width, 200);
+    assert.strictEqual(comment.height, 300);
+    assert.strictEqual(comment.minimized, true);
 });
 
-test('creating a comment with a blockId also updates the comment property on the block', t => {
+test('creating a comment with a blockId also updates the comment property on the block', () => {
     const target = new Target(new Runtime());
     const comments = target.comments;
     // Create a mock block on the target
@@ -614,19 +560,17 @@ test('creating a comment with a blockId also updates the comment property on the
     // Mock the getBlock function that's used in commentCreate
     target.blocks.getBlock = id => target.blocks[id];
 
-    t.equal(Object.keys(comments).length, 0);
+    assert.strictEqual(Object.keys(comments).length, 0);
     target.createComment('a comment', 'a mock block', 'some comment text',
         10, 20, 200, 300, true);
-    t.equal(Object.keys(comments).length, 1);
+    assert.strictEqual(Object.keys(comments).length, 1);
 
     const comment = comments['a comment'];
-    t.equal(comment.blockId, 'a mock block');
-    t.equal(target.blocks.getBlock('a mock block').comment, 'a comment');
-
-    t.end();
+    assert.strictEqual(comment.blockId, 'a mock block');
+    assert.strictEqual(target.blocks.getBlock('a mock block').comment, 'a comment');
 });
 
-test('fixUpVariableReferences fixes sprite global var conflicting with project global var', t => {
+test('fixUpVariableReferences fixes sprite global var conflicting with project global var', () => {
     const runtime = new Runtime();
 
     const stage = new Target(runtime);
@@ -642,26 +586,24 @@ test('fixUpVariableReferences fixes sprite global var conflicting with project g
 
     target.blocks.createBlock(adapter(events.mockVariableBlock)[0]);
 
-    t.equal(Object.keys(target.variables).length, 0);
-    t.equal(Object.keys(stage.variables).length, 1);
-    t.type(target.blocks.getBlock('a block'), 'object');
-    t.type(target.blocks.getBlock('a block').fields, 'object');
-    t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    assert.strictEqual(Object.keys(target.variables).length, 0);
+    assert.strictEqual(Object.keys(stage.variables).length, 1);
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields, 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
 
     target.fixUpVariableReferences();
 
-    t.equal(Object.keys(target.variables).length, 0);
-    t.equal(Object.keys(stage.variables).length, 1);
-    t.type(target.blocks.getBlock('a block'), 'object');
-    t.type(target.blocks.getBlock('a block').fields, 'object');
-    t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'pre-existing global var id');
-
-    t.end();
+    assert.strictEqual(Object.keys(target.variables).length, 0);
+    assert.strictEqual(Object.keys(stage.variables).length, 1);
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields, 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'pre-existing global var id');
 });
 
-test('fixUpVariableReferences fixes sprite local var conflicting with project global var', t => {
+test('fixUpVariableReferences fixes sprite local var conflicting with project global var', () => {
     const runtime = new Runtime();
 
     const stage = new Target(runtime);
@@ -679,28 +621,26 @@ test('fixUpVariableReferences fixes sprite local var conflicting with project gl
 
     target.blocks.createBlock(adapter(events.mockVariableBlock)[0]);
 
-    t.equal(Object.keys(target.variables).length, 1);
-    t.equal(Object.keys(stage.variables).length, 1);
-    t.type(target.blocks.getBlock('a block'), 'object');
-    t.type(target.blocks.getBlock('a block').fields, 'object');
-    t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
-    t.equal(target.variables['mock var id'].name, 'a mock variable');
+    assert.strictEqual(Object.keys(target.variables).length, 1);
+    assert.strictEqual(Object.keys(stage.variables).length, 1);
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields, 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    assert.strictEqual(target.variables['mock var id'].name, 'a mock variable');
 
     target.fixUpVariableReferences();
 
-    t.equal(Object.keys(target.variables).length, 1);
-    t.equal(Object.keys(stage.variables).length, 1);
-    t.type(target.blocks.getBlock('a block'), 'object');
-    t.type(target.blocks.getBlock('a block').fields, 'object');
-    t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
-    t.equal(target.variables['mock var id'].name, 'Target: a mock variable');
-
-    t.end();
+    assert.strictEqual(Object.keys(target.variables).length, 1);
+    assert.strictEqual(Object.keys(stage.variables).length, 1);
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields, 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    assert.strictEqual(target.variables['mock var id'].name, 'Target: a mock variable');
 });
 
-test('fixUpVariableReferences fixes conflicting sprite local var without blocks referencing var', t => {
+test('fixUpVariableReferences fixes conflicting sprite local var without blocks referencing var', () => {
     const runtime = new Runtime();
 
     const stage = new Target(runtime);
@@ -717,20 +657,18 @@ test('fixUpVariableReferences fixes conflicting sprite local var without blocks 
     target.createVariable('mock var id', 'a mock variable', Variable.SCALAR_TYPE);
 
 
-    t.equal(Object.keys(target.variables).length, 1);
-    t.equal(Object.keys(stage.variables).length, 1);
-    t.equal(target.variables['mock var id'].name, 'a mock variable');
+    assert.strictEqual(Object.keys(target.variables).length, 1);
+    assert.strictEqual(Object.keys(stage.variables).length, 1);
+    assert.strictEqual(target.variables['mock var id'].name, 'a mock variable');
 
     target.fixUpVariableReferences();
 
-    t.equal(Object.keys(target.variables).length, 1);
-    t.equal(Object.keys(stage.variables).length, 1);
-    t.equal(target.variables['mock var id'].name, 'Target: a mock variable');
-
-    t.end();
+    assert.strictEqual(Object.keys(target.variables).length, 1);
+    assert.strictEqual(Object.keys(stage.variables).length, 1);
+    assert.strictEqual(target.variables['mock var id'].name, 'Target: a mock variable');
 });
 
-test('fixUpVariableReferences fixes sprite global var conflicting with other sprite\'s local var', t => {
+test('fixUpVariableReferences fixes sprite global var conflicting with other sprite\'s local var', () => {
     const runtime = new Runtime();
 
     const stage = new Target(runtime);
@@ -749,33 +687,31 @@ test('fixUpVariableReferences fixes sprite global var conflicting with other spr
 
     target.blocks.createBlock(adapter(events.mockVariableBlock)[0]);
 
-    t.equal(Object.keys(existingTarget.variables).length, 1);
+    assert.strictEqual(Object.keys(existingTarget.variables).length, 1);
     const existingVariable = Object.values(existingTarget.variables)[0];
-    t.equal(existingVariable.name, 'a mock variable');
-    t.equal(Object.keys(target.variables).length, 0);
-    t.equal(Object.keys(stage.variables).length, 0);
-    t.type(target.blocks.getBlock('a block'), 'object');
-    t.type(target.blocks.getBlock('a block').fields, 'object');
-    t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    assert.strictEqual(existingVariable.name, 'a mock variable');
+    assert.strictEqual(Object.keys(target.variables).length, 0);
+    assert.strictEqual(Object.keys(stage.variables).length, 0);
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields, 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
 
     target.fixUpVariableReferences();
 
-    t.equal(Object.keys(existingTarget.variables).length, 1);
-    t.equal(existingVariable.name, 'a mock variable');
-    t.equal(Object.keys(target.variables).length, 0);
-    t.equal(Object.keys(stage.variables).length, 1);
-    t.type(target.blocks.getBlock('a block'), 'object');
-    t.type(target.blocks.getBlock('a block').fields, 'object');
-    t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    assert.strictEqual(Object.keys(existingTarget.variables).length, 1);
+    assert.strictEqual(existingVariable.name, 'a mock variable');
+    assert.strictEqual(Object.keys(target.variables).length, 0);
+    assert.strictEqual(Object.keys(stage.variables).length, 1);
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields, 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
     const newGlobal = stage.variables[Object.keys(stage.variables)[0]];
-    t.equal(newGlobal.name, 'a mock variable2');
-
-    t.end();
+    assert.strictEqual(newGlobal.name, 'a mock variable2');
 });
 
-test('fixUpVariableReferences does not change variable name if there is no variable conflict', t => {
+test('fixUpVariableReferences does not change variable name if there is no variable conflict', () => {
     const runtime = new Runtime();
 
     const stage = new Target(runtime);
@@ -794,23 +730,21 @@ test('fixUpVariableReferences does not change variable name if there is no varia
 
     target.blocks.createBlock(adapter(events.mockVariableBlock)[0]);
 
-    t.equal(Object.keys(target.variables).length, 1);
-    t.equal(Object.keys(stage.variables).length, 2);
-    t.type(target.blocks.getBlock('a block'), 'object');
-    t.type(target.blocks.getBlock('a block').fields, 'object');
-    t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
-    t.equal(target.variables['mock var id'].name, 'a mock variable');
+    assert.strictEqual(Object.keys(target.variables).length, 1);
+    assert.strictEqual(Object.keys(stage.variables).length, 2);
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields, 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    assert.strictEqual(target.variables['mock var id'].name, 'a mock variable');
 
     target.fixUpVariableReferences();
 
-    t.equal(Object.keys(target.variables).length, 1);
-    t.equal(Object.keys(stage.variables).length, 2);
-    t.type(target.blocks.getBlock('a block'), 'object');
-    t.type(target.blocks.getBlock('a block').fields, 'object');
-    t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
-    t.equal(target.variables['mock var id'].name, 'a mock variable');
-
-    t.end();
+    assert.strictEqual(Object.keys(target.variables).length, 1);
+    assert.strictEqual(Object.keys(stage.variables).length, 2);
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields, 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    assert.strictEqual(target.variables['mock var id'].name, 'a mock variable');
 });

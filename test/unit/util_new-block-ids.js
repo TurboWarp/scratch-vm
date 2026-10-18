@@ -1,12 +1,12 @@
 const newBlockIds = require('../../src/util/new-block-ids');
 const simpleStack = require('../fixtures/simple-stack');
-const tap = require('tap');
-const test = tap.test;
+const {test, beforeEach} = require('node:test');
+const assert = require('node:assert');
 
 let originals;
 let newBlocks;
 
-tap.beforeEach(() => {
+beforeEach(() => {
     originals = simpleStack;
     // Will be mutated so make a copy first
     newBlocks = JSON.parse(JSON.stringify(simpleStack));
@@ -25,39 +25,32 @@ tap.beforeEach(() => {
  * Inspect fixtures/simple-stack for the full object.
  */
 
-test('top-level block IDs have all changed', t => {
+test('top-level block IDs have all changed', () => {
     newBlocks.forEach((block, i) => {
-        t.notEqual(block.id, originals[i].id);
+        assert.notStrictEqual(block.id, originals[i].id);
     });
-    t.end();
 });
 
-test('input reference is maintained on parent for attached block', t => {
-    t.equal(newBlocks[0].inputs.TO.block, newBlocks[1].id);
-    t.end();
+test('input reference is maintained on parent for attached block', () => {
+    assert.strictEqual(newBlocks[0].inputs.TO.block, newBlocks[1].id);
 });
 
-test('input reference is maintained on parent for obscured shadow', t => {
-    t.equal(newBlocks[0].inputs.TO.shadow, newBlocks[2].id);
-    t.end();
+test('input reference is maintained on parent for obscured shadow', () => {
+    assert.strictEqual(newBlocks[0].inputs.TO.shadow, newBlocks[2].id);
 });
 
-test('parent reference is maintained for attached input', t => {
-    t.equal(newBlocks[1].parent, newBlocks[0].id);
-    t.end();
+test('parent reference is maintained for attached input', () => {
+    assert.strictEqual(newBlocks[1].parent, newBlocks[0].id);
 });
 
-test('parent reference is maintained for obscured shadow', t => {
-    t.equal(newBlocks[2].parent, newBlocks[0].id);
-    t.end();
+test('parent reference is maintained for obscured shadow', () => {
+    assert.strictEqual(newBlocks[2].parent, newBlocks[0].id);
 });
 
-test('parent reference is maintained for next block', t => {
-    t.equal(newBlocks[3].parent, newBlocks[0].id);
-    t.end();
+test('parent reference is maintained for next block', () => {
+    assert.strictEqual(newBlocks[3].parent, newBlocks[0].id);
 });
 
-test('next reference is maintained for previous block', t => {
-    t.equal(newBlocks[0].next, newBlocks[3].id);
-    t.end();
+test('next reference is maintained for previous block', () => {
+    assert.strictEqual(newBlocks[0].next, newBlocks[3].id);
 });

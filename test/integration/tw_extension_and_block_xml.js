@@ -1,7 +1,8 @@
 const fs = require('fs');
 const pathUtil = require('path');
 const htmlparser = require('htmlparser2');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VirtualMachine = require('../../src/virtual-machine');
 const Runtime = require('../../src/engine/runtime');
 const ArgumentType = require('../../src/extension-support/argument-type');
@@ -66,7 +67,7 @@ const baseExtensionInfo = {
     }
 };
 
-test('XML escaped in Runtime.getBlocksXML()', t => {
+test('XML escaped in Runtime.getBlocksXML()', () => {
     // While these changes will make the extension unusable in a real editor environment, we still
     // want to make sure that these fields are actually being escaped.
     const mangledExtension = JSON.parse(JSON.stringify(baseExtensionInfo));
@@ -80,14 +81,14 @@ test('XML escaped in Runtime.getBlocksXML()', t => {
     });
 
     const xmlList = vm.runtime.getBlocksXML();
-    t.type(xmlList, Array, 'getBlocksXML returns array');
-    t.equal(xmlList.length, 1, 'array has 1 item');
+    assert.ok(xmlList instanceof Array, 'getBlocksXML returns array');
+    assert.strictEqual(xmlList.length, 1, 'array has 1 item');
 
     const xmlEntry = xmlList[0];
-    t.equal(xmlEntry.id, `xmltest`, 'id worked');
+    assert.strictEqual(xmlEntry.id, `xmltest`, 'id worked');
 
     const parsedXml = htmlparser.parseDOM(xmlEntry.xml);
-    t.equal(parsedXml.length, 1, 'xml has 1 root node');
+    assert.strictEqual(parsedXml.length, 1, 'xml has 1 root node');
 
     /*
     Expected XML structure:
@@ -112,52 +113,64 @@ test('XML escaped in Runtime.getBlocksXML()', t => {
     */
 
     const category = parsedXml[0];
-    t.equal(category.name, 'category', 'has <category>');
-    t.equal(category.attribs.name, '&lt;&gt;&quot;&apos;&amp;&amp; Name', 'escaped category name');
-    t.equal(category.attribs.id, 'xmltest', 'category id');
-    t.equal(category.attribs.colour, '&lt;&quot;&apos;&amp;amp;amp;color1&gt;', 'escaped category color');
-    t.equal(category.attribs.secondarycolour, '&lt;&quot;&apos;&amp;amp;amp;color2&gt;', 'escaped category color 2');
-    t.equal(category.attribs.iconuri, 'data:&lt;&gt;&amp;&quot;&apos; category icon', 'escaped category icon');
-    t.equal(category.children.length, 3, 'category has 3 children');
+    assert.strictEqual(category.name, 'category', 'has <category>');
+    assert.strictEqual(category.attribs.name, '&lt;&gt;&quot;&apos;&amp;&amp; Name', 'escaped category name');
+    assert.strictEqual(category.attribs.id, 'xmltest', 'category id');
+    assert.strictEqual(category.attribs.colour, '&lt;&quot;&apos;&amp;amp;amp;color1&gt;', 'escaped category color');
+    assert.strictEqual(
+        category.attribs.secondarycolour,
+        '&lt;&quot;&apos;&amp;amp;amp;color2&gt;',
+        'escaped category color 2'
+    );
+    assert.strictEqual(
+        category.attribs.iconuri,
+        'data:&lt;&gt;&amp;&quot;&apos; category icon',
+        'escaped category icon'
+    );
+    assert.strictEqual(category.children.length, 3, 'category has 3 children');
 
     // Check docsURI
     const docsButton = category.children[0];
-    t.equal(docsButton.name, 'button', 'has docs <button>');
-    t.equal(docsButton.attribs.callbackkey, 'OPEN_EXTENSION_DOCS');
-    t.equal(
+    assert.strictEqual(docsButton.name, 'button', 'has docs <button>');
+    assert.strictEqual(docsButton.attribs.callbackkey, 'OPEN_EXTENSION_DOCS');
+    assert.strictEqual(
         docsButton.attribs.callbackdata,
         'https://example.com/&amp;&apos;&apos;&quot;&quot;&lt;&lt;&gt;&gt;',
         'escaped docs callback data'
     );
-    t.equal(docsButton.children.length, 0, 'docs button has 0 children');
+    assert.strictEqual(docsButton.children.length, 0, 'docs button has 0 children');
 
     // Check the block
     const block = category.children[1];
-    t.equal(block.name, 'block', 'has <block>');
-    t.equal(
+    assert.strictEqual(block.name, 'block', 'has <block>');
+    assert.strictEqual(
         block.attribs.type,
         'xmltest_opcode &lt;&gt;&amp;&quot;&apos;',
         'escaped block id'
     );
-    t.equal(block.children.length, 3, 'block has 3 children');
+    assert.strictEqual(block.children.length, 3, 'block has 3 children');
 
     // Check the block's string input
     const stringInput = block.children[0];
-    t.equal(stringInput.name, 'value', 'string input is <value>');
-    t.equal(stringInput.attribs.name, 'string argument &lt;&gt;&amp;&quot;&apos;', 'escaped string input id');
-    t.equal(stringInput.children.length, 1, 'string input has 1 child');
+    assert.strictEqual(stringInput.name, 'value', 'string input is <value>');
+    assert.strictEqual(
+        stringInput.attribs.name,
+        'string argument &lt;&gt;&amp;&quot;&apos;',
+        'escaped string input id'
+    );
+    assert.strictEqual(stringInput.children.length, 1, 'string input has 1 child');
 
     const stringInputShadow = stringInput.children[0];
-    t.equal(stringInputShadow.name, 'shadow', 'string input shadow is <shadow>');
-    t.equal(stringInputShadow.attribs.type, 'text', 'string input shadow is of type text');
-    t.equal(stringInputShadow.children.length, 1, 'string input shadow has 1 child');
+    assert.strictEqual(stringInputShadow.name, 'shadow', 'string input shadow is <shadow>');
+    assert.strictEqual(stringInputShadow.attribs.type, 'text', 'string input shadow is of type text');
+    assert.strictEqual(stringInputShadow.children.length, 1, 'string input shadow has 1 child');
 
     const stringInputField = stringInputShadow.children[0];
-    t.equal(stringInputField.name, 'field', 'string input field is <field>');
-    t.equal(stringInputField.children.length, 1, 'field input has 1 child');
+    assert.strictEqual(stringInputField.name, 'field', 'string input field is <field>');
+    assert.strictEqual(stringInputField.children.length, 1, 'field input has 1 child');
 
     const stringInputFieldContent = stringInputField.children[0];
-    t.equal(
+    assert.strictEqual(
         stringInputFieldContent.data,
         'default string &lt;&gt;&amp;&quot;&apos;',
         'escaped string input default value'
@@ -165,44 +178,46 @@ test('XML escaped in Runtime.getBlocksXML()', t => {
 
     // Check the block's menu input
     const menuInput = block.children[1];
-    t.equal(menuInput.name, 'value', 'menu input is <value>');
-    t.equal(menuInput.attribs.name, 'inputMenu &lt;&quot;&apos;&amp;&gt;', 'escaped menu input id');
-    t.equal(menuInput.children.length, 1, 'menu input has 1 child');
+    assert.strictEqual(menuInput.name, 'value', 'menu input is <value>');
+    assert.strictEqual(menuInput.attribs.name, 'inputMenu &lt;&quot;&apos;&amp;&gt;', 'escaped menu input id');
+    assert.strictEqual(menuInput.children.length, 1, 'menu input has 1 child');
 
     const inputShadow = menuInput.children[0];
-    t.equal(inputShadow.name, 'shadow', 'input shadow is <shadow>');
-    t.equal(
+    assert.strictEqual(inputShadow.name, 'shadow', 'input shadow is <shadow>');
+    assert.strictEqual(
         inputShadow.attribs.type,
         'xmltest_menu_input &lt;&gt;&amp;&quot;&apos;',
         'escaped menu id'
     );
-    t.equal(inputShadow.children.length, 1, 'input shadow has 1 child');
+    assert.strictEqual(inputShadow.children.length, 1, 'input shadow has 1 child');
 
     const inputField = inputShadow.children[0];
-    t.equal(inputField.name, 'field', 'input field is <field>');
-    t.equal(inputField.children.length, 1, 'input field has 1 child');
+    assert.strictEqual(inputField.name, 'field', 'input field is <field>');
+    assert.strictEqual(inputField.children.length, 1, 'input field has 1 child');
 
     const inputFieldContent = inputField.children[0];
-    t.equal(inputFieldContent.data, 'default input &lt;&gt;&amp;&quot;&apos;', 'escaped input default value');
+    assert.strictEqual(
+        inputFieldContent.data,
+        'default input &lt;&gt;&amp;&quot;&apos;',
+        'escaped input default value'
+    );
 
     // Check the block's menu field
     const menuField = block.children[2];
-    t.equal(menuField.name, 'field', 'menu field is <field>');
-    t.equal(menuField.attribs.name, 'fieldMenu &lt;&quot;&apos;&amp;&gt;', 'escaped field menu id');
-    t.equal(menuField.children.length, 1, 'menu field has 1 child');
+    assert.strictEqual(menuField.name, 'field', 'menu field is <field>');
+    assert.strictEqual(menuField.attribs.name, 'fieldMenu &lt;&quot;&apos;&amp;&gt;', 'escaped field menu id');
+    assert.strictEqual(menuField.children.length, 1, 'menu field has 1 child');
 
     const menuFieldContent = menuField.children[0];
-    t.equal(menuFieldContent.data, 'default field &lt;&gt;&amp;&quot;&apos;', 'escaped field default value');
+    assert.strictEqual(menuFieldContent.data, 'default field &lt;&gt;&amp;&quot;&apos;', 'escaped field default value');
 
     // Check the button block
     const button = category.children[2];
-    t.equal(button.name, 'button', 'button is <button>');
-    t.equal(button.attribs.text, '&apos;&quot;&gt;&lt;&amp; button text', 'escaped button text');
-
-    t.end();
+    assert.strictEqual(button.name, 'button', 'button is <button>');
+    assert.strictEqual(button.attribs.text, '&apos;&quot;&gt;&lt;&amp; button text', 'escaped button text');
 });
 
-test('ID escaped in Runtime.getBlocksXML()', t => {
+test('ID escaped in Runtime.getBlocksXML()', () => {
     // Previous test needs to use an actually valid extension ID. For this test we will
     // register an invalid extension just to make sure that the ID ends up being escaped.
 
@@ -215,20 +230,18 @@ test('ID escaped in Runtime.getBlocksXML()', t => {
 
     const xmlList = rt.getBlocksXML();
     const xmlEntry = xmlList[0];
-    t.equal(xmlEntry.id, `id <>&"'`, 'extension id outside of xml unchanged');
+    assert.strictEqual(xmlEntry.id, `id <>&"'`, 'extension id outside of xml unchanged');
 
     const parsedXML = htmlparser.parseDOM(xmlEntry.xml);
-    t.equal(parsedXML.length, 1, 'XML has 1 root node');
+    assert.strictEqual(parsedXML.length, 1, 'XML has 1 root node');
 
     const category = parsedXML[0];
-    t.equal(category.name, 'category', 'category is <category>');
-    t.equal(category.attribs.id, 'id &lt;&gt;&amp;&quot;&apos;', 'escaped extension id');
-    t.equal(category.children.length, 0, 'category has no children');
-
-    t.end();
+    assert.strictEqual(category.name, 'category', 'category is <category>');
+    assert.strictEqual(category.attribs.id, 'id &lt;&gt;&amp;&quot;&apos;', 'escaped extension id');
+    assert.strictEqual(category.children.length, 0, 'category has no children');
 });
 
-test('XML escaped in Blocks.toXML()', async t => {
+test('XML escaped in Blocks.toXML()', async () => {
     const vm = new VirtualMachine();
     const serviceName = vm.extensionManager._registerInternalExtension({
         getInfo: () => baseExtensionInfo
@@ -259,64 +272,80 @@ test('XML escaped in Blocks.toXML()', async t => {
         </block>
         */
 
-        t.equal(parsedXML.length, 1, 'XML has 1 root');
+        assert.strictEqual(parsedXML.length, 1, 'XML has 1 root');
 
         // Check the block itself
         const block = parsedXML[0];
-        t.equal(block.name, 'block', 'block is <block>');
-        t.equal(
+        assert.strictEqual(block.name, 'block', 'block is <block>');
+        assert.strictEqual(
             block.attribs.type,
             'xmltest_opcode &lt;&gt;&amp;&quot;&apos;',
             'escaped block opcode'
         );
-        t.equal(block.children.length, 3, 'block has 3 children');
+        assert.strictEqual(block.children.length, 3, 'block has 3 children');
 
         // Check the string input
         const stringInputValue = block.children[0];
-        t.equal(stringInputValue.name, 'value', 'string input is <value>');
-        t.equal(
+        assert.strictEqual(stringInputValue.name, 'value', 'string input is <value>');
+        assert.strictEqual(
             stringInputValue.attribs.name,
             'string argument &lt;&gt;&amp;&quot;&apos;',
             'escaped string input name'
         );
-        t.equal(stringInputValue.children.length, 1, 'string input has 1 child');
+        assert.strictEqual(stringInputValue.children.length, 1, 'string input has 1 child');
 
         const stringInputShadow = stringInputValue.children[0];
-        t.equal(stringInputShadow.name, 'shadow', 'string input shadow is <shadow>');
-        t.equal(stringInputValue.children.length, 1, 'string input shadow has 1 child');
+        assert.strictEqual(stringInputShadow.name, 'shadow', 'string input shadow is <shadow>');
+        assert.strictEqual(stringInputValue.children.length, 1, 'string input shadow has 1 child');
 
         const stringInputField = stringInputShadow.children[0];
-        t.equal(stringInputField.name, 'field', 'string input field is <field>');
-        t.equal(stringInputField.children.length, 1, 'string input field has 1 child');
+        assert.strictEqual(stringInputField.name, 'field', 'string input field is <field>');
+        assert.strictEqual(stringInputField.children.length, 1, 'string input field has 1 child');
 
         const stringInputFieldContent = stringInputField.children[0];
-        t.equal(stringInputFieldContent.data, `default string &lt;&gt;&amp;&quot;&apos;`, 'escaped string input value');
+        assert.strictEqual(
+            stringInputFieldContent.data,
+            `default string &lt;&gt;&amp;&quot;&apos;`,
+            'escaped string input value'
+        );
 
         // Check the input menu
         const inputMenuValue = block.children[1];
-        t.equal(inputMenuValue.name, 'value', 'input menu is <value>');
-        t.equal(inputMenuValue.attribs.name, 'inputMenu &lt;&quot;&apos;&amp;&gt;', 'escaped input menu name');
-        t.equal(inputMenuValue.children.length, 1, 'input menu has 1 child');
+        assert.strictEqual(inputMenuValue.name, 'value', 'input menu is <value>');
+        assert.strictEqual(
+            inputMenuValue.attribs.name,
+            'inputMenu &lt;&quot;&apos;&amp;&gt;',
+            'escaped input menu name'
+        );
+        assert.strictEqual(inputMenuValue.children.length, 1, 'input menu has 1 child');
 
         const inputMenuShadow = inputMenuValue.children[0];
-        t.equal(inputMenuShadow.name, 'shadow', 'input menu shadow is <shadow>');
-        t.equal(inputMenuValue.children.length, 1, 'input menu shadow has 1 child');
+        assert.strictEqual(inputMenuShadow.name, 'shadow', 'input menu shadow is <shadow>');
+        assert.strictEqual(inputMenuValue.children.length, 1, 'input menu shadow has 1 child');
 
         const inputMenuField = inputMenuShadow.children[0];
-        t.equal(inputMenuField.name, 'field', 'input menu field is <field>');
-        t.equal(inputMenuField.children.length, 1, 'input menu field has 1 child');
+        assert.strictEqual(inputMenuField.name, 'field', 'input menu field is <field>');
+        assert.strictEqual(inputMenuField.children.length, 1, 'input menu field has 1 child');
 
         const inputMenuFieldContent = inputMenuField.children[0];
-        t.equal(inputMenuFieldContent.data, `default input &lt;&gt;&amp;&quot;&apos;`, 'escaped input menu value');
+        assert.strictEqual(
+            inputMenuFieldContent.data,
+            `default input &lt;&gt;&amp;&quot;&apos;`,
+            'escaped input menu value'
+        );
 
         // Check the field menu
         const fieldMenu = block.children[2];
-        t.equal(fieldMenu.name, 'field', 'field menu is <field>');
-        t.equal(fieldMenu.attribs.name, 'fieldMenu &lt;&quot;&apos;&amp;&gt;', 'escaped field menu name');
-        t.equal(fieldMenu.children.length, 1, 'field menu has 1 child');
+        assert.strictEqual(fieldMenu.name, 'field', 'field menu is <field>');
+        assert.strictEqual(fieldMenu.attribs.name, 'fieldMenu &lt;&quot;&apos;&amp;&gt;', 'escaped field menu name');
+        assert.strictEqual(fieldMenu.children.length, 1, 'field menu has 1 child');
 
         const fieldMenuContent = fieldMenu.children[0];
-        t.equal(fieldMenuContent.data, `default field &lt;&gt;&amp;&quot;&apos;`, 'escaped input menu value');
+        assert.strictEqual(
+            fieldMenuContent.data,
+            `default field &lt;&gt;&amp;&quot;&apos;`,
+            'escaped input menu value'
+        );
     };
 
     // Check that we can deserialize a project using this extension.
@@ -327,6 +356,4 @@ test('XML escaped in Blocks.toXML()', async t => {
     const serialized = await vm.saveProjectSb3('uint8array');
     await vm.loadProject(serialized);
     checkVM();
-
-    t.end();
 });

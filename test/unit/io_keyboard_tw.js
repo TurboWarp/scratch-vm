@@ -1,16 +1,16 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Keyboard = require('../../src/io/keyboard');
 const Runtime = require('../../src/engine/runtime');
 
-test('extended spec', t => {
+test('extended spec', () => {
     const rt = new Runtime();
     const k = new Keyboard(rt);
 
-    t.type(k.getLastKeyPressed, 'function');
-    t.end();
+    assert.strictEqual(typeof k.getLastKeyPressed, 'function');
 });
 
-test('extended key support', t => {
+test('extended key support', () => {
     const rt = new Runtime();
     const k = new Keyboard(rt);
 
@@ -18,30 +18,28 @@ test('extended key support', t => {
         key: 'Backspace',
         isDown: true
     });
-    t.strictDeepEquals(k._keysPressed, ['backspace']);
-    t.strictEqual(k.getKeyIsDown('backspace'), true);
-    t.end();
+    assert.deepStrictEqual(k._keysPressed, ['backspace']);
+    assert.strictEqual(k.getKeyIsDown('backspace'), true);
 });
 
-test('last key pressed', t => {
+test('last key pressed', () => {
     const rt = new Runtime();
     const k = new Keyboard(rt);
 
-    t.strictEqual(k.getLastKeyPressed(), '');
+    assert.strictEqual(k.getLastKeyPressed(), '');
     k.postData({
         key: 'a',
         isDown: true
     });
-    t.strictEqual(k.getLastKeyPressed(), 'a');
+    assert.strictEqual(k.getLastKeyPressed(), 'a');
     k.postData({
         key: 'b',
         isDown: true
     });
-    t.strictEqual(k.getLastKeyPressed(), 'b');
-    t.end();
+    assert.strictEqual(k.getLastKeyPressed(), 'b');
 });
 
-test('holding shift and key, releasing shift, then releasing key', t => {
+test('holding shift and key, releasing shift, then releasing key', () => {
     const rt = new Runtime();
     const k = new Keyboard(rt);
 
@@ -51,9 +49,9 @@ test('holding shift and key, releasing shift, then releasing key', t => {
         isDown: true,
         keyCode: 50
     });
-    t.equal(k.getKeyIsDown('2'), false);
-    t.equal(k.getKeyIsDown('@'), true);
-    t.equal(k.getKeyIsDown('any'), true);
+    assert.strictEqual(k.getKeyIsDown('2'), false);
+    assert.strictEqual(k.getKeyIsDown('@'), true);
+    assert.strictEqual(k.getKeyIsDown('any'), true);
     // Release shift, then release 2
     k.postData({
         key: 'Shift',
@@ -65,14 +63,12 @@ test('holding shift and key, releasing shift, then releasing key', t => {
         isDown: false,
         keyCode: 50
     });
-    t.equal(k.getKeyIsDown('@'), false);
-    t.equal(k.getKeyIsDown('2'), false);
-    t.equal(k.getKeyIsDown('any'), false);
-
-    t.end();
+    assert.strictEqual(k.getKeyIsDown('@'), false);
+    assert.strictEqual(k.getKeyIsDown('2'), false);
+    assert.strictEqual(k.getKeyIsDown('any'), false);
 });
 
-test('holding shift and key, releasing shift, waiting, then releasing key', t => {
+test('holding shift and key, releasing shift, waiting, then releasing key', () => {
     const rt = new Runtime();
     const k = new Keyboard(rt);
 
@@ -81,9 +77,9 @@ test('holding shift and key, releasing shift, waiting, then releasing key', t =>
         isDown: true,
         keyCode: 50
     });
-    t.equal(k.getKeyIsDown('2'), false);
-    t.equal(k.getKeyIsDown('@'), true);
-    t.equal(k.getKeyIsDown('any'), true);
+    assert.strictEqual(k.getKeyIsDown('2'), false);
+    assert.strictEqual(k.getKeyIsDown('@'), true);
+    assert.strictEqual(k.getKeyIsDown('any'), true);
     k.postData({
         key: 'Shift',
         isDown: false,
@@ -95,36 +91,32 @@ test('holding shift and key, releasing shift, waiting, then releasing key', t =>
         isDown: true,
         keyCode: 50
     });
-    t.equal(k.getKeyIsDown('@'), false);
-    t.equal(k.getKeyIsDown('2'), true);
-    t.equal(k.getKeyIsDown('any'), true);
+    assert.strictEqual(k.getKeyIsDown('@'), false);
+    assert.strictEqual(k.getKeyIsDown('2'), true);
+    assert.strictEqual(k.getKeyIsDown('any'), true);
     // And now we release 2
     k.postData({
         key: '2',
         isDown: false,
         keyCode: 50
     });
-    t.equal(k.getKeyIsDown('@'), false);
-    t.equal(k.getKeyIsDown('2'), false);
-    t.equal(k.getKeyIsDown('any'), false);
-
-    t.end();
+    assert.strictEqual(k.getKeyIsDown('@'), false);
+    assert.strictEqual(k.getKeyIsDown('2'), false);
+    assert.strictEqual(k.getKeyIsDown('any'), false);
 });
 
-test('hasUsedKey', t => {
+test('hasUsedKey', () => {
     const rt = new Runtime();
     const k = new Keyboard(rt);
 
-    t.equal(k.hasUsedKey('backspace'), false);
-    t.equal(k.hasUsedKey('delete'), false);
+    assert.strictEqual(k.hasUsedKey('backspace'), false);
+    assert.strictEqual(k.hasUsedKey('delete'), false);
 
     k.getKeyIsDown('backspace');
-    t.equal(k.hasUsedKey('backspace'), true);
-    t.equal(k.hasUsedKey('delete'), false);
+    assert.strictEqual(k.hasUsedKey('backspace'), true);
+    assert.strictEqual(k.hasUsedKey('delete'), false);
 
     k.getKeyIsDown('delete');
-    t.equal(k.hasUsedKey('backspace'), true);
-    t.equal(k.hasUsedKey('delete'), true);
-
-    t.end();
+    assert.strictEqual(k.hasUsedKey('backspace'), true);
+    assert.strictEqual(k.hasUsedKey('delete'), true);
 });

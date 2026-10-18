@@ -1,78 +1,73 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const adapter = require('../../src/engine/adapter');
 const events = require('../fixtures/events.json');
 
-test('spec', t => {
-    t.type(adapter, 'function');
-    t.end();
+test('spec', () => {
+    assert.strictEqual(typeof adapter, 'function');
 });
 
-test('invalid inputs', t => {
+test('invalid inputs', () => {
     let nothing = adapter('not an object');
-    t.type(nothing, 'undefined');
+    assert.strictEqual(typeof nothing, 'undefined');
     nothing = adapter({noxmlproperty: true});
-    t.type(nothing, 'undefined');
-    t.end();
+    assert.strictEqual(typeof nothing, 'undefined');
 });
 
-test('create event', t => {
+test('create event', () => {
     const result = adapter(events.create);
 
-    t.ok(Array.isArray(result));
-    t.equal(result.length, 2);
+    assert.ok(Array.isArray(result));
+    assert.strictEqual(result.length, 2);
 
     // Outer block
-    t.type(result[0].id, 'string');
-    t.type(result[0].opcode, 'string');
-    t.type(result[0].comment, 'undefined');
-    t.type(result[0].fields, 'object');
-    t.type(result[0].inputs, 'object');
-    t.type(result[0].inputs.DURATION, 'object');
-    t.type(result[0].topLevel, 'boolean');
-    t.equal(result[0].topLevel, true);
+    assert.strictEqual(typeof result[0].id, 'string');
+    assert.strictEqual(typeof result[0].opcode, 'string');
+    assert.strictEqual(typeof result[0].comment, 'undefined');
+    assert.strictEqual(typeof result[0].fields, 'object');
+    assert.strictEqual(typeof result[0].inputs, 'object');
+    assert.strictEqual(typeof result[0].inputs.DURATION, 'object');
+    assert.strictEqual(typeof result[0].topLevel, 'boolean');
+    assert.strictEqual(result[0].topLevel, true);
 
     // Enclosed shadow block
-    t.type(result[1].id, 'string');
-    t.type(result[1].opcode, 'string');
-    t.type(result[1].fields, 'object');
-    t.type(result[1].inputs, 'object');
-    t.type(result[1].fields.NUM, 'object');
-    t.type(result[1].fields.NUM.value, '10');
-    t.type(result[1].topLevel, 'boolean');
-    t.equal(result[1].topLevel, false);
-
-    t.end();
+    assert.strictEqual(typeof result[1].id, 'string');
+    assert.strictEqual(typeof result[1].opcode, 'string');
+    assert.strictEqual(typeof result[1].fields, 'object');
+    assert.strictEqual(typeof result[1].inputs, 'object');
+    assert.strictEqual(typeof result[1].fields.NUM, 'object');
+    assert.strictEqual(result[1].fields.NUM.value, '10');
+    assert.strictEqual(typeof result[1].topLevel, 'boolean');
+    assert.strictEqual(result[1].topLevel, false);
 });
 
-test('create with comment', t => {
+test('create with comment', () => {
     const result = adapter(events.createComment);
 
     // This test should be the same as above except that it also has a comment.
 
-    t.ok(Array.isArray(result));
-    t.equal(result.length, 2);
+    assert.ok(Array.isArray(result));
+    assert.strictEqual(result.length, 2);
 
-    t.type(result[0].comment, 'string');
-    t.equal(result[0].comment, 'aCommentId');
-
-    t.end();
+    assert.strictEqual(typeof result[0].comment, 'string');
+    assert.strictEqual(result[0].comment, 'aCommentId');
 });
 
-test('create with branch', t => {
+test('create with branch', () => {
     const result = adapter(events.createbranch);
     // Outer block
-    t.type(result[0].id, 'string');
-    t.type(result[0].opcode, 'string');
-    t.type(result[0].fields, 'object');
-    t.type(result[0].inputs, 'object');
-    t.type(result[0].inputs.SUBSTACK, 'object');
-    t.type(result[0].topLevel, 'boolean');
-    t.equal(result[0].topLevel, true);
+    assert.strictEqual(typeof result[0].id, 'string');
+    assert.strictEqual(typeof result[0].opcode, 'string');
+    assert.strictEqual(typeof result[0].fields, 'object');
+    assert.strictEqual(typeof result[0].inputs, 'object');
+    assert.strictEqual(typeof result[0].inputs.SUBSTACK, 'object');
+    assert.strictEqual(typeof result[0].topLevel, 'boolean');
+    assert.strictEqual(result[0].topLevel, true);
     // In branch
     const branchBlockId = result[0].inputs.SUBSTACK.block;
     const branchShadowId = result[0].inputs.SUBSTACK.shadow;
-    t.type(branchBlockId, 'string');
-    t.equal(branchShadowId, null);
+    assert.strictEqual(typeof branchBlockId, 'string');
+    assert.strictEqual(branchShadowId, null);
     // Find actual branch block
     let branchBlock = null;
     for (let i = 0; i < result.length; i++) {
@@ -80,30 +75,29 @@ test('create with branch', t => {
             branchBlock = result[i];
         }
     }
-    t.type(branchBlock, 'object');
-    t.end();
+    assert.strictEqual(typeof branchBlock, 'object');
 });
 
-test('create with two branches', t => {
+test('create with two branches', () => {
     const result = adapter(events.createtwobranches);
     // Outer block
-    t.type(result[0].id, 'string');
-    t.type(result[0].opcode, 'string');
-    t.type(result[0].fields, 'object');
-    t.type(result[0].inputs, 'object');
-    t.type(result[0].inputs.SUBSTACK, 'object');
-    t.type(result[0].inputs.SUBSTACK2, 'object');
-    t.type(result[0].topLevel, 'boolean');
-    t.equal(result[0].topLevel, true);
+    assert.strictEqual(typeof result[0].id, 'string');
+    assert.strictEqual(typeof result[0].opcode, 'string');
+    assert.strictEqual(typeof result[0].fields, 'object');
+    assert.strictEqual(typeof result[0].inputs, 'object');
+    assert.strictEqual(typeof result[0].inputs.SUBSTACK, 'object');
+    assert.strictEqual(typeof result[0].inputs.SUBSTACK2, 'object');
+    assert.strictEqual(typeof result[0].topLevel, 'boolean');
+    assert.strictEqual(result[0].topLevel, true);
     // In branchs
     const firstBranchBlockId = result[0].inputs.SUBSTACK.block;
     const secondBranchBlockId = result[0].inputs.SUBSTACK2.block;
-    t.type(firstBranchBlockId, 'string');
-    t.type(secondBranchBlockId, 'string');
+    assert.strictEqual(typeof firstBranchBlockId, 'string');
+    assert.strictEqual(typeof secondBranchBlockId, 'string');
     const firstBranchShadowBlockId = result[0].inputs.SUBSTACK.shadow;
     const secondBranchShadowBlockId = result[0].inputs.SUBSTACK2.shadow;
-    t.equal(firstBranchShadowBlockId, null);
-    t.equal(secondBranchShadowBlockId, null);
+    assert.strictEqual(firstBranchShadowBlockId, null);
+    assert.strictEqual(secondBranchShadowBlockId, null);
     // Find actual branch blocks
     let firstBranchBlock = null;
     let secondBranchBlock = null;
@@ -115,106 +109,96 @@ test('create with two branches', t => {
             secondBranchBlock = result[i];
         }
     }
-    t.type(firstBranchBlock, 'object');
-    t.type(secondBranchBlock, 'object');
-    t.end();
+    assert.strictEqual(typeof firstBranchBlock, 'object');
+    assert.strictEqual(typeof secondBranchBlock, 'object');
 });
 
-test('create with top-level shadow', t => {
+test('create with top-level shadow', () => {
     const result = adapter(events.createtoplevelshadow);
-    t.ok(Array.isArray(result));
-    t.equal(result.length, 1);
+    assert.ok(Array.isArray(result));
+    assert.strictEqual(result.length, 1);
 
     // Outer block
-    t.type(result[0].id, 'string');
-    t.type(result[0].opcode, 'string');
-    t.type(result[0].fields, 'object');
-    t.type(result[0].inputs, 'object');
-    t.type(result[0].topLevel, 'boolean');
-    t.equal(result[0].topLevel, true);
-    t.end();
+    assert.strictEqual(typeof result[0].id, 'string');
+    assert.strictEqual(typeof result[0].opcode, 'string');
+    assert.strictEqual(typeof result[0].fields, 'object');
+    assert.strictEqual(typeof result[0].inputs, 'object');
+    assert.strictEqual(typeof result[0].topLevel, 'boolean');
+    assert.strictEqual(result[0].topLevel, true);
 });
 
-test('create with next connection', t => {
+test('create with next connection', () => {
     const result = adapter(events.createwithnext);
 
-    t.ok(Array.isArray(result));
-    t.equal(result.length, 2);
+    assert.ok(Array.isArray(result));
+    assert.strictEqual(result.length, 2);
 
     // First block
-    t.type(result[0].id, 'string');
-    t.type(result[0].opcode, 'string');
-    t.type(result[0].fields, 'object');
-    t.type(result[0].inputs, 'object');
-    t.type(result[0].topLevel, 'boolean');
-    t.equal(result[0].topLevel, true);
-    t.type(result[0].next, 'string');
-    t.equal(result[0].next, result[1].id);
+    assert.strictEqual(typeof result[0].id, 'string');
+    assert.strictEqual(typeof result[0].opcode, 'string');
+    assert.strictEqual(typeof result[0].fields, 'object');
+    assert.strictEqual(typeof result[0].inputs, 'object');
+    assert.strictEqual(typeof result[0].topLevel, 'boolean');
+    assert.strictEqual(result[0].topLevel, true);
+    assert.strictEqual(typeof result[0].next, 'string');
+    assert.strictEqual(result[0].next, result[1].id);
 
     // Second block
-    t.type(result[1].id, 'string');
-    t.type(result[1].opcode, 'string');
-    t.type(result[1].fields, 'object');
-    t.type(result[1].inputs, 'object');
-    t.type(result[1].topLevel, 'boolean');
-    t.equal(result[1].topLevel, false);
-    t.equal(result[1].next, null);
-
-    t.end();
+    assert.strictEqual(typeof result[1].id, 'string');
+    assert.strictEqual(typeof result[1].opcode, 'string');
+    assert.strictEqual(typeof result[1].fields, 'object');
+    assert.strictEqual(typeof result[1].inputs, 'object');
+    assert.strictEqual(typeof result[1].topLevel, 'boolean');
+    assert.strictEqual(result[1].topLevel, false);
+    assert.strictEqual(result[1].next, null);
 });
 
-test('create with obscured shadow', t => {
+test('create with obscured shadow', () => {
     const result = adapter(events.createobscuredshadow);
-    t.ok(Array.isArray(result));
-    t.equal(result.length, 4);
-    t.end();
+    assert.ok(Array.isArray(result));
+    assert.strictEqual(result.length, 4);
 });
 
-test('create variable with entity in name', t => {
+test('create variable with entity in name', () => {
     const result = adapter(events.createvariablewithentity);
 
-    t.ok(Array.isArray(result));
-    t.equal(result.length, 1);
+    assert.ok(Array.isArray(result));
+    assert.strictEqual(result.length, 1);
 
-    t.type(result[0].id, 'string');
-    t.type(result[0].opcode, 'string');
-    t.type(result[0].fields, 'object');
-    t.type(result[0].fields.VARIABLE, 'object');
-    t.type(result[0].fields.VARIABLE.value, 'string');
-    t.equal(result[0].fields.VARIABLE.value, 'this & that');
-    t.type(result[0].inputs, 'object');
-    t.type(result[0].topLevel, 'boolean');
-    t.equal(result[0].topLevel, true);
-    t.end();
+    assert.strictEqual(typeof result[0].id, 'string');
+    assert.strictEqual(typeof result[0].opcode, 'string');
+    assert.strictEqual(typeof result[0].fields, 'object');
+    assert.strictEqual(typeof result[0].fields.VARIABLE, 'object');
+    assert.strictEqual(typeof result[0].fields.VARIABLE.value, 'string');
+    assert.strictEqual(result[0].fields.VARIABLE.value, 'this & that');
+    assert.strictEqual(typeof result[0].inputs, 'object');
+    assert.strictEqual(typeof result[0].topLevel, 'boolean');
+    assert.strictEqual(result[0].topLevel, true);
 });
 
-test('create with invalid block xml', t => {
+test('create with invalid block xml', () => {
     // Entirely invalid block XML
     const result = adapter(events.createinvalid);
-    t.ok(Array.isArray(result));
-    t.equal(result.length, 0);
+    assert.ok(Array.isArray(result));
+    assert.strictEqual(result.length, 0);
 
     // Invalid grandchild tag
     const result2 = adapter(events.createinvalidgrandchild);
-    t.ok(Array.isArray(result2));
-    t.equal(result2.length, 1);
-    t.type(result2[0].id, 'string');
-    t.equal(Object.keys(result2[0].inputs).length, 0);
-    t.equal(Object.keys(result2[0].fields).length, 0);
-
-    t.end();
+    assert.ok(Array.isArray(result2));
+    assert.strictEqual(result2.length, 1);
+    assert.strictEqual(typeof result2[0].id, 'string');
+    assert.strictEqual(Object.keys(result2[0].inputs).length, 0);
+    assert.strictEqual(Object.keys(result2[0].fields).length, 0);
 });
 
-test('create with invalid xml', t => {
+test('create with invalid xml', () => {
     const result = adapter(events.createbadxml);
-    t.ok(Array.isArray(result));
-    t.equal(result.length, 0);
-    t.end();
+    assert.ok(Array.isArray(result));
+    assert.strictEqual(result.length, 0);
 });
 
-test('create with empty field', t => {
+test('create with empty field', () => {
     const result = adapter(events.createemptyfield);
-    t.ok(Array.isArray(result));
-    t.equal(result.length, 3);
-    t.end();
+    assert.ok(Array.isArray(result));
+    assert.strictEqual(result.length, 3);
 });

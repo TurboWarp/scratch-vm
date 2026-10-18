@@ -1,125 +1,106 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Thread = require('../../src/engine/thread');
 const RenderedTarget = require('../../src/sprites/rendered-target');
 const Sprite = require('../../src/sprites/sprite');
 const Runtime = require('../../src/engine/runtime');
 
-test('spec', t => {
-    t.type(Thread, 'function');
+test('spec', () => {
+    assert.strictEqual(typeof Thread, 'function');
 
     const th = new Thread('arbitraryString');
-    t.type(th, 'object');
-    t.ok(th instanceof Thread);
-    t.type(th.pushStack, 'function');
-    t.type(th.reuseStackForNextBlock, 'function');
-    t.type(th.popStack, 'function');
-    t.type(th.stopThisScript, 'function');
-    t.type(th.peekStack, 'function');
-    t.type(th.peekStackFrame, 'function');
-    t.type(th.peekParentStackFrame, 'function');
-    t.type(th.pushReportedValue, 'function');
-    t.type(th.initParams, 'function');
-    t.type(th.pushParam, 'function');
-    t.type(th.peekStack, 'function');
-    t.type(th.getParam, 'function');
-    t.type(th.atStackTop, 'function');
-    t.type(th.goToNextBlock, 'function');
-    t.type(th.isRecursiveCall, 'function');
-
-    t.end();
+    assert.strictEqual(typeof th, 'object');
+    assert.ok(th instanceof Thread);
+    assert.strictEqual(typeof th.pushStack, 'function');
+    assert.strictEqual(typeof th.reuseStackForNextBlock, 'function');
+    assert.strictEqual(typeof th.popStack, 'function');
+    assert.strictEqual(typeof th.stopThisScript, 'function');
+    assert.strictEqual(typeof th.peekStack, 'function');
+    assert.strictEqual(typeof th.peekStackFrame, 'function');
+    assert.strictEqual(typeof th.peekParentStackFrame, 'function');
+    assert.strictEqual(typeof th.pushReportedValue, 'function');
+    assert.strictEqual(typeof th.initParams, 'function');
+    assert.strictEqual(typeof th.pushParam, 'function');
+    assert.strictEqual(typeof th.peekStack, 'function');
+    assert.strictEqual(typeof th.getParam, 'function');
+    assert.strictEqual(typeof th.atStackTop, 'function');
+    assert.strictEqual(typeof th.goToNextBlock, 'function');
+    assert.strictEqual(typeof th.isRecursiveCall, 'function');
 });
 
-test('pushStack', t => {
+test('pushStack', () => {
     const th = new Thread('arbitraryString');
     th.pushStack('arbitraryString');
-
-    t.end();
 });
 
-test('popStack', t => {
+test('popStack', () => {
     const th = new Thread('arbitraryString');
     th.pushStack('arbitraryString');
-    t.strictEquals(th.popStack(), 'arbitraryString');
-    t.strictEquals(th.popStack(), undefined);
-
-    t.end();
+    assert.strictEqual(th.popStack(), 'arbitraryString');
+    assert.strictEqual(th.popStack(), undefined);
 });
 
-test('atStackTop', t => {
+test('atStackTop', () => {
     const th = new Thread('arbitraryString');
     th.pushStack('arbitraryString');
     th.pushStack('secondString');
-    t.strictEquals(th.atStackTop(), false);
+    assert.strictEqual(th.atStackTop(), false);
     th.popStack();
-    t.strictEquals(th.atStackTop(), true);
-
-    t.end();
+    assert.strictEqual(th.atStackTop(), true);
 });
 
-test('reuseStackForNextBlock', t => {
+test('reuseStackForNextBlock', () => {
     const th = new Thread('arbitraryString');
     th.pushStack('arbitraryString');
     th.reuseStackForNextBlock('secondString');
-    t.strictEquals(th.popStack(), 'secondString');
-
-    t.end();
+    assert.strictEqual(th.popStack(), 'secondString');
 });
 
-test('peekStackFrame', t => {
+test('peekStackFrame', () => {
     const th = new Thread('arbitraryString');
     th.pushStack('arbitraryString');
-    t.strictEquals(th.peekStackFrame().warpMode, false);
+    assert.strictEqual(th.peekStackFrame().warpMode, false);
     th.popStack();
-    t.strictEquals(th.peekStackFrame(), null);
-
-    t.end();
+    assert.strictEqual(th.peekStackFrame(), null);
 });
 
-test('peekParentStackFrame', t => {
+test('peekParentStackFrame', () => {
     const th = new Thread('arbitraryString');
     th.pushStack('arbitraryString');
     th.peekStackFrame().warpMode = true;
-    t.strictEquals(th.peekParentStackFrame(), null);
+    assert.strictEqual(th.peekParentStackFrame(), null);
     th.pushStack('secondString');
-    t.strictEquals(th.peekParentStackFrame().warpMode, true);
-
-    t.end();
+    assert.strictEqual(th.peekParentStackFrame().warpMode, true);
 });
 
-test('pushReportedValue', t => {
+test('pushReportedValue', () => {
     const th = new Thread('arbitraryString');
     th.pushStack('arbitraryString');
     th.pushStack('secondString');
     th.pushReportedValue('value');
-    t.strictEquals(th.justReported, 'value');
-
-    t.end();
+    assert.strictEqual(th.justReported, 'value');
 });
 
-test('peekStack', t => {
+test('peekStack', () => {
     const th = new Thread('arbitraryString');
     th.pushStack('arbitraryString');
-    t.strictEquals(th.peekStack(), 'arbitraryString');
+    assert.strictEqual(th.peekStack(), 'arbitraryString');
     th.popStack();
-    t.strictEquals(th.peekStack(), null);
-
-    t.end();
+    assert.strictEqual(th.peekStack(), null);
 });
 
-test('PushGetParam', t => {
+test('PushGetParam', () => {
     const th = new Thread('arbitraryString');
     th.pushStack('arbitraryString');
     th.initParams();
     th.pushParam('testParam', 'testValue');
-    t.strictEquals(th.peekStackFrame().params.testParam, 'testValue');
-    t.strictEquals(th.getParam('testParam'), 'testValue');
+    assert.strictEqual(th.peekStackFrame().params.testParam, 'testValue');
+    assert.strictEqual(th.getParam('testParam'), 'testValue');
     // Params outside of define stack always evaluate to null
-    t.strictEquals(th.getParam('nonExistentParam'), null);
-
-    t.end();
+    assert.strictEqual(th.getParam('nonExistentParam'), null);
 });
 
-test('goToNextBlock', t => {
+test('goToNextBlock', () => {
     const th = new Thread('arbitraryString');
     const r = new Runtime();
     const s = new Sprite(null, r);
@@ -159,23 +140,21 @@ test('goToNextBlock', t => {
     rt.blocks.createBlock(block2);
     th.target = rt;
 
-    t.strictEquals(th.peekStack(), null);
+    assert.strictEqual(th.peekStack(), null);
     th.pushStack('secondString');
-    t.strictEquals(th.peekStack(), 'secondString');
+    assert.strictEqual(th.peekStack(), 'secondString');
     th.goToNextBlock();
-    t.strictEquals(th.peekStack(), null);
+    assert.strictEqual(th.peekStack(), null);
     th.pushStack('secondString');
     th.pushStack('arbitraryString');
-    t.strictEquals(th.peekStack(), 'arbitraryString');
+    assert.strictEqual(th.peekStack(), 'arbitraryString');
     th.goToNextBlock();
-    t.strictEquals(th.peekStack(), 'secondString');
+    assert.strictEqual(th.peekStack(), 'secondString');
     th.goToNextBlock();
-    t.strictEquals(th.peekStack(), null);
-
-    t.end();
+    assert.strictEqual(th.peekStack(), null);
 });
 
-test('stopThisScript', t => {
+test('stopThisScript', () => {
     const th = new Thread('arbitraryString');
     const r = new Runtime();
     const s = new Sprite(null, r);
@@ -215,20 +194,18 @@ test('stopThisScript', t => {
     th.target = rt;
 
     th.stopThisScript();
-    t.strictEquals(th.peekStack(), null);
+    assert.strictEqual(th.peekStack(), null);
     th.pushStack('arbitraryString');
-    t.strictEquals(th.peekStack(), 'arbitraryString');
+    assert.strictEqual(th.peekStack(), 'arbitraryString');
     th.stopThisScript();
-    t.strictEquals(th.peekStack(), null);
+    assert.strictEqual(th.peekStack(), null);
     th.pushStack('arbitraryString');
     th.pushStack('secondString');
     th.stopThisScript();
-    t.strictEquals(th.peekStack(), null);
-
-    t.end();
+    assert.strictEqual(th.peekStack(), null);
 });
 
-test('isRecursiveCall', t => {
+test('isRecursiveCall', () => {
     const th = new Thread('arbitraryString');
     const r = new Runtime();
     const s = new Sprite(null, r);
@@ -272,19 +249,17 @@ test('isRecursiveCall', t => {
         th.peekStackFrame().op = {id};
     };
 
-    t.strictEquals(th.isRecursiveCall('fakeCode'), false);
+    assert.strictEqual(th.isRecursiveCall('fakeCode'), false);
     pushStack('secondString');
-    t.strictEquals(th.isRecursiveCall('fakeCode'), false);
+    assert.strictEqual(th.isRecursiveCall('fakeCode'), false);
     pushStack('arbitraryString');
-    t.strictEquals(th.isRecursiveCall('fakeCode'), true);
+    assert.strictEqual(th.isRecursiveCall('fakeCode'), true);
     pushStack('arbitraryString');
-    t.strictEquals(th.isRecursiveCall('fakeCode'), true);
+    assert.strictEqual(th.isRecursiveCall('fakeCode'), true);
     th.popStack();
-    t.strictEquals(th.isRecursiveCall('fakeCode'), true);
+    assert.strictEqual(th.isRecursiveCall('fakeCode'), true);
     th.popStack();
-    t.strictEquals(th.isRecursiveCall('fakeCode'), false);
+    assert.strictEqual(th.isRecursiveCall('fakeCode'), false);
     th.popStack();
-    t.strictEquals(th.isRecursiveCall('fakeCode'), false);
-
-    t.end();
+    assert.strictEqual(th.isRecursiveCall('fakeCode'), false);
 });

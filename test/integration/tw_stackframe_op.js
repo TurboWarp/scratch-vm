@@ -1,11 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VirtualMachine = require('../../src/virtual-machine');
 
 const projectPath = path.join(__dirname, '..', 'fixtures', 'tw-stackframe-op.sb3');
 
-test('util.thread.peekStackFrame().op', t => {
+test('util.thread.peekStackFrame().op', (t, done) => {
     const vm = new VirtualMachine();
 
     vm.runtime.setCompilerOptions({
@@ -15,8 +16,8 @@ test('util.thread.peekStackFrame().op', t => {
     // Easiest way to test this is to overwrite an existing block
     vm.runtime._primitives.operator_add = function (args, util) {
         const op = util.thread.peekStackFrame().op;
-        t.equal(op.id, 'c');
-        t.end();
+        assert.strictEqual(op.id, 'c');
+        done();
 
         // return value not used
         return 4;

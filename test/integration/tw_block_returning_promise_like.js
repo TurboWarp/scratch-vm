@@ -1,4 +1,5 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const fs = require('fs');
 const path = require('path');
 const VirtualMachine = require('../../src/virtual-machine');
@@ -36,34 +37,33 @@ class TestExtension {
 const fixture = fs.readFileSync(path.join(__dirname, '../fixtures/tw-block-returning-promise-like.sb3'));
 
 for (const compilerEnabled of [false, true]) {
-    test(`handles blocks that return a promise-like object - ${compilerEnabled ? 'compiled' : 'interpreted'}`, t => {
+    // eslint-disable-next-line max-len
+    test(`handles blocks that return a promise-like object - ${compilerEnabled ? 'compiled' : 'interpreted'}`, async () => {
         const vm = new VirtualMachine();
         vm.extensionManager.addBuiltinExtension('testextension', TestExtension);
 
         vm.setCompilerOptions({
             enabled: compilerEnabled
         });
-        t.equal(vm.runtime.compilerOptions.enabled, compilerEnabled, 'sanity check');
+        assert.strictEqual(vm.runtime.compilerOptions.enabled, compilerEnabled, 'sanity check');
 
         vm.runtime.on('COMPILE_ERROR', () => {
-            t.fail('Compile error');
+            assert.fail('Compile error');
         });
 
-        vm.loadProject(fixture).then(() => {
-            let ended = 0;
-            vm.runtime.on('SAY', (target, type, text) => {
-                if (text === 'end') {
-                    ended++;
-                } else {
-                    t.fail('said something unknown');
-                }
-            });
-
-            vm.greenFlag();
-            vm.runtime._step();
-
-            t.equal(ended, 1, 'script ran once immediately');
-            t.end();
+        await vm.loadProject(fixture);
+        let ended = 0;
+        vm.runtime.on('SAY', (target, type, text) => {
+            if (text === 'end') {
+                ended++;
+            } else {
+                assert.fail('said something unknown');
+            }
         });
+
+        vm.greenFlag();
+        vm.runtime._step();
+
+        assert.strictEqual(ended, 1, 'script ran once immediately');
     });
 }

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VM = require('../../src/virtual-machine');
 const BlockType = require('../../src/extension-support/block-type');
 const ArgumentType = require('../../src/extension-support/argument-type');
@@ -11,7 +12,7 @@ const {IntermediateStack} = require('../../src/compiler/intermediate');
 
 const fixture = fs.readFileSync(path.join(__dirname, '..', 'fixtures', 'tw-type-assertions.sb3'));
 
-test('type assertions', async t => {
+test('type assertions', async () => {
     const vm = new VM();
     vm.setCompilerOptions({enabled: true, warpTimer: false});
 
@@ -71,7 +72,7 @@ test('type assertions', async t => {
     vm.extensionManager.addBuiltinExtension('typeassert', TestExtension);
 
     vm.on('COMPILE_ERROR', () => {
-        t.fail('Compile error');
+        assert.fail('Compile error');
     });
 
     await vm.loadProject(fixture);
@@ -166,16 +167,16 @@ test('type assertions', async t => {
 
             switch (adverb) {
             case 'never':
-                t.ok(!valueInput.isSometimesType(nounType), message);
+                assert.ok(!valueInput.isSometimesType(nounType), message);
                 break;
             case 'always':
-                t.ok(valueInput.isAlwaysType(nounType), message);
+                assert.ok(valueInput.isAlwaysType(nounType), message);
                 break;
             case 'sometimes':
-                t.ok(valueInput.isSometimesType(nounType), message);
+                assert.ok(valueInput.isSometimesType(nounType), message);
                 break;
             case 'exactly':
-                t.equal(valueInput.type, nounType, message);
+                assert.strictEqual(valueInput.type, nounType, message);
                 break;
             default: throw new Error(`$Invalid adverb menu option ${adverb}`);
             }
@@ -184,6 +185,4 @@ test('type assertions', async t => {
 
     runTests('run tests with yields', false);
     runTests('run tests without yields', true);
-
-    t.end();
 });

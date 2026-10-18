@@ -1,5 +1,6 @@
 const path = require('path');
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const readFileToBuffer = require('../fixtures/readProjectFile').readFileToBuffer;
 
@@ -11,12 +12,11 @@ const project = readFileToBuffer(projectUri);
 
 const vm = new VirtualMachine();
 
-test('spec', t => {
-    t.type(vm.deleteSprite, 'function');
-    t.end();
+test('spec', () => {
+    assert.strictEqual(typeof vm.deleteSprite, 'function');
 });
 
-test('default cat', t => {
+test('default cat', (t, done) => {
     // Get default cat from .sprite2
     // const uri = path.resolve(__dirname, '../fixtures/example_sprite.sprite2');
     // const sprite = readFileToBuffer(uri);
@@ -26,32 +26,32 @@ test('default cat', t => {
     // Evaluate playground data and exit
     vm.on('playgroundData', e => {
         const threads = JSON.parse(e.threads);
-        t.ok(threads.length === 0);
+        assert.ok(threads.length === 0);
         vm.quit();
-        t.end();
+        done();
     });
 
     vm.start();
     vm.clear();
     vm.setCompatibilityMode(false);
     vm.setTurboMode(false);
-    t.doesNotThrow(() => {
+    assert.doesNotThrow(() => {
         vm.loadProject(project).then(() => {
 
-            t.equal(vm.runtime.targets.length, 2); // stage and default sprite
+            assert.strictEqual(vm.runtime.targets.length, 2); // stage and default sprite
 
             const defaultSprite = vm.runtime.targets[1];
 
             // Delete the sprite
             const addSpriteBack = vm.deleteSprite(vm.runtime.targets[1].id);
 
-            t.equal(vm.runtime.targets.length, 1);
+            assert.strictEqual(vm.runtime.targets.length, 1);
 
-            t.type(addSpriteBack, 'function');
+            assert.strictEqual(typeof addSpriteBack, 'function');
 
             addSpriteBack().then(() => {
-                t.equal(vm.runtime.targets.length, 2);
-                t.equal(vm.runtime.targets[1].getName(), defaultSprite.getName());
+                assert.strictEqual(vm.runtime.targets.length, 2);
+                assert.strictEqual(vm.runtime.targets[1].getName(), defaultSprite.getName());
 
                 vm.greenFlag();
 

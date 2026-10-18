@@ -1,12 +1,13 @@
 const VM = require('../../src/virtual-machine');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 
 // The actual logic of the costume exporting and importing is tested elsewhere.
 // This is just to make sure that the VM's shims are going to the right place.
 
-test('getExportedCostume', t => {
+test('getExportedCostume', () => {
     const vm = new VM();
-    t.same(
+    assert.deepEqual(
         vm.getExportedCostume({
             asset: {
                 data: new Uint8Array([97, 98, 99])
@@ -15,13 +16,12 @@ test('getExportedCostume', t => {
         }),
         new Uint8Array([97, 98, 99])
     );
-    t.end();
 });
 
-test('getExportedCostumeBase64', t => {
+test('getExportedCostumeBase64', () => {
     // We'll just make sure that the output is being base64 encoded.
     const vm = new VM();
-    t.same(
+    assert.deepEqual(
         vm.getExportedCostumeBase64({
             asset: {
                 data: new Uint8Array([97, 98, 99])
@@ -31,5 +31,4 @@ test('getExportedCostumeBase64', t => {
         // btoa("abc")
         'YWJj'
     );
-    t.end();
 });

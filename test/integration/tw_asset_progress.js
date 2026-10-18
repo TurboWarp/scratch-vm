@@ -1,4 +1,5 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const fs = require('fs');
 const path = require('path');
 const Runtime = require('../../src/engine/runtime');
@@ -6,19 +7,19 @@ const VirtualMachine = require('../../src/virtual-machine');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const AssetUtil = require('../../src/util/tw-asset-util');
 
-test('emitAssetProgress', t => {
+test('emitAssetProgress', () => {
     const vm = new VirtualMachine();
 
     let runtimeOK = false;
     let vmOK = false;
     vm.runtime.on('ASSET_PROGRESS', (finished, total) => {
-        t.equal(finished, 1, 'runtime finished');
-        t.equal(total, 2, 'runtime total');
+        assert.strictEqual(finished, 1, 'runtime finished');
+        assert.strictEqual(total, 2, 'runtime total');
         runtimeOK = true;
     });
     vm.on('ASSET_PROGRESS', (finished, total) => {
-        t.equal(finished, 1, 'vm finished');
-        t.equal(total, 2, 'vm total');
+        assert.strictEqual(finished, 1, 'vm finished');
+        assert.strictEqual(total, 2, 'vm total');
         vmOK = true;
     });
 
@@ -26,9 +27,8 @@ test('emitAssetProgress', t => {
     vm.runtime.finishedAssetRequests = 1;
     vm.runtime.emitAssetProgress();
 
-    t.ok(runtimeOK, 'runtime');
-    t.ok(vmOK, 'vm');
-    t.end();
+    assert.ok(runtimeOK, 'runtime');
+    assert.ok(vmOK, 'vm');
 });
 
 test('resetProgress', t => {
@@ -39,28 +39,26 @@ test('resetProgress', t => {
     runtime.totalAssetRequests = 10;
 
     runtime.on('ASSET_PROGRESS', (finished, total) => {
-        t.equal(finished, 0, 'event finished');
-        t.equal(total, 0, 'event total');
+        t.assert.strictEqual(finished, 0, 'event finished');
+        t.assert.strictEqual(total, 0, 'event total');
     });
 
     runtime.resetProgress();
 
-    t.equal(runtime.finishedAssetRequests, 0, 'property finishedAssetRequests');
-    t.equal(runtime.totalAssetRequests, 0, 'property totalAssetRequests');
-    t.end();
+    t.assert.strictEqual(runtime.finishedAssetRequests, 0, 'property finishedAssetRequests');
+    t.assert.strictEqual(runtime.totalAssetRequests, 0, 'property totalAssetRequests');
 });
 
 test('dispose', t => {
     t.plan(1);
     const runtime = new Runtime();
     runtime.resetProgress = () => {
-        t.pass();
+        t.assert.ok(true);
     };
     runtime.dispose();
-    t.end();
 });
 
-test('wrapAssetRequest', t => {
+test('wrapAssetRequest', (t, done) => {
     const runtime = new Runtime();
 
     const log = [];
@@ -72,12 +70,12 @@ test('wrapAssetRequest', t => {
         runtime.wrapAssetRequest(() => Promise.resolve(1)),
         runtime.wrapAssetRequest(() => Promise.resolve(2))
     ]).then(results => {
-        t.same(results, [1, 2]);
+        assert.deepEqual(results, [1, 2]);
 
         // eslint-disable-next-line prefer-promise-reject-errors
         runtime.wrapAssetRequest(() => Promise.reject(3)).catch(error => {
-            t.equal(error, 3);
-            t.same(log, [
+            assert.strictEqual(error, 3);
+            assert.deepEqual(log, [
                 [0, 1],
                 [0, 2],
                 [1, 2],
@@ -85,12 +83,12 @@ test('wrapAssetRequest', t => {
                 [2, 3],
                 [3, 3]
             ]);
-            t.end();
+            done();
         });
     });
 });
 
-test('asset util emits progress', t => {
+test('asset util emits progress', async () => {
     const runtime = new Runtime();
 
     const storage = makeTestStorage();
@@ -104,19 +102,17 @@ test('asset util emits progress', t => {
         log.push([finished, total]);
     });
 
-    AssetUtil.getByMd5ext(runtime, null, runtime.storage.AssetType.SVG, 'abcdef.svg').then(() => {
-        t.same(log, [
-            [0, 1],
-            [1, 1]
-        ]);
-        t.end();
-    });
+    await AssetUtil.getByMd5ext(runtime, null, runtime.storage.AssetType.SVG, 'abcdef.svg');
+    assert.deepEqual(log, [
+        [0, 1],
+        [1, 1]
+    ]);
 });
 
 //  For the next tests, we have some fixtures that contain 2 assets: 1 sound + 1 costume
 // We'll just load them and make sure that each deserializer emits reasonable progress events
 for (const format of ['sb', 'sb2', 'sb3']) {
-    test(format, t => {
+    test(format, async () => {
         const fixture = fs.readFileSync(path.join(__dirname, `../fixtures/tw-asset-progress.${format}`));
         const vm = new VirtualMachine();
     
@@ -125,16 +121,13 @@ for (const format of ['sb', 'sb2', 'sb3']) {
             log.push([finished, total]);
         });
     
-        vm.loadProject(fixture)
-            .then(() => {
-                t.same(log, [
-                    [0, 0], // loadProject() implies dispose()
-                    [0, 1],
-                    [0, 2],
-                    [1, 2],
-                    [2, 2]
-                ]);
-                t.end();
-            });
+        await vm.loadProject(fixture);
+        assert.deepEqual(log, [
+            [0, 0], // loadProject() implies dispose()
+            [0, 1],
+            [0, 2],
+            [1, 2],
+            [2, 2]
+        ]);
     });
 }

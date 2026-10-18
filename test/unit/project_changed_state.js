@@ -1,4 +1,5 @@
-const tap = require('tap');
+const {test, beforeEach} = require('node:test');
+const assert = require('node:assert');
 const path = require('path');
 const readFileToBuffer = require('../fixtures/readProjectFile').readFileToBuffer;
 const makeTestStorage = require('../fixtures/make-test-storage');
@@ -7,7 +8,7 @@ const VirtualMachine = require('../../src/virtual-machine');
 let vm;
 let projectChanged;
 
-tap.beforeEach(() => {
+beforeEach(async () => {
     const projectUri = path.resolve(__dirname, '../fixtures/default.sb2');
     const project = readFileToBuffer(projectUri);
 
@@ -18,38 +19,31 @@ tap.beforeEach(() => {
     });
 
     vm.attachStorage(makeTestStorage());
-    return vm.loadProject(project).then(() => {
-        // The test in project_load_changed_state.js tests
-        // that loading a project does not emit a project changed
-        // event. This setup tries to be agnostic of whether that
-        // test is passing or failing.
-        projectChanged = false;
-    });
+    await vm.loadProject(project);
+    // The test in project_load_changed_state.js tests
+    // that loading a project does not emit a project changed
+    // event. This setup tries to be agnostic of whether that
+    // test is passing or failing.
+    projectChanged = false;
 });
 
-const test = tap.test;
-
-test('Adding a sprite (from sprite2) should emit a project changed event', t => {
+test('Adding a sprite (from sprite2) should emit a project changed event', async () => {
     const sprite2Uri = path.resolve(__dirname, '../fixtures/cat.sprite2');
     const sprite2 = readFileToBuffer(sprite2Uri);
 
-    vm.addSprite(sprite2).then(() => {
-        t.equal(projectChanged, true);
-        t.end();
-    });
+    await vm.addSprite(sprite2);
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Adding a sprite (from sprite3) should emit a project changed event', t => {
+test('Adding a sprite (from sprite3) should emit a project changed event', async () => {
     const sprite3Uri = path.resolve(__dirname, '../fixtures/cat.sprite3');
     const sprite3 = readFileToBuffer(sprite3Uri);
 
-    vm.addSprite(sprite3).then(() => {
-        t.equal(projectChanged, true);
-        t.end();
-    });
+    await vm.addSprite(sprite3);
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Adding a costume should emit a project changed event', t => {
+test('Adding a costume should emit a project changed event', async () => {
     const newCostume = {
         name: 'costume1',
         baseLayerID: 0,
@@ -59,13 +53,11 @@ test('Adding a costume should emit a project changed event', t => {
         rotationCenterY: 55
     };
 
-    vm.addCostume('f9a1c175dbe2e5dee472858dd30d16bb.svg', newCostume).then(() => {
-        t.equal(projectChanged, true);
-        t.end();
-    });
+    await vm.addCostume('f9a1c175dbe2e5dee472858dd30d16bb.svg', newCostume);
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Adding a costume from library should emit a project changed event', t => {
+test('Adding a costume from library should emit a project changed event', async () => {
     const newCostume = {
         name: 'costume1',
         baseLayerID: 0,
@@ -75,13 +67,11 @@ test('Adding a costume from library should emit a project changed event', t => {
         rotationCenterY: 55
     };
 
-    vm.addCostumeFromLibrary('f9a1c175dbe2e5dee472858dd30d16bb.svg', newCostume).then(() => {
-        t.equal(projectChanged, true);
-        t.end();
-    });
+    await vm.addCostumeFromLibrary('f9a1c175dbe2e5dee472858dd30d16bb.svg', newCostume);
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Adding a backdrop should emit a project changed event', t => {
+test('Adding a backdrop should emit a project changed event', async () => {
     const newCostume = {
         name: 'costume1',
         baseLayerID: 0,
@@ -91,13 +81,11 @@ test('Adding a backdrop should emit a project changed event', t => {
         rotationCenterY: 55
     };
 
-    vm.addBackdrop('f9a1c175dbe2e5dee472858dd30d16bb.svg', newCostume).then(() => {
-        t.equal(projectChanged, true);
-        t.end();
-    });
+    await vm.addBackdrop('f9a1c175dbe2e5dee472858dd30d16bb.svg', newCostume);
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Adding a sound should emit a project changed event', t => {
+test('Adding a sound should emit a project changed event', async () => {
     const newSound = {
         soundName: 'meow',
         soundID: 0,
@@ -106,59 +94,51 @@ test('Adding a sound should emit a project changed event', t => {
         rate: 22050
     };
 
-    vm.addSound(newSound).then(() => {
-        t.equal(projectChanged, true);
-        t.end();
-    });
+    await vm.addSound(newSound);
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Deleting a sprite should emit a project changed event', t => {
+test('Deleting a sprite should emit a project changed event', () => {
     const spriteId = vm.editingTarget.id;
 
     vm.deleteSprite(spriteId);
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Deleting a costume should emit a project changed event', t => {
+test('Deleting a costume should emit a project changed event', () => {
     vm.deleteCostume(0);
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Deleting a sound should emit a project changed event', t => {
+test('Deleting a sound should emit a project changed event', () => {
     vm.deleteSound(0);
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Reordering a sprite should emit a project changed event', t => {
+test('Reordering a sprite should emit a project changed event', async () => {
     const sprite3Uri = path.resolve(__dirname, '../fixtures/cat.sprite3');
     const sprite3 = readFileToBuffer(sprite3Uri);
 
     // Add a new sprite so we have 2 to reorder
-    vm.addSprite(sprite3).then(() => {
-        // Reset the project changed flag to ignore change from adding new sprite
-        projectChanged = false;
-        t.equal(vm.runtime.targets.filter(target => !target.isStage).length, 2);
-        vm.reorderTarget(2, 1);
-        t.equal(projectChanged, true);
-        t.end();
-    });
+    await vm.addSprite(sprite3);
+    // Reset the project changed flag to ignore change from adding new sprite
+    projectChanged = false;
+    assert.strictEqual(vm.runtime.targets.filter(target => !target.isStage).length, 2);
+    vm.reorderTarget(2, 1);
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Reordering a costume should emit a project changed event', t => {
-    t.equal(vm.editingTarget.sprite.costumes.length, 2);
+test('Reordering a costume should emit a project changed event', () => {
+    assert.strictEqual(vm.editingTarget.sprite.costumes.length, 2);
     const spriteId = vm.editingTarget.id;
     const reordered = vm.reorderCostume(spriteId, 1, 0);
-    t.equal(reordered, true);
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(reordered, true);
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Reordering a sound should emit a project changed event', t => {
+test('Reordering a sound should emit a project changed event', async () => {
     const spriteId = vm.editingTarget.id;
     const newSound = {
         soundName: 'meow',
@@ -167,45 +147,40 @@ test('Reordering a sound should emit a project changed event', t => {
         sampleCount: 18688,
         rate: 22050
     };
-    vm.addSound(newSound).then(() => {
-        // Reset the project changed flag to ignore change from adding new sound
-        projectChanged = false;
-        t.equal(vm.editingTarget.sprite.sounds.length, 2);
-        const reordered = vm.reorderSound(spriteId, 1, 0);
-        t.equal(reordered, true);
-        t.equal(projectChanged, true);
-        t.end();
-    });
+    await vm.addSound(newSound);
+    // Reset the project changed flag to ignore change from adding new sound
+    projectChanged = false;
+    assert.strictEqual(vm.editingTarget.sprite.sounds.length, 2);
+    const reordered = vm.reorderSound(spriteId, 1, 0);
+    assert.strictEqual(reordered, true);
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Renaming a sprite should emit a project changed event', t => {
+test('Renaming a sprite should emit a project changed event', () => {
     const spriteId = vm.editingTarget.id;
     vm.renameSprite(spriteId, 'My Sprite');
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Renaming a costume should emit a project changed event', t => {
+test('Renaming a costume should emit a project changed event', () => {
     vm.renameCostume(0, 'My Costume');
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Renaming a sound should emit a project changed event', t => {
+test('Renaming a sound should emit a project changed event', () => {
     vm.renameSound(0, 'My Sound');
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Changing sprite info should emit a project changed event', t => {
+test('Changing sprite info should emit a project changed event', () => {
     const newSpritePosition = {
         x: 10,
         y: 100
     };
 
     vm.postSpriteInfo(newSpritePosition);
-    t.equal(projectChanged, true);
+    assert.strictEqual(projectChanged, true);
     projectChanged = false;
 
     const newSpriteDirection = {
@@ -213,28 +188,24 @@ test('Changing sprite info should emit a project changed event', t => {
     };
 
     vm.postSpriteInfo(newSpriteDirection);
-    t.equal(projectChanged, true);
+    assert.strictEqual(projectChanged, true);
     projectChanged = false;
-
-    t.end();
 
 });
 
-test('Editing a vector costume should emit a project changed event', t => {
+test('Editing a vector costume should emit a project changed event', () => {
     const mockSvg = 'svg';
     const mockRotationX = -13;
     const mockRotationY = 25;
 
     vm.updateSvg(0, mockSvg, mockRotationX, mockRotationY);
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Editing a sound should emit a project changed event', t => {
+test('Editing a sound should emit a project changed event', () => {
     const mockSoundBuffer = [];
     const mockSoundEncoding = [];
 
     vm.updateSoundBuffer(0, mockSoundBuffer, mockSoundEncoding);
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });

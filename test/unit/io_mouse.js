@@ -1,22 +1,22 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Mouse = require('../../src/io/mouse');
 const Runtime = require('../../src/engine/runtime');
 
-test('spec', t => {
+test('spec', () => {
     const rt = new Runtime();
     const m = new Mouse(rt);
 
-    t.type(m, 'object');
-    t.type(m.postData, 'function');
-    t.type(m.getClientX, 'function');
-    t.type(m.getClientY, 'function');
-    t.type(m.getScratchX, 'function');
-    t.type(m.getScratchY, 'function');
-    t.type(m.getIsDown, 'function');
-    t.end();
+    assert.strictEqual(typeof m, 'object');
+    assert.strictEqual(typeof m.postData, 'function');
+    assert.strictEqual(typeof m.getClientX, 'function');
+    assert.strictEqual(typeof m.getClientY, 'function');
+    assert.strictEqual(typeof m.getScratchX, 'function');
+    assert.strictEqual(typeof m.getScratchY, 'function');
+    assert.strictEqual(typeof m.getIsDown, 'function');
 });
 
-test('mouseUp', t => {
+test('mouseUp', () => {
     const rt = new Runtime();
     const m = new Mouse(rt);
 
@@ -27,15 +27,14 @@ test('mouseUp', t => {
         canvasWidth: 480,
         canvasHeight: 360
     });
-    t.strictEquals(m.getClientX(), -20);
-    t.strictEquals(m.getClientY(), 10);
-    t.strictEquals(m.getScratchX(), -240);
-    t.strictEquals(m.getScratchY(), 170);
-    t.strictEquals(m.getIsDown(), false);
-    t.end();
+    assert.strictEqual(m.getClientX(), -20);
+    assert.strictEqual(m.getClientY(), 10);
+    assert.strictEqual(m.getScratchX(), -240);
+    assert.strictEqual(m.getScratchY(), 170);
+    assert.strictEqual(m.getIsDown(), false);
 });
 
-test('mouseDown', t => {
+test('mouseDown', () => {
     const rt = new Runtime();
     const m = new Mouse(rt);
 
@@ -46,15 +45,14 @@ test('mouseDown', t => {
         canvasWidth: 480,
         canvasHeight: 360
     });
-    t.strictEquals(m.getClientX(), 9.9);
-    t.strictEquals(m.getClientY(), 400.1);
-    t.strictEquals(m.getScratchX(), -230);
-    t.strictEquals(m.getScratchY(), -180);
-    t.strictEquals(m.getIsDown(), true);
-    t.end();
+    assert.strictEqual(m.getClientX(), 9.9);
+    assert.strictEqual(m.getClientY(), 400.1);
+    assert.strictEqual(m.getScratchX(), -230);
+    assert.strictEqual(m.getScratchY(), -180);
+    assert.strictEqual(m.getIsDown(), true);
 });
 
-test('at zoomed scale', t => {
+test('at zoomed scale', () => {
     const rt = new Runtime();
     const m = new Mouse(rt);
 
@@ -64,14 +62,13 @@ test('at zoomed scale', t => {
         canvasWidth: 960,
         canvasHeight: 720
     });
-    t.strictEquals(m.getClientX(), 240);
-    t.strictEquals(m.getClientY(), 540);
-    t.strictEquals(m.getScratchX(), -120);
-    t.strictEquals(m.getScratchY(), -90);
-    t.end();
+    assert.strictEqual(m.getClientX(), 240);
+    assert.strictEqual(m.getClientY(), 540);
+    assert.strictEqual(m.getScratchX(), -120);
+    assert.strictEqual(m.getScratchY(), -90);
 });
 
-test('mousedown activating click hats', t => {
+test('mousedown activating click hats', () => {
     const rt = new Runtime();
     const m = new Mouse(rt);
 
@@ -103,23 +100,23 @@ test('mousedown activating click hats', t => {
 
     // Mouse move without mousedown
     m.postData(mouseMoveEvent);
-    t.strictEquals(ranClickHats, false);
+    assert.strictEqual(ranClickHats, false);
 
     // Mouse down event triggers the hats if target is not draggable
     dummyTarget.draggable = false;
     m.postData(mouseDownEvent);
-    t.strictEquals(ranClickHats, true);
+    assert.strictEqual(ranClickHats, true);
 
     // But another mouse move while down doesn't trigger
     ranClickHats = false;
     m.postData(mouseDownEvent);
-    t.strictEquals(ranClickHats, false);
+    assert.strictEqual(ranClickHats, false);
 
     // And it does trigger on mouse up if target is draggable
     ranClickHats = false;
     dummyTarget.draggable = true;
     m.postData(mouseUpEvent);
-    t.strictEquals(ranClickHats, true);
+    assert.strictEqual(ranClickHats, true);
 
     // And hats don't trigger if mouse down is outside canvas
     ranClickHats = false;
@@ -127,7 +124,5 @@ test('mousedown activating click hats', t => {
         x: 50000,
         y: 50
     }));
-    t.strictEquals(ranClickHats, false);
-
-    t.end();
+    assert.strictEqual(ranClickHats, false);
 });

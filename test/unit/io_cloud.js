@@ -1,36 +1,35 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Cloud = require('../../src/io/cloud');
 const Target = require('../../src/engine/target');
 const Variable = require('../../src/engine/variable');
 const Runtime = require('../../src/engine/runtime');
 
-test('spec', t => {
+test('spec', () => {
     const runtime = new Runtime();
     const cloud = new Cloud(runtime);
 
-    t.type(cloud, 'object');
-    t.type(cloud.postData, 'function');
-    t.type(cloud.requestCreateVariable, 'function');
-    t.type(cloud.requestUpdateVariable, 'function');
-    t.type(cloud.requestRenameVariable, 'function');
-    t.type(cloud.requestDeleteVariable, 'function');
-    t.type(cloud.updateCloudVariable, 'function');
-    t.type(cloud.setProvider, 'function');
-    t.type(cloud.setStage, 'function');
-    t.type(cloud.clear, 'function');
-    t.end();
+    assert.strictEqual(typeof cloud, 'object');
+    assert.strictEqual(typeof cloud.postData, 'function');
+    assert.strictEqual(typeof cloud.requestCreateVariable, 'function');
+    assert.strictEqual(typeof cloud.requestUpdateVariable, 'function');
+    assert.strictEqual(typeof cloud.requestRenameVariable, 'function');
+    assert.strictEqual(typeof cloud.requestDeleteVariable, 'function');
+    assert.strictEqual(typeof cloud.updateCloudVariable, 'function');
+    assert.strictEqual(typeof cloud.setProvider, 'function');
+    assert.strictEqual(typeof cloud.setStage, 'function');
+    assert.strictEqual(typeof cloud.clear, 'function');
 });
 
-test('stage and provider are null initially', t => {
+test('stage and provider are null initially', () => {
     const runtime = new Runtime();
     const cloud = new Cloud(runtime);
 
-    t.strictEquals(cloud.provider, null);
-    t.strictEquals(cloud.stage, null);
-    t.end();
+    assert.strictEqual(cloud.provider, null);
+    assert.strictEqual(cloud.stage, null);
 });
 
-test('setProvider sets the provider', t => {
+test('setProvider sets the provider', () => {
     const runtime = new Runtime();
     const cloud = new Cloud(runtime);
 
@@ -39,12 +38,10 @@ test('setProvider sets the provider', t => {
     };
 
     cloud.setProvider(provider);
-    t.strictEquals(cloud.provider, provider);
-
-    t.end();
+    assert.strictEqual(cloud.provider, provider);
 });
 
-test('postData update message updates the variable', t => {
+test('postData update message updates the variable', () => {
     const runtime = new Runtime();
     const stage = new Target(runtime);
     const fooVar = Variable.create(
@@ -55,7 +52,7 @@ test('postData update message updates the variable', t => {
     );
     stage.variables[fooVar.id] = fooVar;
 
-    t.strictEquals(fooVar.value, 0);
+    assert.strictEqual(fooVar.value, 0);
 
     const cloud = new Cloud(runtime);
     cloud.setStage(stage);
@@ -63,11 +60,10 @@ test('postData update message updates the variable', t => {
         name: 'foo',
         value: 3
     }});
-    t.strictEquals(fooVar.value, 3);
-    t.end();
+    assert.strictEqual(fooVar.value, 3);
 });
 
-test('requestUpdateVariable calls provider\'s updateVariable function', t => {
+test('requestUpdateVariable calls provider\'s updateVariable function', () => {
     let updateVariableCalled = false;
     let mockVarName = '';
     let mockVarValue = '';
@@ -86,13 +82,12 @@ test('requestUpdateVariable calls provider\'s updateVariable function', t => {
     const cloud = new Cloud(runtime);
     cloud.setProvider(provider);
     cloud.requestUpdateVariable('foo', 3);
-    t.equals(updateVariableCalled, true);
-    t.strictEquals(mockVarName, 'foo');
-    t.strictEquals(mockVarValue, 3);
-    t.end();
+    assert.strictEqual(updateVariableCalled, true);
+    assert.strictEqual(mockVarName, 'foo');
+    assert.strictEqual(mockVarValue, 3);
 });
 
-test('requestCreateVariable calls provider\'s createVariable function', t => {
+test('requestCreateVariable calls provider\'s createVariable function', () => {
     let createVariableCalled = false;
     const mockVariable = Variable.create('a var id', 'my var', Variable.SCALAR_TYPE, false);
     let mockVarName;
@@ -112,15 +107,14 @@ test('requestCreateVariable calls provider\'s createVariable function', t => {
     const cloud = new Cloud(runtime);
     cloud.setProvider(provider);
     cloud.requestCreateVariable(mockVariable);
-    t.equals(createVariableCalled, true);
-    t.strictEquals(mockVarName, 'my var');
-    t.strictEquals(mockVarValue, 0);
+    assert.strictEqual(createVariableCalled, true);
+    assert.strictEqual(mockVarName, 'my var');
+    assert.strictEqual(mockVarValue, 0);
     // Calling requestCreateVariable does not set isCloud flag on variable
-    t.strictEquals(mockVariable.isCloud, false);
-    t.end();
+    assert.strictEqual(mockVariable.isCloud, false);
 });
 
-test('requestRenameVariable calls provider\'s renameVariable function', t => {
+test('requestRenameVariable calls provider\'s renameVariable function', () => {
     let renameVariableCalled = false;
     let mockVarOldName;
     let mockVarNewName;
@@ -139,13 +133,12 @@ test('requestRenameVariable calls provider\'s renameVariable function', t => {
     const cloud = new Cloud(runtime);
     cloud.setProvider(provider);
     cloud.requestRenameVariable('my var', 'new var name');
-    t.equals(renameVariableCalled, true);
-    t.strictEquals(mockVarOldName, 'my var');
-    t.strictEquals(mockVarNewName, 'new var name');
-    t.end();
+    assert.strictEqual(renameVariableCalled, true);
+    assert.strictEqual(mockVarOldName, 'my var');
+    assert.strictEqual(mockVarNewName, 'new var name');
 });
 
-test('requestDeleteVariable calls provider\'s deleteVariable function', t => {
+test('requestDeleteVariable calls provider\'s deleteVariable function', () => {
     let deleteVariableCalled = false;
     let mockVarName;
     const mockDeleteVariable = name => {
@@ -162,7 +155,6 @@ test('requestDeleteVariable calls provider\'s deleteVariable function', t => {
     const cloud = new Cloud(runtime);
     cloud.setProvider(provider);
     cloud.requestDeleteVariable('my var');
-    t.equals(deleteVariableCalled, true);
-    t.strictEquals(mockVarName, 'my var');
-    t.end();
+    assert.strictEqual(deleteVariableCalled, true);
+    assert.strictEqual(mockVarName, 'my var');
 });

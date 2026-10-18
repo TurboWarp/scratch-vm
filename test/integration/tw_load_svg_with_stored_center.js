@@ -2,7 +2,7 @@ const {loadCostume} = require('../../src/import/load-costume');
 const Runtime = require('../../src/engine/runtime');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const FakeRenderer = require('../fixtures/fake-renderer');
-const {test} = require('tap');
+const {test} = require('node:test');
 
 test('importing SVG with stored rotation center', async t => {
     t.plan(3);
@@ -12,7 +12,7 @@ test('importing SVG with stored rotation center', async t => {
     const renderer = new FakeRenderer();
     renderer.createSVGSkin = (svgText, rotationCenter) => {
         // Make sure that the rotation center given to the renderer is correct
-        t.same(rotationCenter, [106.62300344745225, -11.822572945859918]);
+        t.assert.deepEqual(rotationCenter, [106.62300344745225, -11.822572945859918]);
         // just need to return a valid skin ID, doesn't matter
         return 1;
     };
@@ -24,7 +24,6 @@ test('importing SVG with stored rotation center', async t => {
     const costume = await loadCostume(`${asset.assetId}.svg`, {
         asset
     }, runtime);
-    t.equal(costume.rotationCenterX, 106.62300344745225);
-    t.equal(costume.rotationCenterY, -11.822572945859918);
-    t.end();
+    t.assert.strictEqual(costume.rotationCenterX, 106.62300344745225);
+    t.assert.strictEqual(costume.rotationCenterY, -11.822572945859918);
 });

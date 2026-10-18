@@ -1,4 +1,5 @@
-const tap = require('tap');
+const {test, beforeEach} = require('node:test');
+const assert = require('node:assert');
 const path = require('path');
 const readFileToBuffer = require('../fixtures/readProjectFile').readFileToBuffer;
 const makeTestStorage = require('../fixtures/make-test-storage');
@@ -8,7 +9,7 @@ let vm;
 let projectChanged;
 let blockContainer;
 
-tap.beforeEach(() => {
+beforeEach(async () => {
     const projectUri = path.resolve(__dirname, '../fixtures/default.sb2');
     const project = readFileToBuffer(projectUri);
 
@@ -19,61 +20,56 @@ tap.beforeEach(() => {
     });
 
     vm.attachStorage(makeTestStorage());
-    return vm.loadProject(project).then(() => {
-        blockContainer = vm.editingTarget.blocks;
+    await vm.loadProject(project);
+    blockContainer = vm.editingTarget.blocks;
 
-        // Add mock blocks to use for tests
-        blockContainer.createBlock({
-            id: 'a parent block',
-            opcode: 'my_testParentBlock',
-            fields: {},
-            inputs: {}
-        });
-
-
-        blockContainer.createBlock({
-            id: 'a new block',
-            opcode: 'my_testBlock',
-            topLevel: true,
-            x: -10,
-            y: 35,
-            fields: {
-                A_FIELD: {
-                    name: 'A_FIELD',
-                    value: 10
-                }
-            },
-            inputs: {},
-            parent: 'a block'
-        });
-
-        // Reset project changes from new blocks
-        projectChanged = false;
-
+    // Add mock blocks to use for tests
+    blockContainer.createBlock({
+        id: 'a parent block',
+        opcode: 'my_testParentBlock',
+        fields: {},
+        inputs: {}
     });
+
+
+    blockContainer.createBlock({
+        id: 'a new block',
+        opcode: 'my_testBlock',
+        topLevel: true,
+        x: -10,
+        y: 35,
+        fields: {
+            A_FIELD: {
+                name: 'A_FIELD',
+                value: 10
+            }
+        },
+        inputs: {},
+        parent: 'a block'
+    });
+
+    // Reset project changes from new blocks
+    projectChanged = false;
+
 });
 
-const test = tap.test;
-
-test('Creating a block should emit a project changed event', t => {
+test('Creating a block should emit a project changed event', () => {
     blockContainer.createBlock({
         id: 'another block',
         opcode: 'my_testBlock',
         topLevel: true
     });
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Deleting a block should emit a project changed event', t => {
+test('Deleting a block should emit a project changed event', () => {
     blockContainer.deleteBlock('a new block');
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Changing a block should emit a project changed event', t => {
+test('Changing a block should emit a project changed event', () => {
     blockContainer.changeBlock({
         element: 'field',
         id: 'a new block',
@@ -81,7 +77,7 @@ test('Changing a block should emit a project changed event', t => {
         value: 300
     });
 
-    t.equal(projectChanged, true);
+    assert.strictEqual(projectChanged, true);
     projectChanged = false;
 
     blockContainer.changeBlock({
@@ -90,7 +86,7 @@ test('Changing a block should emit a project changed event', t => {
         value: true
     });
 
-    t.equal(projectChanged, true);
+    assert.strictEqual(projectChanged, true);
     projectChanged = false;
 
     blockContainer.changeBlock({
@@ -99,12 +95,10 @@ test('Changing a block should emit a project changed event', t => {
         value: '<mutation></mutation>'
     });
 
-    t.equal(projectChanged, true);
-
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Moving a block to a new position should emit a project changed event', t => {
+test('Moving a block to a new position should emit a project changed event', () => {
     blockContainer.moveBlock({
         id: 'a new block',
         newCoordinate: {
@@ -113,11 +107,10 @@ test('Moving a block to a new position should emit a project changed event', t =
         }
     });
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Connecting a block to a new parent should emit a project changed event', t => {
+test('Connecting a block to a new parent should emit a project changed event', () => {
     blockContainer.createBlock({
         id: 'another block',
         opcode: 'my_testBlock'
@@ -130,21 +123,19 @@ test('Connecting a block to a new parent should emit a project changed event', t
         newParent: 'another block'
     });
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Disconnecting a block from another should emit a project changed event', t => {
+test('Disconnecting a block from another should emit a project changed event', () => {
     blockContainer.moveBlock({
         id: 'a new block',
         oldParent: 'a parent block'
     });
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Creating a local variable should emit a project changed event', t => {
+test('Creating a local variable should emit a project changed event', () => {
     blockContainer.blocklyListen({
         type: 'var_create',
         varId: 'a new variable',
@@ -154,7 +145,7 @@ test('Creating a local variable should emit a project changed event', t => {
         isCloud: false
     });
 
-    t.equal(projectChanged, true);
+    assert.strictEqual(projectChanged, true);
 
     projectChanged = false;
 
@@ -168,12 +159,10 @@ test('Creating a local variable should emit a project changed event', t => {
         isCloud: false
     });
 
-    t.equal(projectChanged, false);
-
-    t.end();
+    assert.strictEqual(projectChanged, false);
 });
 
-test('Creating a global variable should emit a project changed event', t => {
+test('Creating a global variable should emit a project changed event', () => {
     blockContainer.blocklyListen({
         type: 'var_create',
         varId: 'a new variable',
@@ -183,7 +172,7 @@ test('Creating a global variable should emit a project changed event', t => {
         isCloud: false
     });
 
-    t.equal(projectChanged, true);
+    assert.strictEqual(projectChanged, true);
 
     projectChanged = false;
 
@@ -197,12 +186,10 @@ test('Creating a global variable should emit a project changed event', t => {
         isCloud: false
     });
 
-    t.equal(projectChanged, false);
-
-    t.end();
+    assert.strictEqual(projectChanged, false);
 });
 
-test('Renaming a variable should emit a project changed event', t => {
+test('Renaming a variable should emit a project changed event', () => {
     blockContainer.blocklyListen({
         type: 'var_create',
         varId: 'a new variable',
@@ -221,11 +208,10 @@ test('Renaming a variable should emit a project changed event', t => {
         newName: 'bar'
     });
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Deleting a variable should emit a project changed event', t => {
+test('Deleting a variable should emit a project changed event', () => {
     blockContainer.blocklyListen({
         type: 'var_create',
         varId: 'a new variable',
@@ -246,11 +232,10 @@ test('Deleting a variable should emit a project changed event', t => {
         isCloud: false
     });
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Creating a block comment should emit a project changed event', t => {
+test('Creating a block comment should emit a project changed event', () => {
     blockContainer.blocklyListen({
         type: 'comment_create',
         blockId: 'a new block',
@@ -265,11 +250,10 @@ test('Creating a block comment should emit a project changed event', t => {
         text: 'comment'
     });
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Creating a workspace comment should emit a project changed event', t => {
+test('Creating a workspace comment should emit a project changed event', () => {
     blockContainer.blocklyListen({
         type: 'comment_create',
         blockId: null,
@@ -284,11 +268,10 @@ test('Creating a workspace comment should emit a project changed event', t => {
         text: 'comment'
     });
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Changing a comment should emit a project changed event', t => {
+test('Changing a comment should emit a project changed event', () => {
     blockContainer.blocklyListen({
         type: 'comment_create',
         blockId: null,
@@ -317,11 +300,10 @@ test('Changing a comment should emit a project changed event', t => {
         }
     });
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Attempting to change a comment that does not exist should not emit a project changed event', t => {
+test('Attempting to change a comment that does not exist should not emit a project changed event', () => {
     blockContainer.blocklyListen({
         type: 'comment_change',
         blockId: null,
@@ -334,11 +316,10 @@ test('Attempting to change a comment that does not exist should not emit a proje
         }
     });
 
-    t.equal(projectChanged, false);
-    t.end();
+    assert.strictEqual(projectChanged, false);
 });
 
-test('Deleting a block comment should emit a project changed event', t => {
+test('Deleting a block comment should emit a project changed event', () => {
     blockContainer.blocklyListen({
         type: 'comment_create',
         blockId: 'a new block',
@@ -369,11 +350,10 @@ test('Deleting a block comment should emit a project changed event', t => {
         text: 'comment'
     });
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Deleting a workspace comment should emit a project changed event', t => {
+test('Deleting a workspace comment should emit a project changed event', () => {
     blockContainer.blocklyListen({
         type: 'comment_create',
         blockId: null,
@@ -404,11 +384,10 @@ test('Deleting a workspace comment should emit a project changed event', t => {
         text: 'comment'
     });
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });
 
-test('Deleting a comment that does not exist should not emit a project changed event', t => {
+test('Deleting a comment that does not exist should not emit a project changed event', () => {
     blockContainer.blocklyListen({
         type: 'comment_delete',
         blockId: null,
@@ -423,11 +402,10 @@ test('Deleting a comment that does not exist should not emit a project changed e
         text: 'comment'
     });
 
-    t.equal(projectChanged, false);
-    t.end();
+    assert.strictEqual(projectChanged, false);
 });
 
-test('Moving a comment should emit a project changed event', t => {
+test('Moving a comment should emit a project changed event', () => {
     blockContainer.blocklyListen({
         type: 'comment_create',
         blockId: null,
@@ -458,6 +436,5 @@ test('Moving a comment should emit a project changed event', t => {
         }
     });
 
-    t.equal(projectChanged, true);
-    t.end();
+    assert.strictEqual(projectChanged, true);
 });

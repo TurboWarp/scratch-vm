@@ -1,9 +1,10 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Thread = require('../../src/engine/thread');
 const Runtime = require('../../src/engine/runtime');
 const Target = require('../../src/engine/target');
 
-test('stopThisScript procedures_call reporter form', t => {
+test('stopThisScript procedures_call reporter form', () => {
     const rt = new Runtime();
     const target = new Target(rt, null);
 
@@ -44,9 +45,7 @@ test('stopThisScript procedures_call reporter form', t => {
 
     // stopping or returning should always return to reporterCall, not the block after
     thread.stopThisScript();
-    t.same(thread.stack, [
+    assert.deepEqual(thread.stack, [
         'reporterCall'
     ]);
-
-    t.end();
 });

@@ -1,6 +1,7 @@
 const Worker = require('tiny-worker');
 const path = require('path');
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 
 const VirtualMachine = require('../../src/index');
 const dispatch = require('../../src/dispatch/central-dispatch');
@@ -15,7 +16,7 @@ const project = readFileToBuffer(uri);
 // By default Central Dispatch works with the Worker class built into the browser. Tell it to use TinyWorker instead.
 dispatch.workerClass = Worker;
 
-test('runId', async t => {
+test('runId', async () => {
     const guidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
     const isGuid = data => guidRegex.test(data);
 
@@ -25,7 +26,7 @@ test('runId', async t => {
     const runIdLog = [];
     const pushRunId = () => {
         const runId = storage.scratchFetch.getMetadata(storage.scratchFetch.RequestMetadata.RunId);
-        t.ok(isGuid(runId), 'Run IDs should always be a properly-formatted GUID', {runId});
+        assert.ok(isGuid(runId), 'Run IDs should always be a properly-formatted GUID', {runId});
         runIdLog.push(runId);
     };
 
@@ -64,10 +65,9 @@ test('runId', async t => {
 
     for (let i = 0; i < runIdLog.length - 1; ++i) {
         for (let j = i + 1; j < runIdLog.length; ++j) {
-            t.notSame(runIdLog[i], runIdLog[j], 'Run IDs should always be unique', {runIdLog});
+            assert.notDeepEqual(runIdLog[i], runIdLog[j], 'Run IDs should always be unique');
         }
     }
 
     vm.quit();
-    t.end();
 });

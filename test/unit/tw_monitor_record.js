@@ -1,60 +1,55 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const MonitorRecord = require('../../src/engine/monitor-record');
 
-test('new and get', t => {
+test('new and get', () => {
     const record = new MonitorRecord({
         id: 'a',
         x: 10,
         y: 20
     });
 
-    t.equal(record.id, 'a');
-    t.equal(record.x, 10);
-    t.equal(record.y, 20);
+    assert.strictEqual(record.id, 'a');
+    assert.strictEqual(record.x, 10);
+    assert.strictEqual(record.y, 20);
 
-    t.equal(record.get('id'), 'a');
-    t.equal(record.get('x'), 10);
-    t.equal(record.get('y'), 20);
-
-    t.end();
+    assert.strictEqual(record.get('id'), 'a');
+    assert.strictEqual(record.get('x'), 10);
+    assert.strictEqual(record.get('y'), 20);
 });
 
-test('merge', t => {
+test('merge', () => {
     const record = new MonitorRecord({
         id: 'a',
         x: 10,
         y: 20
     });
 
-    t.equal(record.merge({
+    assert.strictEqual(record.merge({
         x: 40,
         y: null
     }), true);
-    t.equal(record.x, 40);
-    t.equal(record.y, 20);
+    assert.strictEqual(record.x, 40);
+    assert.strictEqual(record.y, 20);
 
-    t.equal(record.merge({
+    assert.strictEqual(record.merge({
         x: 40,
         y: undefined
     }), false);
-    t.equal(record.x, 40);
-    t.equal(record.y, 20);
-
-    t.end();
+    assert.strictEqual(record.x, 40);
+    assert.strictEqual(record.y, 20);
 });
 
-test('externalDeltaToJS', t => {
-    t.same(MonitorRecord.externalDeltaToJS({
+test('externalDeltaToJS', () => {
+    assert.deepEqual(MonitorRecord.externalDeltaToJS({
         whatever: 'a'
     }), {whatever: 'a'});
 
-    t.same(MonitorRecord.externalDeltaToJS({
+    assert.deepEqual(MonitorRecord.externalDeltaToJS({
         toJS: () => ({whatever: 'a'})
     }), {whatever: 'a'});
 
-    t.same(MonitorRecord.externalDeltaToJS(
+    assert.deepEqual(MonitorRecord.externalDeltaToJS(
         new Map([['whatever', 'a']])
     ), {whatever: 'a'});
-
-    t.end();
 });

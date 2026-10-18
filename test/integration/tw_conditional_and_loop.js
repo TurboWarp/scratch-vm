@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const {test} = require('tap');
+const {test} = require('node:test');
 const VirtualMachine = require('../../src/virtual-machine');
 const Scratch = require('../../src/extension-support/tw-extension-api-common');
 
@@ -139,7 +139,7 @@ class TestExtensionUsingStartBranch {
 
 for (const Extension of [TestExtensionUsingReturn, TestExtensionUsingStartBranch]) {
     for (const compilerEnabled of [false, true]) {
-        test(`CONDITIONAL - ${Extension.name} - ${compilerEnabled ? 'compiled' : 'interpreted'}`, t => {
+        test(`CONDITIONAL - ${Extension.name} - ${compilerEnabled ? 'compiled' : 'interpreted'}`, (t, done) => {
             t.plan(1);
 
             const vm = new VirtualMachine();
@@ -148,7 +148,7 @@ for (const Extension of [TestExtensionUsingReturn, TestExtensionUsingStartBranch
             });
             vm.extensionManager.addBuiltinExtension('loopsAndThings', Extension);
             vm.runtime.on('COMPILE_ERROR', () => {
-                t.fail('Compile error');
+                t.assert.fail('Compile error');
             });
 
             vm.loadProject(fs.readFileSync(path.join(__dirname, '../fixtures/tw-conditional.sb3'))).then(() => {
@@ -158,10 +158,10 @@ for (const Extension of [TestExtensionUsingReturn, TestExtensionUsingStartBranch
                         okayCount++;
                     } else if (text === 'end') {
                         vm.quit();
-                        t.equal(okayCount, 5);
-                        t.end();
+                        t.assert.strictEqual(okayCount, 5);
+                        done();
                     } else {
-                        t.fail(`Unexpected text: ${text}`);
+                        t.assert.fail(`Unexpected text: ${text}`);
                     }
                 });
 
@@ -170,7 +170,7 @@ for (const Extension of [TestExtensionUsingReturn, TestExtensionUsingStartBranch
             });
         });
 
-        test(`LOOP - ${Extension.name} - ${compilerEnabled ? 'compiled' : 'interpreted'}`, t => {
+        test(`LOOP - ${Extension.name} - ${compilerEnabled ? 'compiled' : 'interpreted'}`, (t, done) => {
             t.plan(1);
 
             const vm = new VirtualMachine();
@@ -179,14 +179,14 @@ for (const Extension of [TestExtensionUsingReturn, TestExtensionUsingStartBranch
             });
             vm.extensionManager.addBuiltinExtension('loopsAndThings', Extension);
             vm.runtime.on('COMPILE_ERROR', () => {
-                t.fail('Compile error');
+                t.assert.fail('Compile error');
             });
 
             vm.loadProject(fs.readFileSync(path.join(__dirname, '../fixtures/tw-loop.sb3'))).then(() => {
                 vm.runtime.on('SAY', (target, type, text) => {
                     vm.quit();
-                    t.equal(text, 'a 3 b 12 c 48 frames 64');
-                    t.end();
+                    t.assert.strictEqual(text, 'a 3 b 12 c 48 frames 64');
+                    done();
                 });
 
                 vm.greenFlag();
@@ -194,7 +194,7 @@ for (const Extension of [TestExtensionUsingReturn, TestExtensionUsingStartBranch
             });
         });
 
-        test(`beyond branchCount - ${Extension.name} - ${compilerEnabled ? 'compiled' : 'interpreted'}`, t => {
+        test(`beyond branchCount - ${Extension.name} - ${compilerEnabled ? 'compiled' : 'interpreted'}`, (t, done) => {
             t.plan(1);
 
             const vm = new VirtualMachine();
@@ -203,16 +203,16 @@ for (const Extension of [TestExtensionUsingReturn, TestExtensionUsingStartBranch
             });
             vm.extensionManager.addBuiltinExtension('loopsAndThings', Extension);
             vm.runtime.on('COMPILE_ERROR', () => {
-                t.fail('Compile error');
+                t.assert.fail('Compile error');
             });
 
             vm.loadProject(fs.readFileSync(path.join(__dirname, '../fixtures/tw-beyond-branchCount.sb3'))).then(() => {
                 vm.runtime.on('SAY', (target, type, text) => {
                     if (text === 'BeyondBranchCount') {
-                        t.pass('BeyondBranchCount');
+                        t.assert.ok(true, 'BeyondBranchCount');
                     } else if (text === 'end') {
                         vm.quit();
-                        t.end();
+                        done();
                     }
                 });
 

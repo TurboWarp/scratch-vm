@@ -1,8 +1,9 @@
 const Runtime = require('../../src/engine/runtime');
 const sb2 = require('../../src/serialization/sb2');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 
-test('importing ScratchX/.sbx project', async t => {
+test('importing ScratchX/.sbx project', async () => {
     const rt = new Runtime();
 
     const deserialized = await sb2.deserialize(
@@ -40,40 +41,38 @@ test('importing ScratchX/.sbx project', async t => {
     );
 
     const extensionIDs = deserialized.extensions.extensionIDs;
-    t.equal(extensionIDs.size, 4);
-    t.ok(extensionIDs.has('sbxtexttospeech'));
-    t.ok(extensionIDs.has('sbxspotify'));
-    t.ok(extensionIDs.has('sbxweatherextension'));
-    t.ok(extensionIDs.has('sbxsynthextension'));
+    assert.strictEqual(extensionIDs.size, 4);
+    assert.ok(extensionIDs.has('sbxtexttospeech'));
+    assert.ok(extensionIDs.has('sbxspotify'));
+    assert.ok(extensionIDs.has('sbxweatherextension'));
+    assert.ok(extensionIDs.has('sbxsynthextension'));
 
     const extensionURLs = deserialized.extensions.extensionURLs;
-    t.equal(extensionURLs.size, 2);
-    t.equal(extensionURLs.get('sbxspotify'), 'https://ericrosenbaum.github.io/spotify-extension/extension.js');
-    t.equal(extensionURLs.get('sbxweatherextension'), 'http://khanning.github.io/scratch-weather-extension/weather_extension.js');
+    assert.strictEqual(extensionURLs.size, 2);
+    assert.strictEqual(extensionURLs.get('sbxspotify'), 'https://ericrosenbaum.github.io/spotify-extension/extension.js');
+    assert.strictEqual(extensionURLs.get('sbxweatherextension'), 'http://khanning.github.io/scratch-weather-extension/weather_extension.js');
 
     const stage = deserialized.targets[0];
     const blocks = Object.values(stage.blocks._blocks);
 
     const textToSpeech = blocks.find(i => i.opcode === 'sbxtexttospeech_speak_text');
-    t.type(textToSpeech, 'object');
-    t.type(textToSpeech.inputs['0'], 'object');
-    t.type(textToSpeech.inputs['1'], 'undefined');
+    assert.strictEqual(typeof textToSpeech, 'object');
+    assert.strictEqual(typeof textToSpeech.inputs['0'], 'object');
+    assert.strictEqual(typeof textToSpeech.inputs['1'], 'undefined');
 
     const spotify = blocks.find(i => i.opcode === 'sbxspotify_everyBar');
-    t.type(spotify, 'object');
-    t.type(spotify.inputs['0'], 'undefined');
+    assert.strictEqual(typeof spotify, 'object');
+    assert.strictEqual(typeof spotify.inputs['0'], 'undefined');
 
     const weather = blocks.find(i => i.opcode === 'sbxweatherextension_getWeather');
-    t.type(weather, 'object');
-    t.type(weather.inputs['0'], 'object');
-    t.type(weather.inputs['1'], 'object');
-    t.type(weather.inputs['2'], 'undefined');
+    assert.strictEqual(typeof weather, 'object');
+    assert.strictEqual(typeof weather.inputs['0'], 'object');
+    assert.strictEqual(typeof weather.inputs['1'], 'object');
+    assert.strictEqual(typeof weather.inputs['2'], 'undefined');
 
     const synth = blocks.find(i => i.opcode === 'sbxsynthextension_setEffect');
-    t.type(synth, 'object');
-    t.type(synth.inputs['0'], 'object');
-    t.type(synth.inputs['1'], 'object');
-    t.type(synth.inputs['2'], 'undefined');
-
-    t.end();
+    assert.strictEqual(typeof synth, 'object');
+    assert.strictEqual(typeof synth.inputs['0'], 'object');
+    assert.strictEqual(typeof synth.inputs['1'], 'object');
+    assert.strictEqual(typeof synth.inputs['2'], 'undefined');
 });

@@ -1,8 +1,9 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Scratch3SensingBlocks = require('../../src/blocks/scratch3_sensing');
 const Runtime = require('../../src/engine/runtime');
 
-test('isOnline', t => {
+test('isOnline', () => {
     const rt = new Runtime();
     const sensing = new Scratch3SensingBlocks(rt);
 
@@ -15,14 +16,12 @@ test('isOnline', t => {
         configurable: true,
         enumerable: true
     });
-    t.equal(sensing.isOnline(), false);
+    assert.strictEqual(sensing.isOnline(), false);
 
     Object.defineProperty(global.navigator, 'onLine', {
         get: () => true,
         configurable: true,
         enumerable: true
     });
-    t.equal(sensing.isOnline(), true);
-
-    t.end();
+    assert.strictEqual(sensing.isOnline(), true);
 });

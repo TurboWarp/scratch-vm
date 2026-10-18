@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const test = require('tap').test;
+const {test} = require('node:test');
 
 const makeTestStorage = require('../fixtures/make-test-storage');
 const readFileToBuffer = require('../fixtures/readProjectFile').readFileToBuffer;
@@ -14,15 +14,15 @@ const VirtualMachine = require('../../src/index');
  * or did "fail". Four keywords can be set at the beginning of a SAY messaage
  * to indicate a test primitive.
  *
- * - "pass MESSAGE" will t.pass(MESSAGE).
- * - "fail MESSAGE" will t.fail(MESSAGE).
+ * - "pass MESSAGE" will pass an assertion with MESSAGE.
+ * - "fail MESSAGE" will fail the test with MESSAGE once the project finishes.
  * - "plan NUMBER_OF_TESTS" will t.plan(Number(NUMBER_OF_TESTS)).
- * - "end" will t.end().
+ * - "end" marks the test as having reached its end.
  *
  * A good strategy to follow is to SAY "plan NUMBER_OF_TESTS" first. Then
  * "pass" and "fail" depending on expected scratch results in conditions, event
  * scripts, or what is best for testing the target block or group of blocks.
- * When its done you must SAY "end" so the test and tap know that the end has
+ * When its done you must SAY "end" so the test knows that the end has
  * been reached.
  */
 
@@ -43,16 +43,15 @@ const whenThreadsComplete = (t, vm, uri, timeLimit = 5000) =>
         }, 50);
 
         const timeoutId = setTimeout(() => {
-            t.fail(`Timeout waiting for threads to complete: ${uri}`);
-            reject(new Error('time limit reached'));
-
             // Attempt to stop the lingering VM from interfering with other tests.
             vm.quit();
+
+            reject(new Error(`Timeout waiting for threads to complete: ${uri}`));
         }, timeLimit);
 
         // Clear the interval to allow the process to exit
         // naturally.
-        t.tearDown(() => {
+        t.after(() => {
             clearInterval(intervalId);
             clearTimeout(timeoutId);
         });
@@ -66,22 +65,25 @@ const fileFilter = /\.sb[23]?$/i;
 fs.readdirSync(executeDir)
     .filter(uri => fileFilter.test(uri))
     .forEach(uri => {
-        const run = (t, enableCompiler) => {
+        const run = async (t, enableCompiler) => {
             const vm = new VirtualMachine();
+            // Stop a VM left running by a failed test from leaking into later tests.
+            t.after(() => vm.quit());
 
-            // Map string messages to tap reporting methods. This will be used
+            // Map string messages to test reporting methods. This will be used
             // with events from scratch's runtime emitted on block instructions.
             let didPlan;
             let didEnd;
+            const failures = [];
             const reporters = {
                 comment (message) {
-                    t.comment(message);
+                    t.diagnostic(message);
                 },
                 pass (reason) {
-                    t.pass(reason);
+                    t.assert.ok(true, reason);
                 },
                 fail (reason) {
-                    t.fail(reason);
+                    failures.push(reason);
                 },
                 plan (count) {
                     didPlan = true;
@@ -90,7 +92,6 @@ fs.readdirSync(executeDir)
                 end () {
                     didEnd = true;
                     vm.quit();
-                    t.end();
                 }
             };
             const reportVmResult = text => {
@@ -128,25 +129,26 @@ fs.readdirSync(executeDir)
 
             // Load the project and once all threads are complete ensure that
             // the scratch project sent us a "end" message.
-            return vm.loadProject(project)
-                .then(() => vm.greenFlag())
-                .then(() => whenThreadsComplete(t, vm, uri))
-                .then(() => {
-                    // Setting a plan is not required but is a good idea.
-                    if (!didPlan) {
-                        t.comment('did not say "plan NUMBER_OF_TESTS"');
-                    }
+            await vm.loadProject(project);
+            await vm.greenFlag();
+            await whenThreadsComplete(t, vm, uri);
+            // Setting a plan is not required but is a good idea.
+            if (!didPlan) {
+                t.diagnostic('did not say "plan NUMBER_OF_TESTS"');
+            }
 
-                    // End must be called so that tap knows the test is done. If
-                    // the test has an SAY "end" block but that block did not
-                    // execute, this explicit failure will raise that issue so
-                    // it can be resolved.
-                    if (!didEnd) {
-                        t.fail('did not say "end"');
-                        vm.quit();
-                        t.end();
-                    }
-                });
+            // If the test has an SAY "end" block but that block did not
+            // execute, this explicit failure will raise that issue so
+            // it can be resolved.
+            if (!didEnd) {
+                vm.quit();
+                failures.push('did not say "end"');
+            }
+
+            // Not an assertion, as it would count towards the project's plan.
+            if (failures.length) {
+                throw new Error(failures.join('\n'));
+            }
         };
         test(`${uri} (interpreted)`, t => run(t, false));
         test(`${uri} (compiled)`, t => run(t, true));

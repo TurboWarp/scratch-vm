@@ -1,10 +1,6 @@
-const test = require('tap').test;
+const {test} = require('node:test');
 // const JSONRPCWebSocket = require('../../src/util/jsonrpc-web-socket');
 
-test('constructor', t => {
-    t.end();
-});
+test('constructor', () => {});
 
-test('dispose', t => {
-    t.end();
-});
+test('dispose', () => {});

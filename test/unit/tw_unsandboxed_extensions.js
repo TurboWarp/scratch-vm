@@ -1,4 +1,5 @@
-const tap = require('tap');
+const {test, beforeEach} = require('node:test');
+const assert = require('node:assert');
 const UnsandboxedExtensionRunner = require('../../src/extension-support/tw-unsandboxed-extension-runner');
 const VirtualMachine = require('../../src/virtual-machine');
 
@@ -55,39 +56,36 @@ global.window = {
 // Remove navigator object from Node 21 and later
 delete global.navigator;
 
-tap.beforeEach(() => {
+beforeEach(() => {
     scriptCallbacks.clear();
     global.location = {
         href: 'https://example.com/'
     };
 });
 
-const {test} = tap;
-
 test('basic API', async t => {
     t.plan(9);
     const vm = new VirtualMachine();
     class MyExtension {}
     setScript('https://turbowarp.org/1.js', () => {
-        t.equal(global.Scratch.vm, vm);
-        t.equal(global.Scratch.renderer, vm.runtime.renderer);
-        t.equal(global.Scratch.extensions.unsandboxed, true);
+        t.assert.strictEqual(global.Scratch.vm, vm);
+        t.assert.strictEqual(global.Scratch.renderer, vm.runtime.renderer);
+        t.assert.strictEqual(global.Scratch.extensions.unsandboxed, true);
 
         // These APIs are tested elsewhere, just make sure they're getting exported
-        t.equal(global.Scratch.ArgumentType.NUMBER, 'number');
-        t.equal(global.Scratch.BlockType.REPORTER, 'reporter');
-        t.equal(global.Scratch.TargetType.SPRITE, 'sprite');
-        t.equal(global.Scratch.Cast.toNumber('3.14'), 3.14);
+        t.assert.strictEqual(global.Scratch.ArgumentType.NUMBER, 'number');
+        t.assert.strictEqual(global.Scratch.BlockType.REPORTER, 'reporter');
+        t.assert.strictEqual(global.Scratch.TargetType.SPRITE, 'sprite');
+        t.assert.strictEqual(global.Scratch.Cast.toNumber('3.14'), 3.14);
 
         global.Scratch.extensions.register(new MyExtension());
     });
     const extensions = await UnsandboxedExtensionRunner.load('https://turbowarp.org/1.js', vm);
-    t.equal(extensions.length, 1);
-    t.ok(extensions[0] instanceof MyExtension);
-    t.end();
+    t.assert.strictEqual(extensions.length, 1);
+    t.assert.ok(extensions[0] instanceof MyExtension);
 });
 
-test('multiple VMs loading extensions', async t => {
+test('multiple VMs loading extensions', async () => {
     const vm1 = new VirtualMachine();
     const vm2 = new VirtualMachine();
 
@@ -117,22 +115,20 @@ test('multiple VMs loading extensions', async t => {
         UnsandboxedExtensionRunner.load('https://turbowarp.org/2.js', vm2)
     ]);
 
-    t.not(api1, api2);
-    t.type(api1.extensions.register, 'function');
-    t.type(api2.extensions.register, 'function');
-    t.equal(api1.vm, vm1);
-    t.equal(api2.vm, vm2);
+    assert.notStrictEqual(api1, api2);
+    assert.strictEqual(typeof api1.extensions.register, 'function');
+    assert.strictEqual(typeof api2.extensions.register, 'function');
+    assert.strictEqual(api1.vm, vm1);
+    assert.strictEqual(api2.vm, vm2);
 
-    t.equal(extensions.length, 2);
-    t.equal(extensions[0].length, 1);
-    t.equal(extensions[1].length, 1);
-    t.ok(extensions[0][0] instanceof Extension1);
-    t.ok(extensions[1][0] instanceof Extension2);
-
-    t.end();
+    assert.strictEqual(extensions.length, 2);
+    assert.strictEqual(extensions[0].length, 1);
+    assert.strictEqual(extensions[1].length, 1);
+    assert.ok(extensions[0][0] instanceof Extension1);
+    assert.ok(extensions[1][0] instanceof Extension2);
 });
 
-test('register multiple extensions in one script', async t => {
+test('register multiple extensions in one script', async () => {
     const vm = new VirtualMachine();
     class Extension1 {}
     class Extension2 {}
@@ -141,25 +137,18 @@ test('register multiple extensions in one script', async t => {
         global.Scratch.extensions.register(new Extension2());
     });
     const extensions = await UnsandboxedExtensionRunner.load('https://turbowarp.org/multiple.js', vm);
-    t.equal(extensions.length, 2);
-    t.ok(extensions[0] instanceof Extension1);
-    t.ok(extensions[1] instanceof Extension2);
-    t.end();
+    assert.strictEqual(extensions.length, 2);
+    assert.ok(extensions[0] instanceof Extension1);
+    assert.ok(extensions[1] instanceof Extension2);
 });
 
-test('extension error results in rejection', async t => {
+test('extension error results in rejection', async () => {
     const vm = new VirtualMachine();
-    try {
-        await UnsandboxedExtensionRunner.load('https://turbowarp.org/404.js', vm);
-        // Above should throw an error as the script will not load successfully
-        t.fail();
-    } catch (e) {
-        t.pass();
-    }
-    t.end();
+    // The script will not load successfully
+    await assert.rejects(UnsandboxedExtensionRunner.load('https://turbowarp.org/404.js', vm));
 });
 
-test('ScratchX', async t => {
+test('ScratchX', async () => {
     const vm = new VirtualMachine();
     setScript('https://turbowarp.org/scratchx.js', () => {
         const ext = {
@@ -173,93 +162,86 @@ test('ScratchX', async t => {
         global.ScratchExtensions.register('Test', descriptor, ext);
     });
     const extensions = await UnsandboxedExtensionRunner.load('https://turbowarp.org/scratchx.js', vm);
-    t.equal(extensions.length, 1);
-    t.equal(extensions[0].test(), 2);
-    t.end();
+    assert.strictEqual(extensions.length, 1);
+    assert.strictEqual(extensions[0].test(), 2);
 });
 
-test('canFetch', async t => {
+test('canFetch', async () => {
     // see tw_security_manager.js
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
     const result = global.Scratch.canFetch('https://example.com/');
-    t.type(result, Promise);
-    t.equal(await result, true);
-    t.end();
+    assert.ok(result instanceof Promise);
+    assert.strictEqual(await result, true);
 });
 
-test('fetch', async t => {
+test('fetch', async () => {
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
     global.Scratch.canFetch = url => url === 'https://example.com/2';
-    await t.rejects(global.Scratch.fetch('https://example.com/1'), /Permission to fetch https:\/\/example.com\/1 rejected/);
-    await t.rejects(global.Scratch.fetch(new Request('https://example.com/1')), /Permission to fetch https:\/\/example.com\/1 rejected/);
-    t.equal(await global.Scratch.fetch('https://example.com/2'), '[Response https://example.com/2 options={}]');
-    t.equal(await global.Scratch.fetch(new Request('https://example.com/2')), '[Response https://example.com/2 options={}]');
-    t.equal(await global.Scratch.fetch('https://example.com/2', {
+    await assert.rejects(global.Scratch.fetch('https://example.com/1'), /Permission to fetch https:\/\/example.com\/1 rejected/);
+    await assert.rejects(global.Scratch.fetch(new Request('https://example.com/1')), /Permission to fetch https:\/\/example.com\/1 rejected/);
+    assert.strictEqual(await global.Scratch.fetch('https://example.com/2'), '[Response https://example.com/2 options={}]');
+    assert.strictEqual(await global.Scratch.fetch(new Request('https://example.com/2')), '[Response https://example.com/2 options={}]');
+    assert.strictEqual(await global.Scratch.fetch('https://example.com/2', {
         redirect: 'follow',
         method: 'POST',
         body: 'abc'
     }), '[Response https://example.com/2 options={"redirect":"follow","method":"POST","body":"abc"}]');
-    t.end();
 });
 
-test('canOpenWindow', async t => {
+test('canOpenWindow', async () => {
     // see tw_security_manager.js
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
     const result = global.Scratch.canOpenWindow('https://example.com/');
-    t.type(result, Promise);
-    t.equal(await result, true);
-    t.end();
+    assert.ok(result instanceof Promise);
+    assert.strictEqual(await result, true);
 });
 
-test('openWindow', async t => {
+test('openWindow', async () => {
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
     global.Scratch.canOpenWindow = url => url === 'https://example.com/2';
-    await t.rejects(global.Scratch.openWindow('https://example.com/1'), /Permission to open tab https:\/\/example.com\/1 rejected/);
-    t.equal(await global.Scratch.openWindow('https://example.com/2'), '[Window https://example.com/2 target=_blank features=noreferrer]');
-    t.equal(await global.Scratch.openWindow('https://example.com/2', 'popup=1'), '[Window https://example.com/2 target=_blank features=noreferrer,popup=1]');
-    t.end();
+    await assert.rejects(global.Scratch.openWindow('https://example.com/1'), /Permission to open tab https:\/\/example.com\/1 rejected/);
+    assert.strictEqual(await global.Scratch.openWindow('https://example.com/2'), '[Window https://example.com/2 target=_blank features=noreferrer]');
+    assert.strictEqual(await global.Scratch.openWindow('https://example.com/2', 'popup=1'), '[Window https://example.com/2 target=_blank features=noreferrer,popup=1]');
 });
 
-test('canRedirect', async t => {
+test('canRedirect', async () => {
     // see tw_security_manager.js
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
     const result = global.Scratch.canRedirect('https://example.com/');
-    t.type(result, Promise);
-    t.equal(await result, true);
-    t.end();
+    assert.ok(result instanceof Promise);
+    assert.strictEqual(await result, true);
 });
 
-test('redirect', async t => {
+test('redirect', async () => {
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
     global.Scratch.canRedirect = url => url === 'https://example.com/2';
-    await t.rejects(global.Scratch.redirect('https://example.com/1'), /Permission to redirect to https:\/\/example.com\/1 rejected/);
-    t.equal(global.location.href, 'https://example.com/');
+    await assert.rejects(global.Scratch.redirect('https://example.com/1'), /Permission to redirect to https:\/\/example.com\/1 rejected/);
+    assert.strictEqual(global.location.href, 'https://example.com/');
     await global.Scratch.redirect('https://example.com/2');
-    t.equal(global.location.href, 'https://example.com/2');
-    t.end();
+    assert.strictEqual(global.location.href, 'https://example.com/2');
 });
 
-test('translate', async t => {
+test('translate', async () => {
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
 
-    t.equal(global.Scratch.translate({
+    assert.strictEqual(global.Scratch.translate({
         id: 'test1',
         default: 'Message 1: {var}',
         description: 'Description'
     }, {
         var: 'test'
     }), 'Message 1: test');
-    t.equal(global.Scratch.translate('test1 {var}', {
+    assert.strictEqual(global.Scratch.translate('test1 {var}', {
         var: 'ok'
     }), 'test1 ok');
-    t.equal(global.Scratch.translate.language, 'en');
+    assert.strictEqual(global.Scratch.translate.language, 'en');
 
     global.Scratch.translate.setup({
         en: {
@@ -269,99 +251,92 @@ test('translate', async t => {
             test1: 'ES Message 1: {var}'
         }
     });
-    t.equal(global.Scratch.translate({
+    assert.strictEqual(global.Scratch.translate({
         id: 'test1',
         default: 'Message 1: {var}',
         description: 'Description'
     }, {
         var: 'test'
     }), 'EN Message 1: test');
-    t.equal(global.Scratch.translate('test1 {var}', {
+    assert.strictEqual(global.Scratch.translate('test1 {var}', {
         var: 'ok'
     }), 'test1 ok');
-    t.equal(global.Scratch.translate.language, 'en');
+    assert.strictEqual(global.Scratch.translate.language, 'en');
 
     await vm.setLocale('es');
     // do not call setup() again; real extensions will not do that.
     // need to make sure that the translatiosn are saved after calling setLocale.
-    t.equal(global.Scratch.translate({
+    assert.strictEqual(global.Scratch.translate({
         id: 'test1',
         default: 'Message 1: {var}',
         description: 'Description'
     }, {
         var: 'test'
     }), 'ES Message 1: test');
-    t.equal(global.Scratch.translate.language, 'es');
-
-    t.end();
+    assert.strictEqual(global.Scratch.translate.language, 'es');
 });
 
-test('canRecordAudio', async t => {
+test('canRecordAudio', async () => {
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
 
     vm.securityManager.canRecordAudio = () => false;
-    t.equal(await global.Scratch.canRecordAudio(), false);
+    assert.strictEqual(await global.Scratch.canRecordAudio(), false);
 
     vm.securityManager.canRecordAudio = () => true;
-    t.equal(await global.Scratch.canRecordAudio(), true);
+    assert.strictEqual(await global.Scratch.canRecordAudio(), true);
     
-    t.end();
 });
 
-test('canRecordVideo', async t => {
+test('canRecordVideo', async () => {
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
 
     vm.securityManager.canRecordVideo = () => false;
-    t.equal(await global.Scratch.canRecordVideo(), false);
+    assert.strictEqual(await global.Scratch.canRecordVideo(), false);
 
     vm.securityManager.canRecordVideo = () => true;
-    t.equal(await global.Scratch.canRecordVideo(), true);
+    assert.strictEqual(await global.Scratch.canRecordVideo(), true);
     
-    t.end();
 });
 
-test('canReadClipboard', async t => {
+test('canReadClipboard', async () => {
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
 
     vm.securityManager.canReadClipboard = () => false;
-    t.equal(await global.Scratch.canReadClipboard(), false);
+    assert.strictEqual(await global.Scratch.canReadClipboard(), false);
 
     vm.securityManager.canReadClipboard = () => true;
-    t.equal(await global.Scratch.canReadClipboard(), true);
+    assert.strictEqual(await global.Scratch.canReadClipboard(), true);
     
-    t.end();
 });
 
-test('canNotify', async t => {
+test('canNotify', async () => {
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
 
     vm.securityManager.canNotify = () => false;
-    t.equal(await global.Scratch.canNotify(), false);
+    assert.strictEqual(await global.Scratch.canNotify(), false);
 
     vm.securityManager.canNotify = () => true;
-    t.equal(await global.Scratch.canNotify(), true);
+    assert.strictEqual(await global.Scratch.canNotify(), true);
     
-    t.end();
 });
 
-test('canGeolocate', async t => {
+test('canGeolocate', async () => {
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
 
     vm.securityManager.canGeolocate = () => false;
-    t.equal(await global.Scratch.canGeolocate(), false);
+    assert.strictEqual(await global.Scratch.canGeolocate(), false);
 
     vm.securityManager.canGeolocate = () => true;
-    t.equal(await global.Scratch.canGeolocate(), true);
+    assert.strictEqual(await global.Scratch.canGeolocate(), true);
     
-    t.end();
 });
 
-test('rewriteExtensionURL', async t => {
+test('rewriteExtensionURL', async () => {
     const vm = new VirtualMachine();
 
     let createdRewrittenExtension = false;
@@ -380,7 +355,7 @@ test('rewriteExtensionURL', async t => {
 
     class OriginalExtension {
         getInfo () {
-            t.fail('Should not create original extension');
+            assert.fail('Should not create original extension');
             return {
                 id: 'extensionid',
                 blocks: []
@@ -401,24 +376,22 @@ test('rewriteExtensionURL', async t => {
 
     await vm.extensionManager.loadExtensionURL('https://turbowarp.org/original.js');
 
-    t.ok(createdRewrittenExtension, 'used rewritten extension');
-    t.ok(vm.extensionManager.isExtensionURLLoaded('https://turbowarp.org/original.js'), 'marks original URL as loaded');
-    t.notOk(vm.extensionManager.isExtensionURLLoaded('https://turbowarp.org/rewritten.js'), 'does not mark new URL as loaded');
-    t.end();
+    assert.ok(createdRewrittenExtension, 'used rewritten extension');
+    assert.ok(vm.extensionManager.isExtensionURLLoaded('https://turbowarp.org/original.js'), 'marks original URL as loaded');
+    assert.ok(!vm.extensionManager.isExtensionURLLoaded('https://turbowarp.org/rewritten.js'), 'does not mark new URL as loaded');
 });
 
-test('canEmbed', async t => {
+test('canEmbed', async () => {
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
 
     vm.securityManager.canEmbed = url => url === 'https://example.com/safe';
-    t.ok(await global.Scratch.canEmbed('https://example.com/safe'));
-    t.notOk(await global.Scratch.canEmbed('https://example.com/unsafe'));
+    assert.ok(await global.Scratch.canEmbed('https://example.com/safe'));
+    assert.ok(!(await global.Scratch.canEmbed('https://example.com/unsafe')));
     
-    t.end();
 });
 
-test('canDownload', async t => {
+test('canDownload', async () => {
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
 
@@ -428,16 +401,16 @@ test('canDownload', async t => {
         return url === 'https://example.com/safe.txt' && name === 'safe.txt';
     };
 
-    t.ok(await global.Scratch.canDownload('https://example.com/safe.txt', 'safe.txt'));
-    t.notOk(await global.Scratch.canDownload('https://example.com/unsafe.txt', 'safe.txt'));
-    t.notOk(await global.Scratch.canDownload('https://example.com/safe.txt', 'unsafe.txt'));
-    t.notOk(await global.Scratch.canDownload('https://example.com/unsafe.txt', 'unsafe.txt'));
+    assert.ok(await global.Scratch.canDownload('https://example.com/safe.txt', 'safe.txt'));
+    assert.ok(!(await global.Scratch.canDownload('https://example.com/unsafe.txt', 'safe.txt')));
+    assert.ok(!(await global.Scratch.canDownload('https://example.com/safe.txt', 'unsafe.txt')));
+    assert.ok(!(await global.Scratch.canDownload('https://example.com/unsafe.txt', 'unsafe.txt')));
 
     // Should be rejected without even calling user-provided canDownload.
     // eslint-disable-next-line no-script-url
-    t.notOk(await global.Scratch.canDownload('javascript:alert(1)', 'index.html'));
+    assert.ok(!(await global.Scratch.canDownload('javascript:alert(1)', 'index.html')));
 
-    t.same(canDownloadChecks, [
+    assert.deepEqual(canDownloadChecks, [
         [
             'https://example.com/safe.txt',
             'safe.txt'
@@ -455,11 +428,9 @@ test('canDownload', async t => {
             'unsafe.txt'
         ]
     ]);
-
-    t.end();
 });
 
-test('download', async t => {
+test('download', async () => {
     const vm = new VirtualMachine();
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
 
@@ -487,20 +458,20 @@ test('download', async t => {
     };
 
     await global.Scratch.download('https://example.com/safe.txt', 'safe.txt');
-    await t.rejects(global.Scratch.download('https://example.com/unsafe.txt', 'safe.txt'), /Permission to download/);
-    await t.rejects(global.Scratch.download('https://example.com/safe.txt', 'unsafe.txt'), /Permission to download/);
-    await t.rejects(global.Scratch.download('https://example.com/unsafe.txt', 'unsafe.txt'), /Permission to download/);
+    await assert.rejects(global.Scratch.download('https://example.com/unsafe.txt', 'safe.txt'), /Permission to download/);
+    await assert.rejects(global.Scratch.download('https://example.com/safe.txt', 'unsafe.txt'), /Permission to download/);
+    await assert.rejects(global.Scratch.download('https://example.com/unsafe.txt', 'unsafe.txt'), /Permission to download/);
     // eslint-disable-next-line no-script-url
-    await t.rejects(global.Scratch.download('javascript:alert(1)', 'safe.txt'), /Permission to download/);
+    await assert.rejects(global.Scratch.download('javascript:alert(1)', 'safe.txt'), /Permission to download/);
 
-    t.same(actualDownloadAttempts, [
+    assert.deepEqual(actualDownloadAttempts, [
         [
             'https://example.com/safe.txt',
             'safe.txt'
         ]
     ]);
 
-    t.same(canDownloadChecks, [
+    assert.deepEqual(canDownloadChecks, [
         [
             'https://example.com/safe.txt',
             'safe.txt'
@@ -518,16 +489,13 @@ test('download', async t => {
             'unsafe.txt'
         ]
     ]);
-
-    t.end();
 });
 
-test('CREATE_UNSANDBOXED_EXTENSION_API', t => {
+test('CREATE_UNSANDBOXED_EXTENSION_API', () => {
     const vm = new VirtualMachine();
     vm.on('CREATE_UNSANDBOXED_EXTENSION_API', api => {
         api.extraStuff = 'aaaa';
     });
     UnsandboxedExtensionRunner.setupUnsandboxedExtensionAPI(vm);
-    t.equal(global.Scratch.extraStuff, 'aaaa');
-    t.end();
+    assert.strictEqual(global.Scratch.extraStuff, 'aaaa');
 });

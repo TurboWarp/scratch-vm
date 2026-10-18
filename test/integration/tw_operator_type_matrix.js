@@ -1,4 +1,5 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VM = require('../../src/virtual-machine');
 const {BlockType, ArgumentType} = require('../../src/extension-support/tw-extension-api-common');
 const {IRGenerator} = require('../../src/compiler/irgen');
@@ -65,7 +66,7 @@ const OPERATORS = [
 
 const str = number => (Object.is(number, -0) ? '-0' : number.toString());
 
-test('operator type matrix', async t => {
+test('operator type matrix', async () => {
 
     const vm = new VM();
     nanolog.disable();
@@ -102,7 +103,7 @@ test('operator type matrix', async t => {
     vm.setCompilerOptions({enabled: true});
 
     vm.on('COMPILE_ERROR', () => {
-        t.fail('Compile error');
+        assert.fail('Compile error');
     });
 
     const testOperator = async (operator, inputs) => {
@@ -177,7 +178,7 @@ test('operator type matrix', async t => {
 
         const expectedType = IntermediateInput.getNumberInputType(reportedValue);
 
-        t.ok(
+        assert.ok(
             irOperator.isSometimesType(expectedType),
             `${operator.opcode}${JSON.stringify(operator.fields)}[${inputs.map(str)}] ` +
             `outputted value ${str(reportedValue)} is of the expected type ${stringifyType(irOperator.type)}.`
@@ -197,6 +198,4 @@ test('operator type matrix', async t => {
             }
         }
     }
-
-    t.end();
 });

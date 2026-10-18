@@ -2,7 +2,8 @@ const {createReadStream} = require('fs');
 const {join} = require('path');
 
 const {PNG} = require('pngjs');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 
 const {wrapClamp} = require('../../src/util/math-util');
 
@@ -140,272 +141,233 @@ const fakeBlockUtility = {
     target: fakeTarget
 };
 
-test('detect motionAmount between frames', t => {
-    t.plan(6);
+test('detect motionAmount between frames', async () => {
+    const frames = await readFrames();
+    const detect = new VideoMotion();
 
-    return readFrames()
-        .then(frames => {
-            const detect = new VideoMotion();
+    // Each of these pairs should have enough motion for the detector.
+    const framePairs = [
+        [frames.center, frames.left],
+        [frames.center, frames.left2],
+        [frames.left, frames.left2],
+        [frames.left, frames.center],
+        [frames.center, frames.down],
+        [frames.down, frames.center]
+    ];
 
-            // Each of these pairs should have enough motion for the detector.
-            const framePairs = [
-                [frames.center, frames.left],
-                [frames.center, frames.left2],
-                [frames.left, frames.left2],
-                [frames.left, frames.center],
-                [frames.center, frames.down],
-                [frames.down, frames.center]
-            ];
+    // Add both frames of a pair and test for motion.
+    let index = 0;
+    for (const [frame1, frame2] of framePairs) {
+        detect.addFrame(frame1);
+        detect.addFrame(frame2);
 
-            // Add both frames of a pair and test for motion.
-            let index = 0;
-            for (const [frame1, frame2] of framePairs) {
-                detect.addFrame(frame1);
-                detect.addFrame(frame2);
-
-                detect.analyzeFrame();
-                t.ok(
-                    detect.motionAmount > 10,
-                    `frame pair ${index + 1} has motion ${detect.motionAmount} over threshold (10)`
-                );
-                index += 1;
-            }
-
-            t.end();
-        });
+        detect.analyzeFrame();
+        assert.ok(
+            detect.motionAmount > 10,
+            `frame pair ${index + 1} has motion ${detect.motionAmount} over threshold (10)`
+        );
+        index += 1;
+    }
 });
 
-test('detect local motionAmount between frames', t => {
-    t.plan(6);
+test('detect local motionAmount between frames', async () => {
+    const frames = await readFrames();
+    const detect = new VideoMotion();
 
-    return readFrames()
-        .then(frames => {
-            const detect = new VideoMotion();
+    // Each of these pairs should have enough motion for the detector.
+    const framePairs = [
+        [frames.center, frames.left],
+        [frames.center, frames.left2],
+        [frames.left, frames.left2],
+        [frames.left, frames.center],
+        [frames.center, frames.down],
+        [frames.down, frames.center]
+    ];
 
-            // Each of these pairs should have enough motion for the detector.
-            const framePairs = [
-                [frames.center, frames.left],
-                [frames.center, frames.left2],
-                [frames.left, frames.left2],
-                [frames.left, frames.center],
-                [frames.center, frames.down],
-                [frames.down, frames.center]
-            ];
+    // Add both frames of a pair and test for local motion.
+    let index = 0;
+    for (const [frame1, frame2] of framePairs) {
+        detect.addFrame(frame1);
+        detect.addFrame(frame2);
 
-            // Add both frames of a pair and test for local motion.
-            let index = 0;
-            for (const [frame1, frame2] of framePairs) {
-                detect.addFrame(frame1);
-                detect.addFrame(frame2);
-
-                detect.analyzeFrame();
-                detect.getLocalMotion(fakeDrawable, fakeMotionState);
-                t.ok(
-                    fakeMotionState.motionAmount > 10,
-                    `frame pair ${index + 1} has motion ${fakeMotionState.motionAmount} over threshold (10)`
-                );
-                index += 1;
-            }
-
-            t.end();
-        });
+        detect.analyzeFrame();
+        detect.getLocalMotion(fakeDrawable, fakeMotionState);
+        assert.ok(
+            fakeMotionState.motionAmount > 10,
+            `frame pair ${index + 1} has motion ${fakeMotionState.motionAmount} over threshold (10)`
+        );
+        index += 1;
+    }
 });
 
-test('detect motionDirection between frames', t => {
-    t.plan(6);
+test('detect motionDirection between frames', async () => {
+    const frames = await readFrames();
+    const detect = new VideoMotion();
 
-    return readFrames()
-        .then(frames => {
-            const detect = new VideoMotion();
+    // Each of these pairs is moving in the given direction. Does the detector
+    // guess a value to that?
+    const directionMargin = 10;
+    const framePairs = [
+        {
+            frames: [frames.center, frames.left],
+            direction: -90
+        },
+        {
+            frames: [frames.center, frames.left2],
+            direction: -90
+        },
+        {
+            frames: [frames.left, frames.left2],
+            direction: -90
+        },
+        {
+            frames: [frames.left, frames.center],
+            direction: 90
+        },
+        {
+            frames: [frames.center, frames.down],
+            direction: 180
+        },
+        {
+            frames: [frames.down, frames.center],
+            direction: 0
+        }
+    ];
 
-            // Each of these pairs is moving in the given direction. Does the detector
-            // guess a value to that?
-            const directionMargin = 10;
-            const framePairs = [
-                {
-                    frames: [frames.center, frames.left],
-                    direction: -90
-                },
-                {
-                    frames: [frames.center, frames.left2],
-                    direction: -90
-                },
-                {
-                    frames: [frames.left, frames.left2],
-                    direction: -90
-                },
-                {
-                    frames: [frames.left, frames.center],
-                    direction: 90
-                },
-                {
-                    frames: [frames.center, frames.down],
-                    direction: 180
-                },
-                {
-                    frames: [frames.down, frames.center],
-                    direction: 0
-                }
-            ];
+    // Add both frames of a pair and check if the motionDirection is near the
+    // expected angle.
+    let index = 0;
+    for (const {frames: [frame1, frame2], direction} of framePairs) {
+        detect.addFrame(frame1);
+        detect.addFrame(frame2);
 
-            // Add both frames of a pair and check if the motionDirection is near the
-            // expected angle.
-            let index = 0;
-            for (const {frames: [frame1, frame2], direction} of framePairs) {
-                detect.addFrame(frame1);
-                detect.addFrame(frame2);
-
-                detect.analyzeFrame();
-                t.ok(
-                    isNearAngle(detect.motionDirection, direction, directionMargin),
-                    `frame pair ${index + 1} is ${detect.motionDirection.toFixed(0)} ` +
-                    `degrees and close to ${direction} degrees`
-                );
-                index += 1;
-            }
-
-            t.end();
-        });
+        detect.analyzeFrame();
+        assert.ok(
+            isNearAngle(detect.motionDirection, direction, directionMargin),
+            `frame pair ${index + 1} is ${detect.motionDirection.toFixed(0)} ` +
+                `degrees and close to ${direction} degrees`
+        );
+        index += 1;
+    }
 });
 
-test('detect local motionDirection between frames', t => {
-    t.plan(6);
+test('detect local motionDirection between frames', async () => {
+    const frames = await readFrames();
+    const detect = new VideoMotion();
 
-    return readFrames()
-        .then(frames => {
-            const detect = new VideoMotion();
+    // Each of these pairs is moving in the given direction. Does the detector
+    // guess a value to that?
+    const directionMargin = 10;
+    const framePairs = [
+        {
+            frames: [frames.center, frames.left],
+            direction: -90
+        },
+        {
+            frames: [frames.center, frames.left2],
+            direction: -90
+        },
+        {
+            frames: [frames.left, frames.left2],
+            direction: -90
+        },
+        {
+            frames: [frames.left, frames.center],
+            direction: 90
+        },
+        {
+            frames: [frames.center, frames.down],
+            direction: 180
+        },
+        {
+            frames: [frames.down, frames.center],
+            direction: 0
+        }
+    ];
 
-            // Each of these pairs is moving in the given direction. Does the detector
-            // guess a value to that?
-            const directionMargin = 10;
-            const framePairs = [
-                {
-                    frames: [frames.center, frames.left],
-                    direction: -90
-                },
-                {
-                    frames: [frames.center, frames.left2],
-                    direction: -90
-                },
-                {
-                    frames: [frames.left, frames.left2],
-                    direction: -90
-                },
-                {
-                    frames: [frames.left, frames.center],
-                    direction: 90
-                },
-                {
-                    frames: [frames.center, frames.down],
-                    direction: 180
-                },
-                {
-                    frames: [frames.down, frames.center],
-                    direction: 0
-                }
-            ];
+    // Add both frames of a pair and check if the local motionDirection is near
+    // the expected angle.
+    let index = 0;
+    for (const {frames: [frame1, frame2], direction} of framePairs) {
+        detect.addFrame(frame1);
+        detect.addFrame(frame2);
 
-            // Add both frames of a pair and check if the local motionDirection is near
-            // the expected angle.
-            let index = 0;
-            for (const {frames: [frame1, frame2], direction} of framePairs) {
-                detect.addFrame(frame1);
-                detect.addFrame(frame2);
-
-                detect.analyzeFrame();
-                detect.getLocalMotion(fakeDrawable, fakeMotionState);
-                const motionDirection = fakeMotionState.motionDirection;
-                t.ok(
-                    isNearAngle(motionDirection, direction, directionMargin),
-                    `frame pair ${index + 1} is ${motionDirection.toFixed(0)} degrees and close to ${direction} degrees`
-                );
-                index += 1;
-            }
-
-            t.end();
-        });
+        detect.analyzeFrame();
+        detect.getLocalMotion(fakeDrawable, fakeMotionState);
+        const motionDirection = fakeMotionState.motionDirection;
+        assert.ok(
+            isNearAngle(motionDirection, direction, directionMargin),
+            `frame pair ${index + 1} is ${motionDirection.toFixed(0)} degrees and close to ${direction} degrees`
+        );
+        index += 1;
+    }
 });
 
-test('videoOn returns value dependent on arguments', t => {
-    t.plan(4);
+test('videoOn returns value dependent on arguments', async () => {
+    const frames = await readFrames();
+    const sensing = new VideoSensing(fakeRuntime);
 
-    return readFrames()
-        .then(frames => {
-            const sensing = new VideoSensing(fakeRuntime);
+    // With these two frame test if we get expected values depending on the
+    // arguments to videoOn.
+    sensing.detect.addFrame(frames.center);
+    sensing.detect.addFrame(frames.left);
 
-            // With these two frame test if we get expected values depending on the
-            // arguments to videoOn.
-            sensing.detect.addFrame(frames.center);
-            sensing.detect.addFrame(frames.left);
+    const motionAmount = sensing.videoOn({
+        ATTRIBUTE: VideoSensing.SensingAttribute.MOTION,
+        SUBJECT: VideoSensing.SensingSubject.STAGE
+    }, fakeBlockUtility);
+    assert.ok(
+        motionAmount > 10,
+        `stage motionAmount ${motionAmount} is over the threshold (10)`
+    );
 
-            const motionAmount = sensing.videoOn({
-                ATTRIBUTE: VideoSensing.SensingAttribute.MOTION,
-                SUBJECT: VideoSensing.SensingSubject.STAGE
-            }, fakeBlockUtility);
-            t.ok(
-                motionAmount > 10,
-                `stage motionAmount ${motionAmount} is over the threshold (10)`
-            );
+    const localMotionAmount = sensing.videoOn({
+        ATTRIBUTE: VideoSensing.SensingAttribute.MOTION,
+        SUBJECT: VideoSensing.SensingSubject.SPRITE
+    }, fakeBlockUtility);
+    assert.ok(
+        localMotionAmount > 10,
+        `sprite motionAmount ${localMotionAmount} is over the threshold (10)`
+    );
 
-            const localMotionAmount = sensing.videoOn({
-                ATTRIBUTE: VideoSensing.SensingAttribute.MOTION,
-                SUBJECT: VideoSensing.SensingSubject.SPRITE
-            }, fakeBlockUtility);
-            t.ok(
-                localMotionAmount > 10,
-                `sprite motionAmount ${localMotionAmount} is over the threshold (10)`
-            );
+    const motionDirection = sensing.videoOn({
+        ATTRIBUTE: VideoSensing.SensingAttribute.DIRECTION,
+        SUBJECT: VideoSensing.SensingSubject.STAGE
+    }, fakeBlockUtility);
+    assert.ok(
+        isNearAngle(motionDirection, -90),
+        `stage motionDirection ${motionDirection.toFixed(0)} degrees is close to ${90} degrees`
+    );
 
-            const motionDirection = sensing.videoOn({
-                ATTRIBUTE: VideoSensing.SensingAttribute.DIRECTION,
-                SUBJECT: VideoSensing.SensingSubject.STAGE
-            }, fakeBlockUtility);
-            t.ok(
-                isNearAngle(motionDirection, -90),
-                `stage motionDirection ${motionDirection.toFixed(0)} degrees is close to ${90} degrees`
-            );
-
-            const localMotionDirection = sensing.videoOn({
-                ATTRIBUTE: VideoSensing.SensingAttribute.DIRECTION,
-                SUBJECT: VideoSensing.SensingSubject.SPRITE
-            }, fakeBlockUtility);
-            t.ok(
-                isNearAngle(localMotionDirection, -90),
-                `sprite motionDirection ${localMotionDirection.toFixed(0)} degrees is close to ${90} degrees`
-            );
-
-            t.end();
-        });
+    const localMotionDirection = sensing.videoOn({
+        ATTRIBUTE: VideoSensing.SensingAttribute.DIRECTION,
+        SUBJECT: VideoSensing.SensingSubject.SPRITE
+    }, fakeBlockUtility);
+    assert.ok(
+        isNearAngle(localMotionDirection, -90),
+        `sprite motionDirection ${localMotionDirection.toFixed(0)} degrees is close to ${90} degrees`
+    );
 });
 
-test('whenMotionGreaterThan returns true if local motion meets target', t => {
-    t.plan(2);
+test('whenMotionGreaterThan returns true if local motion meets target', async () => {
+    const frames = await readFrames();
+    const sensing = new VideoSensing(fakeRuntime);
 
-    return readFrames()
-        .then(frames => {
-            const sensing = new VideoSensing(fakeRuntime);
+    // With these two frame test if we get expected values depending on the
+    // arguments to whenMotionGreaterThan.
+    sensing.detect.addFrame(frames.center);
+    sensing.detect.addFrame(frames.left);
 
-            // With these two frame test if we get expected values depending on the
-            // arguments to whenMotionGreaterThan.
-            sensing.detect.addFrame(frames.center);
-            sensing.detect.addFrame(frames.left);
+    const over20 = sensing.whenMotionGreaterThan({
+        REFERENCE: 20
+    }, fakeBlockUtility);
+    assert.ok(
+        over20,
+        `enough motion in drawable bounds to reach reference of 20`
+    );
 
-            const over20 = sensing.whenMotionGreaterThan({
-                REFERENCE: 20
-            }, fakeBlockUtility);
-            t.ok(
-                over20,
-                `enough motion in drawable bounds to reach reference of 20`
-            );
-
-            const over80 = sensing.whenMotionGreaterThan({
-                REFERENCE: 80
-            }, fakeBlockUtility);
-            t.notOk(
-                over80,
-                `not enough motion in drawable bounds to reach reference of 80`
-            );
-
-            t.end();
-        });
+    const over80 = sensing.whenMotionGreaterThan({
+        REFERENCE: 80
+    }, fakeBlockUtility);
+    assert.ok(!over80, `not enough motion in drawable bounds to reach reference of 80`);
 });

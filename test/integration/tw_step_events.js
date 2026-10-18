@@ -1,7 +1,8 @@
 const Runtime = require('../../src/engine/runtime');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 
-test('step events', t => {
+test('step events', () => {
     const events = [];
     const rt = new Runtime();
     rt.sequencer.stepThreads = () => {
@@ -15,10 +16,9 @@ test('step events', t => {
         events.push('AFTER_EXECUTE');
     });
     rt._step();
-    t.same(events, [
+    assert.deepEqual(events, [
         'BEFORE_EXECUTE',
         'sequencer.stepThreads()',
         'AFTER_EXECUTE'
     ]);
-    t.end();
 });

@@ -6,7 +6,8 @@
  * so that user data does not get overwritten / lost.
  */
 const path = require('path');
-const tap = require('tap');
+const {test, beforeEach} = require('node:test');
+const assert = require('node:assert');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const readFileToBuffer = require('../fixtures/readProjectFile').readFileToBuffer;
 const VirtualMachine = require('../../src/index');
@@ -19,7 +20,7 @@ const missingSoundAssetId = '78618aadd225b1db7bf837fa17dc0568';
 
 let vm;
 
-tap.beforeEach(() => {
+beforeEach(() => {
     const storage = makeTestStorage();
 
     vm = new VirtualMachine();
@@ -28,59 +29,51 @@ tap.beforeEach(() => {
     return vm.loadProject(project);
 });
 
-const test = tap.test;
-
-test('loading sb3 project with missing sound file', t => {
-    t.equal(vm.runtime.targets.length, 2);
+test('loading sb3 project with missing sound file', () => {
+    assert.strictEqual(vm.runtime.targets.length, 2);
 
     const stage = vm.runtime.targets[0];
-    t.ok(stage.isStage);
+    assert.ok(stage.isStage);
 
     const catSprite = vm.runtime.targets[1];
-    t.equal(catSprite.getSounds().length, 1);
+    assert.strictEqual(catSprite.getSounds().length, 1);
 
     const missingSound = catSprite.getSounds()[0];
-    t.equal(missingSound.name, 'Boop Sound Recording');
+    assert.strictEqual(missingSound.name, 'Boop Sound Recording');
     // Sound should have original data but no asset
     const defaultSoundAssetId = vm.runtime.storage.defaultAssetId.Sound;
-    t.equal(missingSound.assetId, defaultSoundAssetId);
-    t.equal(missingSound.dataFormat, 'wav');
+    assert.strictEqual(missingSound.assetId, defaultSoundAssetId);
+    assert.strictEqual(missingSound.dataFormat, 'wav');
 
     // Runtime should have info about broken asset
-    t.ok(missingSound.broken);
-    t.equal(missingSound.broken.assetId, missingSoundAssetId);
-
-    t.end();
+    assert.ok(missingSound.broken);
+    assert.strictEqual(missingSound.broken.assetId, missingSoundAssetId);
 });
 
-test('load and then save sb3 project with missing sound file', t => {
+test('load and then save sb3 project with missing sound file', () => {
     const resavedProject = JSON.parse(vm.toJSON());
 
-    t.equal(resavedProject.targets.length, 2);
+    assert.strictEqual(resavedProject.targets.length, 2);
 
     const stage = resavedProject.targets[0];
-    t.ok(stage.isStage);
+    assert.ok(stage.isStage);
 
     const catSprite = resavedProject.targets[1];
-    t.equal(catSprite.name, 'Sprite1');
-    t.equal(catSprite.sounds.length, 1);
+    assert.strictEqual(catSprite.name, 'Sprite1');
+    assert.strictEqual(catSprite.sounds.length, 1);
 
     const missingSound = catSprite.sounds[0];
-    t.equal(missingSound.name, 'Boop Sound Recording');
+    assert.strictEqual(missingSound.name, 'Boop Sound Recording');
     // Costume should have both default sound data (e.g. "Gray Question Sound" ^_^) and original data
-    t.equal(missingSound.assetId, missingSoundAssetId);
-    t.equal(missingSound.dataFormat, 'wav');
+    assert.strictEqual(missingSound.assetId, missingSoundAssetId);
+    assert.strictEqual(missingSound.dataFormat, 'wav');
     // Test that we didn't save any data about the costume being broken
-    t.notOk(missingSound.broken);
-
-    t.end();
+    assert.ok(!missingSound.broken);
 });
 
-test('serializeCostume does not save data for missing costume', t => {
+test('serializeCostume does not save data for missing costume', () => {
     const soundDescs = serializeSounds(vm.runtime);
 
-    t.equal(soundDescs.length, 1); // Should only have one sound, the pop sound for the stage
-    t.not(soundDescs[0].fileName, `${missingSoundAssetId}.wav`);
-
-    t.end();
+    assert.strictEqual(soundDescs.length, 1); // Should only have one sound, the pop sound for the stage
+    assert.notStrictEqual(soundDescs[0].fileName, `${missingSoundAssetId}.wav`);
 });

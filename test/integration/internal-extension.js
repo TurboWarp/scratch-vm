@@ -1,4 +1,5 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Worker = require('tiny-worker');
 
 const BlockType = require('../../src/extension-support/block-type');
@@ -51,22 +52,22 @@ class TestInternalExtension {
     }
 }
 
-test('internal extension', t => {
+test('internal extension', () => {
     const vm = new VirtualMachine();
 
     const extension = new TestInternalExtension();
-    t.ok(extension.status.constructorCalled);
+    assert.ok(extension.status.constructorCalled);
 
-    t.notOk(extension.status.getInfoCalled);
+    assert.ok(!extension.status.getInfoCalled);
     vm.extensionManager._registerInternalExtension(extension);
-    t.ok(extension.status.getInfoCalled);
+    assert.ok(extension.status.getInfoCalled);
 
     const func = vm.runtime.getOpcodeFunction('testInternalExtension_go');
-    t.type(func, 'function');
+    assert.strictEqual(typeof func, 'function');
 
-    t.notOk(extension.status.goCalled);
+    assert.ok(!extension.status.goCalled);
     const goBlockInfo = func();
-    t.ok(extension.status.goCalled);
+    assert.ok(extension.status.goCalled);
 
     // The 'go' block returns its own blockInfo. Make sure it matches the expected info.
     // Note that the extension parser fills in missing fields so there are more fields here than in `getInfo`.
@@ -79,41 +80,38 @@ test('internal extension', t => {
         terminal: false,
         text: 'go'
     };
-    t.deepEqual(goBlockInfo, expectedBlockInfo);
+    assert.deepEqual(goBlockInfo, expectedBlockInfo);
 
     // There should be 2 menus - one is an array, one is the function to call.
-    t.equal(vm.runtime._blockInfo[0].menus.length, 2);
+    assert.strictEqual(vm.runtime._blockInfo[0].menus.length, 2);
     // First menu has 3 items.
-    t.equal(
+    assert.strictEqual(
         vm.runtime._blockInfo[0].menus[0].json.args0[0].options.length, 3);
     // Second menu is a dynamic menu and therefore should be a function.
-    t.type(
-        vm.runtime._blockInfo[0].menus[1].json.args0[0].options, 'function');
-
-    t.end();
+    assert.strictEqual(typeof vm.runtime._blockInfo[0].menus[1].json.args0[0].options, 'function');
 });
 
-test('load sync', t => {
+test('load sync', () => {
     const vm = new VirtualMachine();
     vm.extensionManager.loadExtensionIdSync('coreExample');
-    t.ok(vm.extensionManager.isExtensionLoaded('coreExample'));
+    assert.ok(vm.extensionManager.isExtensionLoaded('coreExample'));
 
-    t.equal(vm.runtime._blockInfo.length, 1);
+    assert.strictEqual(vm.runtime._blockInfo.length, 1);
 
     // blocks should be an array of two items: a button pseudo-block and a reporter block.
-    t.equal(vm.runtime._blockInfo[0].blocks.length, 3);
-    t.type(vm.runtime._blockInfo[0].blocks[0].info, 'object');
-    t.type(vm.runtime._blockInfo[0].blocks[0].info.func, 'MAKE_A_VARIABLE');
-    t.equal(vm.runtime._blockInfo[0].blocks[0].info.blockType, 'button');
-    t.type(vm.runtime._blockInfo[0].blocks[1].info, 'object');
-    t.equal(vm.runtime._blockInfo[0].blocks[1].info.opcode, 'exampleOpcode');
-    t.equal(vm.runtime._blockInfo[0].blocks[1].info.blockType, 'reporter');
-    t.type(vm.runtime._blockInfo[0].blocks[2].info, 'object');
-    t.equal(vm.runtime._blockInfo[0].blocks[2].info.opcode, 'exampleWithInlineImage');
-    t.equal(vm.runtime._blockInfo[0].blocks[2].info.blockType, 'command');
+    assert.strictEqual(vm.runtime._blockInfo[0].blocks.length, 3);
+    assert.strictEqual(typeof vm.runtime._blockInfo[0].blocks[0].info, 'object');
+    assert.strictEqual(vm.runtime._blockInfo[0].blocks[0].info.func, 'MAKE_A_VARIABLE');
+    assert.strictEqual(vm.runtime._blockInfo[0].blocks[0].info.blockType, 'button');
+    assert.strictEqual(typeof vm.runtime._blockInfo[0].blocks[1].info, 'object');
+    assert.strictEqual(vm.runtime._blockInfo[0].blocks[1].info.opcode, 'exampleOpcode');
+    assert.strictEqual(vm.runtime._blockInfo[0].blocks[1].info.blockType, 'reporter');
+    assert.strictEqual(typeof vm.runtime._blockInfo[0].blocks[2].info, 'object');
+    assert.strictEqual(vm.runtime._blockInfo[0].blocks[2].info.opcode, 'exampleWithInlineImage');
+    assert.strictEqual(vm.runtime._blockInfo[0].blocks[2].info.blockType, 'command');
 
     // Test the opcode function
-    t.equal(vm.runtime._blockInfo[0].blocks[1].info.func(), 'no stage yet');
+    assert.strictEqual(vm.runtime._blockInfo[0].blocks[1].info.func(), 'no stage yet');
 
     const sprite = new Sprite(null, vm.runtime);
     sprite.name = 'Stage';
@@ -121,7 +119,5 @@ test('load sync', t => {
     stage.isStage = true;
     vm.runtime.targets = [stage];
 
-    t.equal(vm.runtime._blockInfo[0].blocks[1].info.func(), 'Stage');
-
-    t.end();
+    assert.strictEqual(vm.runtime._blockInfo[0].blocks[1].info.func(), 'Stage');
 });

@@ -1,4 +1,5 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 
 global.Request = class {
     constructor (url) {
@@ -18,60 +19,58 @@ global.self = {};
 // This will install extension worker APIs onto `global`
 require('../../src/extension-support/extension-worker');
 
-test('basic API', t => {
-    t.type(global.Scratch.extensions.register, 'function');
-    t.equal(global.Scratch.ArgumentType.BOOLEAN, 'Boolean');
-    t.equal(global.Scratch.BlockType.REPORTER, 'reporter');
-    t.end();
+test('basic API', () => {
+    assert.strictEqual(typeof global.Scratch.extensions.register, 'function');
+    assert.strictEqual(global.Scratch.ArgumentType.BOOLEAN, 'Boolean');
+    assert.strictEqual(global.Scratch.BlockType.REPORTER, 'reporter');
 });
 
-test('not unsandboxed', t => {
-    t.not(global.Scratch.extensions.unsandboxed, true);
-    t.end();
+test('not unsandboxed', () => {
+    assert.notStrictEqual(global.Scratch.extensions.unsandboxed, true);
 });
 
-test('Cast', t => {
+test('Cast', () => {
     // Cast is thoroughly tested elsewhere
-    t.equal(global.Scratch.Cast.toString(5), '5');
-    t.equal(global.Scratch.Cast.toNumber(' 5'), 5);
-    t.equal(global.Scratch.Cast.toBoolean('true'), true);
-    t.end();
+    assert.strictEqual(global.Scratch.Cast.toString(5), '5');
+    assert.strictEqual(global.Scratch.Cast.toNumber(' 5'), 5);
+    assert.strictEqual(global.Scratch.Cast.toBoolean('true'), true);
 });
 
-test('fetch', async t => {
-    t.equal(await global.Scratch.canFetch('https://untrusted.example/'), true);
-    t.equal(await global.Scratch.fetch('https://untrusted.example/'), '[Response https://untrusted.example/ options={}]');
-    t.equal(await global.Scratch.fetch('https://untrusted.example/', {
+test('fetch', async () => {
+    assert.strictEqual(await global.Scratch.canFetch('https://untrusted.example/'), true);
+    assert.strictEqual(await global.Scratch.fetch('https://untrusted.example/'), '[Response https://untrusted.example/ options={}]');
+    assert.strictEqual(await global.Scratch.fetch('https://untrusted.example/', {
         method: 'POST'
     }), `[Response https://untrusted.example/ options={"method":"POST"}]`);
-    t.end();
 });
 
-test('openWindow', async t => {
-    t.equal(await global.Scratch.canOpenWindow('https://example.com/'), false);
-    await t.rejects(global.Scratch.openWindow('https://example.com/'), /^Scratch\.openWindow not supported in sandboxed extensions$/);
-    t.end();
+test('openWindow', async () => {
+    assert.strictEqual(await global.Scratch.canOpenWindow('https://example.com/'), false);
+    await assert.rejects(global.Scratch.openWindow('https://example.com/'), {
+        message: /^Scratch\.openWindow not supported in sandboxed extensions$/
+    });
 });
 
-test('redirect', async t => {
-    t.equal(await global.Scratch.canRedirect('https://example.com/'), false);
-    await t.rejects(global.Scratch.redirect('https://example.com/'), /^Scratch\.redirect not supported in sandboxed extensions$/);
-    t.end();
+test('redirect', async () => {
+    assert.strictEqual(await global.Scratch.canRedirect('https://example.com/'), false);
+    await assert.rejects(global.Scratch.redirect('https://example.com/'), {
+        message: /^Scratch\.redirect not supported in sandboxed extensions$/
+    });
 });
 
-test('translate', t => {
-    t.equal(global.Scratch.translate({
+test('translate', () => {
+    assert.strictEqual(global.Scratch.translate({
         id: 'test1',
         default: 'Message 1: {var}',
         description: 'Description'
     }, {
         var: 'test'
     }), 'Message 1: test');
-    t.equal(global.Scratch.translate('test1'), 'test1');
-    t.equal(global.Scratch.translate('test1 {VAR}', {
+    assert.strictEqual(global.Scratch.translate('test1'), 'test1');
+    assert.strictEqual(global.Scratch.translate('test1 {VAR}', {
         VAR: '3'
     }), 'test1 3');
-    t.equal(global.Scratch.translate.language, 'en');
+    assert.strictEqual(global.Scratch.translate.language, 'en');
 
     const messages = {
         en: {
@@ -84,14 +83,14 @@ test('translate', t => {
 
     // Should default to English when no navigator object
     global.Scratch.translate.setup(messages);
-    t.equal(global.Scratch.translate({
+    assert.strictEqual(global.Scratch.translate({
         id: 'test1',
         default: 'Message 1',
         description: 'Description'
     }, {
         var: 'ok'
     }), 'EN Message 1: ok');
-    t.equal(global.Scratch.translate.language, 'en');
+    assert.strictEqual(global.Scratch.translate.language, 'en');
 
     // But if there is a navigator object, it should use its language.
     global.navigator = {
@@ -100,54 +99,44 @@ test('translate', t => {
     // Note that real extensions will only generally call setup() once, but we need to do this
     // again so that it realizes the language changed.
     global.Scratch.translate.setup(messages);
-    t.equal(global.Scratch.translate({
+    assert.strictEqual(global.Scratch.translate({
         id: 'test1',
         default: 'Message 1',
         description: 'Description'
     }, {
         var: 'ok'
     }), 'ES Message 1: ok');
-    t.equal(global.Scratch.translate.language, 'es');
-
-    t.end();
+    assert.strictEqual(global.Scratch.translate.language, 'es');
 });
 
-test('canRecordAudio', async t => {
-    t.equal(await global.Scratch.canRecordAudio(), false);
-    t.end();
+test('canRecordAudio', async () => {
+    assert.strictEqual(await global.Scratch.canRecordAudio(), false);
 });
 
-test('canRecordVideo', async t => {
-    t.equal(await global.Scratch.canRecordVideo(), false);
-    t.end();
+test('canRecordVideo', async () => {
+    assert.strictEqual(await global.Scratch.canRecordVideo(), false);
 });
 
-test('canReadClipboard', async t => {
-    t.equal(await global.Scratch.canReadClipboard(), false);
-    t.end();
+test('canReadClipboard', async () => {
+    assert.strictEqual(await global.Scratch.canReadClipboard(), false);
 });
 
-test('canNotify', async t => {
-    t.equal(await global.Scratch.canNotify(), false);
-    t.end();
+test('canNotify', async () => {
+    assert.strictEqual(await global.Scratch.canNotify(), false);
 });
 
-test('canGeolocate', async t => {
-    t.equal(await global.Scratch.canGeolocate(), false);
-    t.end();
+test('canGeolocate', async () => {
+    assert.strictEqual(await global.Scratch.canGeolocate(), false);
 });
 
-test('canEmbed', async t => {
-    t.equal(await global.Scratch.canEmbed('https://example.com/'), false);
-    t.end();
+test('canEmbed', async () => {
+    assert.strictEqual(await global.Scratch.canEmbed('https://example.com/'), false);
 });
 
-test('canDownload', async t => {
-    t.equal(await global.Scratch.canDownload('https://example.com/test.sb3', 'test.sb3'), false);
-    t.end();
+test('canDownload', async () => {
+    assert.strictEqual(await global.Scratch.canDownload('https://example.com/test.sb3', 'test.sb3'), false);
 });
 
-test('download', async t => {
-    await t.rejects(global.Scratch.download('https://turbowarp.org/', 'index.html'), /not supported in sandboxed extension/);
-    t.end();
+test('download', async () => {
+    await assert.rejects(global.Scratch.download('https://turbowarp.org/', 'index.html'), /not supported in sandboxed extension/);
 });

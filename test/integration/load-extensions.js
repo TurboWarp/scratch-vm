@@ -1,6 +1,6 @@
 const path = require('path');
-const tap = require('tap');
-const {test} = tap;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const fs = require('fs');
 const readFileToBuffer = require('../fixtures/readProjectFile').readFileToBuffer;
 const dispatch = require('../../src/dispatch/central-dispatch');
@@ -27,21 +27,17 @@ test('Load external extensions', async t => {
         const uri = path.resolve(__dirname, `../fixtures/load-extensions/confirm-load/${file}`);
         const project = readFileToBuffer(uri);
 
-        await t.test('Confirm expected extension is installed in example sb2 and sb3 projects', extTest => {
-            vm.loadProject(project)
-                .then(() => {
-                    extTest.ok(vm.extensionManager.isExtensionLoaded(ext));
-                    extTest.end();
-                });
+        await t.test('Confirm expected extension is installed in example sb2 and sb3 projects', async () => {
+            await vm.loadProject(project);
+            assert.ok(vm.extensionManager.isExtensionLoaded(ext));
         });
     }
 
     stopVideoLoop(vm);
     vm.quit();
-    t.end();
 });
 
-test('Load video sensing extension and video properties', async t => {
+test('Load video sensing extension and video properties', async () => {
     const vm = new VirtualMachine();
     // An array of test projects and their expected video state values
     const testProjects = [
@@ -66,18 +62,17 @@ test('Load video sensing extension and video properties', async t => {
 
         const stage = vm.runtime.getTargetForStage();
 
-        t.ok(vm.extensionManager.isExtensionLoaded('videoSensing'));
+        assert.ok(vm.extensionManager.isExtensionLoaded('videoSensing'));
 
         // Check that the stage target has the video state values we expect
         // based on the test project files, then check that the video io device
         // has the expected state as well
-        t.equal(stage.videoState, project.videoState);
-        t.equal(vm.runtime.ioDevices.video.mirror, project.mirror);
-        t.equal(stage.videoTransparency, project.videoTransparency);
-        t.equal(vm.runtime.ioDevices.video._ghost, project.videoTransparency);
+        assert.strictEqual(stage.videoState, project.videoState);
+        assert.strictEqual(vm.runtime.ioDevices.video.mirror, project.mirror);
+        assert.strictEqual(stage.videoTransparency, project.videoTransparency);
+        assert.strictEqual(vm.runtime.ioDevices.video._ghost, project.videoTransparency);
     }
 
     stopVideoLoop(vm);
     vm.quit();
-    t.end();
 });

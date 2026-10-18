@@ -1,11 +1,12 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 
 const Runtime = require('../../src/engine/runtime');
 const Target = require('../../src/engine/target');
 const Sprite = require('../../src/sprites/sprite');
 const Scratch3SoundBlocks = require('../../src/blocks/scratch3_sound');
 
-test('effect clamping runtime option', t => {
+test('effect clamping runtime option', () => {
     const rt = new Runtime();
     const target = new Target(rt);
     const sprite = new Sprite();
@@ -18,7 +19,7 @@ test('effect clamping runtime option', t => {
     }, {
         target
     });
-    t.equal(sound._getSoundState(target).effects.pitch, 360);
+    assert.strictEqual(sound._getSoundState(target).effects.pitch, 360);
 
     rt.setRuntimeOptions({
         miscLimits: false
@@ -29,7 +30,5 @@ test('effect clamping runtime option', t => {
     }, {
         target
     });
-    t.equal(sound._getSoundState(target).effects.pitch, 720);
-
-    t.end();
+    assert.strictEqual(sound._getSoundState(target).effects.pitch, 720);
 });

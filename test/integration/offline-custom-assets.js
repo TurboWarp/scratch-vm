@@ -6,7 +6,8 @@
  */
 const path = require('path');
 const fs = require('fs');
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const AdmZip = require('adm-zip');
 const ScratchStorage = require('scratch-storage');
 const VirtualMachine = require('../../src/index');
@@ -23,7 +24,7 @@ const costumeData = new Uint8Array(costume);
 const sound = projectZip.readFile('0.wav');
 const soundData = new Uint8Array(sound);
 
-test('offline-custom-assets', t => {
+test('offline-custom-assets', (t, done) => {
     const vm = new VirtualMachine();
     // Use a test storage here that does not have any web sources added to it.
     const testStorage = new ScratchStorage();
@@ -32,13 +33,13 @@ test('offline-custom-assets', t => {
     // Evaluate playground data and exit
     vm.on('playgroundData', e => {
         const threads = JSON.parse(e.threads);
-        t.ok(threads.length === 0);
+        assert.ok(threads.length === 0);
         vm.quit();
-        t.end();
+        done();
     });
 
     // Start VM, load project, and run
-    t.doesNotThrow(() => {
+    assert.doesNotThrow(() => {
         vm.start();
         vm.clear();
         vm.setCompatibilityMode(false);
@@ -46,23 +47,23 @@ test('offline-custom-assets', t => {
         vm.loadProject(project).then(() => {
 
             // Verify initial state
-            t.equals(vm.runtime.targets.length, 2);
+            assert.strictEqual(vm.runtime.targets.length, 2);
             const costumes = vm.runtime.targets[1].getCostumes();
-            t.equals(costumes.length, 1);
+            assert.strictEqual(costumes.length, 1);
             const customCostume = costumes[0];
-            t.equals(customCostume.name, 'A_Test_Costume');
+            assert.strictEqual(customCostume.name, 'A_Test_Costume');
 
             const storedCostume = customCostume.asset;
-            t.type(storedCostume, 'object');
-            t.deepEquals(storedCostume.data, costumeData);
+            assert.strictEqual(typeof storedCostume, 'object');
+            assert.deepEqual(storedCostume.data, costumeData);
 
             const sounds = vm.runtime.targets[1].sprite.sounds;
-            t.equals(sounds.length, 1);
+            assert.strictEqual(sounds.length, 1);
             const customSound = sounds[0];
-            t.equals(customSound.name, 'A_Test_Recording');
+            assert.strictEqual(customSound.name, 'A_Test_Recording');
             const storedSound = customSound.asset;
-            t.type(storedSound, 'object');
-            t.deepEquals(storedSound.data, soundData);
+            assert.strictEqual(typeof storedSound, 'object');
+            assert.deepEqual(storedSound.data, soundData);
 
             vm.greenFlag();
 

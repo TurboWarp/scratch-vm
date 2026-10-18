@@ -1,13 +1,13 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 
 const mutationAdapter = require('../../src/engine/mutation-adapter');
 
-test('spec', t => {
-    t.type(mutationAdapter, 'function');
-    t.end();
+test('spec', () => {
+    assert.strictEqual(typeof mutationAdapter, 'function');
 });
 
-test('convert DOM to Scratch object', t => {
+test('convert DOM to Scratch object', () => {
     const testStringRaw = '"arbitrary" & \'complicated\' test string';
     const testStringEscaped = '\\&quot;arbitrary\\&quot; &amp; &apos;complicated&apos; test string';
     const xml = `<mutation blockInfo="{&quot;text&quot;:&quot;${testStringEscaped}&quot;}"></mutation>`;
@@ -21,6 +21,5 @@ test('convert DOM to Scratch object', t => {
 
     // TODO: do we want to test passing a DOM node to `mutationAdapter`? Node.js doesn't have built-in DOM support...
     const mutationFromString = mutationAdapter(xml);
-    t.deepEqual(mutationFromString, expectedMutation);
-    t.end();
+    assert.deepEqual(mutationFromString, expectedMutation);
 });

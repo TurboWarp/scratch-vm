@@ -7,7 +7,8 @@
  * to load the costume if the saved project is re-loaded.
  */
 const path = require('path');
-const tap = require('tap');
+const {test, beforeEach} = require('node:test');
+const assert = require('node:assert');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const FakeRenderer = require('../fixtures/fake-renderer');
 const FakeBitmapAdapter = require('../fixtures/fake-bitmap-adapter');
@@ -44,7 +45,7 @@ global.document = {
 
 let vm;
 
-tap.beforeEach(() => {
+beforeEach(async () => {
     const storage = makeTestStorage();
 
     vm = new VirtualMachine();
@@ -52,55 +53,48 @@ tap.beforeEach(() => {
     vm.attachRenderer(new FakeRenderer());
     vm.attachV2BitmapAdapter(new FakeBitmapAdapter());
 
-    return vm.loadProject(project).then(() => vm.addSprite(sprite));
+    await vm.loadProject(project);
+    return vm.addSprite(sprite);
 });
 
-const test = tap.test;
-
-test('loading sprite2 with missing vector costume file', t => {
-    t.equal(vm.runtime.targets.length, 3);
+test('loading sprite2 with missing vector costume file', () => {
+    assert.strictEqual(vm.runtime.targets.length, 3);
 
     const stage = vm.runtime.targets[0];
-    t.ok(stage.isStage);
+    assert.ok(stage.isStage);
 
     const blueGuySprite = vm.runtime.targets[2];
-    t.equal(blueGuySprite.getName(), 'Blue Guy');
-    t.equal(blueGuySprite.getCostumes().length, 1);
+    assert.strictEqual(blueGuySprite.getName(), 'Blue Guy');
+    assert.strictEqual(blueGuySprite.getCostumes().length, 1);
 
     const missingCostume = blueGuySprite.getCostumes()[0];
-    t.equal(missingCostume.name, 'Blue Guy 2');
+    assert.strictEqual(missingCostume.name, 'Blue Guy 2');
     // Costume should have both default cosutme (e.g. Gray Question Mark) data and original data
     const defaultVectorAssetId = vm.runtime.storage.defaultAssetId.ImageVector;
-    t.equal(missingCostume.assetId, defaultVectorAssetId);
-    t.equal(missingCostume.dataFormat, 'svg');
+    assert.strictEqual(missingCostume.assetId, defaultVectorAssetId);
+    assert.strictEqual(missingCostume.dataFormat, 'svg');
     // Runtime should have info about broken asset
-    t.ok(missingCostume.broken);
-    t.equal(missingCostume.broken.assetId, missingCostumeAssetId);
-
-    t.end();
+    assert.ok(missingCostume.broken);
+    assert.strictEqual(missingCostume.broken.assetId, missingCostumeAssetId);
 });
 
-test('load and then save sprite2 with missing vector costume file', t => {
+test('load and then save sprite2 with missing vector costume file', () => {
     const resavedSprite = JSON.parse(vm.toJSON(vm.runtime.targets[2].id));
 
-    t.equal(resavedSprite.name, 'Blue Guy');
-    t.equal(resavedSprite.costumes.length, 1);
+    assert.strictEqual(resavedSprite.name, 'Blue Guy');
+    assert.strictEqual(resavedSprite.costumes.length, 1);
 
     const missingCostume = resavedSprite.costumes[0];
-    t.equal(missingCostume.name, 'Blue Guy 2');
+    assert.strictEqual(missingCostume.name, 'Blue Guy 2');
     // Costume should have both default cosutme (e.g. Gray Question Mark) data and original data
-    t.equal(missingCostume.assetId, missingCostumeAssetId);
-    t.equal(missingCostume.dataFormat, 'svg');
+    assert.strictEqual(missingCostume.assetId, missingCostumeAssetId);
+    assert.strictEqual(missingCostume.dataFormat, 'svg');
     // Test that we didn't save any data about the costume being broken
-    t.notOk(missingCostume.broken);
-
-    t.end();
+    assert.ok(!missingCostume.broken);
 });
 
-test('serializeCostume does not save data for missing costume', t => {
+test('serializeCostume does not save data for missing costume', () => {
     const costumeDescs = serializeCostumes(vm.runtime, vm.runtime.targets[2].id);
 
-    t.equal(costumeDescs.length, 0);
-
-    t.end();
+    assert.strictEqual(costumeDescs.length, 0);
 });

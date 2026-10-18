@@ -1,4 +1,5 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const fs = require('fs');
 const VirtualMachine = require('../../src/virtual-machine');
 const Runtime = require('../../src/engine/runtime');
@@ -7,7 +8,7 @@ const RenderedTarget = require('../../src/sprites/rendered-target');
 const Sprite = require('../../src/sprites/sprite');
 const path = require('path');
 
-test('serializes very long comments', t => {
+test('serializes very long comments', () => {
     const rt = new Runtime();
     const sprite = new Sprite();
     const target = new RenderedTarget(sprite);
@@ -37,7 +38,7 @@ test('serializes very long comments', t => {
         height: 20,
         minimized: false
     };
-    t.same(serialized.comments, {
+    assert.deepEqual(serialized.comments, {
         id_short: {
             ...common,
             text: 'short comment'
@@ -57,26 +58,21 @@ test('serializes very long comments', t => {
             extraText: `this should be the truncated part${'0'.repeat(25000)}`
         }
     });
-
-    t.end();
 });
 
-test('deserializes very long comments', t => {
+test('deserializes very long comments', async () => {
     const vm = new VirtualMachine();
     const fixture = fs.readFileSync(path.resolve(__dirname, '../fixtures/tw-very-long-comments.sb3'));
-    vm.loadProject(fixture).then(() => {
-        const comments = vm.runtime.targets[0].comments;
+    await vm.loadProject(fixture);
+    const comments = vm.runtime.targets[0].comments;
 
-        // note that comment IDs may change each time the test project is saved
-        t.equal(comments.b.text, '');
-        t.equal(comments.a.text, 'short');
-        t.equal(comments.c.text, `exactly length limit${'0'.repeat(8000 - 'exactly length limit'.length)}`);
-        t.equal(comments.d.text, `length limit + 1${':'.repeat(8000 - 'length limit + 1'.length)}1`);
-        t.equal(
-            comments.e.text,
-            `unreasonably long${'!'.repeat(8000 - 'unreasonably long'.length)}${'123456789'.repeat(2000)}`
-        );
-
-        t.end();
-    });
+    // note that comment IDs may change each time the test project is saved
+    assert.strictEqual(comments.b.text, '');
+    assert.strictEqual(comments.a.text, 'short');
+    assert.strictEqual(comments.c.text, `exactly length limit${'0'.repeat(8000 - 'exactly length limit'.length)}`);
+    assert.strictEqual(comments.d.text, `length limit + 1${':'.repeat(8000 - 'length limit + 1'.length)}1`);
+    assert.strictEqual(
+        comments.e.text,
+        `unreasonably long${'!'.repeat(8000 - 'unreasonably long'.length)}${'123456789'.repeat(2000)}`
+    );
 });

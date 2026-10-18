@@ -1,57 +1,56 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const MonitorState = require('../../src/engine/tw-monitor-state');
 const MonitorRecord = require('../../src/engine/monitor-record');
 
-test('basic operation', t => {
+test('basic operation', () => {
     const state = new MonitorState();
 
-    t.equal(state.dirty, false);
-    t.equal(state.has('id'), false);
-    t.equal(state.size, 0);
-    t.equal(state.empty(), true);
+    assert.strictEqual(state.dirty, false);
+    assert.strictEqual(state.has('id'), false);
+    assert.strictEqual(state.size, 0);
+    assert.strictEqual(state.empty(), true);
 
     state.set('id', new MonitorRecord({
         id: 'id',
         value: 0
     }));
-    t.equal(state.has('id'), true);
-    t.equal(state.get('id').id, 'id');
-    t.equal(state.get('id').value, 0);
-    t.equal(state.size, 1);
-    t.equal(state.empty(), false);
-    t.equal(state.dirty, true);
+    assert.strictEqual(state.has('id'), true);
+    assert.strictEqual(state.get('id').id, 'id');
+    assert.strictEqual(state.get('id').value, 0);
+    assert.strictEqual(state.size, 1);
+    assert.strictEqual(state.empty(), false);
+    assert.strictEqual(state.dirty, true);
 
     state.dirty = false;
     state.set('id', new MonitorRecord({
         id: 'id',
         value: -0
     }));
-    t.equal(state.get('id').value, -0);
-    t.equal(state.dirty, true);
+    assert.strictEqual(state.get('id').value, -0);
+    assert.strictEqual(state.dirty, true);
 
     state.dirty = false;
     state.set('id', new MonitorRecord({
         id: 'id',
         value: -0
     }));
-    t.equal(state.dirty, false);
+    assert.strictEqual(state.dirty, false);
 
     state.dirty = false;
     state.delete('id');
-    t.equal(state.has('id'), false);
-    t.equal(state.get('id'), undefined);
-    t.equal(state.size, 0);
-    t.equal(state.empty(), true);
-    t.equal(state.dirty, true);
+    assert.strictEqual(state.has('id'), false);
+    assert.strictEqual(state.get('id'), undefined);
+    assert.strictEqual(state.size, 0);
+    assert.strictEqual(state.empty(), true);
+    assert.strictEqual(state.dirty, true);
 
     state.dirty = false;
     state.delete('id');
-    t.equal(state.dirty, false);
-
-    t.end();
+    assert.strictEqual(state.dirty, false);
 });
 
-test('filter', t => {
+test('filter', () => {
     const state = new MonitorState();
 
     state.set('id1', new MonitorRecord({
@@ -69,19 +68,17 @@ test('filter', t => {
 
     state.dirty = false;
     state.filter(record => record.value !== 10);
-    t.equal(state.dirty, true);
-    t.equal(state.has('id1'), true);
-    t.equal(state.has('id2'), false);
-    t.equal(state.has('id3'), true);
+    assert.strictEqual(state.dirty, true);
+    assert.strictEqual(state.has('id1'), true);
+    assert.strictEqual(state.has('id2'), false);
+    assert.strictEqual(state.has('id3'), true);
 
     state.dirty = false;
     state.filter(record => record.value !== 10);
-    t.equal(state.dirty, false);
-
-    t.end();
+    assert.strictEqual(state.dirty, false);
 });
 
-test('value', t => {
+test('value', () => {
     const state = new MonitorState();
 
     const a = new MonitorRecord({
@@ -93,13 +90,11 @@ test('value', t => {
     state.set('a', a);
     state.set('b', b);
 
-    t.same(state.values(), [a, b]);
-    t.same(state.valueSeq(), [a, b]);
-
-    t.end();
+    assert.deepEqual(state.values(), [a, b]);
+    assert.deepEqual(state.valueSeq(), [a, b]);
 });
 
-test('shallowClone', t => {
+test('shallowClone', () => {
     const state = new MonitorState();
 
     state.set('id', new MonitorRecord({
@@ -107,9 +102,7 @@ test('shallowClone', t => {
     }));
 
     const clone = state.shallowClone();
-    t.not(state, clone);
-    t.equal(state.map, clone.map);
-    t.equal(clone.dirty, false);
-
-    t.end();
+    assert.notStrictEqual(state, clone);
+    assert.strictEqual(state.map, clone.map);
+    assert.strictEqual(clone.dirty, false);
 });

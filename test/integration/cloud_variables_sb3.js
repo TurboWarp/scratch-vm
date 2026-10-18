@@ -1,5 +1,6 @@
 const path = require('path');
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const readFileToBuffer = require('../fixtures/readProjectFile').readFileToBuffer;
 const VirtualMachine = require('../../src/index');
@@ -14,7 +15,7 @@ const cloudVarLimit = readFileToBuffer(cloudVarLimitUri);
 const cloudVarExceededLimit = readFileToBuffer(cloudVarExceededLimitUri);
 const cloudVarLocal = readFileToBuffer(cloudVarLocalUri);
 
-test('importing an sb3 project with cloud variables', t => {
+test('importing an sb3 project with cloud variables', async () => {
     const vm = new VirtualMachine();
     vm.attachStorage(makeTestStorage());
 
@@ -23,24 +24,22 @@ test('importing an sb3 project with cloud variables', t => {
     vm.clear();
     vm.setCompatibilityMode(false);
     vm.setTurboMode(false);
-    vm.loadProject(cloudVarSimple).then(() => {
-        t.equal(vm.runtime.hasCloudData(), true);
+    await vm.loadProject(cloudVarSimple);
+    assert.strictEqual(vm.runtime.hasCloudData(), true);
 
-        const stage = vm.runtime.targets[0];
-        const stageVars = Object.values(stage.variables);
-        t.equal(stageVars.length, 1);
+    const stage = vm.runtime.targets[0];
+    const stageVars = Object.values(stage.variables);
+    assert.strictEqual(stageVars.length, 1);
 
-        const variable = stageVars[0];
-        t.equal(variable.name, '☁ firstCloud');
-        t.equal(Number(variable.value), 100);
-        t.equal(variable.isCloud, true);
+    const variable = stageVars[0];
+    assert.strictEqual(variable.name, '☁ firstCloud');
+    assert.strictEqual(Number(variable.value), 100);
+    assert.strictEqual(variable.isCloud, true);
 
-        vm.quit();
-        t.end();
-    });
+    vm.quit();
 });
 
-test('importing an sb3 project with cloud variables at the limit for a project', t => {
+test('importing an sb3 project with cloud variables at the limit for a project', async () => {
     const vm = new VirtualMachine();
     vm.attachStorage(makeTestStorage());
 
@@ -49,22 +48,20 @@ test('importing an sb3 project with cloud variables at the limit for a project',
     vm.clear();
     vm.setCompatibilityMode(false);
     vm.setTurboMode(false);
-    vm.loadProject(cloudVarLimit).then(() => {
-        t.equal(vm.runtime.hasCloudData(), true);
+    await vm.loadProject(cloudVarLimit);
+    assert.strictEqual(vm.runtime.hasCloudData(), true);
 
-        const stage = vm.runtime.targets[0];
-        const stageVars = Object.values(stage.variables);
+    const stage = vm.runtime.targets[0];
+    const stageVars = Object.values(stage.variables);
 
-        t.equal(stageVars.length, 10);
-        // All of the 10 stage variables should be cloud variables
-        t.equal(stageVars.filter(v => v.isCloud).length, 10);
+    assert.strictEqual(stageVars.length, 10);
+    // All of the 10 stage variables should be cloud variables
+    assert.strictEqual(stageVars.filter(v => v.isCloud).length, 10);
 
-        vm.quit();
-        t.end();
-    });
+    vm.quit();
 });
 
-test('importing an sb3 project with cloud variables exceeding the limit for a project', t => {
+test('importing an sb3 project with cloud variables exceeding the limit for a project', async () => {
     // This tests a hacked project where additional cloud variables exceeding
     // the project limit have been added.
     const vm = new VirtualMachine();
@@ -75,22 +72,20 @@ test('importing an sb3 project with cloud variables exceeding the limit for a pr
     vm.clear();
     vm.setCompatibilityMode(false);
     vm.setTurboMode(false);
-    vm.loadProject(cloudVarExceededLimit).then(() => {
-        t.equal(vm.runtime.hasCloudData(), true);
+    await vm.loadProject(cloudVarExceededLimit);
+    assert.strictEqual(vm.runtime.hasCloudData(), true);
 
-        const stage = vm.runtime.targets[0];
-        const stageVars = Object.values(stage.variables);
+    const stage = vm.runtime.targets[0];
+    const stageVars = Object.values(stage.variables);
 
-        t.equal(stageVars.length, 15);
-        // Only 8 of the variables should have the isCloud flag set to true
-        t.equal(stageVars.filter(v => v.isCloud).length, 10);
+    assert.strictEqual(stageVars.length, 15);
+    // Only 8 of the variables should have the isCloud flag set to true
+    assert.strictEqual(stageVars.filter(v => v.isCloud).length, 10);
 
-        vm.quit();
-        t.end();
-    });
+    vm.quit();
 });
 
-test('importing one project after the other resets cloud variable limit', t => {
+test('importing one project after the other resets cloud variable limit', async () => {
     const vm = new VirtualMachine();
     vm.attachStorage(makeTestStorage());
 
@@ -99,28 +94,25 @@ test('importing one project after the other resets cloud variable limit', t => {
     vm.clear();
     vm.setCompatibilityMode(false);
     vm.setTurboMode(false);
-    vm.loadProject(cloudVarExceededLimit).then(() => {
-        t.equal(vm.runtime.canAddCloudVariable(), false);
+    await vm.loadProject(cloudVarExceededLimit);
+    assert.strictEqual(vm.runtime.canAddCloudVariable(), false);
 
-        vm.loadProject(cloudVarSimple).then(() => {
-            const stage = vm.runtime.targets[0];
-            const stageVars = Object.values(stage.variables);
-            t.equal(stageVars.length, 1);
+    await vm.loadProject(cloudVarSimple);
+    const stage = vm.runtime.targets[0];
+    const stageVars = Object.values(stage.variables);
+    assert.strictEqual(stageVars.length, 1);
 
-            const variable = stageVars[0];
-            t.equal(variable.name, '☁ firstCloud');
-            t.equal(Number(variable.value), 100);
-            t.equal(variable.isCloud, true);
+    const variable = stageVars[0];
+    assert.strictEqual(variable.name, '☁ firstCloud');
+    assert.strictEqual(Number(variable.value), 100);
+    assert.strictEqual(variable.isCloud, true);
 
-            t.equal(vm.runtime.canAddCloudVariable(), true);
+    assert.strictEqual(vm.runtime.canAddCloudVariable(), true);
 
-            vm.quit();
-            t.end();
-        });
-    });
+    vm.quit();
 });
 
-test('local cloud variables get imported as regular variables', t => {
+test('local cloud variables get imported as regular variables', async () => {
     // This tests a hacked project where a sprite-local variable is
     // has the cloud variable flag set.
     const vm = new VirtualMachine();
@@ -131,21 +123,19 @@ test('local cloud variables get imported as regular variables', t => {
     vm.clear();
     vm.setCompatibilityMode(false);
     vm.setTurboMode(false);
-    vm.loadProject(cloudVarLocal).then(() => {
-        t.equal(vm.runtime.hasCloudData(), false);
+    await vm.loadProject(cloudVarLocal);
+    assert.strictEqual(vm.runtime.hasCloudData(), false);
 
-        const stage = vm.runtime.targets[0];
-        const stageVars = Object.values(stage.variables);
+    const stage = vm.runtime.targets[0];
+    const stageVars = Object.values(stage.variables);
 
-        t.equal(stageVars.length, 0);
+    assert.strictEqual(stageVars.length, 0);
 
-        const sprite = vm.runtime.targets[1];
-        const spriteVars = Object.values(sprite.variables);
+    const sprite = vm.runtime.targets[1];
+    const spriteVars = Object.values(sprite.variables);
 
-        t.equal(spriteVars.length, 1);
-        t.equal(spriteVars[0].isCloud, false);
+    assert.strictEqual(spriteVars.length, 1);
+    assert.strictEqual(spriteVars[0].isCloud, false);
 
-        vm.quit();
-        t.end();
-    });
+    vm.quit();
 });

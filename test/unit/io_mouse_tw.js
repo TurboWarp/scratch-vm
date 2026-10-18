@@ -1,8 +1,9 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Mouse = require('../../src/io/mouse');
 const Runtime = require('../../src/engine/runtime');
 
-test('position clamping', t => {
+test('position clamping', () => {
     const rt = new Runtime();
     const m = new Mouse(rt);
 
@@ -13,94 +14,89 @@ test('position clamping', t => {
         canvasWidth: 480,
         canvasHeight: 360
     });
-    t.strictEquals(m.getClientX(), BIG);
-    t.strictEquals(m.getClientY(), BIG);
-    t.strictEquals(m.getScratchX(), 240);
-    t.strictEquals(m.getScratchY(), -180);
-    t.end();
+    assert.strictEqual(m.getClientX(), BIG);
+    assert.strictEqual(m.getClientY(), BIG);
+    assert.strictEqual(m.getScratchX(), 240);
+    assert.strictEqual(m.getScratchY(), -180);
 });
 
-test('mouseButtonDown', t => {
+test('mouseButtonDown', () => {
     const rt = new Runtime();
     const m = new Mouse(rt);
 
-    t.strictEquals(m.getButtonIsDown(0), false);
-    t.strictEquals(m.getButtonIsDown(1), false);
-    t.strictEquals(m.getButtonIsDown(2), false);
+    assert.strictEqual(m.getButtonIsDown(0), false);
+    assert.strictEqual(m.getButtonIsDown(1), false);
+    assert.strictEqual(m.getButtonIsDown(2), false);
     m.postData({
         isDown: true,
         button: 0
     });
-    t.strictEquals(m.getButtonIsDown(0), true);
-    t.strictEquals(m.getButtonIsDown(1), false);
-    t.strictEquals(m.getButtonIsDown(2), false);
+    assert.strictEqual(m.getButtonIsDown(0), true);
+    assert.strictEqual(m.getButtonIsDown(1), false);
+    assert.strictEqual(m.getButtonIsDown(2), false);
     m.postData({
         isDown: true,
         button: 2
     });
-    t.strictEquals(m.getButtonIsDown(0), true);
-    t.strictEquals(m.getButtonIsDown(1), false);
-    t.strictEquals(m.getButtonIsDown(2), true);
+    assert.strictEqual(m.getButtonIsDown(0), true);
+    assert.strictEqual(m.getButtonIsDown(1), false);
+    assert.strictEqual(m.getButtonIsDown(2), true);
     m.postData({
         isDown: false,
         button: 2
     });
-    t.strictEquals(m.getButtonIsDown(0), true);
-    t.strictEquals(m.getButtonIsDown(1), false);
-    t.strictEquals(m.getButtonIsDown(2), false);
-    t.end();
+    assert.strictEqual(m.getButtonIsDown(0), true);
+    assert.strictEqual(m.getButtonIsDown(1), false);
+    assert.strictEqual(m.getButtonIsDown(2), false);
 });
 
-test('mouseDown with buttons', t => {
+test('mouseDown with buttons', () => {
     const rt = new Runtime();
     const m = new Mouse(rt);
 
-    t.strictEquals(m.getIsDown(), false);
+    assert.strictEqual(m.getIsDown(), false);
     m.postData({
         isDown: true,
         button: 0
     });
-    t.strictEquals(m.getIsDown(), true);
+    assert.strictEqual(m.getIsDown(), true);
     m.postData({
         isDown: true,
         button: 2
     });
-    t.strictEquals(m.getIsDown(), true);
+    assert.strictEqual(m.getIsDown(), true);
     m.postData({
         isDown: false,
         button: 2
     });
-    t.strictEquals(m.getIsDown(), false);
-    t.end();
+    assert.strictEqual(m.getIsDown(), false);
 });
 
-test('missing button is treated as left', t => {
+test('missing button is treated as left', () => {
     const rt = new Runtime();
     const m = new Mouse(rt);
 
-    t.strictEquals(m.getButtonIsDown(0), false);
+    assert.strictEqual(m.getButtonIsDown(0), false);
     m.postData({
         isDown: true
     });
-    t.strictEquals(m.getButtonIsDown(0), true);
+    assert.strictEqual(m.getButtonIsDown(0), true);
     m.postData({
         isDown: false
     });
-    t.strictEquals(m.getButtonIsDown(0), false);
-    t.end();
+    assert.strictEqual(m.getButtonIsDown(0), false);
 });
 
-test('usesRightClickDown', t => {
+test('usesRightClickDown', () => {
     const rt = new Runtime();
     const m = new Mouse(rt);
 
-    t.strictEquals(m.usesRightClickDown, false);
-    t.strictEquals(m.getButtonIsDown(2), false);
-    t.strictEquals(m.usesRightClickDown, true);
-    t.end();
+    assert.strictEqual(m.usesRightClickDown, false);
+    assert.strictEqual(m.getButtonIsDown(2), false);
+    assert.strictEqual(m.usesRightClickDown, true);
 });
 
-test('no rounding when misc limits disabled', t => {
+test('no rounding when misc limits disabled', () => {
     const rt = new Runtime();
     const m = new Mouse(rt);
 
@@ -110,19 +106,17 @@ test('no rounding when misc limits disabled', t => {
         canvasWidth: 960,
         canvasHeight: 720
     });
-    t.equal(m.getScratchX(), -119);
-    t.equal(m.getScratchY(), -90);
+    assert.strictEqual(m.getScratchX(), -119);
+    assert.strictEqual(m.getScratchY(), -90);
 
     rt.setRuntimeOptions({
         miscLimits: false
     });
-    t.equal(m.getScratchX(), -119.5);
-    t.equal(m.getScratchY(), -90.5);
-
-    t.end();
+    assert.strictEqual(m.getScratchX(), -119.5);
+    assert.strictEqual(m.getScratchY(), -90.5);
 });
 
-test('accepts 0 as x and y position', t => {
+test('accepts 0 as x and y position', () => {
     const rt = new Runtime();
     const m = new Mouse(rt);
 
@@ -132,8 +126,8 @@ test('accepts 0 as x and y position', t => {
         canvasWidth: 480,
         canvasHeight: 360
     });
-    t.equal(m.getClientX(), 1);
-    t.equal(m.getClientY(), 2);
+    assert.strictEqual(m.getClientX(), 1);
+    assert.strictEqual(m.getClientY(), 2);
 
     m.postData({
         x: 0,
@@ -141,8 +135,6 @@ test('accepts 0 as x and y position', t => {
         canvasWidth: 480,
         canvasHeight: 360
     });
-    t.equal(m.getClientX(), 0);
-    t.equal(m.getClientY(), 0);
-
-    t.end();
+    assert.strictEqual(m.getClientX(), 0);
+    assert.strictEqual(m.getClientY(), 0);
 });

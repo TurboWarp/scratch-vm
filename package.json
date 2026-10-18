@@ -13,25 +13,18 @@
   "browser": "./src/index.js",
   "scripts": {
     "build": "webpack --progress --colors --bail",
-    "coverage": "tap ./test/{unit,integration}/*.js --coverage --coverage-report=lcov",
     "docs": "jsdoc -c .jsdoc.json",
     "i18n:src": "mkdirp translations/core && format-message extract --out-file translations/core/en.json src/extensions/**/index.js",
     "i18n:push": "tx-push-src scratch-editor extensions translations/core/en.json",
     "lint": "eslint .",
     "prepublish": "in-publish && npm run build || not-in-publish",
     "start": "webpack-dev-server",
-    "tap": "tap ./test/{unit,integration}/*.js",
-    "tap:unit": "tap ./test/unit/*.js",
-    "tap:integration": "tap ./test/integration/*.js",
-    "test": "npm run lint && npm run tap",
+    "test": "npm run lint && npm run test:node",
+    "test:node": "node --test --test-force-exit --test-timeout=30000 test/unit/*.js test/integration/*.js",
+    "test:unit": "node --test --test-force-exit --test-timeout=30000 test/unit/*.js",
+    "test:integration": "node --test --test-force-exit --test-timeout=30000 test/integration/*.js",
     "watch": "webpack --progress --colors --watch",
     "version": "json -f package.json -I -e \"this.repository.sha = '$(git log -n1 --pretty=format:%H)'\""
-  },
-  "tap": {
-    "branches": 60,
-    "functions": 70,
-    "lines": 70,
-    "statements": 70
   },
   "dependencies": {
     "@turbowarp/json": "^0.1.2",
@@ -84,7 +77,6 @@
     "scratch-storage": "2.3.1",
     "script-loader": "0.7.2",
     "stats.js": "0.17.0",
-    "tap": "16.2.0",
     "tiny-worker": "2.3.0",
     "uglifyjs-webpack-plugin": "1.2.7",
     "webpack": "4.47.0",

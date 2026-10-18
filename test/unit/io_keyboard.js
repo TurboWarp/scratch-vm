@@ -1,18 +1,18 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Keyboard = require('../../src/io/keyboard');
 const Runtime = require('../../src/engine/runtime');
 
-test('spec', t => {
+test('spec', () => {
     const rt = new Runtime();
     const k = new Keyboard(rt);
 
-    t.type(k, 'object');
-    t.type(k.postData, 'function');
-    t.type(k.getKeyIsDown, 'function');
-    t.end();
+    assert.strictEqual(typeof k, 'object');
+    assert.strictEqual(typeof k.postData, 'function');
+    assert.strictEqual(typeof k.getKeyIsDown, 'function');
 });
 
-test('space key', t => {
+test('space key', () => {
     const rt = new Runtime();
     const k = new Keyboard(rt);
 
@@ -20,13 +20,12 @@ test('space key', t => {
         key: ' ',
         isDown: true
     });
-    t.strictDeepEquals(k._keysPressed, ['space']);
-    t.strictEquals(k.getKeyIsDown('space'), true);
-    t.strictEquals(k.getKeyIsDown('any'), true);
-    t.end();
+    assert.deepStrictEqual(k._keysPressed, ['space']);
+    assert.strictEqual(k.getKeyIsDown('space'), true);
+    assert.strictEqual(k.getKeyIsDown('any'), true);
 });
 
-test('letter key', t => {
+test('letter key', () => {
     const rt = new Runtime();
     const k = new Keyboard(rt);
 
@@ -34,15 +33,14 @@ test('letter key', t => {
         key: 'a',
         isDown: true
     });
-    t.strictDeepEquals(k._keysPressed, ['A']);
-    t.strictEquals(k.getKeyIsDown(65), true);
-    t.strictEquals(k.getKeyIsDown('a'), true);
-    t.strictEquals(k.getKeyIsDown('A'), true);
-    t.strictEquals(k.getKeyIsDown('any'), true);
-    t.end();
+    assert.deepStrictEqual(k._keysPressed, ['A']);
+    assert.strictEqual(k.getKeyIsDown(65), true);
+    assert.strictEqual(k.getKeyIsDown('a'), true);
+    assert.strictEqual(k.getKeyIsDown('A'), true);
+    assert.strictEqual(k.getKeyIsDown('any'), true);
 });
 
-test('number key', t => {
+test('number key', () => {
     const rt = new Runtime();
     const k = new Keyboard(rt);
 
@@ -50,14 +48,13 @@ test('number key', t => {
         key: '1',
         isDown: true
     });
-    t.strictDeepEquals(k._keysPressed, ['1']);
-    t.strictEquals(k.getKeyIsDown(49), true);
-    t.strictEquals(k.getKeyIsDown('1'), true);
-    t.strictEquals(k.getKeyIsDown('any'), true);
-    t.end();
+    assert.deepStrictEqual(k._keysPressed, ['1']);
+    assert.strictEqual(k.getKeyIsDown(49), true);
+    assert.strictEqual(k.getKeyIsDown('1'), true);
+    assert.strictEqual(k.getKeyIsDown('any'), true);
 });
 
-test('non-english key', t => {
+test('non-english key', () => {
     const rt = new Runtime();
     const k = new Keyboard(rt);
 
@@ -65,10 +62,9 @@ test('non-english key', t => {
         key: '日',
         isDown: true
     });
-    t.strictDeepEquals(k._keysPressed, ['日']);
-    t.strictEquals(k.getKeyIsDown('日'), true);
-    t.strictEquals(k.getKeyIsDown('any'), true);
-    t.end();
+    assert.deepStrictEqual(k._keysPressed, ['日']);
+    assert.strictEqual(k.getKeyIsDown('日'), true);
+    assert.strictEqual(k.getKeyIsDown('any'), true);
 });
 
 /* TW: This test is disabled because we intentionally add support for modifier keys.
@@ -86,7 +82,7 @@ test('ignore modifier key', t => {
 });
 */
 
-test('keyup', t => {
+test('keyup', () => {
     const rt = new Runtime();
     const k = new Keyboard(rt);
 
@@ -98,8 +94,7 @@ test('keyup', t => {
         key: 'ArrowLeft',
         isDown: false
     });
-    t.strictDeepEquals(k._keysPressed, []);
-    t.strictEquals(k.getKeyIsDown('left arrow'), false);
-    t.strictEquals(k.getKeyIsDown('any'), false);
-    t.end();
+    assert.deepStrictEqual(k._keysPressed, []);
+    assert.strictEqual(k.getKeyIsDown('left arrow'), false);
+    assert.strictEqual(k.getKeyIsDown('any'), false);
 });

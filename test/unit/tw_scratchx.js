@@ -1,22 +1,21 @@
 const ScratchXUtilities = require('../../src/extension-support/tw-scratchx-utilities');
 const createScratchX = require('../../src/extension-support/tw-scratchx-compatibility-layer');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 
-test('argument index to id', t => {
-    t.equal(ScratchXUtilities.argumentIndexToId(0), '0');
-    t.equal(ScratchXUtilities.argumentIndexToId(1), '1');
-    t.equal(ScratchXUtilities.argumentIndexToId(2), '2');
-    t.equal(ScratchXUtilities.argumentIndexToId(3), '3');
-    t.equal(ScratchXUtilities.argumentIndexToId(39), '39');
-    t.equal(ScratchXUtilities.argumentIndexToId(1000000000), '1000000000');
-    t.end();
+test('argument index to id', () => {
+    assert.strictEqual(ScratchXUtilities.argumentIndexToId(0), '0');
+    assert.strictEqual(ScratchXUtilities.argumentIndexToId(1), '1');
+    assert.strictEqual(ScratchXUtilities.argumentIndexToId(2), '2');
+    assert.strictEqual(ScratchXUtilities.argumentIndexToId(3), '3');
+    assert.strictEqual(ScratchXUtilities.argumentIndexToId(39), '39');
+    assert.strictEqual(ScratchXUtilities.argumentIndexToId(1000000000), '1000000000');
 });
 
-test('generate extension id', t => {
-    t.equal(ScratchXUtilities.generateExtensionId('Spotify'), 'sbxspotify');
-    t.equal(ScratchXUtilities.generateExtensionId('Spo _t ify'), 'sbxspotify');
-    t.equal(ScratchXUtilities.generateExtensionId('Spo _t $#@! 3ify😮'), 'sbxspot3ify');
-    t.end();
+test('generate extension id', () => {
+    assert.strictEqual(ScratchXUtilities.generateExtensionId('Spotify'), 'sbxspotify');
+    assert.strictEqual(ScratchXUtilities.generateExtensionId('Spo _t ify'), 'sbxspotify');
+    assert.strictEqual(ScratchXUtilities.generateExtensionId('Spo _t $#@! 3ify😮'), 'sbxspot3ify');
 });
 
 const mockScratchExtensions = () => {
@@ -45,13 +44,12 @@ const convert = (...args) => {
     return registered;
 };
 
-test('register', t => {
+test('register', () => {
     const ScratchExtensions = mockScratchExtensions();
-    t.type(ScratchExtensions.register, 'function');
-    t.end();
+    assert.strictEqual(typeof ScratchExtensions.register, 'function');
 });
 
-test('complex extension', async t => {
+test('complex extension', async () => {
     let stepsMoved = 0;
     const moveSteps = n => {
         stepsMoved += n;
@@ -107,10 +105,10 @@ test('complex extension', async t => {
     );
 
     const info = converted.getInfo();
-    t.equal(info.id, 'sbxmyextension');
-    t.equal(info.docsURI, 'https://turbowarp.org/myextensiondocs.html');
+    assert.strictEqual(info.id, 'sbxmyextension');
+    assert.strictEqual(info.docsURI, 'https://turbowarp.org/myextensiondocs.html');
 
-    t.same(info.blocks, [
+    assert.deepEqual(info.blocks, [
         {
             opcode: 'moveSteps',
             text: 'move [0] steps',
@@ -192,7 +190,7 @@ test('complex extension', async t => {
         }
     ]);
 
-    t.same(info.menus, {
+    assert.deepEqual(info.menus, {
         myMenu: {
             items: ['abc', 'def', 123, true, false]
         },
@@ -202,55 +200,53 @@ test('complex extension', async t => {
     });
 
     // Now let's make sure that the converter has properly wrapped our functions.
-    t.equal(stepsMoved, 0);
-    t.equal(converted.moveSteps({
+    assert.strictEqual(stepsMoved, 0);
+    assert.strictEqual(converted.moveSteps({
         0: 30
     }), undefined);
-    t.equal(stepsMoved, 30);
+    assert.strictEqual(stepsMoved, 30);
 
-    t.equal(doNothingCalled, false);
-    t.equal(converted.doNothing({}), undefined);
-    t.equal(doNothingCalled, true);
+    assert.strictEqual(doNothingCalled, false);
+    assert.strictEqual(converted.doNothing({}), undefined);
+    assert.strictEqual(doNothingCalled, true);
 
-    t.type(converted.fetch({
+    assert.strictEqual(typeof converted.fetch({
         0: 'https://example.com/'
     }).then, 'function');
-    t.equal(await converted.fetch({
+    assert.strictEqual(await converted.fetch({
         0: 'https://example.com/'
     }), 'Fetched: https://example.com/');
 
-    t.equal(converted.multiplyAndAppend({
+    assert.strictEqual(converted.multiplyAndAppend({
         0: 31,
         1: 7,
         2: 'Cat'
     }), '217Cat');
 
-    t.type(converted.repeat({
+    assert.strictEqual(typeof converted.repeat({
         0: '',
         1: 0
     }).then, 'function');
-    t.equal(await converted.repeat({
+    assert.strictEqual(await converted.repeat({
         0: 'scratchx',
         1: 3
     }), 'scratchxscratchxscratchx');
 
-    t.equal(converted.touching({
+    assert.strictEqual(converted.touching({
         0: 'Sprite1',
         1: true
     }), false);
-    t.equal(converted.touching({
+    assert.strictEqual(converted.touching({
         0: 'Sprite9',
         1: true
     }), true);
-    t.equal(converted.touching({
+    assert.strictEqual(converted.touching({
         0: 'Sprite9',
         1: false
     }), false);
-
-    t.end();
 });
 
-test('display name', t => {
+test('display name', () => {
     const converted = convert(
         'Internal Name',
         {
@@ -261,11 +257,10 @@ test('display name', t => {
 
         }
     );
-    t.equal(converted.getInfo().name, 'Display Name');
-    t.end();
+    assert.strictEqual(converted.getInfo().name, 'Display Name');
 });
 
-test('_getStatus', t => {
+test('_getStatus', () => {
     const _getStatus = () => ({
         status: 2,
         msg: 'Ready'
@@ -280,7 +275,6 @@ test('_getStatus', t => {
             unusedProperty: 10
         }
     );
-    t.equal(converted._getStatus, _getStatus);
-    t.equal('unusedProperty' in converted, false);
-    t.end();
+    assert.strictEqual(converted._getStatus, _getStatus);
+    assert.strictEqual('unusedProperty' in converted, false);
 });

@@ -1,17 +1,17 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const MouseWheel = require('../../src/io/mouseWheel');
 const Runtime = require('../../src/engine/runtime');
 
-test('spec', t => {
+test('spec', () => {
     const rt = new Runtime();
     const mw = new MouseWheel(rt);
 
-    t.type(mw, 'object');
-    t.type(mw.postData, 'function');
-    t.end();
+    assert.strictEqual(typeof mw, 'object');
+    assert.strictEqual(typeof mw.postData, 'function');
 });
 
-test('blocks activated by scrolling', t => {
+test('blocks activated by scrolling', () => {
     let _startHatsArgs;
     const rt = {
         startHats: (...args) => {
@@ -24,21 +24,19 @@ test('blocks activated by scrolling', t => {
     mw.postData({
         deltaY: -1
     });
-    t.strictEquals(_startHatsArgs[0], 'event_whenkeypressed');
-    t.strictEquals(_startHatsArgs[1].KEY_OPTION, 'up arrow');
+    assert.strictEqual(_startHatsArgs[0], 'event_whenkeypressed');
+    assert.strictEqual(_startHatsArgs[1].KEY_OPTION, 'up arrow');
 
     _startHatsArgs = null;
     mw.postData({
         deltaY: +1
     });
-    t.strictEquals(_startHatsArgs[0], 'event_whenkeypressed');
-    t.strictEquals(_startHatsArgs[1].KEY_OPTION, 'down arrow');
+    assert.strictEqual(_startHatsArgs[0], 'event_whenkeypressed');
+    assert.strictEqual(_startHatsArgs[1].KEY_OPTION, 'down arrow');
 
     _startHatsArgs = null;
     mw.postData({
         deltaY: 0
     });
-    t.strictEquals(_startHatsArgs, null);
-
-    t.end();
+    assert.strictEqual(_startHatsArgs, null);
 });

@@ -1,38 +1,37 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Blocks = require('../../src/engine/blocks');
 const Variable = require('../../src/engine/variable');
 const adapter = require('../../src/engine/adapter');
 const events = require('../fixtures/events.json');
 const Runtime = require('../../src/engine/runtime');
 
-test('spec', t => {
+test('spec', () => {
     const b = new Blocks(new Runtime());
 
-    t.type(Blocks, 'function');
-    t.type(b, 'object');
-    t.ok(b instanceof Blocks);
+    assert.strictEqual(typeof Blocks, 'function');
+    assert.strictEqual(typeof b, 'object');
+    assert.ok(b instanceof Blocks);
 
-    t.type(b._blocks, 'object');
-    t.type(b._scripts, 'object');
-    t.ok(Array.isArray(b._scripts));
+    assert.strictEqual(typeof b._blocks, 'object');
+    assert.strictEqual(typeof b._scripts, 'object');
+    assert.ok(Array.isArray(b._scripts));
 
-    t.type(b.createBlock, 'function');
-    t.type(b.moveBlock, 'function');
-    t.type(b.changeBlock, 'function');
-    t.type(b.deleteBlock, 'function');
-    t.type(b.getBlock, 'function');
-    t.type(b.getScripts, 'function');
-    t.type(b.getNextBlock, 'function');
-    t.type(b.getBranch, 'function');
-    t.type(b.getOpcode, 'function');
-    t.type(b.mutationToXML, 'function');
-    t.type(b.updateSensingOfReference, 'function');
-
-    t.end();
+    assert.strictEqual(typeof b.createBlock, 'function');
+    assert.strictEqual(typeof b.moveBlock, 'function');
+    assert.strictEqual(typeof b.changeBlock, 'function');
+    assert.strictEqual(typeof b.deleteBlock, 'function');
+    assert.strictEqual(typeof b.getBlock, 'function');
+    assert.strictEqual(typeof b.getScripts, 'function');
+    assert.strictEqual(typeof b.getNextBlock, 'function');
+    assert.strictEqual(typeof b.getBranch, 'function');
+    assert.strictEqual(typeof b.getOpcode, 'function');
+    assert.strictEqual(typeof b.mutationToXML, 'function');
+    assert.strictEqual(typeof b.updateSensingOfReference, 'function');
 });
 
 // Getter tests
-test('getBlock', t => {
+test('getBlock', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'foo',
@@ -43,17 +42,16 @@ test('getBlock', t => {
         topLevel: true
     });
     const block = b.getBlock('foo');
-    t.type(block, 'object');
+    assert.strictEqual(typeof block, 'object');
     const notBlock = b.getBlock('?');
-    t.type(notBlock, 'undefined');
-    t.end();
+    assert.strictEqual(typeof notBlock, 'undefined');
 });
 
-test('getScripts', t => {
+test('getScripts', () => {
     const b = new Blocks(new Runtime());
     let scripts = b.getScripts();
-    t.type(scripts, 'object');
-    t.equals(scripts.length, 0);
+    assert.strictEqual(typeof scripts, 'object');
+    assert.strictEqual(scripts.length, 0);
     // Create two top-level blocks and one not.
     b.createBlock({
         id: 'foo',
@@ -81,16 +79,15 @@ test('getScripts', t => {
     });
 
     scripts = b.getScripts();
-    t.type(scripts, 'object');
-    t.equals(scripts.length, 2);
-    t.ok(scripts.indexOf('foo') > -1);
-    t.ok(scripts.indexOf('foo2') > -1);
-    t.equals(scripts.indexOf('foo3'), -1);
-    t.end();
+    assert.strictEqual(typeof scripts, 'object');
+    assert.strictEqual(scripts.length, 2);
+    assert.ok(scripts.indexOf('foo') > -1);
+    assert.ok(scripts.indexOf('foo2') > -1);
+    assert.strictEqual(scripts.indexOf('foo3'), -1);
 
 });
 
-test('getNextBlock', t => {
+test('getNextBlock', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'foo',
@@ -102,7 +99,7 @@ test('getNextBlock', t => {
     });
 
     let next = b.getNextBlock('foo');
-    t.equals(next, null);
+    assert.strictEqual(next, null);
 
     // Add a block with "foo" as its next.
     b.createBlock({
@@ -115,16 +112,14 @@ test('getNextBlock', t => {
     });
 
     next = b.getNextBlock('foo2');
-    t.equals(next, 'foo');
+    assert.strictEqual(next, 'foo');
 
     // Block that doesn't exist.
     const noBlock = b.getNextBlock('?');
-    t.equals(noBlock, null);
-
-    t.end();
+    assert.strictEqual(noBlock, null);
 });
 
-test('getBranch', t => {
+test('getBranch', () => {
     const b = new Blocks(new Runtime());
     // Single branch
     b.createBlock({
@@ -151,15 +146,13 @@ test('getBranch', t => {
     });
 
     const branch = b.getBranch('foo');
-    t.equals(branch, 'foo2');
+    assert.strictEqual(branch, 'foo2');
 
     const notBranch = b.getBranch('?');
-    t.equals(notBranch, null);
-
-    t.end();
+    assert.strictEqual(notBranch, null);
 });
 
-test('getBranch2', t => {
+test('getBranch2', () => {
     const b = new Blocks(new Runtime());
     // Second branch
     b.createBlock({
@@ -200,13 +193,11 @@ test('getBranch2', t => {
 
     const branch1 = b.getBranch('foo', 1);
     const branch2 = b.getBranch('foo', 2);
-    t.equals(branch1, 'foo2');
-    t.equals(branch2, 'foo3');
-
-    t.end();
+    assert.strictEqual(branch1, 'foo2');
+    assert.strictEqual(branch2, 'foo3');
 });
 
-test('getBranch with none', t => {
+test('getBranch with none', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'foo',
@@ -217,11 +208,10 @@ test('getBranch with none', t => {
         topLevel: true
     });
     const noBranch = b.getBranch('foo');
-    t.equals(noBranch, null);
-    t.end();
+    assert.strictEqual(noBranch, null);
 });
 
-test('getOpcode', t => {
+test('getOpcode', () => {
     const b = new Blocks(new Runtime());
     const block = {
         id: 'foo',
@@ -233,14 +223,13 @@ test('getOpcode', t => {
     };
     b.createBlock(block);
     const opcode = b.getOpcode(block);
-    t.equals(opcode, 'TEST_BLOCK');
+    assert.strictEqual(opcode, 'TEST_BLOCK');
     const undefinedBlock = b.getBlock('?');
     const undefinedOpcode = b.getOpcode(undefinedBlock);
-    t.equals(undefinedOpcode, null);
-    t.end();
+    assert.strictEqual(undefinedOpcode, null);
 });
 
-test('mutationToXML', t => {
+test('mutationToXML', () => {
     const b = new Blocks(new Runtime());
     const testStringRaw = '"arbitrary" & \'complicated\' test string';
     const testStringEscaped = '\\&quot;arbitrary\\&quot; &amp; &apos;complicated&apos; test string';
@@ -252,15 +241,14 @@ test('mutationToXML', t => {
         }
     };
     const xml = b.mutationToXML(mutation);
-    t.equals(
+    assert.strictEqual(
         xml,
         `<mutation blockInfo="{&quot;text&quot;:&quot;${testStringEscaped}&quot;}"></mutation>`
     );
-    t.end();
 });
 
 // Block events tests
-test('create', t => {
+test('create', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'foo',
@@ -271,13 +259,12 @@ test('create', t => {
         topLevel: true
     });
 
-    t.type(b._blocks.foo, 'object');
-    t.equal(b._blocks.foo.opcode, 'TEST_BLOCK');
-    t.notEqual(b._scripts.indexOf('foo'), -1);
-    t.end();
+    assert.strictEqual(typeof b._blocks.foo, 'object');
+    assert.strictEqual(b._blocks.foo.opcode, 'TEST_BLOCK');
+    assert.notStrictEqual(b._scripts.indexOf('foo'), -1);
 });
 
-test('move', t => {
+test('move', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'foo',
@@ -301,23 +288,21 @@ test('move', t => {
         id: 'bar',
         newParent: 'foo'
     });
-    t.equal(b._scripts.length, 1);
-    t.equal(Object.keys(b._blocks).length, 2);
-    t.equal(b._blocks.foo.next, 'bar');
+    assert.strictEqual(b._scripts.length, 1);
+    assert.strictEqual(Object.keys(b._blocks).length, 2);
+    assert.strictEqual(b._blocks.foo.next, 'bar');
 
     // Detach 'bar' from 'foo'
     b.moveBlock({
         id: 'bar',
         oldParent: 'foo'
     });
-    t.equal(b._scripts.length, 2);
-    t.equal(Object.keys(b._blocks).length, 2);
-    t.equal(b._blocks.foo.next, null);
-
-    t.end();
+    assert.strictEqual(b._scripts.length, 2);
+    assert.strictEqual(Object.keys(b._blocks).length, 2);
+    assert.strictEqual(b._blocks.foo.next, null);
 });
 
-test('move into empty', t => {
+test('move into empty', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'foo',
@@ -340,11 +325,10 @@ test('move into empty', t => {
         newInput: 'fooInput',
         newParent: 'foo'
     });
-    t.equal(b._blocks.foo.inputs.fooInput.block, 'bar');
-    t.end();
+    assert.strictEqual(b._blocks.foo.inputs.fooInput.block, 'bar');
 });
 
-test('move no obscure shadow', t => {
+test('move no obscure shadow', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'foo',
@@ -373,12 +357,11 @@ test('move no obscure shadow', t => {
         newInput: 'fooInput',
         newParent: 'foo'
     });
-    t.equal(b._blocks.foo.inputs.fooInput.block, 'bar');
-    t.equal(b._blocks.foo.inputs.fooInput.shadow, 'y');
-    t.end();
+    assert.strictEqual(b._blocks.foo.inputs.fooInput.block, 'bar');
+    assert.strictEqual(b._blocks.foo.inputs.fooInput.shadow, 'y');
 });
 
-test('move - attaching new shadow', t => {
+test('move - attaching new shadow', () => {
     const b = new Blocks(new Runtime());
     // Block/shadow are null to mimic state right after a procedure_call block
     // is mutated by adding an input. The "move" will attach the new shadow.
@@ -410,12 +393,11 @@ test('move - attaching new shadow', t => {
         newInput: 'fooInput',
         newParent: 'foo'
     });
-    t.equal(b._blocks.foo.inputs.fooInput.block, 'bar');
-    t.equal(b._blocks.foo.inputs.fooInput.shadow, 'bar');
-    t.end();
+    assert.strictEqual(b._blocks.foo.inputs.fooInput.block, 'bar');
+    assert.strictEqual(b._blocks.foo.inputs.fooInput.shadow, 'bar');
 });
 
-test('change', t => {
+test('change', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'foo',
@@ -432,7 +414,7 @@ test('change', t => {
     });
 
     // Test that the field is updated
-    t.equal(b._blocks.foo.fields.someField.value, 'initial-value');
+    assert.strictEqual(b._blocks.foo.fields.someField.value, 'initial-value');
 
     b.changeBlock({
         element: 'field',
@@ -441,7 +423,7 @@ test('change', t => {
         value: 'final-value'
     });
 
-    t.equal(b._blocks.foo.fields.someField.value, 'final-value');
+    assert.strictEqual(b._blocks.foo.fields.someField.value, 'final-value');
 
     // Invalid cases
     // No `element`
@@ -450,7 +432,7 @@ test('change', t => {
         name: 'someField',
         value: 'invalid-value'
     });
-    t.equal(b._blocks.foo.fields.someField.value, 'final-value');
+    assert.strictEqual(b._blocks.foo.fields.someField.value, 'final-value');
 
     // No block ID
     b.changeBlock({
@@ -458,7 +440,7 @@ test('change', t => {
         name: 'someField',
         value: 'invalid-value'
     });
-    t.equal(b._blocks.foo.fields.someField.value, 'final-value');
+    assert.strictEqual(b._blocks.foo.fields.someField.value, 'final-value');
 
     // No such field
     b.changeBlock({
@@ -467,12 +449,10 @@ test('change', t => {
         name: 'someWrongField',
         value: 'final-value'
     });
-    t.equal(b._blocks.foo.fields.someField.value, 'final-value');
-
-    t.end();
+    assert.strictEqual(b._blocks.foo.fields.someField.value, 'final-value');
 });
 
-test('delete', t => {
+test('delete', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'foo',
@@ -484,12 +464,11 @@ test('delete', t => {
     });
     b.deleteBlock('foo');
 
-    t.type(b._blocks.foo, 'undefined');
-    t.equal(b._scripts.indexOf('foo'), -1);
-    t.end();
+    assert.strictEqual(typeof b._blocks.foo, 'undefined');
+    assert.strictEqual(b._scripts.indexOf('foo'), -1);
 });
 
-test('delete chain', t => {
+test('delete chain', () => {
     // Create a chain of connected blocks and delete the top one.
     // All of them should be deleted.
     const b = new Blocks(new Runtime());
@@ -518,16 +497,15 @@ test('delete chain', t => {
         topLevel: false
     });
     b.deleteBlock('foo');
-    t.type(b._blocks.foo, 'undefined');
-    t.type(b._blocks.foo2, 'undefined');
-    t.type(b._blocks.foo3, 'undefined');
-    t.equal(b._scripts.indexOf('foo'), -1);
-    t.equal(Object.keys(b._blocks).length, 0);
-    t.equal(b._scripts.length, 0);
-    t.end();
+    assert.strictEqual(typeof b._blocks.foo, 'undefined');
+    assert.strictEqual(typeof b._blocks.foo2, 'undefined');
+    assert.strictEqual(typeof b._blocks.foo3, 'undefined');
+    assert.strictEqual(b._scripts.indexOf('foo'), -1);
+    assert.strictEqual(Object.keys(b._blocks).length, 0);
+    assert.strictEqual(b._scripts.length, 0);
 });
 
-test('delete inputs', t => {
+test('delete inputs', () => {
     // Create a block with two inputs, one of which has its own input.
     // Delete the block - all of them should be deleted.
     const b = new Blocks(new Runtime());
@@ -589,18 +567,17 @@ test('delete inputs', t => {
         topLevel: false
     });
     b.deleteBlock('foo');
-    t.type(b._blocks.foo, 'undefined');
-    t.type(b._blocks.foo2, 'undefined');
-    t.type(b._blocks.foo3, 'undefined');
-    t.type(b._blocks.foo4, 'undefined');
-    t.type(b._blocks.foo5, 'undefined');
-    t.equal(b._scripts.indexOf('foo'), -1);
-    t.equal(Object.keys(b._blocks).length, 0);
-    t.equal(b._scripts.length, 0);
-    t.end();
+    assert.strictEqual(typeof b._blocks.foo, 'undefined');
+    assert.strictEqual(typeof b._blocks.foo2, 'undefined');
+    assert.strictEqual(typeof b._blocks.foo3, 'undefined');
+    assert.strictEqual(typeof b._blocks.foo4, 'undefined');
+    assert.strictEqual(typeof b._blocks.foo5, 'undefined');
+    assert.strictEqual(b._scripts.indexOf('foo'), -1);
+    assert.strictEqual(Object.keys(b._blocks).length, 0);
+    assert.strictEqual(b._scripts.length, 0);
 });
 
-test('updateAssetName function updates name in sound field', t => {
+test('updateAssetName function updates name in sound field', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'foo',
@@ -611,13 +588,12 @@ test('updateAssetName function updates name in sound field', t => {
             }
         }
     });
-    t.equals(b.getBlock('foo').fields.SOUND_MENU.value, 'name1');
+    assert.strictEqual(b.getBlock('foo').fields.SOUND_MENU.value, 'name1');
     b.updateAssetName('name1', 'name2', 'sound');
-    t.equals(b.getBlock('foo').fields.SOUND_MENU.value, 'name2');
-    t.end();
+    assert.strictEqual(b.getBlock('foo').fields.SOUND_MENU.value, 'name2');
 });
 
-test('updateAssetName function updates name in costume field', t => {
+test('updateAssetName function updates name in costume field', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'foo',
@@ -628,13 +604,12 @@ test('updateAssetName function updates name in costume field', t => {
             }
         }
     });
-    t.equals(b.getBlock('foo').fields.COSTUME.value, 'name1');
+    assert.strictEqual(b.getBlock('foo').fields.COSTUME.value, 'name1');
     b.updateAssetName('name1', 'name2', 'costume');
-    t.equals(b.getBlock('foo').fields.COSTUME.value, 'name2');
-    t.end();
+    assert.strictEqual(b.getBlock('foo').fields.COSTUME.value, 'name2');
 });
 
-test('updateAssetName function updates name in backdrop field', t => {
+test('updateAssetName function updates name in backdrop field', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'foo',
@@ -645,13 +620,12 @@ test('updateAssetName function updates name in backdrop field', t => {
             }
         }
     });
-    t.equals(b.getBlock('foo').fields.BACKDROP.value, 'name1');
+    assert.strictEqual(b.getBlock('foo').fields.BACKDROP.value, 'name1');
     b.updateAssetName('name1', 'name2', 'backdrop');
-    t.equals(b.getBlock('foo').fields.BACKDROP.value, 'name2');
-    t.end();
+    assert.strictEqual(b.getBlock('foo').fields.BACKDROP.value, 'name2');
 });
 
-test('updateAssetName function updates name in all sprite fields', t => {
+test('updateAssetName function updates name in all sprite fields', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'id1',
@@ -716,25 +690,24 @@ test('updateAssetName function updates name in all sprite fields', t => {
             }
         }
     });
-    t.equals(b.getBlock('id1').fields.TOWARDS.value, 'name1');
-    t.equals(b.getBlock('id2').fields.TO.value, 'name1');
-    t.equals(b.getBlock('id3').fields.OBJECT.value, 'name1');
-    t.equals(b.getBlock('id4').fields.VIDEOONMENU2.value, 'name1');
-    t.equals(b.getBlock('id5').fields.DISTANCETOMENU.value, 'name1');
-    t.equals(b.getBlock('id6').fields.TOUCHINGOBJECTMENU.value, 'name1');
-    t.equals(b.getBlock('id7').fields.CLONE_OPTION.value, 'name1');
+    assert.strictEqual(b.getBlock('id1').fields.TOWARDS.value, 'name1');
+    assert.strictEqual(b.getBlock('id2').fields.TO.value, 'name1');
+    assert.strictEqual(b.getBlock('id3').fields.OBJECT.value, 'name1');
+    assert.strictEqual(b.getBlock('id4').fields.VIDEOONMENU2.value, 'name1');
+    assert.strictEqual(b.getBlock('id5').fields.DISTANCETOMENU.value, 'name1');
+    assert.strictEqual(b.getBlock('id6').fields.TOUCHINGOBJECTMENU.value, 'name1');
+    assert.strictEqual(b.getBlock('id7').fields.CLONE_OPTION.value, 'name1');
     b.updateAssetName('name1', 'name2', 'sprite');
-    t.equals(b.getBlock('id1').fields.TOWARDS.value, 'name2');
-    t.equals(b.getBlock('id2').fields.TO.value, 'name2');
-    t.equals(b.getBlock('id3').fields.OBJECT.value, 'name2');
-    t.equals(b.getBlock('id4').fields.VIDEOONMENU2.value, 'name2');
-    t.equals(b.getBlock('id5').fields.DISTANCETOMENU.value, 'name2');
-    t.equals(b.getBlock('id6').fields.TOUCHINGOBJECTMENU.value, 'name2');
-    t.equals(b.getBlock('id7').fields.CLONE_OPTION.value, 'name2');
-    t.end();
+    assert.strictEqual(b.getBlock('id1').fields.TOWARDS.value, 'name2');
+    assert.strictEqual(b.getBlock('id2').fields.TO.value, 'name2');
+    assert.strictEqual(b.getBlock('id3').fields.OBJECT.value, 'name2');
+    assert.strictEqual(b.getBlock('id4').fields.VIDEOONMENU2.value, 'name2');
+    assert.strictEqual(b.getBlock('id5').fields.DISTANCETOMENU.value, 'name2');
+    assert.strictEqual(b.getBlock('id6').fields.TOUCHINGOBJECTMENU.value, 'name2');
+    assert.strictEqual(b.getBlock('id7').fields.CLONE_OPTION.value, 'name2');
 });
 
-test('updateAssetName function updates name according to asset type', t => {
+test('updateAssetName function updates name according to asset type', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'id1',
@@ -754,16 +727,15 @@ test('updateAssetName function updates name according to asset type', t => {
             }
         }
     });
-    t.equals(b.getBlock('id1').fields.SOUND_MENU.value, 'name1');
-    t.equals(b.getBlock('id2').fields.COSTUME.value, 'name1');
+    assert.strictEqual(b.getBlock('id1').fields.SOUND_MENU.value, 'name1');
+    assert.strictEqual(b.getBlock('id2').fields.COSTUME.value, 'name1');
     b.updateAssetName('name1', 'name2', 'sound');
     // only sound should get renamed
-    t.equals(b.getBlock('id1').fields.SOUND_MENU.value, 'name2');
-    t.equals(b.getBlock('id2').fields.COSTUME.value, 'name1');
-    t.end();
+    assert.strictEqual(b.getBlock('id1').fields.SOUND_MENU.value, 'name2');
+    assert.strictEqual(b.getBlock('id2').fields.COSTUME.value, 'name1');
 });
 
-test('updateAssetName only updates given name', t => {
+test('updateAssetName only updates given name', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'id1',
@@ -783,15 +755,14 @@ test('updateAssetName only updates given name', t => {
             }
         }
     });
-    t.equals(b.getBlock('id1').fields.COSTUME.value, 'name1');
-    t.equals(b.getBlock('id2').fields.COSTUME.value, 'foo');
+    assert.strictEqual(b.getBlock('id1').fields.COSTUME.value, 'name1');
+    assert.strictEqual(b.getBlock('id2').fields.COSTUME.value, 'foo');
     b.updateAssetName('name1', 'name2', 'costume');
-    t.equals(b.getBlock('id1').fields.COSTUME.value, 'name2');
-    t.equals(b.getBlock('id2').fields.COSTUME.value, 'foo');
-    t.end();
+    assert.strictEqual(b.getBlock('id1').fields.COSTUME.value, 'name2');
+    assert.strictEqual(b.getBlock('id2').fields.COSTUME.value, 'foo');
 });
 
-test('updateAssetName doesn\'t update name if name isn\'t being used', t => {
+test('updateAssetName doesn\'t update name if name isn\'t being used', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'id1',
@@ -802,13 +773,12 @@ test('updateAssetName doesn\'t update name if name isn\'t being used', t => {
             }
         }
     });
-    t.equals(b.getBlock('id1').fields.BACKDROP.value, 'foo');
+    assert.strictEqual(b.getBlock('id1').fields.BACKDROP.value, 'foo');
     b.updateAssetName('name1', 'name2', 'backdrop');
-    t.equals(b.getBlock('id1').fields.BACKDROP.value, 'foo');
-    t.end();
+    assert.strictEqual(b.getBlock('id1').fields.BACKDROP.value, 'foo');
 });
 
-test('updateSensingOfReference renames variables in sensing_of block', t => {
+test('updateSensingOfReference renames variables in sensing_of block', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'id1',
@@ -836,13 +806,12 @@ test('updateSensingOfReference renames variables in sensing_of block', t => {
             }
         }
     });
-    t.equals(b.getBlock('id1').fields.PROPERTY.value, 'foo');
+    assert.strictEqual(b.getBlock('id1').fields.PROPERTY.value, 'foo');
     b.updateSensingOfReference('foo', 'bar', '_stage_');
-    t.equals(b.getBlock('id1').fields.PROPERTY.value, 'bar');
-    t.end();
+    assert.strictEqual(b.getBlock('id1').fields.PROPERTY.value, 'bar');
 });
 
-test('updateSensingOfReference doesn\'t rename if block is inserted', t => {
+test('updateSensingOfReference doesn\'t rename if block is inserted', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'id1',
@@ -874,13 +843,12 @@ test('updateSensingOfReference doesn\'t rename if block is inserted', t => {
         id: 'id3',
         opcode: 'answer'
     });
-    t.equals(b.getBlock('id1').fields.PROPERTY.value, 'foo');
+    assert.strictEqual(b.getBlock('id1').fields.PROPERTY.value, 'foo');
     b.updateSensingOfReference('foo', 'bar', '_stage_');
-    t.equals(b.getBlock('id1').fields.PROPERTY.value, 'foo');
-    t.end();
+    assert.strictEqual(b.getBlock('id1').fields.PROPERTY.value, 'foo');
 });
 
-test('updateSensingOfReference doesn\'t rename if name is not being used', t => {
+test('updateSensingOfReference doesn\'t rename if name is not being used', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'id1',
@@ -908,13 +876,12 @@ test('updateSensingOfReference doesn\'t rename if name is not being used', t => 
             }
         }
     });
-    t.equals(b.getBlock('id1').fields.PROPERTY.value, 'foo');
+    assert.strictEqual(b.getBlock('id1').fields.PROPERTY.value, 'foo');
     b.updateSensingOfReference('meow', 'meow2', '_stage_');
-    t.equals(b.getBlock('id1').fields.PROPERTY.value, 'foo');
-    t.end();
+    assert.strictEqual(b.getBlock('id1').fields.PROPERTY.value, 'foo');
 });
 
-test('updateSensingOfReference doesn\'t rename other targets\' variables', t => {
+test('updateSensingOfReference doesn\'t rename other targets\' variables', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'id1',
@@ -942,13 +909,12 @@ test('updateSensingOfReference doesn\'t rename other targets\' variables', t => 
             }
         }
     });
-    t.equals(b.getBlock('id1').fields.PROPERTY.value, 'foo');
+    assert.strictEqual(b.getBlock('id1').fields.PROPERTY.value, 'foo');
     b.updateSensingOfReference('foo', 'bar', 'Cat');
-    t.equals(b.getBlock('id1').fields.PROPERTY.value, 'foo');
-    t.end();
+    assert.strictEqual(b.getBlock('id1').fields.PROPERTY.value, 'foo');
 });
 
-test('updateTargetSpecificBlocks changes sprite clicked hat to stage clicked for stage', t => {
+test('updateTargetSpecificBlocks changes sprite clicked hat to stage clicked for stage', () => {
     const b = new Blocks(new Runtime());
     b.createBlock({
         id: 'originallySpriteClicked',
@@ -961,62 +927,56 @@ test('updateTargetSpecificBlocks changes sprite clicked hat to stage clicked for
 
     // originallySpriteClicked does not update when on a non-stage target
     b.updateTargetSpecificBlocks(false /* isStage */);
-    t.equals(b.getBlock('originallySpriteClicked').opcode, 'event_whenthisspriteclicked');
+    assert.strictEqual(b.getBlock('originallySpriteClicked').opcode, 'event_whenthisspriteclicked');
 
     // originallySpriteClicked does update when on a stage target
     b.updateTargetSpecificBlocks(true /* isStage */);
-    t.equals(b.getBlock('originallySpriteClicked').opcode, 'event_whenstageclicked');
+    assert.strictEqual(b.getBlock('originallySpriteClicked').opcode, 'event_whenstageclicked');
 
     // originallyStageClicked does not update when on a stage target
     b.updateTargetSpecificBlocks(true /* isStage */);
-    t.equals(b.getBlock('originallyStageClicked').opcode, 'event_whenstageclicked');
+    assert.strictEqual(b.getBlock('originallyStageClicked').opcode, 'event_whenstageclicked');
 
     // originallyStageClicked does update when on a non-stage target
     b.updateTargetSpecificBlocks(false/* isStage */);
-    t.equals(b.getBlock('originallyStageClicked').opcode, 'event_whenthisspriteclicked');
-
-    t.end();
+    assert.strictEqual(b.getBlock('originallyStageClicked').opcode, 'event_whenthisspriteclicked');
 });
 
-test('getAllVariableAndListReferences returns an empty map references when variable blocks do not exist', t => {
+test('getAllVariableAndListReferences returns an empty map references when variable blocks do not exist', () => {
     const b = new Blocks(new Runtime());
-    t.equal(Object.keys(b.getAllVariableAndListReferences()).length, 0);
-    t.end();
+    assert.strictEqual(Object.keys(b.getAllVariableAndListReferences()).length, 0);
 });
 
-test('getAllVariableAndListReferences returns references when variable blocks exist', t => {
+test('getAllVariableAndListReferences returns references when variable blocks exist', () => {
     const b = new Blocks(new Runtime());
 
     let varListRefs = b.getAllVariableAndListReferences();
-    t.equal(Object.keys(varListRefs).length, 0);
+    assert.strictEqual(Object.keys(varListRefs).length, 0);
 
     b.createBlock(adapter(events.mockVariableBlock)[0]);
     b.createBlock(adapter(events.mockListBlock)[0]);
 
     varListRefs = b.getAllVariableAndListReferences();
-    t.equal(Object.keys(varListRefs).length, 2);
-    t.equal(Array.isArray(varListRefs['mock var id']), true);
-    t.equal(varListRefs['mock var id'].length, 1);
-    t.equal(varListRefs['mock var id'][0].type, Variable.SCALAR_TYPE);
-    t.equal(varListRefs['mock var id'][0].referencingField.value, 'a mock variable');
-    t.equal(Array.isArray(varListRefs['mock list id']), true);
-    t.equal(varListRefs['mock list id'].length, 1);
-    t.equal(varListRefs['mock list id'][0].type, Variable.LIST_TYPE);
-    t.equal(varListRefs['mock list id'][0].referencingField.value, 'a mock list');
-
-    t.end();
+    assert.strictEqual(Object.keys(varListRefs).length, 2);
+    assert.strictEqual(Array.isArray(varListRefs['mock var id']), true);
+    assert.strictEqual(varListRefs['mock var id'].length, 1);
+    assert.strictEqual(varListRefs['mock var id'][0].type, Variable.SCALAR_TYPE);
+    assert.strictEqual(varListRefs['mock var id'][0].referencingField.value, 'a mock variable');
+    assert.strictEqual(Array.isArray(varListRefs['mock list id']), true);
+    assert.strictEqual(varListRefs['mock list id'].length, 1);
+    assert.strictEqual(varListRefs['mock list id'][0].type, Variable.LIST_TYPE);
+    assert.strictEqual(varListRefs['mock list id'][0].referencingField.value, 'a mock list');
 });
 
-test('getAllVariableAndListReferences does not return broadcast blocks if the flag is left out', t => {
+test('getAllVariableAndListReferences does not return broadcast blocks if the flag is left out', () => {
     const b = new Blocks(new Runtime());
     b.createBlock(adapter(events.mockBroadcastBlock)[0]);
     b.createBlock(adapter(events.mockBroadcastBlock)[1]);
 
-    t.equal(Object.keys(b.getAllVariableAndListReferences()).length, 0);
-    t.end();
+    assert.strictEqual(Object.keys(b.getAllVariableAndListReferences()).length, 0);
 });
 
-test('getAllVariableAndListReferences returns broadcast when we tell it to', t => {
+test('getAllVariableAndListReferences returns broadcast when we tell it to', () => {
     const b = new Blocks(new Runtime());
 
     b.createBlock(adapter(events.mockVariableBlock)[0]);
@@ -1026,15 +986,13 @@ test('getAllVariableAndListReferences returns broadcast when we tell it to', t =
 
     const varListRefs = b.getAllVariableAndListReferences(null, true);
 
-    t.equal(Object.keys(varListRefs).length, 2);
-    t.equal(Array.isArray(varListRefs['mock var id']), true);
-    t.equal(varListRefs['mock var id'].length, 1);
-    t.equal(varListRefs['mock var id'][0].type, Variable.SCALAR_TYPE);
-    t.equal(varListRefs['mock var id'][0].referencingField.value, 'a mock variable');
-    t.equal(Array.isArray(varListRefs['mock broadcast message id']), true);
-    t.equal(varListRefs['mock broadcast message id'].length, 1);
-    t.equal(varListRefs['mock broadcast message id'][0].type, Variable.BROADCAST_MESSAGE_TYPE);
-    t.equal(varListRefs['mock broadcast message id'][0].referencingField.value, 'my message');
-
-    t.end();
+    assert.strictEqual(Object.keys(varListRefs).length, 2);
+    assert.strictEqual(Array.isArray(varListRefs['mock var id']), true);
+    assert.strictEqual(varListRefs['mock var id'].length, 1);
+    assert.strictEqual(varListRefs['mock var id'][0].type, Variable.SCALAR_TYPE);
+    assert.strictEqual(varListRefs['mock var id'][0].referencingField.value, 'a mock variable');
+    assert.strictEqual(Array.isArray(varListRefs['mock broadcast message id']), true);
+    assert.strictEqual(varListRefs['mock broadcast message id'].length, 1);
+    assert.strictEqual(varListRefs['mock broadcast message id'][0].type, Variable.BROADCAST_MESSAGE_TYPE);
+    assert.strictEqual(varListRefs['mock broadcast message id'][0].referencingField.value, 'my message');
 });

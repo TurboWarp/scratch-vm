@@ -1,4 +1,4 @@
-const test = require('tap').test;
+const {test} = require('node:test');
 const fs = require('fs');
 const path = require('path');
 const VirtualMachine = require('../../src/virtual-machine');
@@ -12,8 +12,7 @@ global.performance = {
     }
 };
 
-test('performance.measure() error in loadProject is ignored', async t => {
+test('performance.measure() error in loadProject is ignored', async () => {
     const vm = new VirtualMachine();
     await vm.loadProject(fs.readFileSync(path.join(__dirname, '..', 'fixtures', 'tw-empty-project.sb3')));
-    t.end();
 });

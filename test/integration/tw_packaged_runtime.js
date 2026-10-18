@@ -4,7 +4,8 @@ const Runtime = require('../../src/engine/runtime');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const FakeRenderer = require('../fixtures/fake-renderer');
 const FakeBitmapAdapter = require('../fixtures/fake-bitmap-adapter');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 
 global.Image = function () {
     const image = {
@@ -31,7 +32,7 @@ class FakeAudioEngine {
     }
 }
 
-test('load bitmap in packaged runtime', async t => {
+test('load bitmap in packaged runtime', async () => {
     const rt = new Runtime();
     rt.convertToPackagedRuntime();
     rt.attachRenderer(new FakeRenderer());
@@ -46,11 +47,10 @@ test('load bitmap in packaged runtime', async t => {
         true
     );
     const costume = await loadCostume(`${asset.assetId}.png`, {asset}, rt);
-    t.equal(costume.asset, null);
-    t.end();
+    assert.strictEqual(costume.asset, null);
 });
 
-test('load vector in packaged runtime', async t => {
+test('load vector in packaged runtime', async () => {
     const rt = new Runtime();
     rt.convertToPackagedRuntime();
     rt.attachRenderer(new FakeRenderer());
@@ -64,11 +64,10 @@ test('load vector in packaged runtime', async t => {
         true
     );
     const costume = await loadCostume(`${asset.assetId}.svg`, {asset}, rt);
-    t.equal(costume.asset, null);
-    t.end();
+    assert.strictEqual(costume.asset, null);
 });
 
-test('load sound in packaged runtime', async t => {
+test('load sound in packaged runtime', async () => {
     const rt = new Runtime();
     rt.convertToPackagedRuntime();
     const storage = makeTestStorage();
@@ -85,11 +84,10 @@ test('load sound in packaged runtime', async t => {
         asset,
         md5: `${asset.assetId}.mp3`
     }, rt, null);
-    t.equal(costume.asset, null);
-    t.end();
+    assert.strictEqual(costume.asset, null);
 });
 
-test('storage.createAsset never generates real asset IDs', t => {
+test('storage.createAsset never generates real asset IDs', () => {
     const rt = new Runtime();
     rt.convertToPackagedRuntime();
     const storage = makeTestStorage();
@@ -100,7 +98,7 @@ test('storage.createAsset never generates real asset IDs', t => {
         new ArrayBuffer(10),
         'a'.repeat(32)
     );
-    t.equal(shouldUseGivenID.assetId, 'a'.repeat(32));
+    assert.strictEqual(shouldUseGivenID.assetId, 'a'.repeat(32));
     const shouldUseFakeID = storage.createAsset(
         storage.AssetType.ImageBitmap,
         storage.DataFormat.PNG,
@@ -108,7 +106,7 @@ test('storage.createAsset never generates real asset IDs', t => {
         null,
         true
     );
-    t.equal(shouldUseFakeID.assetId, '1');
+    assert.strictEqual(shouldUseFakeID.assetId, '1');
     const shouldUseDifferentFakeID = storage.createAsset(
         storage.AssetType.ImageBitmap,
         storage.DataFormat.PNG,
@@ -116,6 +114,5 @@ test('storage.createAsset never generates real asset IDs', t => {
         null,
         true
     );
-    t.equal(shouldUseDifferentFakeID.assetId, '2');
-    t.end();
+    assert.strictEqual(shouldUseDifferentFakeID.assetId, '2');
 });

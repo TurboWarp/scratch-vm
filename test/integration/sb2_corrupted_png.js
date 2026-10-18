@@ -7,7 +7,8 @@
  * to load the costume if the saved project is re-loaded.
  */
 const path = require('path');
-const tap = require('tap');
+const {test, beforeEach} = require('node:test');
+const assert = require('node:assert');
 const md5 = require('js-md5');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const FakeRenderer = require('../fixtures/fake-renderer');
@@ -54,9 +55,8 @@ global.document = {
 let vm;
 let defaultBitmapAssetId;
 
-tap.setTimeout(30000);
 
-tap.beforeEach(() => {
+beforeEach(() => {
     const storage = makeTestStorage();
 
     vm = new VirtualMachine();
@@ -69,59 +69,52 @@ tap.beforeEach(() => {
     return vm.loadProject(project);
 });
 
-const test = tap.test;
-
-test('load sb2 project with corrupted bitmap costume file', t => {
-    t.equal(vm.runtime.targets.length, 2);
+test('load sb2 project with corrupted bitmap costume file', () => {
+    assert.strictEqual(vm.runtime.targets.length, 2);
 
     const stage = vm.runtime.targets[0];
-    t.ok(stage.isStage);
+    assert.ok(stage.isStage);
 
     const greenGuySprite = vm.runtime.targets[1];
-    t.equal(greenGuySprite.getName(), 'GreenGuy');
-    t.equal(greenGuySprite.getCostumes().length, 1);
+    assert.strictEqual(greenGuySprite.getName(), 'GreenGuy');
+    assert.strictEqual(greenGuySprite.getCostumes().length, 1);
 
     const corruptedCostume = greenGuySprite.getCostumes()[0];
-    t.equal(corruptedCostume.name, 'GreenGuy');
-    t.equal(corruptedCostume.assetId, defaultBitmapAssetId);
-    t.equal(corruptedCostume.dataFormat, 'png');
+    assert.strictEqual(corruptedCostume.name, 'GreenGuy');
+    assert.strictEqual(corruptedCostume.assetId, defaultBitmapAssetId);
+    assert.strictEqual(corruptedCostume.dataFormat, 'png');
     // Runtime should have info about broken asset
-    t.ok(corruptedCostume.broken);
-    t.equal(corruptedCostume.broken.assetId, brokenCostumeMd5);
+    assert.ok(corruptedCostume.broken);
+    assert.strictEqual(corruptedCostume.broken.assetId, brokenCostumeMd5);
     // Verify that we saved the original asset data
-    t.equal(md5(corruptedCostume.broken.asset.data), brokenCostumeMd5);
-
-    t.end();
+    assert.strictEqual(md5(corruptedCostume.broken.asset.data), brokenCostumeMd5);
 });
 
-test('load and then save project with corrupted bitmap costume file', t => {
+test('load and then save project with corrupted bitmap costume file', () => {
     const resavedProject = JSON.parse(vm.toJSON());
 
-    t.equal(resavedProject.targets.length, 2);
+    assert.strictEqual(resavedProject.targets.length, 2);
 
     const stage = resavedProject.targets[0];
-    t.ok(stage.isStage);
+    assert.ok(stage.isStage);
 
     const greenGuySprite = resavedProject.targets[1];
-    t.equal(greenGuySprite.name, 'GreenGuy');
-    t.equal(greenGuySprite.costumes.length, 1);
+    assert.strictEqual(greenGuySprite.name, 'GreenGuy');
+    assert.strictEqual(greenGuySprite.costumes.length, 1);
 
     const corruptedCostume = greenGuySprite.costumes[0];
-    t.equal(corruptedCostume.name, 'GreenGuy');
+    assert.strictEqual(corruptedCostume.name, 'GreenGuy');
     // Resaved project costume should have the metadata that corresponds to the original broken costume
-    t.equal(corruptedCostume.assetId, brokenCostumeMd5);
-    t.equal(corruptedCostume.dataFormat, 'png');
+    assert.strictEqual(corruptedCostume.assetId, brokenCostumeMd5);
+    assert.strictEqual(corruptedCostume.dataFormat, 'png');
     // Test that we didn't save any data about the costume being broken
-    t.notOk(corruptedCostume.broken);
-
-    t.end();
+    assert.ok(!corruptedCostume.broken);
 });
 
-test('serializeCostume saves orignal broken costume', t => {
+test('serializeCostume saves orignal broken costume', () => {
     const costumeDescs = serializeCostumes(vm.runtime, vm.runtime.targets[1].id);
-    t.equal(costumeDescs.length, 1);
+    assert.strictEqual(costumeDescs.length, 1);
     const costume = costumeDescs[0];
-    t.equal(costume.fileName, `${brokenCostumeMd5}.png`);
-    t.equal(md5(costume.fileContent), brokenCostumeMd5);
-    t.end();
+    assert.strictEqual(costume.fileName, `${brokenCostumeMd5}.png`);
+    assert.strictEqual(md5(costume.fileContent), brokenCostumeMd5);
 });

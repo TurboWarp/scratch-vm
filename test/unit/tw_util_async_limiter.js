@@ -1,13 +1,14 @@
 const AsyncLimiter = require('../../src/util/async-limiter');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 
-test('Runs callback', async t => {
+test('Runs callback', async () => {
     /* eslint-disable-next-line require-await */
     const callback = async (a, b) => a + b;
 
     const limiter = new AsyncLimiter(callback, 2);
 
-    t.same(await Promise.all([
+    assert.deepEqual(await Promise.all([
         limiter.do(1, 2),
         limiter.do(3, 4),
         limiter.do(5, 6),
@@ -20,23 +21,16 @@ test('Runs callback', async t => {
         15,
         19
     ]);
-    t.end();
 });
 
-test('Errors', async t => {
-    t.plan(1);
+test('Errors', async () => {
     const errorObject = new Error('Testing testing 123'); // want to get the same *exact* object back
     const callback = () => Promise.reject(errorObject);
     const limiter = new AsyncLimiter(callback, 10);
-    try {
-        await limiter.do();
-    } catch (e) {
-        t.equal(e, errorObject);
-    }
-    t.end();
+    await assert.rejects(limiter.do(), e => e === errorObject);
 });
 
-test('Limit and queue', async t => {
+test('Limit and queue', async () => {
     const calls = [];
     const callback = () => new Promise(resolve => {
         calls.push({
@@ -50,15 +44,13 @@ test('Limit and queue', async t => {
         limiter.do();
     }
 
-    t.equal(calls.length, 5);
+    assert.strictEqual(calls.length, 5);
 
     calls.forEach(i => i.resolve());
     await Promise.resolve();
-    t.equal(calls.length, 10);
+    assert.strictEqual(calls.length, 10);
 
     calls.forEach(i => i.resolve());
     await Promise.resolve();
-    t.equal(calls.length, 12);
-
-    t.end();
+    assert.strictEqual(calls.length, 12);
 });

@@ -1,30 +1,31 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Runtime = require('../../src/engine/runtime');
 const BlockType = require('../../src/extension-support/block-type');
 const ArgumentType = require('../../src/extension-support/argument-type');
 
-test('NUMBER argument defaultValue', t => {
+test('NUMBER argument defaultValue', (t, done) => {
     const runtime = new Runtime();
     runtime.on(Runtime.EXTENSION_ADDED, categoryInfo => {
         /* eslint-disable max-len */
-        t.equal(
+        assert.strictEqual(
             categoryInfo.blocks[0].xml,
             '<block type="testextension_testNone"><value name="a"><shadow type="math_number"></shadow></value></block>'
         );
-        t.equal(
+        assert.strictEqual(
             categoryInfo.blocks[1].xml,
             '<block type="testextension_testEmptyString"><value name="a"><shadow type="math_number"><field name="NUM"></field></shadow></value></block>'
         );
-        t.equal(
+        assert.strictEqual(
             categoryInfo.blocks[2].xml,
             '<block type="testextension_testZeroString"><value name="a"><shadow type="math_number"><field name="NUM">0</field></shadow></value></block>'
         );
-        t.equal(
+        assert.strictEqual(
             categoryInfo.blocks[3].xml,
             '<block type="testextension_testZeroNumber"><value name="a"><shadow type="math_number"><field name="NUM">0</field></shadow></value></block>'
         );
         /* eslint-enable max-len */
-        t.end();
+        done();
     });
     runtime._registerExtensionPrimitives({
         id: 'testextension',

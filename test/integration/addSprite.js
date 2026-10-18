@@ -1,5 +1,6 @@
 const path = require('path');
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const readFileToBuffer = require('../fixtures/readProjectFile').readFileToBuffer;
 
@@ -11,12 +12,11 @@ const project = readFileToBuffer(projectUri);
 
 const vm = new VirtualMachine();
 
-test('spec', t => {
-    t.type(vm.addSprite, 'function');
-    t.end();
+test('spec', () => {
+    assert.strictEqual(typeof vm.addSprite, 'function');
 });
 
-test('default cat', t => {
+test('default cat', (t, done) => {
     // Get default cat from .sprite2
     const uri = path.resolve(__dirname, '../fixtures/example_sprite.sprite2');
     const sprite = readFileToBuffer(uri);
@@ -26,50 +26,50 @@ test('default cat', t => {
     // Evaluate playground data and exit
     vm.on('playgroundData', e => {
         const threads = JSON.parse(e.threads);
-        t.ok(threads.length === 0);
+        assert.ok(threads.length === 0);
         vm.quit();
-        t.end();
+        done();
     });
 
     vm.start();
     vm.clear();
     vm.setCompatibilityMode(false);
     vm.setTurboMode(false);
-    t.doesNotThrow(() => {
+    assert.doesNotThrow(() => {
         vm.loadProject(project).then(() => {
 
-            t.equal(vm.runtime.targets.length, 2); // stage and default sprite
+            assert.strictEqual(vm.runtime.targets.length, 2); // stage and default sprite
 
             // Add another sprite
             vm.addSprite(sprite).then(() => {
                 const targets = vm.runtime.targets;
 
                 // Test
-                t.type(targets, 'object');
-                t.equal(targets.length, 3);
+                assert.strictEqual(typeof targets, 'object');
+                assert.strictEqual(targets.length, 3);
 
                 const newTarget = targets[2];
 
-                t.ok(newTarget instanceof RenderedTarget);
-                t.type(newTarget.id, 'string');
-                t.type(newTarget.blocks, 'object');
-                t.type(newTarget.variables, 'object');
+                assert.ok(newTarget instanceof RenderedTarget);
+                assert.strictEqual(typeof newTarget.id, 'string');
+                assert.strictEqual(typeof newTarget.blocks, 'object');
+                assert.strictEqual(typeof newTarget.variables, 'object');
                 const varIds = Object.keys(newTarget.variables);
-                t.type(varIds.length, 1);
+                assert.strictEqual(varIds.length, 1);
                 const variable = newTarget.variables[varIds[0]];
-                t.equal(variable.name, 'foo');
-                t.equal(variable.value, 0);
+                assert.strictEqual(variable.name, 'foo');
+                assert.strictEqual(variable.value, 0);
 
-                t.equal(newTarget.isOriginal, true);
-                t.equal(newTarget.currentCostume, 0);
-                t.equal(newTarget.isOriginal, true);
-                t.equal(newTarget.isStage, false);
-                t.equal(newTarget.sprite.name, 'Apple');
+                assert.strictEqual(newTarget.isOriginal, true);
+                assert.strictEqual(newTarget.currentCostume, 0);
+                assert.strictEqual(newTarget.isOriginal, true);
+                assert.strictEqual(newTarget.isStage, false);
+                assert.strictEqual(newTarget.sprite.name, 'Apple');
 
                 vm.greenFlag();
 
                 setTimeout(() => {
-                    t.equal(variable.value, 10);
+                    assert.strictEqual(variable.value, 10);
                     vm.getPlaygroundData();
                     vm.stopAll();
                 }, 1000);

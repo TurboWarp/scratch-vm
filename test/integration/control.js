@@ -1,5 +1,6 @@
 const path = require('path');
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const readFileToBuffer = require('../fixtures/readProjectFile').readFileToBuffer;
 const VirtualMachine = require('../../src/index');
@@ -7,20 +8,20 @@ const VirtualMachine = require('../../src/index');
 const uri = path.resolve(__dirname, '../fixtures/control.sb2');
 const project = readFileToBuffer(uri);
 
-test('control', t => {
+test('control', (t, done) => {
     const vm = new VirtualMachine();
     vm.attachStorage(makeTestStorage());
 
     // Evaluate playground data and exit
     vm.on('playgroundData', e => {
         const threads = JSON.parse(e.threads);
-        t.ok(threads.length > 0);
+        assert.ok(threads.length > 0);
         vm.quit();
-        t.end();
+        done();
     });
 
     // Start VM, load project, and run
-    t.doesNotThrow(() => {
+    assert.doesNotThrow(() => {
         vm.start();
         vm.clear();
         vm.setCompatibilityMode(false);

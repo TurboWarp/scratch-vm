@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VM = require('../../src/virtual-machine');
 const Scratch = require('../../src/extension-support/tw-extension-api-common');
 
@@ -23,23 +24,27 @@ class TestBuiltinExtension {
     }
 }
 
-test('addBuiltingExtension', t => {
+test('addBuiltingExtension', (t, done) => {
     const vm = new VM();
 
-    t.equal(vm.extensionManager.isBuiltinExtension('testbuiltin'), false, 'extension is not known');
-    t.equal(vm.extensionManager.isExtensionLoaded('testbuiltin'), false, 'extension is not loaded');
+    assert.strictEqual(vm.extensionManager.isBuiltinExtension('testbuiltin'), false, 'extension is not known');
+    assert.strictEqual(vm.extensionManager.isExtensionLoaded('testbuiltin'), false, 'extension is not loaded');
 
     vm.extensionManager.addBuiltinExtension('testbuiltin', TestBuiltinExtension);
-    t.equal(vm.extensionManager.isBuiltinExtension('testbuiltin'), true, 'extension is now known');
-    t.equal(vm.extensionManager.isExtensionLoaded('testbuiltin'), false, 'extension is still not loaded');
+    assert.strictEqual(vm.extensionManager.isBuiltinExtension('testbuiltin'), true, 'extension is now known');
+    assert.strictEqual(vm.extensionManager.isExtensionLoaded('testbuiltin'), false, 'extension is still not loaded');
 
     const fixture = fs.readFileSync(path.join(__dirname, '..', 'fixtures', 'tw-add-builtin-extension.sb3'));
     vm.loadProject(fixture).then(() => {
-        t.equal(vm.extensionManager.isExtensionLoaded('testbuiltin'), true, 'extension was loaded automatically');
+        assert.strictEqual(
+            vm.extensionManager.isExtensionLoaded('testbuiltin'),
+            true,
+            'extension was loaded automatically'
+        );
 
         vm.runtime.on('SAY', (target, type, text) => {
-            t.equal(text, 'It works! 123', 'said value from extension');
-            t.end();
+            assert.strictEqual(text, 'It works! 123', 'said value from extension');
+            done();
         });
 
         vm.greenFlag();
@@ -47,14 +52,12 @@ test('addBuiltingExtension', t => {
     });
 });
 
-test('each runtime has own set of extensions', t => {
+test('each runtime has own set of extensions', () => {
     const vm1 = new VM();
     const vm2 = new VM();
 
     vm1.extensionManager.addBuiltinExtension('testbuiltin', TestBuiltinExtension);
 
-    t.ok(vm1.extensionManager.isBuiltinExtension('testbuiltin'));
-    t.notOk(vm2.extensionManager.isBuiltinExtension('testbuiltin'));
-
-    t.end();
+    assert.ok(vm1.extensionManager.isBuiltinExtension('testbuiltin'));
+    assert.ok(!vm2.extensionManager.isBuiltinExtension('testbuiltin'));
 });

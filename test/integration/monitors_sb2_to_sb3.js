@@ -1,12 +1,13 @@
 const path = require('path');
-const tap = require('tap');
+const {test, beforeEach} = require('node:test');
+const assert = require('node:assert');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const readFileToBuffer = require('../fixtures/readProjectFile').readFileToBuffer;
 const VirtualMachine = require('../../src/index');
 
 let vm;
 
-tap.beforeEach(() => {
+beforeEach(() => {
     const projectUri = path.resolve(__dirname, '../fixtures/monitors.sb2');
     const project = readFileToBuffer(projectUri);
 
@@ -21,9 +22,8 @@ tap.beforeEach(() => {
 
     return vm.loadProject(project);
 });
-const test = tap.test;
 
-test('saving and loading sb2 project with monitors preserves sliderMin and sliderMax', t => {
+test('saving and loading sb2 project with monitors preserves sliderMin and sliderMax', (t, done) => {
 
     vm.on('playgroundData', e /* eslint-disable-line no-unused-vars */ => {
         // TODO related to above TODO, comment these back in when we figure out
@@ -41,7 +41,7 @@ test('saving and loading sb2 project with monitors preserves sliderMin and slide
 
         // There should be one additional hidden monitor that is in the monitorState but
         // does not start a thread.
-        t.equal(vm.runtime._monitorState.size, 9);
+        assert.strictEqual(vm.runtime._monitorState.size, 9);
 
         const stage = vm.runtime.targets[0];
         const target = vm.runtime.targets[1];
@@ -50,55 +50,55 @@ test('saving and loading sb2 project with monitors preserves sliderMin and slide
         let variableId = Object.keys(stage.variables).filter(k => stage.variables[k].name === 'global')[0];
         // Used later when checking save and load of slider min/max
         let monitorRecord = vm.runtime._monitorState.get(variableId);
-        t.equal(monitorRecord.opcode, 'data_variable');
-        t.equal(monitorRecord.mode, 'slider');
-        t.equal(monitorRecord.sliderMin, -200); // Make sure these are imported for sliders.
-        t.equal(monitorRecord.sliderMax, 30);
-        t.equal(monitorRecord.isDiscrete, false);
-        t.equal(monitorRecord.x, 5); // These are imported for all monitors, just check once.
-        t.equal(monitorRecord.y, 59);
-        t.equal(monitorRecord.visible, true);
+        assert.strictEqual(monitorRecord.opcode, 'data_variable');
+        assert.strictEqual(monitorRecord.mode, 'slider');
+        assert.strictEqual(monitorRecord.sliderMin, -200); // Make sure these are imported for sliders.
+        assert.strictEqual(monitorRecord.sliderMax, 30);
+        assert.strictEqual(monitorRecord.isDiscrete, false);
+        assert.strictEqual(monitorRecord.x, 5); // These are imported for all monitors, just check once.
+        assert.strictEqual(monitorRecord.y, 59);
+        assert.strictEqual(monitorRecord.visible, true);
 
         // Global variable named "global list" is a list
         variableId = Object.keys(stage.variables).filter(k => stage.variables[k].name === 'global list')[0];
         monitorRecord = vm.runtime._monitorState.get(variableId);
-        t.equal(monitorRecord.opcode, 'data_listcontents');
-        t.equal(monitorRecord.mode, 'list');
-        t.equal(monitorRecord.visible, true);
+        assert.strictEqual(monitorRecord.opcode, 'data_listcontents');
+        assert.strictEqual(monitorRecord.mode, 'list');
+        assert.strictEqual(monitorRecord.visible, true);
 
         // Local variable named "local" is hidden
         variableId = Object.keys(target.variables).filter(k => target.variables[k].name === 'local')[0];
         monitorRecord = vm.runtime._monitorState.get(variableId);
-        t.equal(monitorRecord.opcode, 'data_variable');
-        t.equal(monitorRecord.mode, 'default');
-        t.equal(monitorRecord.visible, false);
+        assert.strictEqual(monitorRecord.opcode, 'data_variable');
+        assert.strictEqual(monitorRecord.mode, 'default');
+        assert.strictEqual(monitorRecord.visible, false);
 
         // Local list named "local list" is visible
         variableId = Object.keys(target.variables).filter(k => target.variables[k].name === 'local list')[0];
         monitorRecord = vm.runtime._monitorState.get(variableId);
-        t.equal(monitorRecord.opcode, 'data_listcontents');
-        t.equal(monitorRecord.mode, 'list');
-        t.equal(monitorRecord.visible, true);
-        t.equal(monitorRecord.width, 106); // Make sure these are imported from lists.
-        t.equal(monitorRecord.height, 206);
+        assert.strictEqual(monitorRecord.opcode, 'data_listcontents');
+        assert.strictEqual(monitorRecord.mode, 'list');
+        assert.strictEqual(monitorRecord.visible, true);
+        assert.strictEqual(monitorRecord.width, 106); // Make sure these are imported from lists.
+        assert.strictEqual(monitorRecord.height, 206);
 
         // Backdrop name monitor is visible, not sprite specific
         // should get imported with id that references the name parameter
         // via '_name' at the end since the 3.0 block has a dropdown.
         monitorRecord = vm.runtime._monitorState.get('backdropnumbername_name');
-        t.equal(monitorRecord.opcode, 'looks_backdropnumbername');
-        t.equal(monitorRecord.mode, 'default');
-        t.equal(monitorRecord.visible, true);
-        t.equal(monitorRecord.spriteName, null);
-        t.equal(monitorRecord.targetId, null);
+        assert.strictEqual(monitorRecord.opcode, 'looks_backdropnumbername');
+        assert.strictEqual(monitorRecord.mode, 'default');
+        assert.strictEqual(monitorRecord.visible, true);
+        assert.strictEqual(monitorRecord.spriteName, null);
+        assert.strictEqual(monitorRecord.targetId, null);
 
         // x position monitor is in large mode, specific to sprite 1
         monitorRecord = vm.runtime._monitorState.get(`${target.id}_xposition`);
-        t.equal(monitorRecord.opcode, 'motion_xposition');
-        t.equal(monitorRecord.mode, 'large');
-        t.equal(monitorRecord.visible, true);
-        t.equal(monitorRecord.spriteName, 'Sprite1');
-        t.equal(monitorRecord.targetId, target.id);
+        assert.strictEqual(monitorRecord.opcode, 'motion_xposition');
+        assert.strictEqual(monitorRecord.mode, 'large');
+        assert.strictEqual(monitorRecord.visible, true);
+        assert.strictEqual(monitorRecord.spriteName, 'Sprite1');
+        assert.strictEqual(monitorRecord.targetId, target.id);
 
 
         let monitorId;
@@ -111,45 +111,44 @@ test('saving and loading sb2 project with monitors preserves sliderMin and slide
 
         monitorId = 'current_date';
         monitorRecord = vm.runtime._monitorState.get(monitorId);
-        t.equal(monitorRecord.opcode, 'sensing_current');
+        assert.strictEqual(monitorRecord.opcode, 'sensing_current');
         monitorBlock = vm.runtime.monitorBlocks.getBlock(monitorId);
-        t.equal(monitorBlock.fields.CURRENTMENU.value, 'DATE');
-        t.equal(monitorRecord.mode, 'default');
-        t.equal(monitorRecord.visible, true);
-        t.equal(monitorRecord.spriteName, null);
-        t.equal(monitorRecord.targetId, null);
+        assert.strictEqual(monitorBlock.fields.CURRENTMENU.value, 'DATE');
+        assert.strictEqual(monitorRecord.mode, 'default');
+        assert.strictEqual(monitorRecord.visible, true);
+        assert.strictEqual(monitorRecord.spriteName, null);
+        assert.strictEqual(monitorRecord.targetId, null);
 
         monitorId = 'current_minute';
         monitorRecord = vm.runtime._monitorState.get(monitorId);
-        t.equal(monitorRecord.opcode, 'sensing_current');
+        assert.strictEqual(monitorRecord.opcode, 'sensing_current');
         monitorBlock = vm.runtime.monitorBlocks.getBlock(monitorId);
-        t.equal(monitorBlock.fields.CURRENTMENU.value, 'MINUTE');
-        t.equal(monitorRecord.mode, 'default');
-        t.equal(monitorRecord.visible, true);
-        t.equal(monitorRecord.spriteName, null);
-        t.equal(monitorRecord.targetId, null);
+        assert.strictEqual(monitorBlock.fields.CURRENTMENU.value, 'MINUTE');
+        assert.strictEqual(monitorRecord.mode, 'default');
+        assert.strictEqual(monitorRecord.visible, true);
+        assert.strictEqual(monitorRecord.spriteName, null);
+        assert.strictEqual(monitorRecord.targetId, null);
 
         monitorId = 'current_dayofweek';
         monitorRecord = vm.runtime._monitorState.get(monitorId);
-        t.equal(monitorRecord.opcode, 'sensing_current');
+        assert.strictEqual(monitorRecord.opcode, 'sensing_current');
         monitorBlock = vm.runtime.monitorBlocks.getBlock(monitorId);
-        t.equal(monitorBlock.fields.CURRENTMENU.value, 'DAYOFWEEK');
-        t.equal(monitorRecord.mode, 'default');
-        t.equal(monitorRecord.visible, true);
-        t.equal(monitorRecord.spriteName, null);
-        t.equal(monitorRecord.targetId, null);
+        assert.strictEqual(monitorBlock.fields.CURRENTMENU.value, 'DAYOFWEEK');
+        assert.strictEqual(monitorRecord.mode, 'default');
+        assert.strictEqual(monitorRecord.visible, true);
+        assert.strictEqual(monitorRecord.spriteName, null);
+        assert.strictEqual(monitorRecord.targetId, null);
 
-        t.end();
+        done();
     });
 
     // Start VM, load project, and run
-    t.doesNotThrow(() => {
+    assert.doesNotThrow(async () => {
         const sb3ProjectJson = vm.toJSON();
-        return vm.loadProject(sb3ProjectJson).then(() => {
-            setTimeout(() => {
-                vm.getPlaygroundData();
-                vm.stopAll();
-            }, 100);
-        });
+        await vm.loadProject(sb3ProjectJson);
+        setTimeout(() => {
+            vm.getPlaygroundData();
+            vm.stopAll();
+        }, 100);
     });
 });

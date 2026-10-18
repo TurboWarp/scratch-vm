@@ -1,8 +1,9 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VirtualMachine = require('../../src/virtual-machine');
 const BlockType = require('../../src/extension-support/block-type');
 
-test('does not duplicate', t => {
+test('does not duplicate', () => {
     const vm = new VirtualMachine();
     vm.extensionManager._registerInternalExtension({
         getInfo: () => ({
@@ -25,14 +26,13 @@ test('does not duplicate', t => {
     });
 
     const blocks = vm.runtime.getBlocksJSON();
-    t.same(
+    assert.deepEqual(
         blocks[0].extensions,
         ['from_extension', 'default_extension_colors', 'scratch_extension', 'something_invalid']
     );
-    t.end();
 });
 
-test('block icon', t => {
+test('block icon', () => {
     const vm = new VirtualMachine();
     vm.extensionManager._registerInternalExtension({
         getInfo: () => ({
@@ -70,19 +70,17 @@ test('block icon', t => {
     });
 
     const blocks = vm.runtime.getBlocksJSON();
-    t.same(blocks[0].extensions, ['from_extension', 'default_extension_colors']);
-    t.same(blocks[1].extensions, ['from_extension', 'default_extension_colors']);
-    t.same(blocks[2].extensions, ['from_extension', 'default_extension_colors', 'scratch_extension']);
-    t.same(blocks[3].extensions, ['from_extension', 'default_extension_colors', 'scratch_extension']);
-    t.same(
+    assert.deepEqual(blocks[0].extensions, ['from_extension', 'default_extension_colors']);
+    assert.deepEqual(blocks[1].extensions, ['from_extension', 'default_extension_colors']);
+    assert.deepEqual(blocks[2].extensions, ['from_extension', 'default_extension_colors', 'scratch_extension']);
+    assert.deepEqual(blocks[3].extensions, ['from_extension', 'default_extension_colors', 'scratch_extension']);
+    assert.deepEqual(
         blocks[4].extensions,
         ['from_extension', 'default_extension_colors', 'scratch_extension', 'colours_sensing']
     );
-
-    t.end();
 });
 
-test('category icon', t => {
+test('category icon', () => {
     const vm = new VirtualMachine();
     vm.extensionManager._registerInternalExtension({
         getInfo: () => ({
@@ -99,11 +97,10 @@ test('category icon', t => {
     });
 
     const blocks = vm.runtime.getBlocksJSON();
-    t.same(blocks[0].extensions, ['from_extension', 'default_extension_colors', 'scratch_extension']);
-    t.end();
+    assert.deepEqual(blocks[0].extensions, ['from_extension', 'default_extension_colors', 'scratch_extension']);
 });
 
-test('category color', t => {
+test('category color', () => {
     const vm = new VirtualMachine();
     vm.extensionManager._registerInternalExtension({
         getInfo: () => ({
@@ -121,11 +118,10 @@ test('category color', t => {
     });
 
     const blocks = vm.runtime.getBlocksJSON();
-    t.same(blocks[0].extensions, ['from_extension', 'scratch_extension']);
-    t.end();
+    assert.deepEqual(blocks[0].extensions, ['from_extension', 'scratch_extension']);
 });
 
-test('category color', t => {
+test('category color', () => {
     const vm = new VirtualMachine();
     vm.extensionManager._registerInternalExtension({
         getInfo: () => ({
@@ -146,7 +142,6 @@ test('category color', t => {
     });
 
     const blocks = vm.runtime.getBlocksJSON();
-    t.same(blocks[0].extensions, ['from_extension', 'default_extension_colors']);
-    t.same(blocks[1].extensions, ['from_extension']);
-    t.end();
+    assert.deepEqual(blocks[0].extensions, ['from_extension', 'default_extension_colors']);
+    assert.deepEqual(blocks[1].extensions, ['from_extension']);
 });

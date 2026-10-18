@@ -1,4 +1,5 @@
-const tap = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VirtualMachine = require('../../src/virtual-machine');
 const Sprite = require('../../src/sprites/sprite');
 const Variable = require('../../src/engine/variable');
@@ -8,9 +9,7 @@ const Renderer = require('../fixtures/fake-renderer');
 const Runtime = require('../../src/engine/runtime');
 const RenderedTarget = require('../../src/sprites/rendered-target');
 
-const test = tap.test;
-
-test('deleteSound returns function after deleting or null if nothing was deleted', t => {
+test('deleteSound returns function after deleting or null if nothing was deleted', () => {
     const vm = new VirtualMachine();
     const rt = new Runtime();
     const sprite = new Sprite(null, rt);
@@ -19,21 +18,19 @@ test('deleteSound returns function after deleting or null if nothing was deleted
     vm.editingTarget = target;
 
     const addFun = vm.deleteSound(1);
-    t.equal(sprite.sounds.length, 2);
-    t.equal(sprite.sounds[0].id, 1);
-    t.equal(sprite.sounds[1].id, 3);
-    t.type(addFun, 'function');
+    assert.strictEqual(sprite.sounds.length, 2);
+    assert.strictEqual(sprite.sounds[0].id, 1);
+    assert.strictEqual(sprite.sounds[1].id, 3);
+    assert.strictEqual(typeof addFun, 'function');
 
     const noAddFun = vm.deleteSound(2);
-    t.equal(sprite.sounds.length, 2);
-    t.equal(sprite.sounds[0].id, 1);
-    t.equal(sprite.sounds[1].id, 3);
-    t.equal(noAddFun, null);
-
-    t.end();
+    assert.strictEqual(sprite.sounds.length, 2);
+    assert.strictEqual(sprite.sounds[0].id, 1);
+    assert.strictEqual(sprite.sounds[1].id, 3);
+    assert.strictEqual(noAddFun, null);
 });
 
-test('deleteCostume returns function after deleting or null if nothing was deleted', t => {
+test('deleteCostume returns function after deleting or null if nothing was deleted', () => {
     const vm = new VirtualMachine();
     const rt = new Runtime();
     const sprite = new Sprite(null, rt);
@@ -43,68 +40,63 @@ test('deleteCostume returns function after deleting or null if nothing was delet
     vm.editingTarget = target;
 
     const addFun = vm.deleteCostume(1);
-    t.equal(sprite.costumes.length, 2);
-    t.equal(sprite.costumes[0].id, 1);
-    t.equal(sprite.costumes[1].id, 3);
-    t.type(addFun, 'function');
+    assert.strictEqual(sprite.costumes.length, 2);
+    assert.strictEqual(sprite.costumes[0].id, 1);
+    assert.strictEqual(sprite.costumes[1].id, 3);
+    assert.strictEqual(typeof addFun, 'function');
 
     const noAddFun = vm.deleteCostume(2);
-    t.equal(sprite.costumes.length, 2);
-    t.equal(sprite.costumes[0].id, 1);
-    t.equal(sprite.costumes[1].id, 3);
-    t.equal(noAddFun, null);
-
-    t.end();
+    assert.strictEqual(sprite.costumes.length, 2);
+    assert.strictEqual(sprite.costumes[0].id, 1);
+    assert.strictEqual(sprite.costumes[1].id, 3);
+    assert.strictEqual(noAddFun, null);
 });
 
 
-test('addSprite throws on invalid string', t => {
+test('addSprite throws on invalid string', (t, done) => {
     const vm = new VirtualMachine();
     vm.addSprite('this is not a sprite')
         .catch(e => {
-            t.equal(e.startsWith('Sprite Upload Error:'), true);
-            t.end();
+            assert.strictEqual(e.startsWith('Sprite Upload Error:'), true);
+            done();
         });
 });
 
-test('renameSprite throws when there is no sprite with that id', t => {
+test('renameSprite throws when there is no sprite with that id', () => {
     const vm = new VirtualMachine();
     vm.runtime.getTargetById = () => null;
-    t.throws(
+    assert.throws(
         (() => vm.renameSprite('id', 'name')),
         new Error('No target with the provided id.')
     );
-    t.end();
 });
 
-test('renameSprite throws when used on a non-sprite target', t => {
+test('renameSprite throws when used on a non-sprite target', () => {
     const vm = new VirtualMachine();
     const fakeTarget = {
         isSprite: () => false
     };
     vm.runtime.getTargetById = () => (fakeTarget);
-    t.throws(
+    assert.throws(
         (() => vm.renameSprite('id', 'name')),
         new Error('Cannot rename non-sprite targets.')
     );
-    t.end();
 });
 
-test('renameSprite throws when there is no sprite for given target', t => {
+test('renameSprite throws when there is no sprite for given target', () => {
     const vm = new VirtualMachine();
     const fakeTarget = {
         sprite: null,
         isSprite: () => true
     };
     vm.runtime.getTargetById = () => (fakeTarget);
-    t.throws(
+    assert.throws(
         (() => vm.renameSprite('id', 'name')),
         new Error('No sprite associated with this target.')
     );
-    t.end();
 });
 
-test('renameSprite sets the sprite name', t => {
+test('renameSprite sets the sprite name', () => {
     const vm = new VirtualMachine();
     const fakeTarget = {
         sprite: {name: 'original'},
@@ -112,11 +104,10 @@ test('renameSprite sets the sprite name', t => {
     };
     vm.runtime.getTargetById = () => (fakeTarget);
     vm.renameSprite('id', 'not-original');
-    t.equal(fakeTarget.sprite.name, 'not-original');
-    t.end();
+    assert.strictEqual(fakeTarget.sprite.name, 'not-original');
 });
 
-test('renameSprite does not set sprite names to an empty string', t => {
+test('renameSprite does not set sprite names to an empty string', () => {
     const vm = new VirtualMachine();
     const fakeTarget = {
         sprite: {name: 'original'},
@@ -124,11 +115,10 @@ test('renameSprite does not set sprite names to an empty string', t => {
     };
     vm.runtime.getTargetById = () => (fakeTarget);
     vm.renameSprite('id', '');
-    t.equal(fakeTarget.sprite.name, 'original');
-    t.end();
+    assert.strictEqual(fakeTarget.sprite.name, 'original');
 });
 
-test('renameSprite does not set sprite names to reserved names', t => {
+test('renameSprite does not set sprite names to reserved names', () => {
     const vm = new VirtualMachine();
     const fakeTarget = {
         sprite: {name: 'original'},
@@ -136,11 +126,10 @@ test('renameSprite does not set sprite names to reserved names', t => {
     };
     vm.runtime.getTargetById = () => (fakeTarget);
     vm.renameSprite('id', '_mouse_');
-    t.equal(fakeTarget.sprite.name, 'original');
-    t.end();
+    assert.strictEqual(fakeTarget.sprite.name, 'original');
 });
 
-test('renameSprite increments from existing sprite names', t => {
+test('renameSprite increments from existing sprite names', () => {
     const vm = new VirtualMachine();
     vm.emitTargetsUpdate = () => {};
 
@@ -151,13 +140,12 @@ test('renameSprite increments from existing sprite names', t => {
 
     vm.runtime.targets = [target1, target2];
     vm.renameSprite(target1.id, 'foo');
-    t.equal(vm.runtime.targets[0].sprite.name, 'foo');
+    assert.strictEqual(vm.runtime.targets[0].sprite.name, 'foo');
     vm.renameSprite(target2.id, 'foo');
-    t.equal(vm.runtime.targets[1].sprite.name, 'foo2');
-    t.end();
+    assert.strictEqual(vm.runtime.targets[1].sprite.name, 'foo2');
 });
 
-test('renameSprite does not increment when renaming to the same name', t => {
+test('renameSprite does not increment when renaming to the same name', () => {
     const vm = new VirtualMachine();
     vm.emitTargetsUpdate = () => {};
 
@@ -167,41 +155,37 @@ test('renameSprite does not increment when renaming to the same name', t => {
 
     vm.runtime.targets = [target];
 
-    t.equal(vm.runtime.targets[0].sprite.name, 'foo');
+    assert.strictEqual(vm.runtime.targets[0].sprite.name, 'foo');
     vm.renameSprite(target.id, 'foo');
-    t.equal(vm.runtime.targets[0].sprite.name, 'foo');
-
-    t.end();
+    assert.strictEqual(vm.runtime.targets[0].sprite.name, 'foo');
 });
 
-test('deleteSprite throws when used on a non-sprite target', t => {
+test('deleteSprite throws when used on a non-sprite target', () => {
     const vm = new VirtualMachine();
     vm.runtime.targets = [{
         id: 'id',
         isSprite: () => false
     }];
-    t.throws(
+    assert.throws(
         (() => vm.deleteSprite('id')),
         new Error('Cannot delete non-sprite targets.')
     );
-    t.end();
 });
 
-test('deleteSprite throws when there is no sprite for the given target', t => {
+test('deleteSprite throws when there is no sprite for the given target', () => {
     const vm = new VirtualMachine();
     vm.runtime.targets = [{
         id: 'id',
         isSprite: () => true,
         sprite: null
     }];
-    t.throws(
+    assert.throws(
         (() => vm.deleteSprite('id')),
         new Error('No sprite associated with this target.')
     );
-    t.end();
 });
 
-test('deleteSprite throws when there is no target with given id', t => {
+test('deleteSprite throws when there is no target with given id', () => {
     const vm = new VirtualMachine();
     vm.runtime.targets = [{
         id: 'id',
@@ -210,28 +194,26 @@ test('deleteSprite throws when there is no target with given id', t => {
             name: 'this name'
         }
     }];
-    t.throws(
+    assert.throws(
         (() => vm.deleteSprite('id1')),
         new Error('No target with the provided id.')
     );
-    t.end();
 });
 
-test('deleteSprite deletes a sprite when given id is associated with a known sprite', t => {
+test('deleteSprite deletes a sprite when given id is associated with a known sprite', () => {
     const vm = new VirtualMachine();
     const spr = new Sprite(null, vm.runtime);
     const currTarget = spr.createClone();
 
     vm.runtime.targets = [currTarget];
 
-    t.equal(currTarget.sprite.clones.length, 1);
+    assert.strictEqual(currTarget.sprite.clones.length, 1);
     vm.deleteSprite(currTarget.id);
-    t.equal(currTarget.sprite.clones.length, 0);
-    t.end();
+    assert.strictEqual(currTarget.sprite.clones.length, 0);
 });
 
 // eslint-disable-next-line max-len
-test('deleteSprite sets editing target as null when given sprite is current editing target, and the only target in the runtime', t => {
+test('deleteSprite sets editing target as null when given sprite is current editing target, and the only target in the runtime', () => {
     const vm = new VirtualMachine();
     const spr = new Sprite(null, vm.runtime);
     const currTarget = spr.createClone();
@@ -241,13 +223,12 @@ test('deleteSprite sets editing target as null when given sprite is current edit
 
     vm.deleteSprite(currTarget.id);
 
-    t.equal(vm.runtime.targets.length, 0);
-    t.equal(vm.editingTarget, null);
-    t.end();
+    assert.strictEqual(vm.runtime.targets.length, 0);
+    assert.strictEqual(vm.editingTarget, null);
 });
 
 // eslint-disable-next-line max-len
-test('deleteSprite updates editingTarget when sprite being deleted is current editing target, and there is another target in the runtime', t => {
+test('deleteSprite updates editingTarget when sprite being deleted is current editing target, and there is another target in the runtime', () => {
     const vm = new VirtualMachine();
     const spr1 = new Sprite(null, vm.runtime);
     const spr2 = new Sprite(null, vm.runtime);
@@ -259,10 +240,10 @@ test('deleteSprite updates editingTarget when sprite being deleted is current ed
     vm.runtime.targets = [currTarget, otherTarget];
     vm.editingTarget = currTarget;
 
-    t.equal(vm.runtime.targets.length, 2);
+    assert.strictEqual(vm.runtime.targets.length, 2);
     vm.deleteSprite(currTarget.id);
-    t.equal(vm.runtime.targets.length, 1);
-    t.equal(vm.editingTarget.id, otherTarget.id);
+    assert.strictEqual(vm.runtime.targets.length, 1);
+    assert.strictEqual(vm.editingTarget.id, otherTarget.id);
 
     // now let's try them in the other order in the runtime.targets list
 
@@ -273,15 +254,13 @@ test('deleteSprite updates editingTarget when sprite being deleted is current ed
     vm.runtime.targets = [otherTarget2, currTarget2];
     vm.editingTarget = currTarget2;
 
-    t.equal(vm.runtime.targets.length, 2);
+    assert.strictEqual(vm.runtime.targets.length, 2);
     vm.deleteSprite(currTarget2.id);
-    t.equal(vm.editingTarget.id, otherTarget2.id);
-    t.equal(vm.runtime.targets.length, 1);
-
-    t.end();
+    assert.strictEqual(vm.editingTarget.id, otherTarget2.id);
+    assert.strictEqual(vm.runtime.targets.length, 1);
 });
 
-test('duplicateSprite throws when there is no target with given id', t => {
+test('duplicateSprite throws when there is no target with given id', () => {
     const vm = new VirtualMachine();
     vm.runtime.targets = [{
         id: 'id',
@@ -290,41 +269,38 @@ test('duplicateSprite throws when there is no target with given id', t => {
             name: 'this name'
         }
     }];
-    t.throws(
+    assert.throws(
         (() => vm.duplicateSprite('id1')),
-        new Error('No target with the provided id')
+        new Error('No target with the provided id.')
     );
-    t.end();
 });
 
-test('duplicateSprite throws when used on a non-sprite target', t => {
+test('duplicateSprite throws when used on a non-sprite target', () => {
     const vm = new VirtualMachine();
     vm.runtime.targets = [{
         id: 'id',
         isSprite: () => false
     }];
-    t.throws(
+    assert.throws(
         (() => vm.duplicateSprite('id')),
         new Error('Cannot duplicate non-sprite targets.')
     );
-    t.end();
 });
 
-test('duplicateSprite throws when there is no sprite for the given target', t => {
+test('duplicateSprite throws when there is no sprite for the given target', () => {
     const vm = new VirtualMachine();
     vm.runtime.targets = [{
         id: 'id',
         isSprite: () => true,
         sprite: null
     }];
-    t.throws(
+    assert.throws(
         (() => vm.duplicateSprite('id')),
         new Error('No sprite associated with this target.')
     );
-    t.end();
 });
 
-test('duplicateSprite duplicates a sprite when given id is associated with known sprite', t => {
+test('duplicateSprite duplicates a sprite when given id is associated with known sprite', async () => {
     const vm = new VirtualMachine();
     const spr = new Sprite(null, vm.runtime);
     const currTarget = spr.createClone();
@@ -333,15 +309,13 @@ test('duplicateSprite duplicates a sprite when given id is associated with known
     vm.emitWorkspaceUpdate = () => null;
 
     vm.runtime.targets = [currTarget];
-    t.equal(vm.runtime.targets.length, 1);
-    vm.duplicateSprite(currTarget.id).then(() => {
-        t.equal(vm.runtime.targets.length, 2);
-        t.end();
-    });
+    assert.strictEqual(vm.runtime.targets.length, 1);
+    await vm.duplicateSprite(currTarget.id);
+    assert.strictEqual(vm.runtime.targets.length, 2);
 
 });
 
-test('duplicateSprite assigns duplicated sprite a fresh name', t => {
+test('duplicateSprite assigns duplicated sprite a fresh name', async () => {
     const vm = new VirtualMachine();
     const spr = new Sprite(null, vm.runtime);
     spr.name = 'sprite1';
@@ -351,17 +325,15 @@ test('duplicateSprite assigns duplicated sprite a fresh name', t => {
     vm.emitWorkspaceUpdate = () => null;
 
     vm.runtime.targets = [currTarget];
-    t.equal(vm.runtime.targets.length, 1);
-    vm.duplicateSprite(currTarget.id).then(() => {
-        t.equal(vm.runtime.targets.length, 2);
-        t.equal(vm.runtime.targets[0].sprite.name, 'sprite1');
-        t.equal(vm.runtime.targets[1].sprite.name, 'sprite2');
-        t.end();
-    });
+    assert.strictEqual(vm.runtime.targets.length, 1);
+    await vm.duplicateSprite(currTarget.id);
+    assert.strictEqual(vm.runtime.targets.length, 2);
+    assert.strictEqual(vm.runtime.targets[0].sprite.name, 'sprite1');
+    assert.strictEqual(vm.runtime.targets[1].sprite.name, 'sprite2');
 
 });
 
-test('reorderCostume', t => {
+test('reorderCostume', () => {
     const vm = new VirtualMachine();
     vm.emitTargetsUpdate = () => {};
 
@@ -381,18 +353,16 @@ test('reorderCostume', t => {
 
     vm.runtime.targets = [target];
 
-    t.equal(vm.reorderCostume('not-a-target', 0, 3), false);
-    t.equal(costumeIndex, null);
-    t.equal(newIndex, null);
+    assert.strictEqual(vm.reorderCostume('not-a-target', 0, 3), false);
+    assert.strictEqual(costumeIndex, null);
+    assert.strictEqual(newIndex, null);
 
-    t.equal(vm.reorderCostume(target.id, 0, 3), true);
-    t.equal(costumeIndex, 0);
-    t.equal(newIndex, 3);
-
-    t.end();
+    assert.strictEqual(vm.reorderCostume(target.id, 0, 3), true);
+    assert.strictEqual(costumeIndex, 0);
+    assert.strictEqual(newIndex, 3);
 });
 
-test('reorderSound', t => {
+test('reorderSound', () => {
     const vm = new VirtualMachine();
     vm.emitTargetsUpdate = () => {};
 
@@ -412,18 +382,16 @@ test('reorderSound', t => {
 
     vm.runtime.targets = [target];
 
-    t.equal(vm.reorderSound('not-a-target', 0, 3), false);
-    t.equal(soundIndex, null); // Make sure reorder function was not called somehow.
-    t.equal(newIndex, null);
+    assert.strictEqual(vm.reorderSound('not-a-target', 0, 3), false);
+    assert.strictEqual(soundIndex, null); // Make sure reorder function was not called somehow.
+    assert.strictEqual(newIndex, null);
 
-    t.equal(vm.reorderSound(target.id, 0, 3), true);
-    t.equal(soundIndex, 0); // Make sure reorder function was called correctly.
-    t.equal(newIndex, 3);
-
-    t.end();
+    assert.strictEqual(vm.reorderSound(target.id, 0, 3), true);
+    assert.strictEqual(soundIndex, 0); // Make sure reorder function was called correctly.
+    assert.strictEqual(newIndex, 3);
 });
 
-test('shareCostumeToTarget', t => {
+test('shareCostumeToTarget', async () => {
     const vm = new VirtualMachine();
     const spr1 = new Sprite(null, vm.runtime);
     spr1.name = 'foo';
@@ -441,14 +409,12 @@ test('shareCostumeToTarget', t => {
     vm.editingTarget = vm.runtime.targets[0];
     vm.emitWorkspaceUpdate = () => null;
 
-    vm.shareCostumeToTarget(0, target2.id).then(() => {
-        t.equal(target2.currentCostume, 1);
-        t.equal(target2.getCostumes()[1].name, 'costume1');
-        t.end();
-    });
+    await vm.shareCostumeToTarget(0, target2.id);
+    assert.strictEqual(target2.currentCostume, 1);
+    assert.strictEqual(target2.getCostumes()[1].name, 'costume1');
 });
 
-test('shareSoundToTarget', t => {
+test('shareSoundToTarget', async () => {
     const vm = new VirtualMachine();
     const spr1 = new Sprite(null, vm.runtime);
     spr1.name = 'foo';
@@ -466,37 +432,33 @@ test('shareSoundToTarget', t => {
     vm.editingTarget = vm.runtime.targets[0];
     vm.emitWorkspaceUpdate = () => null;
 
-    vm.shareSoundToTarget(0, target2.id).then(() => {
-        t.equal(target2.getSounds()[1].name, 'sound1');
-        t.end();
-    });
+    await vm.shareSoundToTarget(0, target2.id);
+    assert.strictEqual(target2.getSounds()[1].name, 'sound1');
 });
 
-test('reorderTarget', t => {
+test('reorderTarget', () => {
     const vm = new VirtualMachine();
     vm.emitTargetsUpdate = () => {};
 
     vm.runtime.targets = ['a', 'b', 'c', 'd'];
 
-    t.equal(vm.reorderTarget(2, 2), false);
-    t.deepEqual(vm.runtime.targets, ['a', 'b', 'c', 'd']);
+    assert.strictEqual(vm.reorderTarget(2, 2), false);
+    assert.deepEqual(vm.runtime.targets, ['a', 'b', 'c', 'd']);
 
     // Make sure clamping works
-    t.equal(vm.reorderTarget(-100, -5), false);
-    t.deepEqual(vm.runtime.targets, ['a', 'b', 'c', 'd']);
+    assert.strictEqual(vm.reorderTarget(-100, -5), false);
+    assert.deepEqual(vm.runtime.targets, ['a', 'b', 'c', 'd']);
 
     // Reorder upwards
-    t.equal(vm.reorderTarget(0, 2), true);
-    t.deepEqual(vm.runtime.targets, ['b', 'c', 'a', 'd']);
+    assert.strictEqual(vm.reorderTarget(0, 2), true);
+    assert.deepEqual(vm.runtime.targets, ['b', 'c', 'a', 'd']);
 
     // Reorder downwards
-    t.equal(vm.reorderTarget(3, 1), true);
-    t.deepEqual(vm.runtime.targets, ['b', 'd', 'c', 'a']);
-
-    t.end();
+    assert.strictEqual(vm.reorderTarget(3, 1), true);
+    assert.deepEqual(vm.runtime.targets, ['b', 'd', 'c', 'a']);
 });
 
-test('emitWorkspaceUpdate', t => {
+test('emitWorkspaceUpdate', () => {
     const vm = new VirtualMachine();
     const blocksToXML = comments => {
         let blockString = 'blocks\n';
@@ -567,18 +529,17 @@ test('emitWorkspaceUpdate', t => {
     let xml = null;
     vm.emit = (event, data) => (xml = data.xml);
     vm.emitWorkspaceUpdate();
-    t.notEqual(xml.indexOf('global'), -1);
-    t.notEqual(xml.indexOf('local'), -1);
-    t.equal(xml.indexOf('unused'), -1);
-    t.notEqual(xml.indexOf('blocks'), -1);
-    t.equal(xml.indexOf('aStageComment'), -1);
-    t.equal(xml.indexOf('someBlockComment'), -1);
-    t.notEqual(xml.indexOf('someOtherComment'), -1);
-    t.notEqual(xml.indexOf('A Block Comment: aBlockComment'), -1);
-    t.end();
+    assert.notStrictEqual(xml.indexOf('global'), -1);
+    assert.notStrictEqual(xml.indexOf('local'), -1);
+    assert.strictEqual(xml.indexOf('unused'), -1);
+    assert.notStrictEqual(xml.indexOf('blocks'), -1);
+    assert.strictEqual(xml.indexOf('aStageComment'), -1);
+    assert.strictEqual(xml.indexOf('someBlockComment'), -1);
+    assert.notStrictEqual(xml.indexOf('someOtherComment'), -1);
+    assert.notStrictEqual(xml.indexOf('A Block Comment: aBlockComment'), -1);
 });
 
-test('drag IO redirect', t => {
+test('drag IO redirect', () => {
     const vm = new VirtualMachine();
     const sprite1Info = [];
     const sprite2Info = [];
@@ -600,24 +561,23 @@ test('drag IO redirect', t => {
 
     // postSpriteInfo should go to the editing target by default``
     vm.postSpriteInfo('sprite1 info');
-    t.equal(sprite1Info[0], 'sprite1 info');
+    assert.strictEqual(sprite1Info[0], 'sprite1 info');
 
     // postSprite info goes to the drag target if it exists
     vm.startDrag('sprite2');
     vm.postSpriteInfo('sprite2 info');
-    t.equal(sprite2Info[0], 'sprite2 info');
+    assert.strictEqual(sprite2Info[0], 'sprite2 info');
 
     // stop drag should set the editing target
     vm.stopDrag('sprite2');
-    t.equal(vm.editingTarget.id, 'sprite2');
+    assert.strictEqual(vm.editingTarget.id, 'sprite2');
 
     // Then postSpriteInfo should continue posting to the new editing target
     vm.postSpriteInfo('sprite2 info 2');
-    t.equal(sprite2Info[1], 'sprite2 info 2');
-    t.end();
+    assert.strictEqual(sprite2Info[1], 'sprite2 info 2');
 });
 
-test('select original after dragging clone', t => {
+test('select original after dragging clone', () => {
     const vm = new VirtualMachine();
     let newEditingTargetId = null;
     vm.setEditingTarget = id => {
@@ -636,15 +596,14 @@ test('select original after dragging clone', t => {
 
     // Stop drag on a bare target selects that target
     vm.stopDrag('sprite2');
-    t.equal(newEditingTargetId, 'sprite2');
+    assert.strictEqual(newEditingTargetId, 'sprite2');
 
     // Stop drag on target with parent sprite selects the 0th clone of that sprite
     vm.stopDrag('sprite1_clone');
-    t.equal(newEditingTargetId, 'sprite1_original');
-    t.end();
+    assert.strictEqual(newEditingTargetId, 'sprite1_original');
 });
 
-test('setVariableValue', t => {
+test('setVariableValue', () => {
     const vm = new VirtualMachine();
     const spr = new Sprite(null, vm.runtime);
     const target = spr.createClone();
@@ -653,19 +612,17 @@ test('setVariableValue', t => {
     vm.runtime.targets = [target];
 
     // Returns false if there is no variable to set
-    t.equal(vm.setVariableValue(target.id, 'not-a-variable', 100), false);
+    assert.strictEqual(vm.setVariableValue(target.id, 'not-a-variable', 100), false);
 
     // Returns false if there is no target with that id
-    t.equal(vm.setVariableValue('not-a-target', 'a-variable', 100), false);
+    assert.strictEqual(vm.setVariableValue('not-a-target', 'a-variable', 100), false);
 
     // Returns true and updates the value if variable is present
-    t.equal(vm.setVariableValue(target.id, 'a-variable', 100), true);
-    t.equal(target.lookupVariableById('a-variable').value, 100);
-
-    t.end();
+    assert.strictEqual(vm.setVariableValue(target.id, 'a-variable', 100), true);
+    assert.strictEqual(target.lookupVariableById('a-variable').value, 100);
 });
 
-test('setVariableValue requests update for cloud variable', t => {
+test('setVariableValue requests update for cloud variable', () => {
     const vm = new VirtualMachine();
     const spr = new Sprite(null, vm.runtime);
     const target = spr.createClone();
@@ -685,17 +642,15 @@ test('setVariableValue requests update for cloud variable', t => {
     };
 
     vm.setVariableValue(target.id, 'not-a-variable', 100);
-    t.equal(requestUpdateVarWasCalled, false);
+    assert.strictEqual(requestUpdateVarWasCalled, false);
 
     vm.setVariableValue(target.id, 'a-variable', 100);
-    t.equal(requestUpdateVarWasCalled, true);
-    t.equal(varName, 'a-name');
-    t.equal(varValue, 100);
-
-    t.end();
+    assert.strictEqual(requestUpdateVarWasCalled, true);
+    assert.strictEqual(varName, 'a-name');
+    assert.strictEqual(varValue, 100);
 });
 
-test('getVariableValue', t => {
+test('getVariableValue', () => {
     const vm = new VirtualMachine();
     const spr = new Sprite(null, vm.runtime);
     const target = spr.createClone();
@@ -704,21 +659,19 @@ test('getVariableValue', t => {
     vm.runtime.targets = [target];
 
     // Returns null if there is no variable with that id
-    t.equal(vm.getVariableValue(target.id, 'not-a-variable'), null);
+    assert.strictEqual(vm.getVariableValue(target.id, 'not-a-variable'), null);
 
     // Returns null if there is no target with that id
-    t.equal(vm.getVariableValue('not-a-target', 'a-variable'), null);
+    assert.strictEqual(vm.getVariableValue('not-a-target', 'a-variable'), null);
 
     // Returns true and updates the value if variable is present
-    t.equal(vm.getVariableValue(target.id, 'a-variable'), 0);
+    assert.strictEqual(vm.getVariableValue(target.id, 'a-variable'), 0);
     vm.setVariableValue(target.id, 'a-variable', 'string');
-    t.equal(vm.getVariableValue(target.id, 'a-variable'), 'string');
-
-    t.end();
+    assert.strictEqual(vm.getVariableValue(target.id, 'a-variable'), 'string');
 });
 
 // Block Listener tests for comment
-test('comment_create event updates comment with null position', t => {
+test('comment_create event updates comment with null position', () => {
     const vm = new VirtualMachine();
     const spr = new Sprite(null, vm.runtime);
     const target = spr.createClone();
@@ -730,18 +683,16 @@ test('comment_create event updates comment with null position', t => {
     vm.runtime.setEditingTarget(target);
 
     const comment = target.comments['a comment'];
-    t.equal(comment.x, null);
-    t.equal(comment.y, null);
+    assert.strictEqual(comment.x, null);
+    assert.strictEqual(comment.y, null);
 
     vm.blockListener(events.createcommentUpdatePosition);
 
-    t.equal(comment.x, 10);
-    t.equal(comment.y, 20);
-
-    t.end();
+    assert.strictEqual(comment.x, 10);
+    assert.strictEqual(comment.y, 20);
 });
 
-test('shareBlocksToTarget shares global variables without any name changes', t => {
+test('shareBlocksToTarget shares global variables without any name changes', async () => {
     const vm = new VirtualMachine();
     const runtime = vm.runtime;
     const spr1 = new Sprite(null, runtime);
@@ -756,56 +707,54 @@ test('shareBlocksToTarget shares global variables without any name changes', t =
     vm.runtime.setEditingTarget(target);
 
     stage.createVariable('mock var id', 'a mock variable', Variable.SCALAR_TYPE);
-    t.equal(Object.keys(target.variables).length, 0);
-    t.equal(Object.keys(stage.variables).length, 1);
-    t.equal(stage.variables['mock var id'].name, 'a mock variable');
+    assert.strictEqual(Object.keys(target.variables).length, 0);
+    assert.strictEqual(Object.keys(stage.variables).length, 1);
+    assert.strictEqual(stage.variables['mock var id'].name, 'a mock variable');
 
 
     vm.setVariableValue(stage.id, 'mock var id', 10);
-    t.equal(vm.getVariableValue(stage.id, 'mock var id'), 10);
+    assert.strictEqual(vm.getVariableValue(stage.id, 'mock var id'), 10);
 
     target.blocks.createBlock(adapter(events.mockVariableBlock)[0]);
 
     // Verify the block exists on the target, and that it references the global variable
-    t.type(target.blocks.getBlock('a block'), 'object');
-    t.type(target.blocks.getBlock('a block').fields, 'object');
-    t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields, 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
 
     // Verify that the block does not exist on the stage
-    t.type(stage.blocks.getBlock('a block'), 'undefined');
+    assert.strictEqual(typeof stage.blocks.getBlock('a block'), 'undefined');
 
     // Share the block to the stage
-    vm.shareBlocksToTarget([target.blocks.getBlock('a block')], stage.id, target.id).then(() => {
+    await vm.shareBlocksToTarget([target.blocks.getBlock('a block')], stage.id, target.id);
 
-        // Verify that the block now exists on the target as well as the stage
-        t.type(target.blocks.getBlock('a block'), 'object');
-        t.type(target.blocks.getBlock('a block').fields, 'object');
-        t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-        t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    // Verify that the block now exists on the target as well as the stage
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields, 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
 
-        const newBlockId = Object.keys(stage.blocks._blocks)[0];
-        t.type(stage.blocks.getBlock(newBlockId), 'object');
-        t.type(stage.blocks.getBlock(newBlockId).fields, 'object');
-        t.type(stage.blocks.getBlock(newBlockId).fields.VARIABLE, 'object');
-        t.equal(stage.blocks.getBlock(newBlockId).fields.VARIABLE.id, 'mock var id');
+    const newBlockId = Object.keys(stage.blocks._blocks)[0];
+    assert.strictEqual(typeof stage.blocks.getBlock(newBlockId), 'object');
+    assert.strictEqual(typeof stage.blocks.getBlock(newBlockId).fields, 'object');
+    assert.strictEqual(typeof stage.blocks.getBlock(newBlockId).fields.VARIABLE, 'object');
+    assert.strictEqual(stage.blocks.getBlock(newBlockId).fields.VARIABLE.id, 'mock var id');
 
-        // Verify the shared block id is different
-        t.notEqual(newBlockId, 'a block');
+    // Verify the shared block id is different
+    assert.notStrictEqual(newBlockId, 'a block');
 
-        // Verify that the variables haven't changed, the variable still exists on the
-        // stage, it should still have the same name and value, and there should be
-        // no variables on the target.
-        t.equal(Object.keys(target.variables).length, 0);
-        t.equal(Object.keys(stage.variables).length, 1);
-        t.equal(stage.variables['mock var id'].name, 'a mock variable');
-        t.equal(vm.getVariableValue(stage.id, 'mock var id'), 10);
-
-        t.end();
-    });
+    // Verify that the variables haven't changed, the variable still exists on the
+    // stage, it should still have the same name and value, and there should be
+    // no variables on the target.
+    assert.strictEqual(Object.keys(target.variables).length, 0);
+    assert.strictEqual(Object.keys(stage.variables).length, 1);
+    assert.strictEqual(stage.variables['mock var id'].name, 'a mock variable');
+    assert.strictEqual(vm.getVariableValue(stage.id, 'mock var id'), 10);
 });
 
-test('shareBlocksToTarget shares a local variable to the stage, creating a global variable with a new name', t => {
+// eslint-disable-next-line max-len
+test('shareBlocksToTarget shares a local variable to the stage, creating a global variable with a new name', async () => {
     const vm = new VirtualMachine();
     const runtime = vm.runtime;
     const spr1 = new Sprite(null, runtime);
@@ -820,60 +769,58 @@ test('shareBlocksToTarget shares a local variable to the stage, creating a globa
     vm.runtime.setEditingTarget(target);
 
     target.createVariable('mock var id', 'a mock variable', Variable.SCALAR_TYPE);
-    t.equal(Object.keys(stage.variables).length, 0);
-    t.equal(Object.keys(target.variables).length, 1);
-    t.equal(target.variables['mock var id'].name, 'a mock variable');
+    assert.strictEqual(Object.keys(stage.variables).length, 0);
+    assert.strictEqual(Object.keys(target.variables).length, 1);
+    assert.strictEqual(target.variables['mock var id'].name, 'a mock variable');
 
 
     vm.setVariableValue(target.id, 'mock var id', 10);
-    t.equal(vm.getVariableValue(target.id, 'mock var id'), 10);
+    assert.strictEqual(vm.getVariableValue(target.id, 'mock var id'), 10);
 
     target.blocks.createBlock(adapter(events.mockVariableBlock)[0]);
 
     // Verify the block exists on the target, and that it references the global variable
-    t.type(target.blocks.getBlock('a block'), 'object');
-    t.type(target.blocks.getBlock('a block').fields, 'object');
-    t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields, 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
 
     // Verify that the block does not exist on the stage
-    t.type(stage.blocks.getBlock('a block'), 'undefined');
+    assert.strictEqual(typeof stage.blocks.getBlock('a block'), 'undefined');
 
     // Share the block to the stage
-    vm.shareBlocksToTarget([target.blocks.getBlock('a block')], stage.id, target.id).then(() => {
-        // Verify that the block still exists on the target and remains unchanged
-        t.type(target.blocks.getBlock('a block'), 'object');
-        t.type(target.blocks.getBlock('a block').fields, 'object');
-        t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-        t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    await vm.shareBlocksToTarget([target.blocks.getBlock('a block')], stage.id, target.id);
+    // Verify that the block still exists on the target and remains unchanged
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields, 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
 
-        const newBlockId = Object.keys(stage.blocks._blocks)[0];
-        t.type(stage.blocks.getBlock(newBlockId), 'object');
-        t.type(stage.blocks.getBlock(newBlockId).fields, 'object');
-        t.type(stage.blocks.getBlock(newBlockId).fields.VARIABLE, 'object');
-        t.equal(stage.blocks.getBlock(newBlockId).fields.VARIABLE.id, 'StageVarFromLocal_mock var id');
+    const newBlockId = Object.keys(stage.blocks._blocks)[0];
+    assert.strictEqual(typeof stage.blocks.getBlock(newBlockId), 'object');
+    assert.strictEqual(typeof stage.blocks.getBlock(newBlockId).fields, 'object');
+    assert.strictEqual(typeof stage.blocks.getBlock(newBlockId).fields.VARIABLE, 'object');
+    assert.strictEqual(stage.blocks.getBlock(newBlockId).fields.VARIABLE.id, 'StageVarFromLocal_mock var id');
 
-        // Verify that a new global variable was created, the old one still exists on
-        // the target and still has the same name and value, and the new one has
-        // a new name and value 0.
-        t.equal(Object.keys(target.variables).length, 1);
-        t.equal(target.variables['mock var id'].name, 'a mock variable');
-        t.equal(vm.getVariableValue(target.id, 'mock var id'), 10);
+    // Verify that a new global variable was created, the old one still exists on
+    // the target and still has the same name and value, and the new one has
+    // a new name and value 0.
+    assert.strictEqual(Object.keys(target.variables).length, 1);
+    assert.strictEqual(target.variables['mock var id'].name, 'a mock variable');
+    assert.strictEqual(vm.getVariableValue(target.id, 'mock var id'), 10);
 
-        // Verify that a new variable was created on the stage, with a new name and new id
-        t.equal(Object.keys(stage.variables).length, 1);
-        t.type(stage.variables['mock var id'], 'undefined');
-        const newGlobalVar = Object.values(stage.variables)[0];
-        t.equal(newGlobalVar.name, 'Stage: a mock variable');
-        const newId = newGlobalVar.id;
-        t.notEqual(newId, 'mock var id');
-        t.equals(vm.getVariableValue(stage.id, newId), 0);
-
-        t.end();
-    });
+    // Verify that a new variable was created on the stage, with a new name and new id
+    assert.strictEqual(Object.keys(stage.variables).length, 1);
+    assert.strictEqual(typeof stage.variables['mock var id'], 'undefined');
+    const newGlobalVar = Object.values(stage.variables)[0];
+    assert.strictEqual(newGlobalVar.name, 'Stage: a mock variable');
+    const newId = newGlobalVar.id;
+    assert.notStrictEqual(newId, 'mock var id');
+    assert.strictEqual(vm.getVariableValue(stage.id, newId), 0);
 });
 
-test('shareBlocksToTarget chooses a fresh name for a new global variable checking for conflicts on all sprites', t => {
+// eslint-disable-next-line max-len
+test('shareBlocksToTarget chooses a fresh name for a new global variable checking for conflicts on all sprites', async () => {
     const vm = new VirtualMachine();
     const runtime = vm.runtime;
     const spr1 = new Sprite(null, runtime);
@@ -891,64 +838,61 @@ test('shareBlocksToTarget chooses a fresh name for a new global variable checkin
     vm.runtime.setEditingTarget(target);
 
     target.createVariable('mock var id', 'a mock variable', Variable.SCALAR_TYPE);
-    t.equal(Object.keys(stage.variables).length, 0);
-    t.equal(Object.keys(target.variables).length, 1);
-    t.equal(target.variables['mock var id'].name, 'a mock variable');
+    assert.strictEqual(Object.keys(stage.variables).length, 0);
+    assert.strictEqual(Object.keys(target.variables).length, 1);
+    assert.strictEqual(target.variables['mock var id'].name, 'a mock variable');
 
 
     vm.setVariableValue(target.id, 'mock var id', 10);
-    t.equal(vm.getVariableValue(target.id, 'mock var id'), 10);
+    assert.strictEqual(vm.getVariableValue(target.id, 'mock var id'), 10);
 
     target.blocks.createBlock(adapter(events.mockVariableBlock)[0]);
 
     // Verify the block exists on the target, and that it references the global variable
-    t.type(target.blocks.getBlock('a block'), 'object');
-    t.type(target.blocks.getBlock('a block').fields, 'object');
-    t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-    t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields, 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
 
     // Verify that the block does not exist on the stage
-    t.type(stage.blocks.getBlock('a block'), 'undefined');
+    assert.strictEqual(typeof stage.blocks.getBlock('a block'), 'undefined');
 
     // Create a variable that conflicts with what will be the new name for the
     // new global variable to ensure a fresh name is chosen
     otherTarget.createVariable('a different var', 'Stage: a mock variable', Variable.SCALAR_TYPE);
 
     // Share the block to the stage
-    vm.shareBlocksToTarget([target.blocks.getBlock('a block')], stage.id, target.id).then(() => {
-        // Verify that the block still exists on the target and remains unchanged
-        t.type(target.blocks.getBlock('a block'), 'object');
-        t.type(target.blocks.getBlock('a block').fields, 'object');
-        t.type(target.blocks.getBlock('a block').fields.VARIABLE, 'object');
-        t.equal(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
+    await vm.shareBlocksToTarget([target.blocks.getBlock('a block')], stage.id, target.id);
+    // Verify that the block still exists on the target and remains unchanged
+    assert.strictEqual(typeof target.blocks.getBlock('a block'), 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields, 'object');
+    assert.strictEqual(typeof target.blocks.getBlock('a block').fields.VARIABLE, 'object');
+    assert.strictEqual(target.blocks.getBlock('a block').fields.VARIABLE.id, 'mock var id');
 
-        const newBlockId = Object.keys(stage.blocks._blocks)[0];
-        t.type(stage.blocks.getBlock(newBlockId), 'object');
-        t.type(stage.blocks.getBlock(newBlockId).fields, 'object');
-        t.type(stage.blocks.getBlock(newBlockId).fields.VARIABLE, 'object');
-        t.equal(stage.blocks.getBlock(newBlockId).fields.VARIABLE.id, 'StageVarFromLocal_mock var id');
+    const newBlockId = Object.keys(stage.blocks._blocks)[0];
+    assert.strictEqual(typeof stage.blocks.getBlock(newBlockId), 'object');
+    assert.strictEqual(typeof stage.blocks.getBlock(newBlockId).fields, 'object');
+    assert.strictEqual(typeof stage.blocks.getBlock(newBlockId).fields.VARIABLE, 'object');
+    assert.strictEqual(stage.blocks.getBlock(newBlockId).fields.VARIABLE.id, 'StageVarFromLocal_mock var id');
 
-        // Verify that a new global variable was created, the old one still exists on
-        // the target and still has the same name and value, and the new one has
-        // a new name and value 0.
-        t.equal(Object.keys(target.variables).length, 1);
-        t.equal(target.variables['mock var id'].name, 'a mock variable');
-        t.equal(vm.getVariableValue(target.id, 'mock var id'), 10);
+    // Verify that a new global variable was created, the old one still exists on
+    // the target and still has the same name and value, and the new one has
+    // a new name and value 0.
+    assert.strictEqual(Object.keys(target.variables).length, 1);
+    assert.strictEqual(target.variables['mock var id'].name, 'a mock variable');
+    assert.strictEqual(vm.getVariableValue(target.id, 'mock var id'), 10);
 
-        // Verify that a new variable was created on the stage, with a new name and new id
-        t.equal(Object.keys(stage.variables).length, 1);
-        t.type(stage.variables['mock var id'], 'undefined');
-        const newGlobalVar = Object.values(stage.variables)[0];
-        t.equal(newGlobalVar.name, 'Stage: a mock variable2');
-        const newId = newGlobalVar.id;
-        t.notEqual(newId, 'mock var id');
-        t.equals(vm.getVariableValue(stage.id, newId), 0);
-
-        t.end();
-    });
+    // Verify that a new variable was created on the stage, with a new name and new id
+    assert.strictEqual(Object.keys(stage.variables).length, 1);
+    assert.strictEqual(typeof stage.variables['mock var id'], 'undefined');
+    const newGlobalVar = Object.values(stage.variables)[0];
+    assert.strictEqual(newGlobalVar.name, 'Stage: a mock variable2');
+    const newId = newGlobalVar.id;
+    assert.notStrictEqual(newId, 'mock var id');
+    assert.strictEqual(vm.getVariableValue(stage.id, newId), 0);
 });
 
-test('shareBlocksToTarget loads extensions that have not yet been loaded', t => {
+test('shareBlocksToTarget loads extensions that have not yet been loaded', async () => {
     const vm = new VirtualMachine();
     const runtime = vm.runtime;
     const spr1 = new Sprite(null, runtime);
@@ -972,14 +916,12 @@ test('shareBlocksToTarget loads extensions that have not yet been loaded', t => 
         })
     };
 
-    vm.shareBlocksToTarget(fakeBlocks, stage.id).then(() => {
-        // Verify that only the not-loaded extension gets loaded
-        t.deepEqual(loadedIds, ['translate']);
-        t.end();
-    });
+    await vm.shareBlocksToTarget(fakeBlocks, stage.id);
+    // Verify that only the not-loaded extension gets loaded
+    assert.deepEqual(loadedIds, ['translate']);
 });
 
-test('Setting turbo mode emits events', t => {
+test('Setting turbo mode emits events', () => {
     let turboMode = null;
 
     const vm = new VirtualMachine();
@@ -992,46 +934,41 @@ test('Setting turbo mode emits events', t => {
     });
 
     vm.setTurboMode(true);
-    t.equal(turboMode, true);
+    assert.strictEqual(turboMode, true);
 
     vm.setTurboMode(false);
-    t.equal(turboMode, false);
-
-    t.end();
+    assert.strictEqual(turboMode, false);
 });
 
-test('Getting the renderer returns the renderer', t => {
+test('Getting the renderer returns the renderer', () => {
     const renderer = new Renderer();
     const vm = new VirtualMachine();
     vm.attachRenderer(renderer);
-    t.equal(vm.renderer, renderer);
-    t.end();
+    assert.strictEqual(vm.renderer, renderer);
 });
 
-test('Starting the VM emits an event', t => {
+test('Starting the VM emits an event', () => {
     let started = false;
     const vm = new VirtualMachine();
     vm.addListener('RUNTIME_STARTED', () => {
         started = true;
     });
     vm.start();
-    t.equal(started, true);
+    assert.strictEqual(started, true);
     vm.quit();
-    t.end();
 });
 
-test('vm.greenFlag() emits a PROJECT_START event', t => {
+test('vm.greenFlag() emits a PROJECT_START event', () => {
     let greenFlagged = false;
     const vm = new VirtualMachine();
     vm.addListener('PROJECT_START', () => {
         greenFlagged = true;
     });
     vm.greenFlag();
-    t.equal(greenFlagged, true);
-    t.end();
+    assert.strictEqual(greenFlagged, true);
 });
 
-test('toJSON encodes Infinity/NaN as 0, not null', t => {
+test('toJSON encodes Infinity/NaN as 0, not null', () => {
     const vm = new VirtualMachine();
     const runtime = vm.runtime;
     const spr1 = new Sprite(null, runtime);
@@ -1049,24 +986,20 @@ test('toJSON encodes Infinity/NaN as 0, not null', t => {
     runtime.targets = [stage];
 
     const json = JSON.parse(vm.toJSON());
-    t.equal(json.targets[0].volume, 0);
-    t.equal(json.targets[0].tempo, 0);
-    t.equal(json.targets[0].variables.id1[1], 0);
-    t.equal(json.targets[0].variables.id2[1], 0);
-    t.equal(json.targets[0].variables.id3[1], 0);
-
-    t.end();
+    assert.strictEqual(json.targets[0].volume, 0);
+    assert.strictEqual(json.targets[0].tempo, 0);
+    assert.strictEqual(json.targets[0].variables.id1[1], 0);
+    assert.strictEqual(json.targets[0].variables.id2[1], 0);
+    assert.strictEqual(json.targets[0].variables.id3[1], 0);
 });
 
-test('clearFlyoutBlocks removes all of the flyout blocks', t => {
+test('clearFlyoutBlocks removes all of the flyout blocks', () => {
     const vm = new VirtualMachine();
     const flyoutBlocks = vm.runtime.flyoutBlocks;
 
     flyoutBlocks.createBlock(adapter(events.mockVariableBlock)[0]);
-    t.equal(Object.keys(flyoutBlocks._blocks).length, 1);
+    assert.strictEqual(Object.keys(flyoutBlocks._blocks).length, 1);
 
     vm.clearFlyoutBlocks();
-    t.equal(Object.keys(flyoutBlocks._blocks).length, 0);
-
-    t.end();
+    assert.strictEqual(Object.keys(flyoutBlocks._blocks).length, 0);
 });

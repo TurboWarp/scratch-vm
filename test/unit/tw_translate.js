@@ -1,4 +1,5 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 
 // Simulate the network being down or filtered
 // Run this before fetch-with-timeout.js is gets loaded.
@@ -16,13 +17,8 @@ Object.defineProperty(global, 'navigator', {
 // Translate tries to access AbortController from window, but does not require it to exist.
 global.window = {};
 
-test('translate returns original string on network error', t => {
-    t.plan(1);
-
+test('translate returns original string on network error', async () => {
     const extension = new Scratch3TranslateBlocks();
-    extension.getTranslate({WORDS: 'My message 123123', LANGUAGE: 'es'})
-        .then(message => {
-            t.equal(message, 'My message 123123');
-            t.end();
-        });
+    const message = await extension.getTranslate({WORDS: 'My message 123123', LANGUAGE: 'es'});
+    assert.strictEqual(message, 'My message 123123');
 });

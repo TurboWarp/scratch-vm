@@ -1,26 +1,25 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Sequencer = require('../../src/engine/sequencer');
 const Runtime = require('../../src/engine/runtime');
 const Thread = require('../../src/engine/thread');
 const RenderedTarget = require('../../src/sprites/rendered-target');
 const Sprite = require('../../src/sprites/sprite');
 
-test('spec', t => {
-    t.type(Sequencer, 'function');
+test('spec', () => {
+    assert.strictEqual(typeof Sequencer, 'function');
     
     const r = new Runtime();
     const s = new Sequencer(r);
 
-    t.type(s, 'object');
-    t.ok(s instanceof Sequencer);
+    assert.strictEqual(typeof s, 'object');
+    assert.ok(s instanceof Sequencer);
     
-    t.type(s.stepThreads, 'function');
-    t.type(s.stepThread, 'function');
-    t.type(s.stepToBranch, 'function');
-    t.type(s.stepToProcedure, 'function');
-    t.type(s.retireThread, 'function');
-
-    t.end();
+    assert.strictEqual(typeof s.stepThreads, 'function');
+    assert.strictEqual(typeof s.stepThread, 'function');
+    assert.strictEqual(typeof s.stepToBranch, 'function');
+    assert.strictEqual(typeof s.stepToProcedure, 'function');
+    assert.strictEqual(typeof s.retireThread, 'function');
 });
 
 const randomString = function () {
@@ -103,62 +102,59 @@ const generateThread = function (runtime) {
     return th;
 };
 
-test('stepThread', t => {
+test('stepThread', () => {
     const r = new Runtime();
     const s = new Sequencer(r);
     let th = generateThread(r);
-    t.notEquals(th.status, Thread.STATUS_DONE);
+    assert.notStrictEqual(th.status, Thread.STATUS_DONE);
     s.stepThread(th);
-    t.strictEquals(th.status, Thread.STATUS_DONE);
+    assert.strictEqual(th.status, Thread.STATUS_DONE);
     th = generateThread(r);
     th.status = Thread.STATUS_YIELD;
     s.stepThread(th);
-    t.notEquals(th.status, Thread.STATUS_DONE);
+    assert.notStrictEqual(th.status, Thread.STATUS_DONE);
     th.status = Thread.STATUS_PROMISE_WAIT;
     s.stepThread(th);
-    t.notEquals(th.status, Thread.STATUS_DONE);
+    assert.notStrictEqual(th.status, Thread.STATUS_DONE);
     
-    t.end();
 });
 
-test('stepToBranch', t => {
+test('stepToBranch', () => {
     const r = new Runtime();
     const s = new Sequencer(r);
     const th = generateThread(r);
     s.stepToBranch(th, 2, false);
-    t.strictEquals(th.peekStack(), null);
+    assert.strictEqual(th.peekStack(), null);
     th.popStack();
     s.stepToBranch(th, 1, false);
-    t.strictEquals(th.peekStack(), null);
+    assert.strictEqual(th.peekStack(), null);
     th.popStack();
     th.popStack();
     s.stepToBranch(th, 1, false);
-    t.notEquals(th.peekStack(), null);
+    assert.notStrictEqual(th.peekStack(), null);
     
-    t.end();
 });
 
-test('retireThread', t => {
+test('retireThread', () => {
     const r = new Runtime();
     const s = new Sequencer(r);
     const th = generateThread(r);
-    t.strictEquals(th.stack.length, 12);
+    assert.strictEqual(th.stack.length, 12);
     s.retireThread(th);
-    t.strictEquals(th.stack.length, 0);
-    t.strictEquals(th.status, Thread.STATUS_DONE);
+    assert.strictEqual(th.stack.length, 0);
+    assert.strictEqual(th.status, Thread.STATUS_DONE);
     
-    t.end();
 });
 
-test('stepToProcedure', t => {
+test('stepToProcedure', () => {
     const r = new Runtime();
     const s = new Sequencer(r);
     const th = generateThread(r);
     let expectedBlock = th.peekStack();
     s.stepToProcedure(th, '');
-    t.strictEquals(th.peekStack(), expectedBlock);
+    assert.strictEqual(th.peekStack(), expectedBlock);
     s.stepToProcedure(th, 'faceCode');
-    t.strictEquals(th.peekStack(), expectedBlock);
+    assert.strictEqual(th.peekStack(), expectedBlock);
 
     th.target.blocks.createBlock({
         id: 'internalId',
@@ -173,21 +169,19 @@ test('stepToProcedure', t => {
         block: 'internalId'
     };
     s.stepToProcedure(th, 'othercode');
-    t.strictEquals(th.peekStack(), expectedBlock);
+    assert.strictEqual(th.peekStack(), expectedBlock);
     
     
-    t.end();
 });
 
-test('stepThreads', t => {
+test('stepThreads', () => {
     const r = new Runtime();
     r.currentStepTime = Infinity;
     const s = new Sequencer(r);
-    t.strictEquals(s.stepThreads().length, 0);
+    assert.strictEqual(s.stepThreads().length, 0);
     generateThread(r);
-    t.strictEquals(r.threads.length, 1);
+    assert.strictEqual(r.threads.length, 1);
     // Threads should be marked DONE and removed in the same step they finish.
-    t.strictEquals(s.stepThreads().length, 1);
+    assert.strictEqual(s.stepThreads().length, 1);
     
-    t.end();
 });

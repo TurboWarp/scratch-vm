@@ -1,4 +1,5 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Sound = require('../../src/blocks/scratch3_sound');
 let playedSound;
 
@@ -19,55 +20,50 @@ const util = {
     }
 };
 
-test('playSound with a name string works', t => {
+test('playSound with a name string works', () => {
     const args = {SOUND_MENU: 'second name'};
     blocks.playSound(args, util);
-    t.strictEqual(playedSound, 'second soundId');
-    t.end();
+    assert.strictEqual(playedSound, 'second soundId');
 });
 
-test('playSound with a number string works 1-indexed', t => {
+test('playSound with a number string works 1-indexed', () => {
     let args = {SOUND_MENU: '5'};
     blocks.playSound(args, util);
-    t.strictEqual(playedSound, 'first soundId');
+    assert.strictEqual(playedSound, 'first soundId');
 
     args = {SOUND_MENU: '1'};
     blocks.playSound(args, util);
-    t.strictEqual(playedSound, 'first soundId');
+    assert.strictEqual(playedSound, 'first soundId');
 
     args = {SOUND_MENU: '0'};
     blocks.playSound(args, util);
-    t.strictEqual(playedSound, 'fourth soundId');
-    t.end();
+    assert.strictEqual(playedSound, 'fourth soundId');
 });
 
-test('playSound with a number works 1-indexed', t => {
+test('playSound with a number works 1-indexed', () => {
     let args = {SOUND_MENU: 5};
     blocks.playSound(args, util);
-    t.strictEqual(playedSound, 'first soundId');
+    assert.strictEqual(playedSound, 'first soundId');
 
     args = {SOUND_MENU: 1};
     blocks.playSound(args, util);
-    t.strictEqual(playedSound, 'first soundId');
+    assert.strictEqual(playedSound, 'first soundId');
 
     args = {SOUND_MENU: 0};
     blocks.playSound(args, util);
-    t.strictEqual(playedSound, 'fourth soundId');
-    t.end();
+    assert.strictEqual(playedSound, 'fourth soundId');
 });
 
-test('playSound prioritizes sound index if given a number', t => {
+test('playSound prioritizes sound index if given a number', () => {
     const args = {SOUND_MENU: 6};
     blocks.playSound(args, util);
     // Ignore the sound named '6', wrapClamp to the second instead
-    t.strictEqual(playedSound, 'second soundId');
-    t.end();
+    assert.strictEqual(playedSound, 'second soundId');
 });
 
-test('playSound prioritizes sound name if given a string', t => {
+test('playSound prioritizes sound name if given a string', () => {
     const args = {SOUND_MENU: '6'};
     blocks.playSound(args, util);
     // Use the sound named '6', which is the fourth
-    t.strictEqual(playedSound, 'fourth soundId');
-    t.end();
+    assert.strictEqual(playedSound, 'fourth soundId');
 });

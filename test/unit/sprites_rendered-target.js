@@ -1,43 +1,42 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const RenderedTarget = require('../../src/sprites/rendered-target');
 const Sprite = require('../../src/sprites/sprite');
 const Runtime = require('../../src/engine/runtime');
 const FakeRenderer = require('../fixtures/fake-renderer');
 
-test('clone effects', t => {
+test('clone effects', () => {
     // Create two clones and ensure they have different graphic effect objects.
     // Regression test for Github issue #224
     const r = new Runtime();
     const spr = new Sprite(null, r);
     const a = new RenderedTarget(spr, r);
     const b = new RenderedTarget(spr, r);
-    t.ok(a.effects !== b.effects);
-    t.end();
+    assert.ok(a.effects !== b.effects);
 });
 
-test('setxy', t => {
+test('setxy', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const a = new RenderedTarget(s, r);
     const renderer = new FakeRenderer();
     a.renderer = renderer;
     a.setXY(123, 321, true);
-    t.equals(a.x, 123);
-    t.equals(a.y, 321);
+    assert.strictEqual(a.x, 123);
+    assert.strictEqual(a.y, 321);
     renderer.getFencedPositionOfDrawable = () => [50, 50];
     a.setXY(100, 100, true);
-    t.equals(a.x, 50);
-    t.equals(a.y, 50);
+    assert.strictEqual(a.x, 50);
+    assert.strictEqual(a.y, 50);
     r.setRuntimeOptions({
         fencing: false
     });
     a.setXY(100, 100, true);
-    t.equals(a.x, 100);
-    t.equals(a.y, 100);
-    t.end();
+    assert.strictEqual(a.x, 100);
+    assert.strictEqual(a.y, 100);
 });
 
-test('blocks get new id on duplicate', t => {
+test('blocks get new id on duplicate', async () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const rt = new RenderedTarget(s, r);
@@ -49,53 +48,48 @@ test('blocks get new id on duplicate', t => {
 
     rt.blocks.createBlock(block);
 
-    return rt.duplicate().then(duplicate => {
-        t.notOk(Object.prototype.hasOwnProperty.call(duplicate.blocks._blocks, block.id));
-        t.end();
-    });
+    const duplicate = await rt.duplicate();
+    assert.ok(!Object.prototype.hasOwnProperty.call(duplicate.blocks._blocks, block.id));
 });
 
-test('direction', t => {
+test('direction', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const a = new RenderedTarget(s, r);
     const renderer = new FakeRenderer();
     a.renderer = renderer;
     a.setDirection(123);
-    t.equals(a._getRenderedDirectionAndScale().direction, 123);
-    t.end();
+    assert.strictEqual(a._getRenderedDirectionAndScale().direction, 123);
 });
 
-test('setVisible', t => {
+test('setVisible', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const a = new RenderedTarget(s, r);
     const renderer = new FakeRenderer();
     a.renderer = renderer;
     a.setVisible(true);
-    t.end();
 });
 
-test('setSize', t => {
+test('setSize', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const a = new RenderedTarget(s, r);
     const renderer = new FakeRenderer();
     a.renderer = renderer;
     a.setSize(123);
-    t.equals(a._getRenderedDirectionAndScale().scale[0], 123);
+    assert.strictEqual(a._getRenderedDirectionAndScale().scale[0], 123);
     renderer.getCurrentSkinSize = () => [100, 100];
     a.setSize(99999);
-    t.equals(a._getRenderedDirectionAndScale().scale[0], 540);
+    assert.strictEqual(a._getRenderedDirectionAndScale().scale[0], 540);
     r.setRuntimeOptions({
         fencing: false
     });
     a.setSize(99999);
-    t.equals(a._getRenderedDirectionAndScale().scale[0], 99999);
-    t.end();
+    assert.strictEqual(a._getRenderedDirectionAndScale().scale[0], 99999);
 });
 
-test('set and clear effects', t => {
+test('set and clear effects', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const a = new RenderedTarget(s, r);
@@ -103,16 +97,15 @@ test('set and clear effects', t => {
     a.renderer = renderer;
     for (const effect in a.effects) {
         a.setEffect(effect, 1);
-        t.equals(a.effects[effect], 1);
+        assert.strictEqual(a.effects[effect], 1);
     }
     a.clearEffects();
     for (const effect in a.effects) {
-        t.equals(a.effects[effect], 0);
+        assert.strictEqual(a.effects[effect], 0);
     }
-    t.end();
 });
 
-test('setCostume', t => {
+test('setCostume', () => {
     const o = new Object();
     const r = new Runtime();
     const s = new Sprite(null, r);
@@ -121,10 +114,9 @@ test('setCostume', t => {
     const renderer = new FakeRenderer();
     a.renderer = renderer;
     a.setCostume(0);
-    t.end();
 });
 
-test('deleteCostume', t => {
+test('deleteCostume', () => {
     const o1 = {id: 1};
     const o2 = {id: 2};
     const o3 = {id: 3};
@@ -144,11 +136,11 @@ test('deleteCostume', t => {
     //    Costume 3
     a.setCostume(0);
     const deletedCostume = a.deleteCostume(0);
-    t.equals(a.sprite.costumes.length, 2);
-    t.equals(a.sprite.costumes[0].id, 2);
-    t.equals(a.sprite.costumes[1].id, 3);
-    t.equals(a.currentCostume, 0);
-    t.deepEqual(deletedCostume, o1);
+    assert.strictEqual(a.sprite.costumes.length, 2);
+    assert.strictEqual(a.sprite.costumes[0].id, 2);
+    assert.strictEqual(a.sprite.costumes[1].id, 3);
+    assert.strictEqual(a.currentCostume, 0);
+    assert.deepEqual(deletedCostume, o1);
 
     //    Costume 1          Costume 1
     // x* Costume 2   =>   * Costume 3
@@ -156,11 +148,11 @@ test('deleteCostume', t => {
     a.sprite.costumes = [o1, o2, o3];
     a.setCostume(1);
     const deletedCostume2 = a.deleteCostume(1);
-    t.equals(a.sprite.costumes.length, 2);
-    t.equals(a.sprite.costumes[0].id, 1);
-    t.equals(a.sprite.costumes[1].id, 3);
-    t.equals(a.currentCostume, 1);
-    t.deepEqual(deletedCostume2, o2);
+    assert.strictEqual(a.sprite.costumes.length, 2);
+    assert.strictEqual(a.sprite.costumes[0].id, 1);
+    assert.strictEqual(a.sprite.costumes[1].id, 3);
+    assert.strictEqual(a.currentCostume, 1);
+    assert.deepEqual(deletedCostume2, o2);
 
     //    Costume 1          Costume 1
     //    Costume 2   =>   * Costume 2
@@ -168,20 +160,20 @@ test('deleteCostume', t => {
     a.sprite.costumes = [o1, o2, o3];
     a.setCostume(2);
     const deletedCostume3 = a.deleteCostume(2);
-    t.equals(a.sprite.costumes.length, 2);
-    t.equals(a.sprite.costumes[0].id, 1);
-    t.equals(a.sprite.costumes[1].id, 2);
-    t.equals(a.currentCostume, 1);
-    t.deepEqual(deletedCostume3, o3);
+    assert.strictEqual(a.sprite.costumes.length, 2);
+    assert.strictEqual(a.sprite.costumes[0].id, 1);
+    assert.strictEqual(a.sprite.costumes[1].id, 2);
+    assert.strictEqual(a.currentCostume, 1);
+    assert.deepEqual(deletedCostume3, o3);
 
     // Refuses to delete only costume
     a.sprite.costumes = [o1];
     a.setCostume(0);
     const noDeletedCostume = a.deleteCostume(0);
-    t.equals(a.sprite.costumes.length, 1);
-    t.equals(a.sprite.costumes[0].id, 1);
-    t.equals(a.currentCostume, 0);
-    t.equal(noDeletedCostume, null);
+    assert.strictEqual(a.sprite.costumes.length, 1);
+    assert.strictEqual(a.sprite.costumes[0].id, 1);
+    assert.strictEqual(a.currentCostume, 0);
+    assert.strictEqual(noDeletedCostume, null);
 
     //   Costume 1          Costume 1
     // x Costume 2          Costume 3
@@ -191,12 +183,12 @@ test('deleteCostume', t => {
     a.sprite.costumes = [o1, o2, o3, o4, o5];
     a.setCostume(3);
     a.deleteCostume(1);
-    t.equals(a.sprite.costumes.length, 4);
-    t.equals(a.sprite.costumes[0].id, 1);
-    t.equals(a.sprite.costumes[1].id, 3);
-    t.equals(a.sprite.costumes[2].id, 4);
-    t.equals(a.sprite.costumes[3].id, 5);
-    t.equals(a.currentCostume, 2);
+    assert.strictEqual(a.sprite.costumes.length, 4);
+    assert.strictEqual(a.sprite.costumes[0].id, 1);
+    assert.strictEqual(a.sprite.costumes[1].id, 3);
+    assert.strictEqual(a.sprite.costumes[2].id, 4);
+    assert.strictEqual(a.sprite.costumes[3].id, 5);
+    assert.strictEqual(a.currentCostume, 2);
 
     //   Costume 1          Costume 1
     // * Costume 2        * Costume 2
@@ -206,12 +198,12 @@ test('deleteCostume', t => {
     a.sprite.costumes = [o1, o2, o3, o4, o5];
     a.setCostume(1);
     a.deleteCostume(3);
-    t.equals(a.sprite.costumes.length, 4);
-    t.equals(a.sprite.costumes[0].id, 1);
-    t.equals(a.sprite.costumes[1].id, 2);
-    t.equals(a.sprite.costumes[2].id, 3);
-    t.equals(a.sprite.costumes[3].id, 5);
-    t.equals(a.currentCostume, 1);
+    assert.strictEqual(a.sprite.costumes.length, 4);
+    assert.strictEqual(a.sprite.costumes[0].id, 1);
+    assert.strictEqual(a.sprite.costumes[1].id, 2);
+    assert.strictEqual(a.sprite.costumes[2].id, 3);
+    assert.strictEqual(a.sprite.costumes[3].id, 5);
+    assert.strictEqual(a.currentCostume, 1);
 
     //   Costume 1          Costume 1
     // * Costume 2        * Costume 2
@@ -221,16 +213,15 @@ test('deleteCostume', t => {
     a.sprite.costumes = [o1, o2, o3, o4, o5];
     a.setCostume(1);
     a.deleteCostume(4);
-    t.equals(a.sprite.costumes.length, 4);
-    t.equals(a.sprite.costumes[0].id, 1);
-    t.equals(a.sprite.costumes[1].id, 2);
-    t.equals(a.sprite.costumes[2].id, 3);
-    t.equals(a.sprite.costumes[3].id, 4);
-    t.equals(a.currentCostume, 1);
-    t.end();
+    assert.strictEqual(a.sprite.costumes.length, 4);
+    assert.strictEqual(a.sprite.costumes[0].id, 1);
+    assert.strictEqual(a.sprite.costumes[1].id, 2);
+    assert.strictEqual(a.sprite.costumes[2].id, 3);
+    assert.strictEqual(a.sprite.costumes[3].id, 4);
+    assert.strictEqual(a.currentCostume, 1);
 });
 
-test('deleteSound', t => {
+test('deleteSound', () => {
     const o1 = {id: 1};
     const o2 = {id: 2};
     const o3 = {id: 3};
@@ -243,98 +234,89 @@ test('deleteSound', t => {
     a.renderer = renderer;
 
     const firstDeleted = a.deleteSound(0);
-    t.deepEqual(a.sprite.sounds, [o2, o3]);
-    t.deepEqual(firstDeleted, o1);
+    assert.deepEqual(a.sprite.sounds, [o2, o3]);
+    assert.deepEqual(firstDeleted, o1);
 
     // Allows deleting the only sound
     a.sprite.sounds = [o1];
     a.deleteSound(0);
-    t.deepEqual(a.sprite.sounds, []);
-
-    t.end();
+    assert.deepEqual(a.sprite.sounds, []);
 });
 
-test('setRotationStyle', t => {
+test('setRotationStyle', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const a = new RenderedTarget(s, r);
     const renderer = new FakeRenderer();
     a.renderer = renderer;
     a.setRotationStyle(RenderedTarget.ROTATION_STYLE_NONE);
-    t.end();
 });
 
-test('getBounds', t => {
+test('getBounds', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const renderer = new FakeRenderer();
     r.attachRenderer(renderer);
     const a = new RenderedTarget(s, r);
     a.renderer = renderer;
-    t.equals(a.getBounds().top, 0);
+    assert.strictEqual(a.getBounds().top, 0);
     a.setXY(241, 241);
-    t.equals(a.getBounds().top, 241);
-    t.end();
+    assert.strictEqual(a.getBounds().top, 241);
 });
 
-test('isTouchingPoint', t => {
+test('isTouchingPoint', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const renderer = new FakeRenderer();
     r.attachRenderer(renderer);
     const a = new RenderedTarget(s, r);
     a.renderer = renderer;
-    t.equals(a.isTouchingPoint(), true);
-    t.end();
+    assert.strictEqual(a.isTouchingPoint(), true);
 });
 
-test('isTouchingEdge', t => {
+test('isTouchingEdge', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const renderer = new FakeRenderer();
     r.attachRenderer(renderer);
     const a = new RenderedTarget(s, r);
     a.renderer = renderer;
-    t.equals(a.isTouchingEdge(), false);
+    assert.strictEqual(a.isTouchingEdge(), false);
     a.setXY(1000, 1000);
-    t.equals(a.isTouchingEdge(), true);
-    t.end();
+    assert.strictEqual(a.isTouchingEdge(), true);
 });
 
-test('isTouchingSprite', t => {
+test('isTouchingSprite', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const renderer = new FakeRenderer();
     r.attachRenderer(renderer);
     const a = new RenderedTarget(s, r);
     a.renderer = renderer;
-    t.equals(a.isTouchingSprite('fake'), false);
-    t.end();
+    assert.strictEqual(a.isTouchingSprite('fake'), false);
 });
 
-test('isTouchingColor', t => {
+test('isTouchingColor', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const renderer = new FakeRenderer();
     r.attachRenderer(renderer);
     const a = new RenderedTarget(s, r);
     a.renderer = renderer;
-    t.equals(a.isTouchingColor(), false);
-    t.end();
+    assert.strictEqual(a.isTouchingColor(), false);
 });
 
-test('colorIsTouchingColor', t => {
+test('colorIsTouchingColor', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const renderer = new FakeRenderer();
     r.attachRenderer(renderer);
     const a = new RenderedTarget(s, r);
     a.renderer = renderer;
-    t.equals(a.colorIsTouchingColor(), false);
-    t.end();
+    assert.strictEqual(a.colorIsTouchingColor(), false);
 });
 
-test('layers', t => { // TODO this tests fake functionality. Move layering tests into Render.
+test('layers', () => { // TODO this tests fake functionality. Move layering tests into Render.
     const r = new Runtime();
     const s = new Sprite(null, r);
     const renderer = new FakeRenderer();
@@ -343,148 +325,136 @@ test('layers', t => { // TODO this tests fake functionality. Move layering tests
     const a = new RenderedTarget(s, r);
     a.renderer = renderer;
     a.goToFront();
-    t.equals(a.renderer.order, 5);
+    assert.strictEqual(a.renderer.order, 5);
     a.goBackwardLayers(2);
-    t.equals(a.renderer.order, 3);
+    assert.strictEqual(a.renderer.order, 3);
     a.goToBack();
     // Note, there are only sprites in this test, no stage, and the addition
     // of layer groups, goToBack no longer specifies a minimum order number
-    t.equals(a.renderer.order, 0);
+    assert.strictEqual(a.renderer.order, 0);
     a.goForwardLayers(1);
-    t.equals(a.renderer.order, 1);
+    assert.strictEqual(a.renderer.order, 1);
     o.drawableID = 999;
     a.goBehindOther(o);
-    t.equals(a.renderer.order, 1);
-    t.end();
+    assert.strictEqual(a.renderer.order, 1);
 });
 
-test('getLayerOrder returns result of renderer getDrawableOrder or null if renderer is not attached', t => {
+test('getLayerOrder returns result of renderer getDrawableOrder or null if renderer is not attached', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const a = new RenderedTarget(s, r);
 
     // getLayerOrder should return null if there is no renderer attached to the runtime
-    t.equal(a.getLayerOrder(), null);
+    assert.strictEqual(a.getLayerOrder(), null);
 
     const renderer = new FakeRenderer();
     r.attachRenderer(renderer);
     const b = new RenderedTarget(s, r);
 
-    t.equal(b.getLayerOrder(), 'stub');
-
-    t.end();
+    assert.strictEqual(b.getLayerOrder(), 'stub');
 });
 
-test('keepInFence', t => {
+test('keepInFence', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const renderer = new FakeRenderer();
     r.attachRenderer(renderer);
     const a = new RenderedTarget(s, r);
     a.renderer = renderer;
-    t.equals(a.keepInFence(1000, 1000)[0], 240);
-    t.equals(a.keepInFence(-1000, 1000)[0], -240);
-    t.equals(a.keepInFence(1000, 1000)[1], 180);
-    t.equals(a.keepInFence(1000, -1000)[1], -180);
-    t.end();
+    assert.strictEqual(a.keepInFence(1000, 1000)[0], 240);
+    assert.strictEqual(a.keepInFence(-1000, 1000)[0], -240);
+    assert.strictEqual(a.keepInFence(1000, 1000)[1], 180);
+    assert.strictEqual(a.keepInFence(1000, -1000)[1], -180);
 });
 
-test('#stopAll clears graphics effects', t => {
+test('#stopAll clears graphics effects', () => {
     const r = new Runtime();
     const s = new Sprite(null, r);
     const a = new RenderedTarget(s, r);
     const effectName = 'brightness';
     a.setEffect(effectName, 100);
     a.onStopAll();
-    t.equals(a.effects[effectName], 0);
-    t.end();
+    assert.strictEqual(a.effects[effectName], 0);
 });
 
-test('#getCostumes returns the costumes', t => {
+test('#getCostumes returns the costumes', () => {
     const r = new Runtime();
     const spr = new Sprite(null, r);
     const a = new RenderedTarget(spr, r);
     a.sprite.costumes = [{id: 1}, {id: 2}, {id: 3}];
-    t.equals(a.getCostumes().length, 3);
-    t.equals(a.getCostumes()[0].id, 1);
-    t.equals(a.getCostumes()[1].id, 2);
-    t.equals(a.getCostumes()[2].id, 3);
-    t.end();
+    assert.strictEqual(a.getCostumes().length, 3);
+    assert.strictEqual(a.getCostumes()[0].id, 1);
+    assert.strictEqual(a.getCostumes()[1].id, 2);
+    assert.strictEqual(a.getCostumes()[2].id, 3);
 });
 
-test('#getSounds returns the sounds', t => {
+test('#getSounds returns the sounds', () => {
     const r = new Runtime();
     const spr = new Sprite(null, r);
     const a = new RenderedTarget(spr, r);
     const sounds = [1, 2, 3];
     a.sprite.sounds = sounds;
-    t.equals(a.getSounds(), sounds);
-    t.end();
+    assert.strictEqual(a.getSounds(), sounds);
 });
 
-test('#toJSON returns the sounds and costumes', t => {
+test('#toJSON returns the sounds and costumes', () => {
     const r = new Runtime();
     const spr = new Sprite(null, r);
     const a = new RenderedTarget(spr, r);
     const sounds = [1, 2, 3];
     a.sprite.sounds = sounds;
     a.sprite.costumes = [{id: 1}, {id: 2}, {id: 3}];
-    t.same(a.toJSON().sounds, sounds);
-    t.same(a.toJSON().costumes, a.sprite.costumes);
-    t.end();
+    assert.deepEqual(a.toJSON().sounds, sounds);
+    assert.deepEqual(a.toJSON().costumes, a.sprite.costumes);
 });
 
-test('#addSound does not duplicate names', t => {
+test('#addSound does not duplicate names', () => {
     const r = new Runtime();
     const spr = new Sprite(null, r);
     const a = new RenderedTarget(spr, r);
     a.sprite.sounds = [{name: 'first'}];
     a.addSound({name: 'first'});
-    t.deepEqual(a.sprite.sounds, [{name: 'first'}, {name: 'first2'}]);
-    t.end();
+    assert.deepEqual(a.sprite.sounds, [{name: 'first'}, {name: 'first2'}]);
 });
 
-test('#addCostume does not duplicate names', t => {
+test('#addCostume does not duplicate names', () => {
     const r = new Runtime();
     const spr = new Sprite(null, r);
     const a = new RenderedTarget(spr, r);
     a.addCostume({name: 'first'});
     a.addCostume({name: 'first'});
-    t.equal(a.sprite.costumes.length, 2);
-    t.equal(a.sprite.costumes[0].name, 'first');
-    t.equal(a.sprite.costumes[1].name, 'first2');
-    t.end();
+    assert.strictEqual(a.sprite.costumes.length, 2);
+    assert.strictEqual(a.sprite.costumes[0].name, 'first');
+    assert.strictEqual(a.sprite.costumes[1].name, 'first2');
 });
 
-test('#renameSound does not duplicate names', t => {
+test('#renameSound does not duplicate names', () => {
     const r = new Runtime();
     const spr = new Sprite(null, r);
     const a = new RenderedTarget(spr, r);
     a.sprite.sounds = [{name: 'first'}, {name: 'second'}];
     a.renameSound(0, 'first'); // Shouldn't increment the name, noop
-    t.deepEqual(a.sprite.sounds, [{name: 'first'}, {name: 'second'}]);
+    assert.deepEqual(a.sprite.sounds, [{name: 'first'}, {name: 'second'}]);
     a.renameSound(1, 'first');
-    t.deepEqual(a.sprite.sounds, [{name: 'first'}, {name: 'first2'}]);
-    t.end();
+    assert.deepEqual(a.sprite.sounds, [{name: 'first'}, {name: 'first2'}]);
 });
 
-test('#renameCostume does not duplicate names', t => {
+test('#renameCostume does not duplicate names', () => {
     const r = new Runtime();
     const spr = new Sprite(null, r);
     const a = new RenderedTarget(spr, r);
     a.sprite.costumes = [{name: 'first'}, {name: 'second'}];
     a.renameCostume(0, 'first'); // Shouldn't increment the name, noop
-    t.equal(a.sprite.costumes.length, 2);
-    t.equal(a.sprite.costumes[0].name, 'first');
-    t.equal(a.sprite.costumes[1].name, 'second');
+    assert.strictEqual(a.sprite.costumes.length, 2);
+    assert.strictEqual(a.sprite.costumes[0].name, 'first');
+    assert.strictEqual(a.sprite.costumes[1].name, 'second');
     a.renameCostume(1, 'first');
-    t.equal(a.sprite.costumes.length, 2);
-    t.equal(a.sprite.costumes[0].name, 'first');
-    t.equal(a.sprite.costumes[1].name, 'first2');
-    t.end();
+    assert.strictEqual(a.sprite.costumes.length, 2);
+    assert.strictEqual(a.sprite.costumes[0].name, 'first');
+    assert.strictEqual(a.sprite.costumes[1].name, 'first2');
 });
 
-test('#reorderCostume', t => {
+test('#reorderCostume', () => {
     const o1 = {id: 0};
     const o2 = {id: 1};
     const o3 = {id: 2};
@@ -504,41 +474,39 @@ test('#reorderCostume', t => {
     const costumeIds = () => a.sprite.costumes.map(c => c.id);
 
     resetCostumes();
-    t.deepEquals(costumeIds(), [0, 1, 2, 3, 4]);
-    t.equals(a.currentCostume, 0);
+    assert.deepEqual(costumeIds(), [0, 1, 2, 3, 4]);
+    assert.strictEqual(a.currentCostume, 0);
 
     // Returns false if the costumes are the same and no change occurred
-    t.equal(a.reorderCostume(3, 3), false);
-    t.equal(a.reorderCostume(999, 5000), false); // Clamped to the same values.
-    t.equal(a.reorderCostume(-999, -5000), false);
+    assert.strictEqual(a.reorderCostume(3, 3), false);
+    assert.strictEqual(a.reorderCostume(999, 5000), false); // Clamped to the same values.
+    assert.strictEqual(a.reorderCostume(-999, -5000), false);
 
     // Make sure reordering up and down works and current costume follows
     resetCostumes();
-    t.equal(a.reorderCostume(0, 3), true);
-    t.deepEquals(costumeIds(), [1, 2, 3, 0, 4]);
-    t.equals(a.currentCostume, 3); // Index of id=0
+    assert.strictEqual(a.reorderCostume(0, 3), true);
+    assert.deepEqual(costumeIds(), [1, 2, 3, 0, 4]);
+    assert.strictEqual(a.currentCostume, 3); // Index of id=0
 
     resetCostumes();
     a.setCostume(1);
-    t.equal(a.reorderCostume(3, 1), true);
-    t.deepEquals(costumeIds(), [0, 3, 1, 2, 4]);
-    t.equals(a.currentCostume, 2); // Index of id=1
+    assert.strictEqual(a.reorderCostume(3, 1), true);
+    assert.deepEqual(costumeIds(), [0, 3, 1, 2, 4]);
+    assert.strictEqual(a.currentCostume, 2); // Index of id=1
 
     // Out of bounds indices get clamped
     resetCostumes();
-    t.equal(a.reorderCostume(10, 0), true);
-    t.deepEquals(costumeIds(), [4, 0, 1, 2, 3]);
-    t.equals(a.currentCostume, 1); // Index of id=0
+    assert.strictEqual(a.reorderCostume(10, 0), true);
+    assert.deepEqual(costumeIds(), [4, 0, 1, 2, 3]);
+    assert.strictEqual(a.currentCostume, 1); // Index of id=0
 
     resetCostumes();
-    t.equal(a.reorderCostume(2, -1000), true);
-    t.deepEquals(costumeIds(), [2, 0, 1, 3, 4]);
-    t.equals(a.currentCostume, 1); // Index of id=0
-
-    t.end();
+    assert.strictEqual(a.reorderCostume(2, -1000), true);
+    assert.deepEqual(costumeIds(), [2, 0, 1, 3, 4]);
+    assert.strictEqual(a.currentCostume, 1); // Index of id=0
 });
 
-test('#reorderSound', t => {
+test('#reorderSound', () => {
     const o1 = {id: 0, name: 'name0'};
     const o2 = {id: 1, name: 'name1'};
     const o3 = {id: 2, name: 'name2'};
@@ -557,30 +525,28 @@ test('#reorderSound', t => {
     const soundIds = () => a.sprite.sounds.map(c => c.id);
 
     resetSounds();
-    t.deepEquals(soundIds(), [0, 1, 2, 3, 4]);
+    assert.deepEqual(soundIds(), [0, 1, 2, 3, 4]);
 
     // Return false if indices are the same and no change occurred.
-    t.equal(a.reorderSound(3, 3), false);
-    t.equal(a.reorderSound(100000, 99999), false); // Clamped to the same values
-    t.equal(a.reorderSound(-100000, -99999), false);
+    assert.strictEqual(a.reorderSound(3, 3), false);
+    assert.strictEqual(a.reorderSound(100000, 99999), false); // Clamped to the same values
+    assert.strictEqual(a.reorderSound(-100000, -99999), false);
 
     // Make sure reordering up and down works and current sound follows
     resetSounds();
-    t.equal(a.reorderSound(0, 3), true);
-    t.deepEquals(soundIds(), [1, 2, 3, 0, 4]);
+    assert.strictEqual(a.reorderSound(0, 3), true);
+    assert.deepEqual(soundIds(), [1, 2, 3, 0, 4]);
 
     resetSounds();
-    t.equal(a.reorderSound(3, 1), true);
-    t.deepEquals(soundIds(), [0, 3, 1, 2, 4]);
+    assert.strictEqual(a.reorderSound(3, 1), true);
+    assert.deepEqual(soundIds(), [0, 3, 1, 2, 4]);
 
     // Out of bounds indices get clamped
     resetSounds();
-    t.equal(a.reorderSound(10, 0), true);
-    t.deepEquals(soundIds(), [4, 0, 1, 2, 3]);
+    assert.strictEqual(a.reorderSound(10, 0), true);
+    assert.deepEqual(soundIds(), [4, 0, 1, 2, 3]);
 
     resetSounds();
-    t.equal(a.reorderSound(2, -1000), true);
-    t.deepEquals(soundIds(), [2, 0, 1, 3, 4]);
-
-    t.end();
+    assert.strictEqual(a.reorderSound(2, -1000), true);
+    assert.deepEqual(soundIds(), [2, 0, 1, 3, 4]);
 });

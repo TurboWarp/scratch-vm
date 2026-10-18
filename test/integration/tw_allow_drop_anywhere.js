@@ -1,16 +1,16 @@
-const {test} = require('tap');
+const {test} = require('node:test');
 const Runtime = require('../../src/engine/runtime');
 const BlockType = require('../../src/extension-support/block-type');
 
-test('allowDropAnywhere', t => {
+test('allowDropAnywhere', (t, done) => {
     t.plan(2);
 
     const rt = new Runtime();
 
     rt.on('EXTENSION_ADDED', json => {
-        t.equal(json.blocks[0].json.output, 'String');
-        t.equal(json.blocks[1].json.output, null);
-        t.end();
+        t.assert.strictEqual(json.blocks[0].json.output, 'String');
+        t.assert.strictEqual(json.blocks[1].json.output, null);
+        done();
     });
 
     rt._registerExtensionPrimitives({

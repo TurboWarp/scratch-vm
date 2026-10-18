@@ -1,8 +1,9 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Runtime = require('../../src/engine/runtime');
 const Scratch = require('../../src/extension-support/tw-extension-api-common');
 
-test('blockShape', t => {
+test('blockShape', () => {
     const rt = new Runtime();
     rt._registerExtensionPrimitives({
         id: 'shapetest',
@@ -30,9 +31,8 @@ test('blockShape', t => {
     });
 
     const json = rt.getBlocksJSON();
-    t.equal(json.length, 3);
-    t.equal(json[0].outputShape, 1);
-    t.equal(json[1].outputShape, 2);
-    t.equal(json[2].outputShape, 3);
-    t.end();
+    assert.strictEqual(json.length, 3);
+    assert.strictEqual(json[0].outputShape, 1);
+    assert.strictEqual(json[1].outputShape, 2);
+    assert.strictEqual(json[2].outputShape, 3);
 });

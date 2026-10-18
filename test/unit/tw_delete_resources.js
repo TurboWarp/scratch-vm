@@ -1,5 +1,6 @@
 const crypto = require('crypto');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const JSZip = require('@turbowarp/jszip');
 const VirtualMachine = require('../../src/virtual-machine');
 const FakeRenderer = require('../fixtures/fake-renderer');
@@ -139,7 +140,7 @@ const makeVM = async () => {
     return vm;
 };
 
-test('deleting a costume destroys its skin; restoring re-creates it', async t => {
+test('deleting a costume destroys its skin; restoring re-creates it', async () => {
     const vm = await makeVM();
     const target = vm.runtime.getSpriteTargetByName('Sprite1');
     const sprite = target.sprite;
@@ -151,21 +152,19 @@ test('deleting a costume destroys its skin; restoring re-creates it', async t =>
 
     const costume = sprite.costumes[1];
     const skinId = costume.skinId;
-    t.type(skinId, 'number', 'costume has a skin');
+    assert.strictEqual(typeof skinId, 'number', 'costume has a skin');
 
     const restore = vm.deleteCostume(1);
-    t.same(sprite.costumes.map(c => c.name), ['costume1'], 'costume removed');
-    t.ok(vm.runtime.renderer.destroyedSkins.includes(skinId), 'skin destroyed');
-    t.equal(clone.currentCostume, 0, 'clone switched costume');
+    assert.deepEqual(sprite.costumes.map(c => c.name), ['costume1'], 'costume removed');
+    assert.ok(vm.runtime.renderer.destroyedSkins.includes(skinId), 'skin destroyed');
+    assert.strictEqual(clone.currentCostume, 0, 'clone switched costume');
 
     await restore();
-    t.same(sprite.costumes.map(c => c.name), ['costume1', 'costume2'], 'costume restored');
-    t.type(sprite.costumes[1].skinId, 'number', 'restored costume has a new skin');
-
-    t.end();
+    assert.deepEqual(sprite.costumes.map(c => c.name), ['costume1', 'costume2'], 'costume restored');
+    assert.strictEqual(typeof sprite.costumes[1].skinId, 'number', 'restored costume has a new skin');
 });
 
-test('deleting a sound disposes its player; restoring re-decodes it', async t => {
+test('deleting a sound disposes its player; restoring re-decodes it', async () => {
     const vm = await makeVM();
     const target = vm.runtime.getSpriteTargetByName('Sprite1');
     const sprite = target.sprite;
@@ -173,56 +172,50 @@ test('deleting a sound disposes its player; restoring re-decodes it', async t =>
 
     const sound = sprite.sounds[0];
     const soundId = sound.soundId;
-    t.type(soundId, 'string', 'sound has a player');
+    assert.strictEqual(typeof soundId, 'string', 'sound has a player');
 
     const restore = vm.deleteSound(0);
-    t.same(sprite.sounds.map(s => s.name), ['sound2'], 'sound removed');
-    t.same(sprite.soundBank.removedSounds, [soundId], 'player removed from the bank');
+    assert.deepEqual(sprite.sounds.map(s => s.name), ['sound2'], 'sound removed');
+    assert.deepEqual(sprite.soundBank.removedSounds, [soundId], 'player removed from the bank');
 
     await restore();
-    t.same(sprite.sounds.map(s => s.name), ['sound2', 'sound1'], 'sound restored');
+    assert.deepEqual(sprite.sounds.map(s => s.name), ['sound2', 'sound1'], 'sound restored');
     const restored = sprite.sounds[1];
-    t.type(restored.soundId, 'string', 'restored sound has a player');
-    t.ok(sprite.soundBank.soundPlayers[restored.soundId], 'player is in the bank');
-
-    t.end();
+    assert.strictEqual(typeof restored.soundId, 'string', 'restored sound has a player');
+    assert.ok(sprite.soundBank.soundPlayers[restored.soundId], 'player is in the bank');
 });
 
-test('reordering sounds does not dispose their players', async t => {
+test('reordering sounds does not dispose their players', async () => {
     const vm = await makeVM();
     const target = vm.runtime.getSpriteTargetByName('Sprite1');
     const sprite = target.sprite;
 
     target.reorderSound(0, 1);
-    t.same(sprite.sounds.map(s => s.name), ['sound2', 'sound1'], 'sounds reordered');
-    t.same(sprite.soundBank.removedSounds, [], 'no players disposed');
-
-    t.end();
+    assert.deepEqual(sprite.sounds.map(s => s.name), ['sound2', 'sound1'], 'sounds reordered');
+    assert.deepEqual(sprite.soundBank.removedSounds, [], 'no players disposed');
 });
 
-test('deleting a sprite frees all of its resources, including with clones', async t => {
+test('deleting a sprite frees all of its resources, including with clones', async () => {
     const vm = await makeVM();
     const target = vm.runtime.getSpriteTargetByName('Sprite1');
     const sprite = target.sprite;
 
     vm.runtime.addTarget(target.makeClone());
     vm.runtime.addTarget(target.makeClone());
-    t.equal(sprite.clones.length, 3, 'sprite has clones');
+    assert.strictEqual(sprite.clones.length, 3, 'sprite has clones');
 
     const skinIds = sprite.costumes.map(c => c.skinId);
     const soundBank = sprite.soundBank;
 
     vm.deleteSprite(target.id);
-    t.ok(vm.runtime.targets.every(t2 => t2.sprite !== sprite), 'all clones are disposed');
+    assert.ok(vm.runtime.targets.every(t2 => t2.sprite !== sprite), 'all clones are disposed');
     for (const skinId of skinIds) {
-        t.ok(vm.runtime.renderer.destroyedSkins.includes(skinId), `skin ${skinId} destroyed`);
+        assert.ok(vm.runtime.renderer.destroyedSkins.includes(skinId), `skin ${skinId} destroyed`);
     }
-    t.ok(soundBank.disposed, 'sound bank disposed');
-
-    t.end();
+    assert.ok(soundBank.disposed, 'sound bank disposed');
 });
 
-test('loading a new project frees the resources of the previous one', async t => {
+test('loading a new project frees the resources of the previous one', async () => {
     const vm = await makeVM();
     const skinIds = [];
     for (const target of vm.runtime.targets) {
@@ -231,18 +224,16 @@ test('loading a new project frees the resources of the previous one', async t =>
         }
     }
     const soundBank = vm.runtime.getSpriteTargetByName('Sprite1').sprite.soundBank;
-    t.ok(skinIds.length >= 3, 'previous project had skins');
+    assert.ok(skinIds.length >= 3, 'previous project had skins');
 
     await vm.loadProject(await makeProjectZip());
     for (const skinId of skinIds) {
-        t.ok(vm.runtime.renderer.destroyedSkins.includes(skinId), `skin ${skinId} destroyed`);
+        assert.ok(vm.runtime.renderer.destroyedSkins.includes(skinId), `skin ${skinId} destroyed`);
     }
-    t.ok(soundBank.disposed, 'sound bank disposed');
-
-    t.end();
+    assert.ok(soundBank.disposed, 'sound bank disposed');
 });
 
-test('restoring a costume that has no md5', async t => {
+test('restoring a costume that has no md5', async () => {
     const vm = await makeVM();
     const target = vm.runtime.getSpriteTargetByName('Sprite1');
     const sprite = target.sprite;
@@ -255,16 +246,14 @@ test('restoring a costume that has no md5', async t => {
         rotationCenterX: 5,
         rotationCenterY: 5
     });
-    t.notOk(sprite.costumes[2].md5, 'costume has no md5');
+    assert.ok(!sprite.costumes[2].md5, 'costume has no md5');
 
     const restore = vm.deleteCostume(2);
     await restore();
-    t.same(sprite.costumes.map(c => c.name), ['costume1', 'costume2', 'library'], 'costume restored');
-
-    t.end();
+    assert.deepEqual(sprite.costumes.map(c => c.name), ['costume1', 'costume2', 'library'], 'costume restored');
 });
 
-test('restoring after the sprite is deleted does not leak', async t => {
+test('restoring after the sprite is deleted does not leak', async () => {
     const vm = await makeVM();
     const target = vm.runtime.getSpriteTargetByName('Sprite1');
     const sprite = target.sprite;
@@ -282,16 +271,14 @@ test('restoring after the sprite is deleted does not leak', async t => {
     await costumePromise;
     await soundPromise;
 
-    t.same(sprite.costumes, [], 'costume not added to deleted sprite');
-    t.same(sprite.sounds, [], 'sound not added to deleted sprite');
-    t.not(deletedCostume.skinId, oldSkinId, 'restore created a new skin');
-    t.ok(vm.runtime.renderer.destroyedSkins.includes(deletedCostume.skinId), 'new skin destroyed');
-    t.ok(soundBank.removedSounds.includes(deletedSound.soundId), 'restored player removed from bank');
-
-    t.end();
+    assert.deepEqual(sprite.costumes, [], 'costume not added to deleted sprite');
+    assert.deepEqual(sprite.sounds, [], 'sound not added to deleted sprite');
+    assert.notStrictEqual(deletedCostume.skinId, oldSkinId, 'restore created a new skin');
+    assert.ok(vm.runtime.renderer.destroyedSkins.includes(deletedCostume.skinId), 'new skin destroyed');
+    assert.ok(soundBank.removedSounds.includes(deletedSound.soundId), 'restored player removed from bank');
 });
 
-test('deleting the editing sprite while it has clones', async t => {
+test('deleting the editing sprite while it has clones', async () => {
     const vm = await makeVM();
     const stage = vm.runtime.getTargetForStage();
     const target = vm.runtime.getSpriteTargetByName('Sprite1');
@@ -299,20 +286,16 @@ test('deleting the editing sprite while it has clones', async t => {
     vm.runtime.addTarget(target.makeClone());
 
     vm.deleteSprite(target.id);
-    t.equal(vm.editingTarget, stage, 'editing target moved to the stage');
-
-    t.end();
+    assert.strictEqual(vm.editingTarget, stage, 'editing target moved to the stage');
 });
 
-test('deleting a sprite does not modify previously returned costume or sound lists', async t => {
+test('deleting a sprite does not modify previously returned costume or sound lists', async () => {
     const vm = await makeVM();
     const target = vm.runtime.getSpriteTargetByName('Sprite1');
     const costumes = target.getCostumes();
     const sounds = target.getSounds();
 
     vm.deleteSprite(target.id);
-    t.equal(costumes.length, 2);
-    t.equal(sounds.length, 2);
-
-    t.end();
+    assert.strictEqual(costumes.length, 2);
+    assert.strictEqual(sounds.length, 2);
 });

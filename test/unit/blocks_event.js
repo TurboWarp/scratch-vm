@@ -1,4 +1,5 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 
 const Blocks = require('../../src/engine/blocks');
 const BlockUtility = require('../../src/engine/block-utility');
@@ -65,43 +66,41 @@ test('#760 - broadcastAndWait', t => {
 
     // creates threads
     e.broadcastAndWait({BROADCAST_OPTION: {id: 'testBroadcastID', name: 'message'}}, util);
-    t.strictEqual(rt.threads.length, 2);
-    t.strictEqual(rt.threads[1].topBlock, 'receiveMessageBlock');
+    assert.strictEqual(rt.threads.length, 2);
+    assert.strictEqual(rt.threads[1].topBlock, 'receiveMessageBlock');
     // yields when some thread is active
-    t.strictEqual(th.status, Thread.STATUS_YIELD);
+    assert.strictEqual(th.status, Thread.STATUS_YIELD);
     th.status = Thread.STATUS_RUNNING;
     e.broadcastAndWait({BROADCAST_OPTION: {id: 'testBroadcastID', name: 'message'}}, util);
-    t.strictEqual(th.status, Thread.STATUS_YIELD);
+    assert.strictEqual(th.status, Thread.STATUS_YIELD);
     // does not yield once all threads are done
     th.status = Thread.STATUS_RUNNING;
     rt.threads[1].status = Thread.STATUS_DONE;
     rt.threads.splice(1, 1);
     e.broadcastAndWait({BROADCAST_OPTION: {id: 'testBroadcastID', name: 'message'}}, util);
-    t.strictEqual(th.status, Thread.STATUS_RUNNING);
+    assert.strictEqual(th.status, Thread.STATUS_RUNNING);
 
     // restarts done threads that are in runtime threads
     rt.updateThreadMap();
     th = rt._pushThread('broadcastAndWaitBlock', tgt);
     util.thread = th;
     e.broadcastAndWait({BROADCAST_OPTION: {id: 'testBroadcastID', name: 'message'}}, util);
-    t.strictEqual(rt.threads.length, 3);
-    t.strictEqual(rt.threads[2].status, Thread.STATUS_RUNNING);
-    t.strictEqual(th.status, Thread.STATUS_YIELD);
+    assert.strictEqual(rt.threads.length, 3);
+    assert.strictEqual(rt.threads[2].status, Thread.STATUS_RUNNING);
+    assert.strictEqual(th.status, Thread.STATUS_YIELD);
     // yields when some restarted thread is active
     th.status = Thread.STATUS_RUNNING;
     e.broadcastAndWait({BROADCAST_OPTION: {id: 'testBroadcastID', name: 'message'}}, util);
-    t.strictEqual(th.status, Thread.STATUS_YIELD);
+    assert.strictEqual(th.status, Thread.STATUS_YIELD);
     // does not yield once all threads are done
     th.status = Thread.STATUS_RUNNING;
     rt.threads[2].status = Thread.STATUS_DONE;
     rt.threads.splice(2, 1);
     e.broadcastAndWait({BROADCAST_OPTION: {id: 'testBroadcastID', name: 'message'}}, util);
-    t.strictEqual(th.status, Thread.STATUS_RUNNING);
-
-    t.end();
+    assert.strictEqual(th.status, Thread.STATUS_RUNNING);
 });
 
-test('When > hat - loudness', t => {
+test('When > hat - loudness', () => {
     const rt = new Runtime();
     rt.audioEngine = {getLoudness: () => 10};
     const e = new Event(rt);
@@ -109,8 +108,7 @@ test('When > hat - loudness', t => {
         WHENGREATERTHANMENU: 'LOUDNESS',
         VALUE: '11'
     };
-    t.equal(e.hatGreaterThanPredicate(args), false);
+    assert.strictEqual(e.hatGreaterThanPredicate(args), false);
     args.VALUE = '5';
-    t.equal(e.hatGreaterThanPredicate(args), true);
-    t.end();
+    assert.strictEqual(e.hatGreaterThanPredicate(args), true);
 });

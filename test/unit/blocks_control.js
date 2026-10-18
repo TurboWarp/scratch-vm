@@ -1,16 +1,16 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Control = require('../../src/blocks/scratch3_control');
 const Runtime = require('../../src/engine/runtime');
 const BlockUtility = require('../../src/engine/block-utility');
 
-test('getPrimitives', t => {
+test('getPrimitives', () => {
     const rt = new Runtime();
     const c = new Control(rt);
-    t.type(c.getPrimitives(), 'object');
-    t.end();
+    assert.strictEqual(typeof c.getPrimitives(), 'object');
 });
 
-test('repeat', t => {
+test('repeat', () => {
     const rt = new Runtime();
     const c = new Control(rt);
 
@@ -27,12 +27,11 @@ test('repeat', t => {
 
     // Execute test
     c.repeat({TIMES: 10}, util);
-    t.strictEqual(util.stackFrame.loopCounter, -1);
-    t.strictEqual(i, repeat);
-    t.end();
+    assert.strictEqual(util.stackFrame.loopCounter, -1);
+    assert.strictEqual(i, repeat);
 });
 
-test('repeat rounds with round()', t => {
+test('repeat rounds with round()', () => {
     const rt = new Runtime();
     const c = new Control(rt);
 
@@ -49,17 +48,16 @@ test('repeat rounds with round()', t => {
 
         // Execute test
         c.repeat({TIMES: inputForRepeat}, util);
-        t.strictEqual(i, expectedTimes);
+        assert.strictEqual(i, expectedTimes);
     };
 
     // Execute tests
     roundingTest(3.2, 3);
     roundingTest(3.7, 4);
     roundingTest(3.5, 4);
-    t.end();
 });
 
-test('repeatUntil', t => {
+test('repeatUntil', () => {
     const rt = new Runtime();
     const c = new Control(rt);
 
@@ -76,11 +74,10 @@ test('repeatUntil', t => {
 
     // Execute test
     c.repeatUntil({CONDITION: (i === repeat)}, util);
-    t.strictEqual(i, repeat);
-    t.end();
+    assert.strictEqual(i, repeat);
 });
 
-test('repeatWhile', t => {
+test('repeatWhile', () => {
     const rt = new Runtime();
     const c = new Control(rt);
 
@@ -98,11 +95,10 @@ test('repeatWhile', t => {
 
     // Execute test
     c.repeatWhile({CONDITION: (i !== repeat)}, util);
-    t.strictEqual(i, repeat);
-    t.end();
+    assert.strictEqual(i, repeat);
 });
 
-test('forEach', t => {
+test('forEach', () => {
     const rt = new Runtime();
     const c = new Control(rt);
 
@@ -129,7 +125,7 @@ test('forEach', t => {
     variable.value = 0;
     value = '5';
     c.forEach({VARIABLE: {}, VALUE: value}, util);
-    t.deepEqual(variableValues, [1, 2, 3, 4, 5]);
+    assert.deepEqual(variableValues, [1, 2, 3, 4, 5]);
 
     // for each (variable) in 4
     // ..should yield variable values 1, 2, 3, 4
@@ -138,12 +134,10 @@ test('forEach', t => {
     variable.value = 0;
     value = 4;
     c.forEach({VARIABLE: {}, VALUE: value}, util);
-    t.deepEqual(variableValues, [1, 2, 3, 4]);
-
-    t.end();
+    assert.deepEqual(variableValues, [1, 2, 3, 4]);
 });
 
-test('forever', t => {
+test('forever', () => {
     const rt = new Runtime();
     const c = new Control(rt);
 
@@ -152,18 +146,17 @@ test('forever', t => {
     const util = {
         startBranch: function (branchNum, isLoop) {
             i++;
-            t.strictEqual(branchNum, 1);
-            t.strictEqual(isLoop, true);
+            assert.strictEqual(branchNum, 1);
+            assert.strictEqual(isLoop, true);
         }
     };
 
     // Execute test
     c.forever(null, util);
-    t.strictEqual(i, 1);
-    t.end();
+    assert.strictEqual(i, 1);
 });
 
-test('if / ifElse', t => {
+test('if / ifElse', () => {
     const rt = new Runtime();
     const c = new Control(rt);
 
@@ -177,17 +170,16 @@ test('if / ifElse', t => {
 
     // Execute test
     c.if({CONDITION: true}, util);
-    t.strictEqual(i, 1);
+    assert.strictEqual(i, 1);
     c.if({CONDITION: false}, util);
-    t.strictEqual(i, 1);
+    assert.strictEqual(i, 1);
     c.ifElse({CONDITION: true}, util);
-    t.strictEqual(i, 2);
+    assert.strictEqual(i, 2);
     c.ifElse({CONDITION: false}, util);
-    t.strictEqual(i, 4);
-    t.end();
+    assert.strictEqual(i, 4);
 });
 
-test('stop', t => {
+test('stop', () => {
     const rt = new Runtime();
     const c = new Control(rt);
 
@@ -214,30 +206,27 @@ test('stop', t => {
     c.stop({STOP_OPTION: 'other scripts in sprite'}, util);
     c.stop({STOP_OPTION: 'other scripts in stage'}, util);
     c.stop({STOP_OPTION: 'this script'}, util);
-    t.strictEqual(state.stopAll, 1);
-    t.strictEqual(state.stopOtherTargetThreads, 2);
-    t.strictEqual(state.stopThisScript, 1);
-    t.end();
+    assert.strictEqual(state.stopAll, 1);
+    assert.strictEqual(state.stopOtherTargetThreads, 2);
+    assert.strictEqual(state.stopThisScript, 1);
 });
 
-test('counter, incrCounter, clearCounter', t => {
+test('counter, incrCounter, clearCounter', () => {
     const rt = new Runtime();
     const c = new Control(rt);
 
     // Default value
-    t.strictEqual(c.getCounter(), 0);
+    assert.strictEqual(c.getCounter(), 0);
 
     c.incrCounter();
     c.incrCounter();
-    t.strictEqual(c.getCounter(), 2);
+    assert.strictEqual(c.getCounter(), 2);
 
     c.clearCounter();
-    t.strictEqual(c.getCounter(), 0);
-
-    t.end();
+    assert.strictEqual(c.getCounter(), 0);
 });
 
-test('allAtOnce', t => {
+test('allAtOnce', () => {
     const rt = new Runtime();
     const c = new Control(rt);
 
@@ -251,11 +240,10 @@ test('allAtOnce', t => {
 
     // Execute test
     c.allAtOnce({}, util);
-    t.true(ran);
-    t.end();
+    assert.ok(ran);
 });
 
-test('wait', t => {
+test('wait', () => {
     const rt = new Runtime();
     const c = new Control(rt);
     const args = {DURATION: .01};
@@ -274,7 +262,7 @@ test('wait', t => {
     };
 
     c.wait(args, mockUtil);
-    t.equal(yields, 1, 'First wait block yielded');
+    assert.strictEqual(yields, 1, 'First wait block yielded');
 
     // Spin the cpu until enough time passes
     let timeElapsed = 0;
@@ -287,11 +275,10 @@ test('wait', t => {
     }
 
     c.wait(args, mockUtil);
-    t.equal(yields, 1, 'Second call after timeElapsed does not yield');
-    t.equal(waitTime, mockUtil.stackFrame.duration);
-    t.ok(timeElapsed >= (waitTime - thresholdSmall),
+    assert.strictEqual(yields, 1, 'Second call after timeElapsed does not yield');
+    assert.strictEqual(waitTime, mockUtil.stackFrame.duration);
+    assert.ok(timeElapsed >= (waitTime - thresholdSmall),
         `Wait block ended too early: ${timeElapsed} < ${waitTime} - ${thresholdSmall}`);
-    t.ok(timeElapsed <= (waitTime + thresholdLarge),
+    assert.ok(timeElapsed <= (waitTime + thresholdLarge),
         `Wait block ended too late: ${timeElapsed} > ${waitTime} + ${thresholdLarge}`);
-    t.end();
 });

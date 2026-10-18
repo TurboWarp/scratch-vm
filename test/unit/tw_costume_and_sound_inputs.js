@@ -1,4 +1,5 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Runtime = require('../../src/engine/runtime');
 const BlockType = require('../../src/extension-support/block-type');
 const ArgumentType = require('../../src/extension-support/argument-type');
@@ -38,20 +39,20 @@ const extension = {
     ]
 };
 
-test('COSTUME and SOUND inputs generate correct scratch-blocks XML', t => {
+test('COSTUME and SOUND inputs generate correct scratch-blocks XML', (t, done) => {
     const rt = new Runtime();
     rt.on('EXTENSION_ADDED', info => {
         /* eslint-disable max-len */
-        t.equal(
+        assert.strictEqual(
             info.blocks[0].xml,
             '<block type="costumesoundtest_costume"><value name="a"><shadow type="looks_costume"></shadow></value><value name="b"><shadow type="looks_costume"><field name="COSTUME">default costume</field></shadow></value></block>'
         );
-        t.equal(
+        assert.strictEqual(
             info.blocks[1].xml,
             '<block type="costumesoundtest_sound"><value name="a"><shadow type="sound_sounds_menu"></shadow></value><value name="b"><shadow type="sound_sounds_menu"><field name="SOUND_MENU">default sound</field></shadow></value></block>'
         );
         /* eslint-enable max-len */
-        t.end();
+        done();
     });
     rt._registerExtensionPrimitives(extension);
 });

@@ -1,9 +1,8 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VirtualMachine = require('../../src/virtual-machine');
 
-test('Loading project uses default extension URLs', t => {
-    t.plan(1);
-
+test('Loading project uses default extension URLs', async () => {
     const vm = new VirtualMachine();
     const events = [];
     vm.securityManager.canLoadExtensionFromProject = url => {
@@ -15,7 +14,7 @@ test('Loading project uses default extension URLs', t => {
         return Promise.resolve();
     };
 
-    vm.loadProject({
+    await vm.loadProject({
         targets: [
             {
                 isStage: true,
@@ -91,14 +90,11 @@ test('Loading project uses default extension URLs', t => {
             vm: '0.2.0',
             agent: ''
         }
-    }).then(() => {
-        t.same(events, [
-            'canLoadExtensionFromProject https://extensions.turbowarp.org/lab/text.js',
-            'loadExtensionURL https://extensions.turbowarp.org/lab/text.js',
-            'canLoadExtensionFromProject https://example.com/box2d.js',
-            'loadExtensionURL https://example.com/box2d.js'
-        ]);
-
-        t.end();
     });
+    assert.deepEqual(events, [
+        'canLoadExtensionFromProject https://extensions.turbowarp.org/lab/text.js',
+        'loadExtensionURL https://extensions.turbowarp.org/lab/text.js',
+        'canLoadExtensionFromProject https://example.com/box2d.js',
+        'loadExtensionURL https://example.com/box2d.js'
+    ]);
 });

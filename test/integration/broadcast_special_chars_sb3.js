@@ -1,5 +1,6 @@
 const path = require('path');
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const readFileToBuffer = require('../fixtures/readProjectFile').readFileToBuffer;
 const VirtualMachine = require('../../src/index');
@@ -10,16 +11,16 @@ const VariableUtil = require('../../src/util/variable-util');
 const projectUri = path.resolve(__dirname, '../fixtures/broadcast_special_chars.sb3');
 const project = readFileToBuffer(projectUri);
 
-test('importing sb3 project with special chars in message names', t => {
+test('importing sb3 project with special chars in message names', (t, done) => {
     const vm = new VirtualMachine();
     vm.attachStorage(makeTestStorage());
 
     // Evaluate playground data and exit
     vm.on('playgroundData', e => {
         const threads = JSON.parse(e.threads);
-        t.equal(threads.length, 0);
+        assert.strictEqual(threads.length, 0);
 
-        t.equal(vm.runtime.targets.length, 2);
+        assert.strictEqual(vm.runtime.targets.length, 2);
 
         const stage = vm.runtime.targets[0];
         const cat = vm.runtime.targets[1];
@@ -31,13 +32,13 @@ test('importing sb3 project with special chars in message names', t => {
         // Check for unsafe characters, replaceUnsafeChars should just result in the original string
         // (e.g. there was nothing to replace)
         // Check that the message ID does not have any unsafe characters
-        t.equal(StringUtil.replaceUnsafeChars(abMessageId), abMessageId);
+        assert.strictEqual(StringUtil.replaceUnsafeChars(abMessageId), abMessageId);
 
         // Check that the message still has the correct info
-        t.equal(StringUtil.replaceUnsafeChars(abMessage.id), abMessage.id);
-        t.equal(abMessage.id, abMessageId);
-        t.equal(abMessage.type, Variable.BROADCAST_MESSAGE_TYPE);
-        t.equal(abMessage.value, 'a&b');
+        assert.strictEqual(StringUtil.replaceUnsafeChars(abMessage.id), abMessage.id);
+        assert.strictEqual(abMessage.id, abMessageId);
+        assert.strictEqual(abMessage.type, Variable.BROADCAST_MESSAGE_TYPE);
+        assert.strictEqual(abMessage.value, 'a&b');
 
 
         const ltPerfectMessageId = Object.keys(stage.variables).filter(k => stage.variables[k].name === '< perfect')[0];
@@ -45,31 +46,31 @@ test('importing sb3 project with special chars in message names', t => {
         // Check for unsafe characters, replaceUnsafeChars should just result in the original string
         // (e.g. there was nothing to replace)
         // Check that the message ID does not have any unsafe characters
-        t.equal(StringUtil.replaceUnsafeChars(ltPerfectMessageId), ltPerfectMessageId);
+        assert.strictEqual(StringUtil.replaceUnsafeChars(ltPerfectMessageId), ltPerfectMessageId);
 
         // Check that the message still has the correct info
-        t.equal(StringUtil.replaceUnsafeChars(ltPerfectMessage.id), ltPerfectMessage.id);
-        t.equal(ltPerfectMessage.id, ltPerfectMessageId);
-        t.equal(ltPerfectMessage.type, Variable.BROADCAST_MESSAGE_TYPE);
-        t.equal(ltPerfectMessage.value, '< perfect');
+        assert.strictEqual(StringUtil.replaceUnsafeChars(ltPerfectMessage.id), ltPerfectMessage.id);
+        assert.strictEqual(ltPerfectMessage.id, ltPerfectMessageId);
+        assert.strictEqual(ltPerfectMessage.type, Variable.BROADCAST_MESSAGE_TYPE);
+        assert.strictEqual(ltPerfectMessage.value, '< perfect');
 
         // Find all the references for these messages, and verify they have the correct ID
-        t.equal(allBroadcastFields[ltPerfectMessageId].length, 1);
-        t.equal(allBroadcastFields[abMessageId].length, 1);
+        assert.strictEqual(allBroadcastFields[ltPerfectMessageId].length, 1);
+        assert.strictEqual(allBroadcastFields[abMessageId].length, 1);
         const catBlocks = Object.keys(cat.blocks._blocks).map(blockId => cat.blocks._blocks[blockId]);
         const catMessageBlocks = catBlocks.filter(
             block => Object.prototype.hasOwnProperty.call(block.fields, 'BROADCAST_OPTION')
         );
-        t.equal(catMessageBlocks.length, 2);
-        t.equal(catMessageBlocks[0].fields.BROADCAST_OPTION.id, ltPerfectMessageId);
-        t.equal(catMessageBlocks[1].fields.BROADCAST_OPTION.id, abMessageId);
+        assert.strictEqual(catMessageBlocks.length, 2);
+        assert.strictEqual(catMessageBlocks[0].fields.BROADCAST_OPTION.id, ltPerfectMessageId);
+        assert.strictEqual(catMessageBlocks[1].fields.BROADCAST_OPTION.id, abMessageId);
 
         vm.quit();
-        t.end();
+        done();
     });
 
     // Start VM, load project, and run
-    t.doesNotThrow(() => {
+    assert.doesNotThrow(() => {
         vm.start();
         vm.clear();
         vm.setCompatibilityMode(false);

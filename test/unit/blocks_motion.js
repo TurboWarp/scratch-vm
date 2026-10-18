@@ -1,17 +1,17 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Motion = require('../../src/blocks/scratch3_motion');
 const Runtime = require('../../src/engine/runtime');
 const Sprite = require('../../src/sprites/sprite.js');
 const RenderedTarget = require('../../src/sprites/rendered-target.js');
 
-test('getPrimitives', t => {
+test('getPrimitives', () => {
     const rt = new Runtime();
     const motion = new Motion(rt);
-    t.type(motion.getPrimitives(), 'object');
-    t.end();
+    assert.strictEqual(typeof motion.getPrimitives(), 'object');
 });
 
-test('Coordinates have limited precision', t => {
+test('Coordinates have limited precision', () => {
     const rt = new Runtime();
     const motion = new Motion(rt);
     const sprite = new Sprite(null, rt);
@@ -20,7 +20,6 @@ test('Coordinates have limited precision', t => {
 
     motion.goToXY({X: 0.999999999, Y: 0.999999999}, util);
 
-    t.equals(motion.getX({}, util), 1);
-    t.equals(motion.getY({}, util), 1);
-    t.end();
+    assert.strictEqual(motion.getX({}, util), 1);
+    assert.strictEqual(motion.getY({}, util), 1);
 });

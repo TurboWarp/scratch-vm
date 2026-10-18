@@ -1,9 +1,10 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Runtime = require('../../src/engine/runtime');
 const BlockType = require('../../src/extension-support/block-type');
 const ArgumentType = require('../../src/extension-support/argument-type');
 
-test('Boolean blocks can be monitors', t => {
+test('Boolean blocks can be monitors', () => {
     const rt = new Runtime();
     rt._registerExtensionPrimitives({
         id: 'testextension',
@@ -52,12 +53,11 @@ test('Boolean blocks can be monitors', t => {
     });
 
     const json = rt.getBlocksJSON();
-    t.equal(json.length, 6);
-    t.equal(json[0].checkboxInFlyout, true);
-    t.equal(json[1].checkboxInFlyout, undefined);
-    t.equal(json[2].checkboxInFlyout, undefined);
-    t.equal(json[3].checkboxInFlyout, true);
-    t.equal(json[4].checkboxInFlyout, undefined);
-    t.equal(json[5].checkboxInFlyout, undefined);
-    t.end();
+    assert.strictEqual(json.length, 6);
+    assert.strictEqual(json[0].checkboxInFlyout, true);
+    assert.strictEqual(json[1].checkboxInFlyout, undefined);
+    assert.strictEqual(json[2].checkboxInFlyout, undefined);
+    assert.strictEqual(json[3].checkboxInFlyout, true);
+    assert.strictEqual(json[4].checkboxInFlyout, undefined);
+    assert.strictEqual(json[5].checkboxInFlyout, undefined);
 });

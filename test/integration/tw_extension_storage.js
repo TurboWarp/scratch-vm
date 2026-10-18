@@ -1,4 +1,5 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const fs = require('fs');
 const path = require('path');
 const VirtualMachine = require('../../src/virtual-machine');
@@ -7,7 +8,7 @@ const RenderedTarget = require('../../src/sprites/rendered-target');
 const sb3 = require('../../src/serialization/sb3');
 const Runtime = require('../../src/engine/runtime');
 
-test('serialize data', t => {
+test('serialize data', () => {
     const vm = new VirtualMachine();
     const rt = vm.runtime;
 
@@ -16,8 +17,8 @@ test('serialize data', t => {
     rt.addTarget(target1);
     rt.addTarget(target2);
 
-    t.same(sb3.serialize(rt).extensionStorage, undefined, 'global - nothing when no extensions');
-    t.same(
+    assert.deepEqual(sb3.serialize(rt).extensionStorage, undefined, 'global - nothing when no extensions');
+    assert.deepEqual(
         sb3.serialize(rt).targets.map(i => i.extensionStorage),
         [undefined, undefined],
         'sprites - nothing when no extensions'
@@ -42,8 +43,8 @@ test('serialize data', t => {
         })
     });
 
-    t.same(sb3.serialize(rt).extensionStorage, undefined, 'global - nothing when no storage');
-    t.same(
+    assert.deepEqual(sb3.serialize(rt).extensionStorage, undefined, 'global - nothing when no storage');
+    assert.deepEqual(
         sb3.serialize(rt).targets.map(i => i.extensionStorage),
         [undefined, undefined],
         'sprites - nothing when no storage'
@@ -70,16 +71,16 @@ test('serialize data', t => {
     });
 
     target1.extensionStorage.test1 = 1234321;
-    t.same(sb3.serialize(rt, target1.id).extensionStorage, {
+    assert.deepEqual(sb3.serialize(rt, target1.id).extensionStorage, {
         test1: 1234321
     }, 'target1 alone has test1');
-    t.same(sb3.serialize(rt, target2.id).extensionStorage, undefined, 'target2 alone does not have test1');
+    assert.deepEqual(sb3.serialize(rt, target2.id).extensionStorage, undefined, 'target2 alone does not have test1');
 
     target1.extensionStorage.test1 = null;
-    t.same(sb3.serialize(rt, target1.id).extensionStorage, undefined, 'null is not serialized');
+    assert.deepEqual(sb3.serialize(rt, target1.id).extensionStorage, undefined, 'null is not serialized');
 
     target1.extensionStorage.test1 = undefined;
-    t.same(sb3.serialize(rt, target1.id).extensionStorage, undefined, 'undefined is not serialized');
+    assert.deepEqual(sb3.serialize(rt, target1.id).extensionStorage, undefined, 'undefined is not serialized');
 
     target1.extensionStorage.test1 = {it: 'works'};
     target1.extensionStorage.test2 = true;
@@ -94,10 +95,10 @@ test('serialize data', t => {
     rt.extensionStorage.test3 = ['dont save this'];
 
     const json = sb3.serialize(rt);
-    t.same(json.extensionStorage, {
+    assert.deepEqual(json.extensionStorage, {
         test1: 'global ok'
     }, 'final - global has test1');
-    t.same(json.targets.map(i => i.extensionStorage), [
+    assert.deepEqual(json.targets.map(i => i.extensionStorage), [
         {
             test1: {
                 it: 'works'
@@ -109,10 +110,9 @@ test('serialize data', t => {
         }
     ], 'final - targets ok');
     
-    t.end();
 });
 
-test('deserialize project with data', t => {
+test('deserialize project with data', async () => {
     const vm = new VirtualMachine();
 
     vm.extensionManager._registerInternalExtension({
@@ -140,39 +140,33 @@ test('deserialize project with data', t => {
     vm.extensionManager._loadedExtensions.set('test3', 'invalid');
 
     const fixture = fs.readFileSync(path.resolve(__dirname, '../fixtures/tw-extension-storage.sb3'));
-    vm.loadProject(fixture).then(() => {
-        t.same(vm.runtime.extensionStorage, {
-            test1: 'global ok'
-        }, 'deserialized global');
-        t.same(vm.runtime.targets[0].extensionStorage, {
-            test1: {
-                it: 'works'
-            },
-            test2: true
-        }, 'deserialized target 0');
-        t.same(vm.runtime.targets[1].extensionStorage, {
-            test1: ['ok']
-        }, 'deserialized target 1');
-        t.same(vm.runtime.targets[2].extensionStorage, {}, 'deserialized target 2');
-
-        t.end();
-    });
+    await vm.loadProject(fixture);
+    assert.deepEqual(vm.runtime.extensionStorage, {
+        test1: 'global ok'
+    }, 'deserialized global');
+    assert.deepEqual(vm.runtime.targets[0].extensionStorage, {
+        test1: {
+            it: 'works'
+        },
+        test2: true
+    }, 'deserialized target 0');
+    assert.deepEqual(vm.runtime.targets[1].extensionStorage, {
+        test1: ['ok']
+    }, 'deserialized target 1');
+    assert.deepEqual(vm.runtime.targets[2].extensionStorage, {}, 'deserialized target 2');
 });
 
-test('deserialize project with no data', t => {
+test('deserialize project with no data', async () => {
     const vm = new VirtualMachine();
     const fixture = fs.readFileSync(path.resolve(__dirname, '../fixtures/tw-extension-storage-no-data.sb3'));
-    vm.loadProject(fixture).then(() => {
-        t.same(vm.runtime.extensionStorage, {}, 'deserialized global');
-        t.same(vm.runtime.targets[0].extensionStorage, {}, 'deserialized target 0');
-        t.end();
-    });
+    await vm.loadProject(fixture);
+    assert.deepEqual(vm.runtime.extensionStorage, {}, 'deserialized global');
+    assert.deepEqual(vm.runtime.targets[0].extensionStorage, {}, 'deserialized target 0');
 });
 
-test('dispose resets storage', t => {
+test('dispose resets storage', () => {
     const runtime = new Runtime();
     runtime.extensionStorage.something = 3;
     runtime.dispose();
-    t.same(runtime.extensionStorage, {});
-    t.end();
+    assert.deepEqual(runtime.extensionStorage, {});
 });

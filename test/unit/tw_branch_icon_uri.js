@@ -1,8 +1,9 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VirtualMachine = require('../../src/virtual-machine');
 const BlockType = require('../../src/extension-support/block-type');
 
-test('branchIconURI', t => {
+test('branchIconURI', () => {
     const vm = new VirtualMachine();
     vm.extensionManager._registerInternalExtension({
         getInfo: () => ({
@@ -37,10 +38,8 @@ test('branchIconURI', t => {
     });
 
     const blocks = vm.runtime.getBlocksJSON();
-    t.equal(blocks[0].args2[0].src, 'media://repeat.svg', 'default custom icon');
-    t.equal(blocks[1].args2[0].src, 'data:whatever1', 'LOOP with custom icon');
-    t.equal(blocks[2].args2[0].src, 'data:whatever2', 'CONDITIONAL with custom icon');
-    t.same(blocks[3].args2, null, 'LOOP with no icon');
-
-    t.end();
+    assert.strictEqual(blocks[0].args2[0].src, 'media://repeat.svg', 'default custom icon');
+    assert.strictEqual(blocks[1].args2[0].src, 'data:whatever1', 'LOOP with custom icon');
+    assert.strictEqual(blocks[2].args2[0].src, 'data:whatever2', 'CONDITIONAL with custom icon');
+    assert.deepEqual(blocks[3].args2, null, 'LOOP with no icon');
 });

@@ -1,11 +1,10 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VirtualMachine = require('../../src/virtual-machine');
 const RenderedTarget = require('../../src/sprites/rendered-target');
 const Sprite = require('../../src/sprites/sprite');
 
-test('Serializes custom extensions', t => {
-    t.plan(6);
-
+test('Serializes custom extensions', () => {
     const vm = new VirtualMachine();
 
     // Trick the extension manager into thinking a couple extensions are loaded.
@@ -28,21 +27,19 @@ test('Serializes custom extensions', t => {
     // test2 isn't used, so it shouldn't be included in the JSON
 
     const serializedProject = JSON.parse(vm.toJSON());
-    t.same(serializedProject.extensions, ['test1'], 'save extension IDs for project');
-    t.same(serializedProject.extensionURLs, {
+    assert.deepEqual(serializedProject.extensions, ['test1'], 'save extension IDs for project');
+    assert.deepEqual(serializedProject.extensionURLs, {
         test1: 'https://example.com/test1.js'
     }, 'save extension URLs for project');
 
     const serializedTargetWithBlock = JSON.parse(vm.toJSON(targetUsingBlock.id));
-    t.same(serializedTargetWithBlock.extensions, ['test1'], 'save extension IDs for sprite');
-    t.same(serializedTargetWithBlock.extensionURLs, {
+    assert.deepEqual(serializedTargetWithBlock.extensions, ['test1'], 'save extension IDs for sprite');
+    assert.deepEqual(serializedTargetWithBlock.extensionURLs, {
         test1: 'https://example.com/test1.js'
     }, 'save extension URLs for sprite');
 
     // other sprite uses no extensions, so don't want extension stuff in the JSON
     const serializedTargetWithoutBlock = JSON.parse(vm.toJSON(targetNotUsingBlock.id));
-    t.notOk('extensions' in serializedTargetWithoutBlock, 'dont save extension IDs for empty sprite');
-    t.notOk('extensionURLs' in serializedTargetWithoutBlock, 'dont save extension URLs for empty sprite');
-
-    t.end();
+    assert.ok(!('extensions' in serializedTargetWithoutBlock), 'dont save extension IDs for empty sprite');
+    assert.ok(!('extensionURLs' in serializedTargetWithoutBlock), 'dont save extension URLs for empty sprite');
 });

@@ -1,44 +1,38 @@
 const ScratchCommon = require('../../src/extension-support/tw-extension-api-common');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 
-test('ArgumentType', t => {
-    t.equal(ScratchCommon.ArgumentType.ANGLE, 'angle');
-    t.end();
+test('ArgumentType', () => {
+    assert.strictEqual(ScratchCommon.ArgumentType.ANGLE, 'angle');
 });
 
-test('BlockType', t => {
-    t.equal(ScratchCommon.BlockType.BOOLEAN, 'Boolean');
-    t.end();
+test('BlockType', () => {
+    assert.strictEqual(ScratchCommon.BlockType.BOOLEAN, 'Boolean');
 });
 
-test('TargetType', t => {
-    t.equal(ScratchCommon.TargetType.SPRITE, 'sprite');
-    t.end();
+test('TargetType', () => {
+    assert.strictEqual(ScratchCommon.TargetType.SPRITE, 'sprite');
 });
 
-test('Cast', t => {
+test('Cast', () => {
     // Cast is thoroughly tested elsewhere. We just want to make sure that the public methods
     // don't get deleted unexpectedly.
-    t.equal(ScratchCommon.Cast.toNumber('5'), 5);
-    t.equal(ScratchCommon.Cast.toBoolean('true'), true);
-    t.equal(ScratchCommon.Cast.toString('something'), 'something');
-    t.same(ScratchCommon.Cast.toRgbColorList('#abcdef'), [0xab, 0xcd, 0xef]);
-    t.same(ScratchCommon.Cast.toRgbColorObject('#abcdef'), {r: 0xab, g: 0xcd, b: 0xef});
-    t.equal(ScratchCommon.Cast.isWhiteSpace(''), true);
-    t.equal(ScratchCommon.Cast.compare(1, 2), -1);
-    t.equal(ScratchCommon.Cast.isInt(5.5), false);
-    t.type(ScratchCommon.Cast.LIST_INVALID, 'string');
-    t.type(ScratchCommon.Cast.LIST_ALL, 'string');
-    t.equal(ScratchCommon.Cast.toListIndex('1.5', 10, false), 1);
-    t.end();
+    assert.strictEqual(ScratchCommon.Cast.toNumber('5'), 5);
+    assert.strictEqual(ScratchCommon.Cast.toBoolean('true'), true);
+    assert.strictEqual(ScratchCommon.Cast.toString('something'), 'something');
+    assert.deepEqual(ScratchCommon.Cast.toRgbColorList('#abcdef'), [0xab, 0xcd, 0xef]);
+    assert.deepEqual(ScratchCommon.Cast.toRgbColorObject('#abcdef'), {r: 0xab, g: 0xcd, b: 0xef});
+    assert.strictEqual(ScratchCommon.Cast.isWhiteSpace(''), true);
+    assert.strictEqual(ScratchCommon.Cast.compare(1, 2), -1);
+    assert.strictEqual(ScratchCommon.Cast.isInt(5.5), false);
+    assert.strictEqual(typeof ScratchCommon.Cast.LIST_INVALID, 'string');
+    assert.strictEqual(typeof ScratchCommon.Cast.LIST_ALL, 'string');
+    assert.strictEqual(ScratchCommon.Cast.toListIndex('1.5', 10, false), 1);
 });
 
-test('external', t => {
+test('external', async () => {
     // has more tests in separate file, mostly just making sure that external exists at all
-    ScratchCommon.external.fetch('data:text/plain;,test').then(r => {
-        r.text().then(text => {
-            t.equal(text, 'test');
-            t.end();
-        });
-    });
+    const r = await ScratchCommon.external.fetch('data:text/plain;,test');
+    const text = await r.text();
+    assert.strictEqual(text, 'test');
 });

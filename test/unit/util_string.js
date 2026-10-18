@@ -1,70 +1,68 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const StringUtil = require('../../src/util/string-util');
 
-test('splitFirst', t => {
-    t.deepEqual(StringUtil.splitFirst('asdf.1234', '.'), ['asdf', '1234']);
-    t.deepEqual(StringUtil.splitFirst('asdf.', '.'), ['asdf', '']);
-    t.deepEqual(StringUtil.splitFirst('.1234', '.'), ['', '1234']);
-    t.deepEqual(StringUtil.splitFirst('foo', '.'), ['foo', null]);
-    t.end();
+test('splitFirst', () => {
+    assert.deepEqual(StringUtil.splitFirst('asdf.1234', '.'), ['asdf', '1234']);
+    assert.deepEqual(StringUtil.splitFirst('asdf.', '.'), ['asdf', '']);
+    assert.deepEqual(StringUtil.splitFirst('.1234', '.'), ['', '1234']);
+    assert.deepEqual(StringUtil.splitFirst('foo', '.'), ['foo', null]);
 });
 
-test('withoutTrailingDigits', t => {
-    t.strictEqual(StringUtil.withoutTrailingDigits('boeing747'), 'boeing');
-    t.strictEqual(StringUtil.withoutTrailingDigits('boeing747 '), 'boeing747 ');
-    t.strictEqual(StringUtil.withoutTrailingDigits('boeing𝟨'), 'boeing𝟨');
-    t.strictEqual(StringUtil.withoutTrailingDigits('boeing 747'), 'boeing ');
-    t.strictEqual(StringUtil.withoutTrailingDigits('747'), '');
-    t.end();
+test('withoutTrailingDigits', () => {
+    assert.strictEqual(StringUtil.withoutTrailingDigits('boeing747'), 'boeing');
+    assert.strictEqual(StringUtil.withoutTrailingDigits('boeing747 '), 'boeing747 ');
+    assert.strictEqual(StringUtil.withoutTrailingDigits('boeing𝟨'), 'boeing𝟨');
+    assert.strictEqual(StringUtil.withoutTrailingDigits('boeing 747'), 'boeing ');
+    assert.strictEqual(StringUtil.withoutTrailingDigits('747'), '');
 });
 
-test('unusedName', t => {
-    t.strictEqual(
+test('unusedName', () => {
+    assert.strictEqual(
         StringUtil.unusedName(
             'name',
             ['not the same name']
         ),
         'name'
     );
-    t.strictEqual(
+    assert.strictEqual(
         StringUtil.unusedName(
             'name',
             ['name']
         ),
         'name2'
     );
-    t.strictEqual(
+    assert.strictEqual(
         StringUtil.unusedName(
             'name',
             ['name30']
         ),
         'name'
     );
-    t.strictEqual(
+    assert.strictEqual(
         StringUtil.unusedName(
             'name',
             ['name', 'name2']
         ),
         'name3'
     );
-    t.strictEqual(
+    assert.strictEqual(
         StringUtil.unusedName(
             'name',
             ['name', 'name3']
         ),
         'name2'
     );
-    t.strictEqual(
+    assert.strictEqual(
         StringUtil.unusedName(
             'boeing747',
             ['boeing747']
         ),
         'boeing2' // Yup, this matches scratch-flash...
     );
-    t.end();
 });
 
-test('stringify', t => {
+test('stringify', () => {
     const obj = {
         a: Infinity,
         b: NaN,
@@ -76,54 +74,49 @@ test('stringify', t => {
         }
     };
     const parsed = JSON.parse(StringUtil.stringify(obj));
-    t.equal(parsed.a, 0);
-    t.equal(parsed.b, 0);
-    t.equal(parsed.c, 0);
-    t.equal(parsed.d, 23);
-    t.equal(parsed.e, 'str');
-    t.equal(parsed.f.nested, 0);
-    t.end();
+    assert.strictEqual(parsed.a, 0);
+    assert.strictEqual(parsed.b, 0);
+    assert.strictEqual(parsed.c, 0);
+    assert.strictEqual(parsed.d, 23);
+    assert.strictEqual(parsed.e, 'str');
+    assert.strictEqual(parsed.f.nested, 0);
 });
 
-test('replaceUnsafeChars', t => {
+test('replaceUnsafeChars', () => {
     const empty = '';
-    t.equal(StringUtil.replaceUnsafeChars(empty), empty);
+    assert.strictEqual(StringUtil.replaceUnsafeChars(empty), empty);
 
     const safe = 'hello';
-    t.equal(StringUtil.replaceUnsafeChars(safe), safe);
+    assert.strictEqual(StringUtil.replaceUnsafeChars(safe), safe);
 
     const unsafe = '< > & \' "';
-    t.equal(StringUtil.replaceUnsafeChars(unsafe), 'lt gt amp apos quot');
+    assert.strictEqual(StringUtil.replaceUnsafeChars(unsafe), 'lt gt amp apos quot');
 
     const single = '&';
-    t.equal(StringUtil.replaceUnsafeChars(single), 'amp');
+    assert.strictEqual(StringUtil.replaceUnsafeChars(single), 'amp');
 
     const mix = '<a>b& c\'def_-"';
-    t.equal(StringUtil.replaceUnsafeChars(mix), 'ltagtbamp caposdef_-quot');
+    assert.strictEqual(StringUtil.replaceUnsafeChars(mix), 'ltagtbamp caposdef_-quot');
 
     const dupes = '<<&_"_"_&>>';
-    t.equal(StringUtil.replaceUnsafeChars(dupes), 'ltltamp_quot_quot_ampgtgt');
+    assert.strictEqual(StringUtil.replaceUnsafeChars(dupes), 'ltltamp_quot_quot_ampgtgt');
 
     const emoji = '(>^_^)>';
-    t.equal(StringUtil.replaceUnsafeChars(emoji), '(gt^_^)gt');
-
-    t.end();
+    assert.strictEqual(StringUtil.replaceUnsafeChars(emoji), '(gt^_^)gt');
 });
 
-test('replaceUnsafeChars should handle non strings', t => {
+test('replaceUnsafeChars should handle non strings', () => {
     const array = ['hello', 'world'];
-    t.equal(StringUtil.replaceUnsafeChars(array), String(array));
+    assert.strictEqual(StringUtil.replaceUnsafeChars(array), String(array));
 
     const arrayWithSpecialChar = ['hello', '<world>'];
-    t.equal(StringUtil.replaceUnsafeChars(arrayWithSpecialChar), 'hello,ltworldgt');
+    assert.strictEqual(StringUtil.replaceUnsafeChars(arrayWithSpecialChar), 'hello,ltworldgt');
 
     const arrayWithNumbers = [1, 2, 3];
-    t.equal(StringUtil.replaceUnsafeChars(arrayWithNumbers), '1,2,3');
+    assert.strictEqual(StringUtil.replaceUnsafeChars(arrayWithNumbers), '1,2,3');
 
     // Objects shouldn't get provided to replaceUnsafeChars, but in the event
     // they do, it should just return the object (and log an error)
     const object = {hello: 'world'};
-    t.equal(StringUtil.replaceUnsafeChars(object), object);
-
-    t.end();
+    assert.strictEqual(StringUtil.replaceUnsafeChars(object), object);
 });

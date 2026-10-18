@@ -1,5 +1,6 @@
 const path = require('path');
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const readFileToBuffer = require('../fixtures/readProjectFile').readFileToBuffer;
 const VirtualMachine = require('../../src/index');
@@ -7,7 +8,7 @@ const VirtualMachine = require('../../src/index');
 const uri = path.resolve(__dirname, '../fixtures/looks.sb2');
 const project = readFileToBuffer(uri);
 
-test('Running project should not emit project changed event', t => {
+test('Running project should not emit project changed event', (t, done) => {
     const vm = new VirtualMachine();
     vm.attachStorage(makeTestStorage());
 
@@ -18,13 +19,13 @@ test('Running project should not emit project changed event', t => {
 
     // Evaluate playground data and exit
     vm.on('playgroundData', () => {
-        t.equal(projectChanged, false);
+        assert.strictEqual(projectChanged, false);
         vm.quit();
-        t.end();
+        done();
     });
 
     // Start VM, load project, and run
-    t.doesNotThrow(() => {
+    assert.doesNotThrow(() => {
         vm.start();
         vm.clear();
         vm.setCompatibilityMode(false);

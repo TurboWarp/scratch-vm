@@ -7,7 +7,8 @@
  * to load the costume if the saved project is re-loaded.
  */
 const path = require('path');
-const tap = require('tap');
+const {test, beforeEach} = require('node:test');
+const assert = require('node:assert');
 const makeTestStorage = require('../fixtures/make-test-storage');
 const FakeRenderer = require('../fixtures/fake-renderer');
 const FakeBitmapAdapter = require('../fixtures/fake-bitmap-adapter');
@@ -41,9 +42,7 @@ global.document = {
 
 let vm;
 
-tap.setTimeout(30000);
-
-tap.beforeEach(() => {
+beforeEach(() => {
     const storage = makeTestStorage();
 
     vm = new VirtualMachine();
@@ -54,59 +53,51 @@ tap.beforeEach(() => {
     return vm.loadProject(project);
 });
 
-const test = tap.test;
-
-test('loading sb3 project with missing bitmap costume file', t => {
-    t.equal(vm.runtime.targets.length, 2);
+test('loading sb3 project with missing bitmap costume file', () => {
+    assert.strictEqual(vm.runtime.targets.length, 2);
 
     const stage = vm.runtime.targets[0];
-    t.ok(stage.isStage);
+    assert.ok(stage.isStage);
 
     const greenGuySprite = vm.runtime.targets[1];
-    t.equal(greenGuySprite.getName(), 'Green Guy');
-    t.equal(greenGuySprite.getCostumes().length, 1);
+    assert.strictEqual(greenGuySprite.getName(), 'Green Guy');
+    assert.strictEqual(greenGuySprite.getCostumes().length, 1);
 
     const missingCostume = greenGuySprite.getCostumes()[0];
-    t.equal(missingCostume.name, 'Green Guy');
+    assert.strictEqual(missingCostume.name, 'Green Guy');
     // Costume should have both default cosutme (e.g. Gray Question Mark) data and original data
     const defaultVectorAssetId = vm.runtime.storage.defaultAssetId.ImageBitmap;
-    t.equal(missingCostume.assetId, defaultVectorAssetId);
-    t.equal(missingCostume.dataFormat, 'png');
+    assert.strictEqual(missingCostume.assetId, defaultVectorAssetId);
+    assert.strictEqual(missingCostume.dataFormat, 'png');
     // Runtime should have info about broken asset
-    t.ok(missingCostume.broken);
-    t.equal(missingCostume.broken.assetId, missingCostumeAssetId);
-
-    t.end();
+    assert.ok(missingCostume.broken);
+    assert.strictEqual(missingCostume.broken.assetId, missingCostumeAssetId);
 });
 
-test('load and then save sb3 project with missing costume file', t => {
+test('load and then save sb3 project with missing costume file', () => {
     const resavedProject = JSON.parse(vm.toJSON());
 
-    t.equal(resavedProject.targets.length, 2);
+    assert.strictEqual(resavedProject.targets.length, 2);
 
     const stage = resavedProject.targets[0];
-    t.ok(stage.isStage);
+    assert.ok(stage.isStage);
 
     const greenGuySprite = resavedProject.targets[1];
-    t.equal(greenGuySprite.name, 'Green Guy');
-    t.equal(greenGuySprite.costumes.length, 1);
+    assert.strictEqual(greenGuySprite.name, 'Green Guy');
+    assert.strictEqual(greenGuySprite.costumes.length, 1);
 
     const missingCostume = greenGuySprite.costumes[0];
-    t.equal(missingCostume.name, 'Green Guy');
+    assert.strictEqual(missingCostume.name, 'Green Guy');
     // Costume should have both default cosutme (e.g. Gray Question Mark) data and original data
-    t.equal(missingCostume.assetId, missingCostumeAssetId);
-    t.equal(missingCostume.dataFormat, 'png');
+    assert.strictEqual(missingCostume.assetId, missingCostumeAssetId);
+    assert.strictEqual(missingCostume.dataFormat, 'png');
     // Test that we didn't save any data about the costume being broken
-    t.notOk(missingCostume.broken);
-
-    t.end();
+    assert.ok(!missingCostume.broken);
 });
 
-test('serializeCostume does not save data for missing costume', t => {
+test('serializeCostume does not save data for missing costume', () => {
     const costumeDescs = serializeCostumes(vm.runtime);
 
-    t.equal(costumeDescs.length, 1); // Should only have one costume, the backdrop
-    t.not(costumeDescs[0].fileName, `${missingCostumeAssetId}.png`);
-
-    t.end();
+    assert.strictEqual(costumeDescs.length, 1); // Should only have one costume, the backdrop
+    assert.notStrictEqual(costumeDescs[0].fileName, `${missingCostumeAssetId}.png`);
 });

@@ -1,4 +1,5 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const fs = require('fs');
 const path = require('path');
 const VirtualMachine = require('../../src/virtual-machine');
@@ -13,39 +14,27 @@ const BITWISE_EXTENSION = 'https://extensions.turbowarp.org/bitwise.js';
 /* eslint-disable no-script-url */
 /* eslint-disable require-await */
 
-test('Deny both extensions', async t => {
+test('Deny both extensions', async () => {
     const vm = new VirtualMachine();
     vm.extensionManager.loadExtensionURL = () => {
-        t.fail();
+        assert.fail();
     };
     vm.securityManager.canLoadExtensionFromProject = () => false;
-    try {
-        await vm.loadProject(testProject);
-        // loadProject() should fail because extensions were denied
-        t.fail();
-    } catch (e) {
-        t.pass();
-    }
-    t.end();
+    // loadProject() should fail because extensions were denied, not because one was loaded
+    await assert.rejects(vm.loadProject(testProject), e => !(e instanceof assert.AssertionError));
 });
 
-test('Deny 1 of 2 extensions', async t => {
+test('Deny 1 of 2 extensions', async () => {
     const vm = new VirtualMachine();
     vm.extensionManager.loadExtensionURL = () => {
-        t.fail();
+        assert.fail();
     };
     vm.securityManager.canLoadExtensionFromProject = url => Promise.resolve(url === FETCH_EXTENSION);
-    try {
-        await vm.loadProject(testProject);
-        // loadProject() should fail because extensions were denied
-        t.fail();
-    } catch (e) {
-        t.pass();
-    }
-    t.end();
+    // loadProject() should fail because extensions were denied, not because one was loaded
+    await assert.rejects(vm.loadProject(testProject), e => !(e instanceof assert.AssertionError));
 });
 
-test('Allow both extensions', async t => {
+test('Allow both extensions', async () => {
     const vm = new VirtualMachine();
     const loadedExtensions = [];
     vm.extensionManager.loadExtensionURL = url => {
@@ -59,14 +48,13 @@ test('Allow both extensions', async t => {
         if (url === BITWISE_EXTENSION) {
             return Promise.resolve(true);
         }
-        t.fail('unknown extension');
+        assert.fail('unknown extension');
     };
     await vm.loadProject(testProject);
-    t.same(new Set(loadedExtensions), new Set([FETCH_EXTENSION, BITWISE_EXTENSION]));
-    t.end();
+    assert.deepEqual(new Set(loadedExtensions), new Set([FETCH_EXTENSION, BITWISE_EXTENSION]));
 });
 
-test('canFetch', async t => {
+test('canFetch', async () => {
     const vm = new VirtualMachine();
     setupUnsandboxedExtensionAPI(vm);
     global.location = {
@@ -74,55 +62,53 @@ test('canFetch', async t => {
     };
 
     // data: and blob: are always allowed, shouldn't call security manager
-    vm.securityManager.canFetch = () => t.fail('security manager should be ignored for these protocols');
-    t.equal(await global.Scratch.canFetch('data:text/html,test'), true);
-    t.equal(await global.Scratch.canFetch('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), true);
+    vm.securityManager.canFetch = () => assert.fail('security manager should be ignored for these protocols');
+    assert.strictEqual(await global.Scratch.canFetch('data:text/html,test'), true);
+    assert.strictEqual(await global.Scratch.canFetch('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), true);
 
     vm.securityManager.canFetch = () => false;
-    t.equal(await global.Scratch.canFetch('file:///etc/hosts'), false);
-    t.equal(await global.Scratch.canFetch('http://example.com/'), false);
-    t.equal(await global.Scratch.canFetch('https://example.com/'), false);
-    t.equal(await global.Scratch.canFetch('null'), false);
-    t.equal(await global.Scratch.canFetch(null), false);
+    assert.strictEqual(await global.Scratch.canFetch('file:///etc/hosts'), false);
+    assert.strictEqual(await global.Scratch.canFetch('http://example.com/'), false);
+    assert.strictEqual(await global.Scratch.canFetch('https://example.com/'), false);
+    assert.strictEqual(await global.Scratch.canFetch('null'), false);
+    assert.strictEqual(await global.Scratch.canFetch(null), false);
 
     vm.securityManager.canFetch = () => Promise.resolve(false);
-    t.equal(await global.Scratch.canFetch('file:///etc/hosts'), false);
-    t.equal(await global.Scratch.canFetch('http://example.com/'), false);
-    t.equal(await global.Scratch.canFetch('https://example.com/'), false);
-    t.equal(await global.Scratch.canFetch('boring.html'), false);
-    t.equal(await global.Scratch.canFetch('null'), false);
-    t.equal(await global.Scratch.canFetch(null), false);
+    assert.strictEqual(await global.Scratch.canFetch('file:///etc/hosts'), false);
+    assert.strictEqual(await global.Scratch.canFetch('http://example.com/'), false);
+    assert.strictEqual(await global.Scratch.canFetch('https://example.com/'), false);
+    assert.strictEqual(await global.Scratch.canFetch('boring.html'), false);
+    assert.strictEqual(await global.Scratch.canFetch('null'), false);
+    assert.strictEqual(await global.Scratch.canFetch(null), false);
 
     vm.securityManager.canFetch = () => true;
-    t.equal(await global.Scratch.canFetch('file:///etc/hosts'), true);
-    t.equal(await global.Scratch.canFetch('http://example.com/'), true);
-    t.equal(await global.Scratch.canFetch('https://example.com/'), true);
-    t.equal(await global.Scratch.canFetch('boring.html'), true);
-    t.equal(await global.Scratch.canFetch('null'), true);
-    t.equal(await global.Scratch.canFetch(null), true);
+    assert.strictEqual(await global.Scratch.canFetch('file:///etc/hosts'), true);
+    assert.strictEqual(await global.Scratch.canFetch('http://example.com/'), true);
+    assert.strictEqual(await global.Scratch.canFetch('https://example.com/'), true);
+    assert.strictEqual(await global.Scratch.canFetch('boring.html'), true);
+    assert.strictEqual(await global.Scratch.canFetch('null'), true);
+    assert.strictEqual(await global.Scratch.canFetch(null), true);
 
     const calledWithURLs = [];
     vm.securityManager.canFetch = async url => {
         calledWithURLs.push(url);
         return url === 'https://example.com/null';
     };
-    t.equal(await global.Scratch.canFetch('file:///etc/hosts'), false);
-    t.equal(await global.Scratch.canFetch('http://example.com/'), false);
-    t.equal(await global.Scratch.canFetch('https://example.com/null'), true);
-    t.equal(await global.Scratch.canFetch('null'), true);
-    t.equal(await global.Scratch.canFetch(null), true);
-    t.same(calledWithURLs, [
+    assert.strictEqual(await global.Scratch.canFetch('file:///etc/hosts'), false);
+    assert.strictEqual(await global.Scratch.canFetch('http://example.com/'), false);
+    assert.strictEqual(await global.Scratch.canFetch('https://example.com/null'), true);
+    assert.strictEqual(await global.Scratch.canFetch('null'), true);
+    assert.strictEqual(await global.Scratch.canFetch(null), true);
+    assert.deepEqual(calledWithURLs, [
         'file:///etc/hosts',
         'http://example.com/',
         'https://example.com/null',
         'https://example.com/null',
         'https://example.com/null'
     ]);
-
-    t.end();
 });
 
-test('canOpenWindow', async t => {
+test('canOpenWindow', async () => {
     const vm = new VirtualMachine();
     setupUnsandboxedExtensionAPI(vm);
     global.location = {
@@ -130,45 +116,45 @@ test('canOpenWindow', async t => {
     };
 
     // javascript: should never be allowed, shouldn't call security manager
-    vm.securityManager.canOpenWindow = () => t.fail('should not call security manager for javascript:');
-    t.equal(await global.Scratch.canOpenWindow('javascript:alert(1)'), false);
+    vm.securityManager.canOpenWindow = () => assert.fail('should not call security manager for javascript:');
+    assert.strictEqual(await global.Scratch.canOpenWindow('javascript:alert(1)'), false);
     
     vm.securityManager.canOpenWindow = () => false;
-    t.equal(await global.Scratch.canOpenWindow('data:text/html,test'), false);
-    t.equal(await global.Scratch.canOpenWindow('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), false);
-    t.equal(await global.Scratch.canOpenWindow('file:///etc/hosts'), false);
-    t.equal(await global.Scratch.canOpenWindow('https://example.com/'), false);
-    t.equal(await global.Scratch.canOpenWindow('index.html'), false);
-    t.equal(await global.Scratch.canOpenWindow(null), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow('data:text/html,test'), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow('file:///etc/hosts'), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow('https://example.com/'), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow('index.html'), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow(null), false);
 
     vm.securityManager.canOpenWindow = () => Promise.resolve(false);
-    t.equal(await global.Scratch.canOpenWindow('data:text/html,test'), false);
-    t.equal(await global.Scratch.canOpenWindow('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), false);
-    t.equal(await global.Scratch.canOpenWindow('file:///etc/hosts'), false);
-    t.equal(await global.Scratch.canOpenWindow('https://example.com/'), false);
-    t.equal(await global.Scratch.canOpenWindow('index.html'), false);
-    t.equal(await global.Scratch.canOpenWindow(null), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow('data:text/html,test'), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow('file:///etc/hosts'), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow('https://example.com/'), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow('index.html'), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow(null), false);
 
     vm.securityManager.canOpenWindow = () => true;
-    t.equal(await global.Scratch.canOpenWindow('data:text/html,test'), true);
-    t.equal(await global.Scratch.canOpenWindow('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), true);
-    t.equal(await global.Scratch.canOpenWindow('file:///etc/hosts'), true);
-    t.equal(await global.Scratch.canOpenWindow('https://example.com/'), true);
-    t.equal(await global.Scratch.canOpenWindow('index.html'), true);
-    t.equal(await global.Scratch.canOpenWindow(null), true);
+    assert.strictEqual(await global.Scratch.canOpenWindow('data:text/html,test'), true);
+    assert.strictEqual(await global.Scratch.canOpenWindow('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), true);
+    assert.strictEqual(await global.Scratch.canOpenWindow('file:///etc/hosts'), true);
+    assert.strictEqual(await global.Scratch.canOpenWindow('https://example.com/'), true);
+    assert.strictEqual(await global.Scratch.canOpenWindow('index.html'), true);
+    assert.strictEqual(await global.Scratch.canOpenWindow(null), true);
 
     const calledWithURLs = [];
     vm.securityManager.canOpenWindow = async url => {
         calledWithURLs.push(url);
         return url === 'file:///etc/hosts';
     };
-    t.equal(await global.Scratch.canOpenWindow('data:text/html,test'), false);
-    t.equal(await global.Scratch.canOpenWindow('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), false);
-    t.equal(await global.Scratch.canOpenWindow('file:///etc/hosts'), true);
-    t.equal(await global.Scratch.canOpenWindow('https://example.com/'), false);
-    t.equal(await global.Scratch.canOpenWindow('index.html'), false);
-    t.equal(await global.Scratch.canOpenWindow(null), false);
-    t.same(calledWithURLs, [
+    assert.strictEqual(await global.Scratch.canOpenWindow('data:text/html,test'), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow('file:///etc/hosts'), true);
+    assert.strictEqual(await global.Scratch.canOpenWindow('https://example.com/'), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow('index.html'), false);
+    assert.strictEqual(await global.Scratch.canOpenWindow(null), false);
+    assert.deepEqual(calledWithURLs, [
         'data:text/html,test',
         'blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd',
         'file:///etc/hosts',
@@ -176,11 +162,9 @@ test('canOpenWindow', async t => {
         'https://example.com/index.html',
         'https://example.com/null'
     ]);
-
-    t.end();
 });
 
-test('canRedirect', async t => {
+test('canRedirect', async () => {
     const vm = new VirtualMachine();
     setupUnsandboxedExtensionAPI(vm);
     global.location = {
@@ -188,45 +172,45 @@ test('canRedirect', async t => {
     };
 
     // javascript: should never be allowed, shouldn't call security manager
-    vm.securityManager.canRedirect = () => t.fail('should not call security manager for javascript:');
-    t.equal(await global.Scratch.canRedirect('javascript:alert(1)'), false);
+    vm.securityManager.canRedirect = () => assert.fail('should not call security manager for javascript:');
+    assert.strictEqual(await global.Scratch.canRedirect('javascript:alert(1)'), false);
 
     vm.securityManager.canRedirect = () => false;
-    t.equal(await global.Scratch.canRedirect('data:text/html,test'), false);
-    t.equal(await global.Scratch.canRedirect('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), false);
-    t.equal(await global.Scratch.canRedirect('file:///etc/hosts'), false);
-    t.equal(await global.Scratch.canRedirect('https://example.com/'), false);
-    t.equal(await global.Scratch.canRedirect('index.html'), false);
-    t.equal(await global.Scratch.canRedirect(null), false);
+    assert.strictEqual(await global.Scratch.canRedirect('data:text/html,test'), false);
+    assert.strictEqual(await global.Scratch.canRedirect('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), false);
+    assert.strictEqual(await global.Scratch.canRedirect('file:///etc/hosts'), false);
+    assert.strictEqual(await global.Scratch.canRedirect('https://example.com/'), false);
+    assert.strictEqual(await global.Scratch.canRedirect('index.html'), false);
+    assert.strictEqual(await global.Scratch.canRedirect(null), false);
 
     vm.securityManager.canRedirect = () => Promise.resolve(false);
-    t.equal(await global.Scratch.canRedirect('data:text/html,test'), false);
-    t.equal(await global.Scratch.canRedirect('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), false);
-    t.equal(await global.Scratch.canRedirect('file:///etc/hosts'), false);
-    t.equal(await global.Scratch.canRedirect('https://example.com/'), false);
-    t.equal(await global.Scratch.canRedirect('index.html'), false);
-    t.equal(await global.Scratch.canRedirect(null), false);
+    assert.strictEqual(await global.Scratch.canRedirect('data:text/html,test'), false);
+    assert.strictEqual(await global.Scratch.canRedirect('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), false);
+    assert.strictEqual(await global.Scratch.canRedirect('file:///etc/hosts'), false);
+    assert.strictEqual(await global.Scratch.canRedirect('https://example.com/'), false);
+    assert.strictEqual(await global.Scratch.canRedirect('index.html'), false);
+    assert.strictEqual(await global.Scratch.canRedirect(null), false);
 
     vm.securityManager.canRedirect = () => true;
-    t.equal(await global.Scratch.canRedirect('data:text/html,test'), true);
-    t.equal(await global.Scratch.canRedirect('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), true);
-    t.equal(await global.Scratch.canRedirect('file:///etc/hosts'), true);
-    t.equal(await global.Scratch.canRedirect('https://example.com/'), true);
-    t.equal(await global.Scratch.canRedirect('index.html'), true);
-    t.equal(await global.Scratch.canRedirect(null), true);
+    assert.strictEqual(await global.Scratch.canRedirect('data:text/html,test'), true);
+    assert.strictEqual(await global.Scratch.canRedirect('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), true);
+    assert.strictEqual(await global.Scratch.canRedirect('file:///etc/hosts'), true);
+    assert.strictEqual(await global.Scratch.canRedirect('https://example.com/'), true);
+    assert.strictEqual(await global.Scratch.canRedirect('index.html'), true);
+    assert.strictEqual(await global.Scratch.canRedirect(null), true);
 
     const calledWithURLs = [];
     vm.securityManager.canRedirect = async url => {
         calledWithURLs.push(url);
         return url === 'file:///etc/hosts';
     };
-    t.equal(await global.Scratch.canRedirect('data:text/html,test'), false);
-    t.equal(await global.Scratch.canRedirect('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), false);
-    t.equal(await global.Scratch.canRedirect('file:///etc/hosts'), true);
-    t.equal(await global.Scratch.canRedirect('https://example.com/'), false);
-    t.equal(await global.Scratch.canRedirect('index.html'), false);
-    t.equal(await global.Scratch.canRedirect(null), false);
-    t.same(calledWithURLs, [
+    assert.strictEqual(await global.Scratch.canRedirect('data:text/html,test'), false);
+    assert.strictEqual(await global.Scratch.canRedirect('blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd'), false);
+    assert.strictEqual(await global.Scratch.canRedirect('file:///etc/hosts'), true);
+    assert.strictEqual(await global.Scratch.canRedirect('https://example.com/'), false);
+    assert.strictEqual(await global.Scratch.canRedirect('index.html'), false);
+    assert.strictEqual(await global.Scratch.canRedirect(null), false);
+    assert.deepEqual(calledWithURLs, [
         'data:text/html,test',
         'blob:https://example.com/8c071bf8-c0b6-4a48-81d7-6413c2adf3dd',
         'file:///etc/hosts',
@@ -234,11 +218,9 @@ test('canRedirect', async t => {
         'https://example.com/index.html',
         'https://example.com/null'
     ]);
-
-    t.end();
 });
 
-test('canEmbed', async t => {
+test('canEmbed', async () => {
     const vm = new VirtualMachine();
     setupUnsandboxedExtensionAPI(vm);
     global.location = {
@@ -251,23 +233,21 @@ test('canEmbed', async t => {
         return url === 'https://example.com/ok';
     };
 
-    t.equal(await global.Scratch.canEmbed('https://example.com/ok'), true);
-    t.equal(await global.Scratch.canEmbed('https://example.com/bad'), false);
-    t.equal(await global.Scratch.canEmbed('file:///etc/hosts'), false);
-    t.equal(await global.Scratch.canEmbed('data:text/html;,<h1>test</h1>'), false);
-    t.equal(await global.Scratch.canEmbed('ok'), true);
-    t.same(calledWithURLs, [
+    assert.strictEqual(await global.Scratch.canEmbed('https://example.com/ok'), true);
+    assert.strictEqual(await global.Scratch.canEmbed('https://example.com/bad'), false);
+    assert.strictEqual(await global.Scratch.canEmbed('file:///etc/hosts'), false);
+    assert.strictEqual(await global.Scratch.canEmbed('data:text/html;,<h1>test</h1>'), false);
+    assert.strictEqual(await global.Scratch.canEmbed('ok'), true);
+    assert.deepEqual(calledWithURLs, [
         'https://example.com/ok',
         'https://example.com/bad',
         'file:///etc/hosts',
         'data:text/html;,<h1>test</h1>',
         'https://example.com/ok'
     ]);
-
-    t.end();
 });
 
-test('canDownload', async t => {
+test('canDownload', async () => {
     const vm = new VirtualMachine();
     setupUnsandboxedExtensionAPI(vm);
 
@@ -277,16 +257,14 @@ test('canDownload', async t => {
         return name.includes('safe');
     };
 
-    t.equal(await global.Scratch.canDownload('http://example.com/', 'safe.html'), true);
-    t.equal(await global.Scratch.canDownload('http://example.com/', 'dangerous.html'), false);
+    assert.strictEqual(await global.Scratch.canDownload('http://example.com/', 'safe.html'), true);
+    assert.strictEqual(await global.Scratch.canDownload('http://example.com/', 'dangerous.html'), false);
 
     // should not even call security manager
-    t.equal(await global.Scratch.canDownload('javascript:alert(1)', 'safe.html'), false);
+    assert.strictEqual(await global.Scratch.canDownload('javascript:alert(1)', 'safe.html'), false);
 
-    t.same(calledWithArguments, [
+    assert.deepEqual(calledWithArguments, [
         ['http://example.com/', 'safe.html'],
         ['http://example.com/', 'dangerous.html']
     ]);
-
-    t.end();
 });

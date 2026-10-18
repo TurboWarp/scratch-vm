@@ -1,18 +1,10 @@
-const test = require('tap').test;
+const {test} = require('node:test');
 // const JSONRPC = require('../../src/util/jsonrpc');
 
-test('constructor', t => {
-    t.end();
-});
+test('constructor', () => {});
 
-test('sendRemoteRequest', t => {
-    t.end();
-});
+test('sendRemoteRequest', () => {});
 
-test('sendRemoteNotification', t => {
-    t.end();
-});
+test('sendRemoteNotification', () => {});
 
-test('didReceiveCall', t => {
-    t.end();
-});
+test('didReceiveCall', () => {});

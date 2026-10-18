@@ -1,8 +1,9 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VirtualMachine = require('../../src/virtual-machine');
 const BlockType = require('../../src/extension-support/block-type');
 
-test('with explicit category colors', t => {
+test('with explicit category colors', () => {
     const vm = new VirtualMachine();
     vm.extensionManager._registerInternalExtension({
         getInfo: () => ({
@@ -44,30 +45,28 @@ test('with explicit category colors', t => {
 
     const blocks = vm.runtime.getBlocksJSON();
 
-    t.equal(blocks[0].colour, '#ff0000');
-    t.equal(blocks[0].colourSecondary, '#00ff00');
-    t.equal(blocks[0].colourTertiary, '#0000ff');
+    assert.strictEqual(blocks[0].colour, '#ff0000');
+    assert.strictEqual(blocks[0].colourSecondary, '#00ff00');
+    assert.strictEqual(blocks[0].colourTertiary, '#0000ff');
 
-    t.equal(blocks[1].colour, '#ffff00');
-    t.equal(blocks[1].colourSecondary, '#00ff00');
-    t.equal(blocks[1].colourTertiary, '#0000ff');
+    assert.strictEqual(blocks[1].colour, '#ffff00');
+    assert.strictEqual(blocks[1].colourSecondary, '#00ff00');
+    assert.strictEqual(blocks[1].colourTertiary, '#0000ff');
 
-    t.equal(blocks[2].colour, '#ff0000');
-    t.equal(blocks[2].colourSecondary, '#ff00ff');
-    t.equal(blocks[2].colourTertiary, '#0000ff');
+    assert.strictEqual(blocks[2].colour, '#ff0000');
+    assert.strictEqual(blocks[2].colourSecondary, '#ff00ff');
+    assert.strictEqual(blocks[2].colourTertiary, '#0000ff');
 
-    t.equal(blocks[3].colour, '#ff0000');
-    t.equal(blocks[3].colourSecondary, '#00ff00');
-    t.equal(blocks[3].colourTertiary, '#00ffff');
+    assert.strictEqual(blocks[3].colour, '#ff0000');
+    assert.strictEqual(blocks[3].colourSecondary, '#00ff00');
+    assert.strictEqual(blocks[3].colourTertiary, '#00ffff');
 
-    t.equal(blocks[4].colour, '#7fff00');
-    t.equal(blocks[4].colourSecondary, '#ff007f');
-    t.equal(blocks[4].colourTertiary, '#007fff');
-
-    t.end();
+    assert.strictEqual(blocks[4].colour, '#7fff00');
+    assert.strictEqual(blocks[4].colourSecondary, '#ff007f');
+    assert.strictEqual(blocks[4].colourTertiary, '#007fff');
 });
 
-test('with the default colors', t => {
+test('with the default colors', () => {
     const vm = new VirtualMachine();
     vm.extensionManager._registerInternalExtension({
         getInfo: () => ({
@@ -106,25 +105,23 @@ test('with the default colors', t => {
 
     const blocks = vm.runtime.getBlocksJSON();
 
-    t.equal(blocks[0].colour, '#0FBD8C');
-    t.equal(blocks[0].colourSecondary, '#0DA57A');
-    t.equal(blocks[0].colourTertiary, '#0B8E69');
+    assert.strictEqual(blocks[0].colour, '#0FBD8C');
+    assert.strictEqual(blocks[0].colourSecondary, '#0DA57A');
+    assert.strictEqual(blocks[0].colourTertiary, '#0B8E69');
 
-    t.equal(blocks[1].colour, '#ffff00');
-    t.equal(blocks[1].colourSecondary, '#0DA57A');
-    t.equal(blocks[1].colourTertiary, '#0B8E69');
+    assert.strictEqual(blocks[1].colour, '#ffff00');
+    assert.strictEqual(blocks[1].colourSecondary, '#0DA57A');
+    assert.strictEqual(blocks[1].colourTertiary, '#0B8E69');
 
-    t.equal(blocks[2].colour, '#0FBD8C');
-    t.equal(blocks[2].colourSecondary, '#ff00ff');
-    t.equal(blocks[2].colourTertiary, '#0B8E69');
+    assert.strictEqual(blocks[2].colour, '#0FBD8C');
+    assert.strictEqual(blocks[2].colourSecondary, '#ff00ff');
+    assert.strictEqual(blocks[2].colourTertiary, '#0B8E69');
 
-    t.equal(blocks[3].colour, '#0FBD8C');
-    t.equal(blocks[3].colourSecondary, '#0DA57A');
-    t.equal(blocks[3].colourTertiary, '#00ffff');
+    assert.strictEqual(blocks[3].colour, '#0FBD8C');
+    assert.strictEqual(blocks[3].colourSecondary, '#0DA57A');
+    assert.strictEqual(blocks[3].colourTertiary, '#00ffff');
 
-    t.equal(blocks[4].colour, '#7fff00');
-    t.equal(blocks[4].colourSecondary, '#ff007f');
-    t.equal(blocks[4].colourTertiary, '#007fff');
-
-    t.end();
+    assert.strictEqual(blocks[4].colour, '#7fff00');
+    assert.strictEqual(blocks[4].colourSecondary, '#ff007f');
+    assert.strictEqual(blocks[4].colourTertiary, '#007fff');
 });

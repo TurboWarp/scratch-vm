@@ -1,32 +1,31 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const safeStringify = require('../../src/util/tw-safe-stringify');
 
-test('safeStringify', t => {
-    t.equal(safeStringify(''), '');
-    t.equal(safeStringify('a'), 'a');
+test('safeStringify', () => {
+    assert.strictEqual(safeStringify(''), '');
+    assert.strictEqual(safeStringify('a'), 'a');
 
-    t.equal(safeStringify(true), 'true');
-    t.equal(safeStringify(false), 'false');
+    assert.strictEqual(safeStringify(true), 'true');
+    assert.strictEqual(safeStringify(false), 'false');
 
-    t.equal(safeStringify(0), '0');
-    t.equal(safeStringify(-0), '-0');
-    t.equal(safeStringify(1), '1');
-    t.equal(safeStringify(Infinity), 'Infinity');
-    t.equal(safeStringify(-Infinity), '-Infinity');
-    t.equal(safeStringify(NaN), 'NaN');
+    assert.strictEqual(safeStringify(0), '0');
+    assert.strictEqual(safeStringify(-0), '-0');
+    assert.strictEqual(safeStringify(1), '1');
+    assert.strictEqual(safeStringify(Infinity), 'Infinity');
+    assert.strictEqual(safeStringify(-Infinity), '-Infinity');
+    assert.strictEqual(safeStringify(NaN), 'NaN');
 
-    t.equal(safeStringify(null), 'null');
-    t.equal(safeStringify(undefined), 'undefined');
+    assert.strictEqual(safeStringify(null), 'null');
+    assert.strictEqual(safeStringify(undefined), 'undefined');
 
-    t.equal(safeStringify({}), '{}');
-    t.equal(safeStringify({a: 'b'}), '{"a":"b"}');
+    assert.strictEqual(safeStringify({}), '{}');
+    assert.strictEqual(safeStringify({a: 'b'}), '{"a":"b"}');
 
-    t.equal(safeStringify([]), '[]');
-    t.equal(safeStringify([1, 2, 3]), '[1,2,3]');
+    assert.strictEqual(safeStringify([]), '[]');
+    assert.strictEqual(safeStringify([1, 2, 3]), '[1,2,3]');
 
     const circular = {};
     circular.circular = circular;
-    t.equal(safeStringify(circular), '{"circular":"{...}"}');
-
-    t.end();
+    assert.strictEqual(safeStringify(circular), '{"circular":"{...}"}');
 });

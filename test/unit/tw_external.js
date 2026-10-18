@@ -1,23 +1,19 @@
 const external = require('../../src/extension-support/tw-external');
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 
-test('importModule', t => {
-    external.importModule('data:text/javascript;,export%20default%201').then(mod => {
-        t.equal(mod.default, 1);
-        t.end();
-    });
+test('importModule', async () => {
+    const mod = await external.importModule('data:text/javascript;,export%20default%201');
+    assert.strictEqual(mod.default, 1);
 });
 
-test('fetch', t => {
-    external.fetch('data:text/plain;,test').then(res => {
-        res.text().then(text => {
-            t.equal(text, 'test');
-            t.end();
-        });
-    });
+test('fetch', async () => {
+    const res = await external.fetch('data:text/plain;,test');
+    const text = await res.text();
+    assert.strictEqual(text, 'test');
 });
 
-test('dataURL', t => {
+test('dataURL', async () => {
     global.FileReader = class {
         readAsDataURL (blob) {
             blob.arrayBuffer().then(arrayBuffer => {
@@ -28,38 +24,29 @@ test('dataURL', t => {
         }
     };
 
-    external.dataURL('data:text/plain;,doesthiswork').then(dataURL => {
-        t.equal(dataURL, `data:text/plain;base64,${btoa('doesthiswork')}`);
-        t.end();
-    });
+    const dataURL = await external.dataURL('data:text/plain;,doesthiswork');
+    assert.strictEqual(dataURL, `data:text/plain;base64,${btoa('doesthiswork')}`);
 });
 
-test('blob', t => {
-    external.blob('data:text/plain;,test').then(blob => {
-        blob.text().then(blobText => {
-            t.equal(blobText, 'test');
-            t.end();
-        });
-    });
+test('blob', async () => {
+    const blob = await external.blob('data:text/plain;,test');
+    const blobText = await blob.text();
+    assert.strictEqual(blobText, 'test');
 });
 
-test('evalAndReturn', t => {
-    external.evalAndReturn('data:text/plain;,var%20x=20', 'x').then(result => {
-        t.equal(result, 20);
-        t.end();
-    });
+test('evalAndReturn', async () => {
+    const result = await external.evalAndReturn('data:text/plain;,var%20x=20', 'x');
+    assert.strictEqual(result, 20);
 });
 
-test('evalAndReturn with a trailing comment without newline', t => {
-    external.evalAndReturn('data:text/plain;,var%20x=20 // whatever', 'x').then(result => {
-        t.equal(result, 20);
-        t.end();
-    });
+test('evalAndReturn with a trailing comment without newline', async () => {
+    const result = await external.evalAndReturn('data:text/plain;,var%20x=20 // whatever', 'x');
+    assert.strictEqual(result, 20);
 });
 
-test('relative URL throws', t => {
+test('relative URL throws', (t, done) => {
     external.fetch('./test.js').catch(err => {
-        t.equal(err.message, `Unsupported URL: ./test.js`);
-        t.end();
+        assert.strictEqual(err.message, `Unsupported URL: ./test.js`);
+        done();
     });
 });

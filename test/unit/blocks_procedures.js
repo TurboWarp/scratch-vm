@@ -1,15 +1,15 @@
-const test = require('tap').test;
+const {test} = require('node:test');
+const assert = require('node:assert');
 const Procedures = require('../../src/blocks/scratch3_procedures');
 
 const blocks = new Procedures(null);
 
-test('getPrimitives', t => {
-    t.type(blocks.getPrimitives(), 'object');
-    t.end();
+test('getPrimitives', () => {
+    assert.strictEqual(typeof blocks.getPrimitives(), 'object');
 });
 
 // Originally inspired by https://github.com/scratchfoundation/scratch-gui/issues/809
-test('calling a custom block with no definition does not throw', t => {
+test('calling a custom block with no definition does not throw', () => {
     const args = {
         mutation: {
             proccode: 'undefined proc'
@@ -21,8 +21,7 @@ test('calling a custom block with no definition does not throw', t => {
             executed: false
         }
     };
-    t.doesNotThrow(() => {
+    assert.doesNotThrow(() => {
         blocks.call(args, util);
     });
-    t.end();
 });

@@ -1,29 +1,27 @@
-const {test} = require('tap');
+const {test} = require('node:test');
+const assert = require('node:assert');
 const VM = require('../../src/virtual-machine');
 const platform = require('../../src/engine/tw-platform');
 const Clone = require('../../src/util/clone');
 
-test('the internal object', t => {
+test('the internal object', () => {
     // the idea with this test is to make it harder for forks to screw up modifying the file
-    t.type(platform.name, 'string');
-    t.type(platform.url, 'string');
-    t.end();
+    assert.strictEqual(typeof platform.name, 'string');
+    assert.strictEqual(typeof platform.url, 'string');
 });
 
-test('vm property', t => {
+test('vm property', () => {
     const vm = new VM();
-    t.same(vm.runtime.platform, platform, 'copy of tw-platform.js');
-    t.not(vm.runtime.platform, platform, 'not the same object as tw-platform.js');
-    t.end();
+    assert.deepEqual(vm.runtime.platform, platform, 'copy of tw-platform.js');
+    assert.notStrictEqual(vm.runtime.platform, platform, 'not the same object as tw-platform.js');
 });
 
-test('sanitize', t => {
+test('sanitize', () => {
     const vm = new VM();
     vm.runtime.platform.name += ' - test';
     const json = JSON.parse(vm.toJSON());
-    t.same(json.meta.platform, vm.runtime.platform, 'copy of runtime.platform');
-    t.not(json.meta.platform, vm.runtime.platform, 'not the same object as runtime.platform');
-    t.end();
+    assert.deepEqual(json.meta.platform, vm.runtime.platform, 'copy of runtime.platform');
+    assert.notStrictEqual(json.meta.platform, vm.runtime.platform, 'not the same object as runtime.platform');
 });
 
 const vanillaProject = {
@@ -65,48 +63,42 @@ const vanillaProject = {
     }
 };
 
-test('deserialize no platform', t => {
+test('deserialize no platform', async () => {
     const vm = new VM();
     vm.runtime.on('PLATFORM_MISMATCH', () => {
-        t.fail('Called PLATFORM_MISMATCH');
+        assert.fail('Called PLATFORM_MISMATCH');
     });
-    vm.loadProject(vanillaProject).then(() => {
-        t.end();
-    });
+    await vm.loadProject(vanillaProject);
 });
 
-test('deserialize matching platform', t => {
+test('deserialize matching platform', async () => {
     const vm = new VM();
     vm.runtime.on('PLATFORM_MISMATCH', () => {
-        t.fail('Called PLATFORM_MISMATCH');
+        assert.fail('Called PLATFORM_MISMATCH');
     });
     const project = Clone.simple(vanillaProject);
     project.meta.platform = Object.assign({}, platform);
-    vm.loadProject(project).then(() => {
-        t.end();
-    });
+    await vm.loadProject(project);
 });
 
-test('deserialize mismatching platform with no listener', t => {
+test('deserialize mismatching platform with no listener', async () => {
     const vm = new VM();
     const project = Clone.simple(vanillaProject);
     project.meta.platform = {
         name: '3tw4ergo980uitegr5hoijuk;'
     };
-    vm.loadProject(project).then(() => {
-        t.end();
-    });
+    await vm.loadProject(project);
 });
 
-test('deserialize mismatching platform with 1 listener', t => {
+test('deserialize mismatching platform with 1 listener', async t => {
     t.plan(2);
     const vm = new VM();
     vm.runtime.on('PLATFORM_MISMATCH', (pl, callback) => {
-        t.same(pl, {
+        t.assert.deepEqual(pl, {
             name: 'aa',
             url: '...'
         });
-        t.ok('called PLATFORM_MISMATCH');
+        t.assert.ok('called PLATFORM_MISMATCH');
         callback();
     });
     const project = Clone.simple(vanillaProject);
@@ -114,12 +106,10 @@ test('deserialize mismatching platform with 1 listener', t => {
         name: 'aa',
         url: '...'
     };
-    vm.loadProject(project).then(() => {
-        t.end();
-    });
+    await vm.loadProject(project);
 });
 
-test('deserialize mismatching platform with 3 listeners', t => {
+test('deserialize mismatching platform with 3 listeners', (t, done) => {
     t.plan(2);
 
     const calls = [];
@@ -140,13 +130,13 @@ test('deserialize mismatching platform with 3 listeners', t => {
         name: ''
     };
     vm.loadProject(project).then(() => {
-        t.ok(expectedToLoad);
-        t.end();
+        t.assert.ok(expectedToLoad);
+        done();
     });
 
     // loadProject is async, may need to wait a bit
     setTimeout(async () => {
-        t.same(calls.map(i => i[0]), [1, 2, 3], 'listeners called in correct order');
+        t.assert.deepEqual(calls.map(i => i[0]), [1, 2, 3], 'listeners called in correct order');
 
         // loadProject should not finish until we call all of the listeners' callbacks
         calls[0][1]();
