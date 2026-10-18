@@ -15,23 +15,22 @@ test('spec', () => {
     assert.strictEqual(typeof c.resetProjectTimer, 'function');
 });
 
-test('cycle', (t, done) => {
+test('cycle', t => {
+    t.mock.timers.enable({apis: ['Date']});
     const rt = new Runtime();
     const c = new Clock(rt);
 
-    assert.ok(c.projectTimer() <= 0.1);
-    setTimeout(() => {
-        c.resetProjectTimer();
-        setTimeout(() => {
-            // The timer shouldn't advance until all threads have been stepped
-            assert.ok(c.projectTimer() === 0);
-            c.pause();
-            assert.ok(c.projectTimer() === 0);
-            c.resume();
-            assert.ok(c.projectTimer() === 0);
-            done();
-        }, 100);
-    }, 100);
+    assert.strictEqual(c.projectTimer(), 0);
+    t.mock.timers.tick(100);
     rt._step();
-    assert.ok(c.projectTimer() > 0);
+    assert.strictEqual(c.projectTimer(), 0.1);
+
+    c.resetProjectTimer();
+    t.mock.timers.tick(100);
+    // The timer shouldn't advance until all threads have been stepped
+    assert.strictEqual(c.projectTimer(), 0);
+    c.pause();
+    assert.strictEqual(c.projectTimer(), 0);
+    c.resume();
+    assert.strictEqual(c.projectTimer(), 0);
 });
