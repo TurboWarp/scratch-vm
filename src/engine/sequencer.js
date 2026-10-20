@@ -178,8 +178,9 @@ class Sequencer {
      */
     stepThread (thread) {
         if (thread.isCompiled) {
+            this.runtime.sampler.enterReserved(Sampler.UNPROFILED);
             compilerExecute(thread);
-            if (this.runtime.sampler.enableBasic) this.runtime.sampler.pc[0] = Sampler.RUNTIME;
+            this.runtime.sampler.enterReserved(Sampler.RUNTIME);
             return;
         }
 
