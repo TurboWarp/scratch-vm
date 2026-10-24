@@ -135,9 +135,13 @@ class JSGenerator {
          */
         this.sampler = sampler.enableCommands ? sampler : null;
         /**
+         * Whether to count how many times each command block runs.
+         */
+        this.samplerCounts = sampler.enableCounts;
+        /**
          * ID of the current command block being sampled.
          */
-        this.currentSamplerLocation = -1;
+        this.currentSamplerLocation = Sampler.RUNTIME;
 
         this.oldCompilerStub = new oldCompilerCompatibility.JSGeneratorStub(this);
     }
@@ -989,7 +993,11 @@ class JSGenerator {
             if (this.sampler && block.blockId) {
                 const originalTargetId = this.target.sprite.clones[0].id;
                 this.currentSamplerLocation = this.sampler.blockToLocation(originalTargetId, block.blockId);
-                this.source += `pc[0] = ${this.currentSamplerLocation};\n`;
+                if (this.samplerCounts) {
+                    this.source += `pc[0] = ${this.currentSamplerLocation}; counts[${this.currentSamplerLocation}]++;\n`;
+                } else {
+                    this.source += `pc[0] = ${this.currentSamplerLocation};\n`;
+                }
             }
 
             this.descendStackedBlock(block);
@@ -1079,7 +1087,11 @@ class JSGenerator {
     yieldStuckOrNotWarp () {
         if (this.isWarp) {
             if (this.sampler) {
-                this.source += `pc[0] = ${Sampler.WARP_TIMER};\n`;
+                if (this.samplerCounts) {
+                    this.source += `pc[0] = ${Sampler.WARP_TIMER}; counts[${Sampler.WARP_TIMER}]++;\n`;
+                } else {
+                    this.source += `pc[0] = ${Sampler.WARP_TIMER};\n`;
+                }
             }
             this.source += 'if (isStuck()) yield;\n';
         } else {
@@ -1183,6 +1195,9 @@ class JSGenerator {
         script += 'const stage = runtime.getTargetForStage();\n';
         if (this.sampler) {
             script += 'const pc = runtime.sampler.pc;\n';
+            if (this.samplerCounts) {
+                script += 'const counts = runtime.sampler.counts;\n';
+            }
         }
         for (const varValue of Object.keys(this._setupVariables)) {
             const varName = this._setupVariables[varValue];
