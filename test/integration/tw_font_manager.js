@@ -5,6 +5,7 @@ const assert = require('node:assert');
 const _makeTestStorage = require('../fixtures/make-test-storage');
 const Runtime = require('../../src/engine/runtime');
 const VirtualMachine = require('../../src/virtual-machine');
+const JSZip = require('@turbowarp/jszip');
 
 const emptyProjectFixture = path.join(__dirname, '..', 'fixtures', 'tw-empty-project.sb3');
 
@@ -730,4 +731,49 @@ test('overriding existing fonts', () => {
     assert.strictEqual(changeEvents, 4);
     assert.strictEqual(setCustomFontsCalls, 3);
     assert.deepEqual(fontManager.getFonts().map(i => i.name), ['TESTFONT']);
+});
+
+test('deserialize waits for renderer to load fonts', async () => {
+    const zip = new JSZip();
+    zip.file('8e0b5e4ad4e3b2b9a8b4e9bd0ec4de2c.ttf', new Uint8Array([1, 2, 3]));
+
+    let resolveSetCustomFontsCalled;
+    const setCustomFontsCalled = new Promise(resolve => {
+        resolveSetCustomFontsCalled = resolve;
+    });
+    let resolveFontsLoaded;
+    const mockRenderer = {
+        setLayerGroupOrdering: () => {},
+        setCustomFonts: () => {
+            resolveSetCustomFontsCalled();
+            return new Promise(resolve => {
+                resolveFontsLoaded = resolve;
+            });
+        }
+    };
+
+    const rt = new Runtime();
+    rt.attachRenderer(mockRenderer);
+    rt.attachStorage(makeTestStorage());
+
+    let deserialized = false;
+    const promise = rt.fontManager.deserialize([
+        {
+            system: false,
+            family: 'TestFont',
+            fallback: 'sans-serif',
+            md5ext: '8e0b5e4ad4e3b2b9a8b4e9bd0ec4de2c.ttf'
+        }
+    ], zip, false).then(() => {
+        deserialized = true;
+    });
+
+    await setCustomFontsCalled;
+    await new Promise(resolve => setTimeout(resolve));
+    assert.strictEqual(deserialized, false, 'still waiting for fonts');
+
+    resolveFontsLoaded();
+    await promise;
+    assert.strictEqual(deserialized, true);
+    assert.deepEqual(rt.fontManager.getFonts().map(i => i.name), ['TestFont']);
 });
