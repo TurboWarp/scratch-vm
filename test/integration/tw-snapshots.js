@@ -15,7 +15,7 @@ for (const testCase of Snapshots.tests) {
         } else if (result !== 'VALID') {
             // This assertion will always fail, but it will print out the snapshots
             // for easier comparison.
-            assert.strictEqual(expected, actual, 'did not match; you may have to run: node test/snapshot --update');
+            assert.strictEqual(actual, expected, 'did not match; you may have to run: node test/snapshot --update');
         }
     });
 }
