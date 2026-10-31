@@ -411,8 +411,12 @@ class JSGenerator {
             const procedureVariant = node.variant;
             const procedureData = this.ir.procedures[procedureVariant];
             if (procedureData.stack === null) {
-                // TODO still need to evaluate arguments for side effects
-                return '""';
+                // Still need to evaluate arguments for side effects.
+                if (node.arguments.length === 0) {
+                    return '""';
+                }
+                const args = node.arguments.map(input => `void (${this.descendInput(input)})`);
+                return `(${args.join(', ')}, "")`;
             }
 
             // Recursion makes this complicated because:
@@ -878,28 +882,34 @@ class JSGenerator {
             const procedureCode = node.code;
             const procedureVariant = node.variant;
             const procedureData = this.ir.procedures[procedureVariant];
-            if (procedureData.stack === null) {
-                // TODO still need to evaluate arguments
-                break;
-            }
-            const yieldForRecursion = !this.isWarp && procedureCode === this.script.procedureCode;
-            if (yieldForRecursion) {
-                // Direct yields.
-                this.yieldNotWarp();
-            }
-            if (procedureData.yields) {
-                this.source += 'yield* ';
-                if (!this.script.yields) {
-                    throw new Error('Script uses yielding procedure but is not marked as yielding.');
-                }
-            }
-            this.source += `thread.procedures["${sanitize(procedureVariant)}"](`;
             const args = [];
             for (const input of node.arguments) {
                 args.push(this.descendInput(input));
             }
-            this.source += args.join(',');
-            this.source += `);\n`;
+            if (procedureData.stack === null) {
+                // Still need to evaluate arguments for side effects.
+                for (const arg of args) {
+                    this.source += `void (${arg});\n`;
+                }
+                break;
+            }
+            if (procedureData.yields && !this.script.yields) {
+                throw new Error('Script uses yielding procedure but is not marked as yielding.');
+            }
+            const procedureReference = `thread.procedures["${sanitize(procedureVariant)}"]`;
+            const joinedArgs = args.join(',');
+            const yieldForRecursion = !this.isWarp && procedureCode === this.script.procedureCode;
+            if (yieldForRecursion) {
+                // Arguments must be evaluated *before* the yield, like the interpreter does.
+                const runtimeFunction = procedureData.yields ? 'yieldThenCallGenerator' : 'yieldThenCall';
+                this.source += `yield* ${runtimeFunction}(${procedureReference}, ${joinedArgs});\n`;
+                this.yielded();
+                break;
+            }
+            if (procedureData.yields) {
+                this.source += 'yield* ';
+            }
+            this.source += `${procedureReference}(${joinedArgs});\n`;
             break;
         }
         case StackOpcode.PROCEDURE_RETURN:
