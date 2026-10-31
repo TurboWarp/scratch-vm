@@ -92,9 +92,10 @@ test('Loading project uses default extension URLs', async () => {
         }
     });
     assert.deepEqual(events, [
+        // All permission checks happen before any extensions are loaded
         'canLoadExtensionFromProject https://extensions.turbowarp.org/lab/text.js',
-        'loadExtensionURL https://extensions.turbowarp.org/lab/text.js',
         'canLoadExtensionFromProject https://example.com/box2d.js',
+        'loadExtensionURL https://extensions.turbowarp.org/lab/text.js',
         'loadExtensionURL https://example.com/box2d.js'
     ]);
 });

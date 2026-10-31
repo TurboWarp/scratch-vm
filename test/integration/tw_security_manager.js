@@ -54,6 +54,36 @@ test('Allow both extensions', async () => {
     assert.deepEqual(new Set(loadedExtensions), new Set([FETCH_EXTENSION, BITWISE_EXTENSION]));
 });
 
+test('Asks about every extension concurrently before loading any', async () => {
+    const vm = new VirtualMachine();
+    const loadedExtensions = [];
+    vm.extensionManager.loadExtensionURL = url => {
+        loadedExtensions.push(url);
+        return Promise.resolve();
+    };
+    const pending = [];
+    let resolveAllAsked;
+    const allAsked = new Promise(resolve => {
+        resolveAllAsked = resolve;
+    });
+    vm.securityManager.canLoadExtensionFromProject = url => new Promise(resolve => {
+        pending.push({url, resolve});
+        if (pending.length === 2) {
+            resolveAllAsked();
+        }
+    });
+    const loadPromise = vm.loadProject(testProject);
+    // Neither request is answered until both have been made
+    await allAsked;
+    assert.deepEqual(new Set(pending.map(i => i.url)), new Set([FETCH_EXTENSION, BITWISE_EXTENSION]));
+    assert.deepEqual(loadedExtensions, []);
+    for (const {resolve} of pending) {
+        resolve(true);
+    }
+    await loadPromise;
+    assert.deepEqual(new Set(loadedExtensions), new Set([FETCH_EXTENSION, BITWISE_EXTENSION]));
+});
+
 test('canFetch', async () => {
     const vm = new VirtualMachine();
     setupUnsandboxedExtensionAPI(vm);
