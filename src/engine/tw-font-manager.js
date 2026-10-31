@@ -160,6 +160,7 @@ class FontManager extends EventEmitter {
      * @param {string} family
      * @param {string} fallback
      * @param {Asset} asset scratch-storage asset
+     * @returns {Promise<unknown>} Resolves when the font is ready.
      */
     addCustomFont (family, fallback, asset) {
         if (!this.isValidCustomFont(family)) {
@@ -171,8 +172,9 @@ class FontManager extends EventEmitter {
             fallback,
             asset
         });
-        this.updateRenderer();
+        const promise = this.updateRenderer();
         this.changed();
+        return promise;
     }
 
     /**
@@ -208,9 +210,12 @@ class FontManager extends EventEmitter {
         this.changed();
     }
 
+    /**
+     * @returns {Promise<unknown>} Resolves when fonts are ready.
+     */
     updateRenderer () {
         if (!this.runtime.renderer || !this.runtime.renderer.setCustomFonts) {
-            return;
+            return Promise.resolve();
         }
 
         const fontfaces = {};
@@ -222,7 +227,7 @@ class FontManager extends EventEmitter {
                 fontfaces[family] = fontface;
             }
         }
-        this.runtime.renderer.setCustomFonts(fontfaces);
+        return this.runtime.renderer.setCustomFonts(fontfaces);
     }
 
     /**
@@ -273,6 +278,7 @@ class FontManager extends EventEmitter {
             return;
         }
 
+        const fontPromises = [];
         for (const font of json) {
             if (!font || typeof font !== 'object') {
                 continue;
@@ -305,12 +311,14 @@ class FontManager extends EventEmitter {
                         this.runtime.storage.AssetType.Font,
                         md5ext
                     );
-                    this.addCustomFont(family, fallback, asset);
+                    fontPromises.push(this.addCustomFont(family, fallback, asset));
                 }
             } catch (e) {
                 log.error('could not add font', e);
             }
         }
+
+        await Promise.all(fontPromises);
     }
 }
 
