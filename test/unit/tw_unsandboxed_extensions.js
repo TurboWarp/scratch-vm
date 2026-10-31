@@ -11,7 +11,18 @@ const scriptCallbacks = new Map();
 const setScript = (src, callback) => {
     scriptCallbacks.set(src, callback);
 };
+const windowErrorListeners = new Set();
+const dispatchWindowError = error => {
+    const event = {
+        error,
+        message: `Uncaught ${error}`
+    };
+    for (const listener of windowErrorListeners) {
+        listener(event);
+    }
+};
 global.document = {
+    currentScript: null,
     createElement: tagName => {
         if (tagName.toLowerCase() !== 'script') {
             throw new Error(`Unknown element: ${tagName}`);
@@ -29,7 +40,15 @@ global.document = {
                 setTimeout(() => {
                     const callback = scriptCallbacks.get(element.src);
                     if (callback) {
-                        callback();
+                        // Like a real browser, errors thrown by the script's top-level code
+                        // become window error events while document.currentScript is set.
+                        global.document.currentScript = element;
+                        try {
+                            callback();
+                        } catch (error) {
+                            dispatchWindowError(error);
+                        }
+                        global.document.currentScript = null;
                         element.onload();
                     } else {
                         element.onerror();
@@ -50,7 +69,13 @@ global.fetch = (url, options = {}) => (
     Promise.resolve(`[Response ${url instanceof Request ? url.url : url} options=${JSON.stringify(options)}]`)
 );
 global.window = {
-    open: (url, target, features) => `[Window ${url} target=${target || ''} features=${features || ''}]`
+    open: (url, target, features) => `[Window ${url} target=${target || ''} features=${features || ''}]`,
+    addEventListener: (type, listener) => {
+        if (type === 'error') windowErrorListeners.add(listener);
+    },
+    removeEventListener: (type, listener) => {
+        if (type === 'error') windowErrorListeners.delete(listener);
+    }
 };
 
 // Remove navigator object from Node 21 and later
@@ -145,7 +170,80 @@ test('register multiple extensions in one script', async () => {
 test('extension error results in rejection', async () => {
     const vm = new VirtualMachine();
     // The script will not load successfully
-    await assert.rejects(UnsandboxedExtensionRunner.load('https://turbowarp.org/404.js', vm));
+    await assert.rejects(
+        UnsandboxedExtensionRunner.load('https://turbowarp.org/404.js', vm),
+        /^Error: https:\/\/turbowarp\.org\/404\.js .*network/
+    );
+});
+
+test('error thrown by script before registering results in rejection', async () => {
+    const vm = new VirtualMachine();
+    setScript('https://turbowarp.org/throws.js', () => {
+        throw new TypeError('Something went wrong');
+    });
+    await assert.rejects(
+        UnsandboxedExtensionRunner.load('https://turbowarp.org/throws.js', vm),
+        error => (
+            error.cause instanceof TypeError &&
+            /^https:\/\/turbowarp\.org\/throws\.js .*runtime error: TypeError: Something went wrong$/
+                .test(error.message)
+        )
+    );
+    assert.strictEqual(windowErrorListeners.size, 0);
+
+    // Later extensions should still be able to load
+    class MyExtension {}
+    setScript('https://turbowarp.org/works.js', () => {
+        global.Scratch.extensions.register(new MyExtension());
+    });
+    const extensions = await UnsandboxedExtensionRunner.load('https://turbowarp.org/works.js', vm);
+    assert.strictEqual(extensions.length, 1);
+    assert.ok(extensions[0] instanceof MyExtension);
+});
+
+test('non-Error thrown by script results in rejection', async () => {
+    const vm = new VirtualMachine();
+    setScript('https://turbowarp.org/throws.js', () => {
+        // eslint-disable-next-line no-throw-literal
+        throw 'oops';
+    });
+    await assert.rejects(
+        UnsandboxedExtensionRunner.load('https://turbowarp.org/throws.js', vm),
+        /^Error: https:\/\/turbowarp\.org\/throws\.js .*runtime error: Uncaught oops$/
+    );
+});
+
+test('data: URLs are not included in error messages', async () => {
+    const vm = new VirtualMachine();
+    const throwsURL = 'data:application/javascript,throw%20new%20Error()';
+    setScript(throwsURL, () => {
+        throw new Error('Something went wrong');
+    });
+    await assert.rejects(
+        UnsandboxedExtensionRunner.load(throwsURL, vm),
+        error => error.message.startsWith('Custom extension ') && !error.message.includes('data:')
+    );
+
+    // Not registered with setScript, so it fails to load
+    const missingURL = 'data:application/javascript,404';
+    await assert.rejects(
+        UnsandboxedExtensionRunner.load(missingURL, vm),
+        error => error.message.startsWith('Custom extension ') && !error.message.includes('data:')
+    );
+});
+
+test('unrelated errors while script is loading are ignored', async () => {
+    const vm = new VirtualMachine();
+    class MyExtension {}
+    setScript('https://turbowarp.org/works.js', () => {
+        global.Scratch.extensions.register(new MyExtension());
+    });
+    const promise = UnsandboxedExtensionRunner.load('https://turbowarp.org/works.js', vm);
+    // document.currentScript is not the extension's script here
+    dispatchWindowError(new Error('Error from somewhere else'));
+    const extensions = await promise;
+    assert.strictEqual(extensions.length, 1);
+    assert.ok(extensions[0] instanceof MyExtension);
 });
 
 test('ScratchX', async () => {

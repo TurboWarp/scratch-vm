@@ -6,6 +6,7 @@ const dispatch = require('../dispatch/worker-dispatch');
 const log = require('../util/log');
 const {isWorker} = require('./tw-extension-worker-context');
 const createTranslate = require('./tw-l10n');
+const loadScriptElement = require('./tw-load-script-element');
 
 const translate = createTranslate(null);
 
@@ -13,15 +14,7 @@ const loadScripts = url => {
     if (isWorker) {
         importScripts(url);
     } else {
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.onload = () => resolve();
-            script.onerror = () => {
-                reject(new Error(`Error in sandboxed script: ${url}. Check the console for more information.`));
-            };
-            script.src = url;
-            document.body.appendChild(script);
-        });
+        return loadScriptElement(url);
     }
 };
 
