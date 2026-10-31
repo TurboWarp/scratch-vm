@@ -772,15 +772,15 @@ class VirtualMachine extends EventEmitter {
      */
     async _loadExtensions (extensionIDs, extensionURLs = new Map()) {
         const defaultExtensionURLs = require('./extension-support/tw-default-extension-urls');
-        const extensionPromises = [];
+        const builtinExtensionIDs = [];
+        const customExtensionIDs = [];
+        const customExtensionURLs = [];
         for (const extensionID of extensionIDs) {
             if (this.extensionManager.isExtensionLoaded(extensionID)) {
                 // Already loaded
             } else if (this.extensionManager.isBuiltinExtension(extensionID)) {
-                // Builtin extension
-                this.extensionManager.loadExtensionIdSync(extensionID);
+                builtinExtensionIDs.push(extensionID);
             } else {
-                // Custom extension
                 let url = extensionURLs.get(extensionID);
                 if (!url && Object.prototype.hasOwnProperty.call(defaultExtensionURLs, extensionID)) {
                     url = defaultExtensionURLs[extensionID];
@@ -788,14 +788,25 @@ class VirtualMachine extends EventEmitter {
                 if (!url) {
                     throw new Error(`Unknown extension: ${extensionID}`);
                 }
-                if (await this.securityManager.canLoadExtensionFromProject(url)) {
-                    extensionPromises.push(this.extensionManager.loadExtensionURL(url));
-                } else {
-                    throw new Error(`Permission to load extension denied: ${extensionID}`);
-                }
+                customExtensionIDs.push(extensionID);
+                customExtensionURLs.push(url);
             }
         }
-        return Promise.all(extensionPromises);
+
+        // Ask about every custom extension concurrently, before loading any of them, so that the
+        // security manager can combine them into a single prompt if it wants to.
+        const permissions = await Promise.all(
+            customExtensionURLs.map(url => this.securityManager.canLoadExtensionFromProject(url))
+        );
+        const deniedExtensionIDs = customExtensionIDs.filter((_, i) => !permissions[i]);
+        if (deniedExtensionIDs.length > 0) {
+            throw new Error(`Permission to load extension denied: ${deniedExtensionIDs.join(', ')}`);
+        }
+
+        for (const extensionID of builtinExtensionIDs) {
+            this.extensionManager.loadExtensionIdSync(extensionID);
+        }
+        return Promise.all(customExtensionURLs.map(url => this.extensionManager.loadExtensionURL(url)));
     }
 
     /**
