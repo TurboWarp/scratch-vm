@@ -100,6 +100,10 @@ test('custom extensions', async () => {
             appendChild: () => {}
         }
     };
+    global.window = {
+        addEventListener: () => {},
+        removeEventListener: () => {}
+    };
 
     assert.strictEqual(vm.renderer.privateSkinAccess, true);
     await vm.extensionManager.loadExtensionURL('data:application/javascript;,');
