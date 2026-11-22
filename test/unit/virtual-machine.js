@@ -526,6 +526,9 @@ test('emitWorkspaceUpdate', () => {
     ];
     vm.editingTarget = vm.runtime.targets[2];
 
+    // no event listeners should not error
+    vm.emitWorkspaceUpdate();
+
     let xml = null;
     vm.on('workspaceUpdate', data => {
         xml = data.xml;
