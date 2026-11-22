@@ -527,7 +527,9 @@ test('emitWorkspaceUpdate', () => {
     vm.editingTarget = vm.runtime.targets[2];
 
     let xml = null;
-    vm.emit = (event, data) => (xml = data.xml);
+    vm.on('workspaceUpdate', data => {
+        xml = data.xml;
+    });
     vm.emitWorkspaceUpdate();
     assert.notStrictEqual(xml.indexOf('global'), -1);
     assert.notStrictEqual(xml.indexOf('local'), -1);
