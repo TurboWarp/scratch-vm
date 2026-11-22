@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@turbowarp/json": "^0.1.2",
-    "@turbowarp/jszip": "^3.11.0",
+    "@turbowarp/jszip": "^4.0.0",
     "@turbowarp/nanolog": "^0.2.0",
     "@vernier/godirect": "1.5.0",
     "arraybuffer-loader": "^1.0.6",
