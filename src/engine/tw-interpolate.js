@@ -51,9 +51,17 @@ const interpolate = (runtime, time) => {
         }
 
         // Don't waste time interpolating sprites that are hidden.
-        if (!target.visible) {
+        if (
+            !target.visible ||
+            (
+                target.effects.ghost === 100 &&
+                interpolationData.ghost === 100
+            )
+        ) {
             continue;
         }
+
+        runtime.emit(runtime.constructor.BEFORE_INTERPOLATE, target);
 
         const drawableID = target.drawableID;
 
@@ -131,6 +139,8 @@ const interpolate = (runtime, time) => {
                 renderer.updateDrawableDirectionScale(drawableID, direction, scale);
             }
         }
+
+        runtime.emit(runtime.constructor.AFTER_INTERPOLATE, target);
     }
 };
 
