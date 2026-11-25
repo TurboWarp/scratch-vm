@@ -28,15 +28,19 @@
  */
 
 class Sampler {
-    // Reserved values get negative location IDs.
-    // Blocks get everything else.
-    static IDLE = -1;
-    static RUNTIME = -2;
-    static RENDERER = -3;
-    static WARP_TIMER = -4;
+    // Reserved values get the first location IDs.
+    // Blocks get everything from FIRST_BLOCK onwards.
+    static IDLE = 0;
+    static RUNTIME = 1;
+    static RENDERER = 2;
+    static WARP_TIMER = 3;
+    static UNPROFILED = 4;
+    static GUI_UPDATES = 5;
+    static FIRST_BLOCK = 6;
 
     static LEVEL_BASIC = 1;
     static LEVEL_COMMANDS = 2;
+    static LEVEL_COUNTS = 3;
 
     constructor (runtime) {
         this.runtime = runtime;
@@ -59,8 +63,13 @@ class Sampler {
         this.enableCommands = false;
 
         /**
-         * Maps location ID to what it represents.
-         * @type {Array<{blockId: string; spriteId: string;}>}
+         * Per-command execution counting. Implies commands.
+         */
+        this.enableCounts = false;
+
+        /**
+         * Maps location ID to what it represents. Reserved locations are null.
+         * @type {Array<{blockId: string; spriteId: string;}|null>}
          */
         this.locations = [];
 
@@ -69,6 +78,17 @@ class Sampler {
          * @type {Map<string, Map<string, number>>}
          */
         this.blockLocations = new Map();
+
+        /**
+         * Maps location ID to how many times it was entered. Only updated when enableCounts is set.
+         * @type {number[]}
+         */
+        this.counts = [];
+
+        for (let i = 0; i < Sampler.FIRST_BLOCK; i++) {
+            this.locations.push(null);
+            this.counts.push(0);
+        }
     }
 
     /**
@@ -96,6 +116,7 @@ class Sampler {
 
         this.enableBasic = level >= Sampler.LEVEL_BASIC;
         this.enableCommands = level >= Sampler.LEVEL_COMMANDS;
+        this.enableCounts = level >= Sampler.LEVEL_COUNTS;
 
         this.runtime.resetAllCaches();
     }
@@ -118,6 +139,7 @@ class Sampler {
                 blockId,
                 spriteId
             });
+            this.counts.push(0);
             location = this.locations.length - 1;
             spriteLocations.set(blockId, location);
         }
@@ -125,11 +147,41 @@ class Sampler {
     }
 
     /**
+     * Mark that a reserved location is now running.
+     * @param {number} location One of the reserved location constants.
+     */
+    enterReserved (location) {
+        if (this.enableBasic) {
+            this.pc[0] = location;
+        }
+    }
+
+    /**
+     * Mark that a reserved location is now running and count it.
+     * @param {number} location One of the reserved location constants.
+     */
+    incrementReserved (location) {
+        if (this.enableBasic) {
+            this.pc[0] = location;
+        }
+        if (this.enableCounts) {
+            this.counts[location]++;
+        }
+    }
+
+    /**
+     * Set all execution counts back to zero.
+     */
+    resetCounts () {
+        this.counts.fill(0);
+    }
+
+    /**
      * @param {number} location
      * @returns {{blockId: string; spriteId: string;}}
      */
     locationToBlock (location) {
-        if (location < 0) {
+        if (location < Sampler.FIRST_BLOCK) {
             throw new Error(`Tried to get block from a reserved location ID`);
         }
         return this.locations[location];

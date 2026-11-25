@@ -2496,6 +2496,8 @@ class Runtime extends EventEmitter {
     }
 
     _renderInterpolatedPositions () {
+        this.sampler.incrementReserved(Sampler.RUNTIME);
+
         const frameStarted = this._lastStepTime;
         const now = Date.now();
         const timeSinceStart = now - frameStarted;
@@ -2504,10 +2506,11 @@ class Runtime extends EventEmitter {
         interpolate.interpolate(this, progressInFrame);
 
         if (this.renderer) {
-            if (this.sampler.enableBasic) this.sampler.pc[0] = Sampler.RENDERER;
+            this.sampler.incrementReserved(Sampler.RENDERER);
             this.renderer.draw();
-            if (this.sampler.enableBasic) this.sampler.pc[0] = Sampler.IDLE;
         }
+
+        this.sampler.enterReserved(Sampler.IDLE);
     }
 
     updateThreadMap () {
@@ -2524,7 +2527,7 @@ class Runtime extends EventEmitter {
      * inactive threads after each iteration.
      */
     _step () {
-        if (this.sampler.enableBasic) this.sampler.pc[0] = Sampler.RUNTIME;
+        this.sampler.incrementReserved(Sampler.RUNTIME);
 
         if (this.interpolationEnabled) {
             interpolate.setupInitialState(this);
@@ -2584,15 +2587,16 @@ class Runtime extends EventEmitter {
             // Checking for the animation frame loop is more reliable than using
             // interpolationEnabled in some edge cases
             if (!document.hidden && !this.frameLoop._interpolationAnimation) {
-                if (this.sampler.enableBasic) this.sampler.pc[0] = Sampler.RENDERER;
+                this.sampler.incrementReserved(Sampler.RENDERER);
                 this.renderer.draw();
-                if (this.sampler.enableBasic) this.sampler.pc[0] = Sampler.RUNTIME;
+                this.sampler.enterReserved(Sampler.RUNTIME);
             }
             if (this.profiler !== null) {
                 this.profiler.stop();
             }
         }
 
+        this.sampler.incrementReserved(Sampler.GUI_UPDATES);
         if (this._refreshTargets) {
             this.emit(Runtime.TARGETS_UPDATE, false /* Don't emit project changed */);
             this._refreshTargets = false;
@@ -2602,6 +2606,7 @@ class Runtime extends EventEmitter {
             this.emit(Runtime.MONITORS_UPDATE, this._monitorState.shallowClone());
             this._monitorState.dirty = false;
         }
+        this.sampler.enterReserved(Sampler.RUNTIME);
 
         if (this.profiler !== null) {
             this.profiler.stop();
@@ -2612,7 +2617,7 @@ class Runtime extends EventEmitter {
             this._lastStepTime = Date.now();
         }
 
-        if (this.sampler.enableBasic) this.sampler.pc[0] = Sampler.IDLE;
+        this.sampler.enterReserved(Sampler.IDLE);
     }
 
     /**
