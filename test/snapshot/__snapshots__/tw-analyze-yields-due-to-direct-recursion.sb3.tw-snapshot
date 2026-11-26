@@ -21,8 +21,7 @@ retire(); return;
 return function* genXYZ_non_warp_recursion_ (p0) {
 let t;
 if (compareGreaterThan(p0, 0)) {
-yield;
-yield* thread.procedures["Znon-warp recursion %s"]((((t = +p0) === t ? t : 0) - 1));
+yield* yieldThenCallGenerator(thread.procedures["Znon-warp recursion %s"], (((t = +p0) === t ? t : 0) - 1));
 }
 return "";
 }; })

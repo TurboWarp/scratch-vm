@@ -1,0 +1,26 @@
+// TW Snapshot
+// Input SHA-256: 7083394fd21b95f1f4707d21e804932d17e30de1702e38421e4b0789f166e52d
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+const b1 = stage.variables["jhw]#:YcHza|,D-)3(-j"];
+return function* genXYZ () {
+let t;
+runtime.ext_scratch3_looks._say("plan 1", target);
+b0.value = 5;
+thread.procedures["Zoptimize this call please %s"]((b0.value + 1));
+if ((((t = +b1.value) === t ? t : 0) === 6)) {
+runtime.ext_scratch3_looks._say("pass", target);
+}
+runtime.ext_scratch3_looks._say("end", target);
+retire(); return;
+}; })
+
+// Sprite1 Zoptimize this call please %s
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["jhw]#:YcHza|,D-)3(-j"];
+return function funXYZ_optimize_this_call_p (p0) {
+b0.value = p0;
+return "";
+}; })

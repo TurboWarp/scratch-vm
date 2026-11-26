@@ -510,10 +510,14 @@ class IROptimizer {
 
         switch (inputBlock.opcode) {
         case InputOpcode.ADDON_CALL:
+            modified = this.analyzeInputs(inputs.arguments, state) || modified;
             modified = state.clear() || modified;
             break;
-        case InputOpcode.PROCEDURE_CALL: {
+        case InputOpcode.COMPATIBILITY_LAYER:
             modified = this.analyzeInputs(inputs.inputs, state) || modified;
+            break;
+        case InputOpcode.PROCEDURE_CALL: {
+            modified = this.analyzeInputs(inputs.arguments, state) || modified;
             const script = this.ir.procedures[inputs.variant];
 
             if (!script || !script.cachedAnalysisEndState) {
@@ -605,9 +609,13 @@ class IROptimizer {
             modified = this.analyzeInputs(inputs, state) || modified;
             break;
         }
+        case StackOpcode.ADDON_CALL:
+            modified = this.analyzeInputs(inputs, state) || modified;
+            modified = this.analyzeInputs(inputs.arguments, state) || modified;
+            break;
         case StackOpcode.PROCEDURE_CALL: {
             modified = this.analyzeInputs(inputs, state) || modified;
-            modified = this.analyzeInputs(inputs.inputs, state) || modified;
+            modified = this.analyzeInputs(inputs.arguments, state) || modified;
             const script = this.ir.procedures[inputs.variant];
 
             if (!script || !script.cachedAnalysisEndState) {
@@ -621,7 +629,7 @@ class IROptimizer {
         }
         case StackOpcode.COMPATIBILITY_LAYER: {
             modified = this.analyzeInputs(inputs, state) || modified;
-            this.analyzeInputs(inputs.inputs, state);
+            modified = this.analyzeInputs(inputs.inputs, state) || modified;
             for (const substackName in inputs.substacks) {
                 const newState = state.clone();
                 modified = this.analyzeStack(inputs.substacks[substackName], newState) || modified;
@@ -716,14 +724,18 @@ class IROptimizer {
      * @private
      */
     optimizeInput (input, state) {
-        for (const inputKey in input.inputs) {
-            const inputInput = input.inputs[inputKey];
-            if (inputInput instanceof IntermediateInput) {
-                input.inputs[inputKey] = this.optimizeInput(inputInput, state);
-            }
-        }
+        this.optimizeInputs(input.inputs, state);
 
         switch (input.opcode) {
+        case InputOpcode.ADDON_CALL:
+        case InputOpcode.PROCEDURE_CALL:
+            this.optimizeInputs(input.inputs.arguments, state);
+            return input;
+
+        case InputOpcode.COMPATIBILITY_LAYER:
+            this.optimizeInputs(input.inputs.inputs, state);
+            return input;
+
         case InputOpcode.CAST_BOOLEAN: {
             const targetType = input.inputs.target.type;
             if ((targetType & InputType.BOOLEAN) === targetType) {
@@ -769,6 +781,23 @@ class IROptimizer {
     }
 
     /**
+     * Optimize every input in an object or array of inputs, replacing them in place.
+     * @param {Object<any, any>|Array<any>} inputs
+     * @param {TypeState} state
+     * @private
+     */
+    optimizeInputs (inputs, state) {
+        for (const inputKey in inputs) {
+            const input = inputs[inputKey];
+            if (input instanceof IntermediateInput) {
+                inputs[inputKey] = this.optimizeInput(input, state);
+            } else if (input instanceof IntermediateStack) {
+                this.optimizeStack(input, state);
+            }
+        }
+    }
+
+    /**
      * @param {IntermediateStack?} stack
      * @param {TypeState} state The state of the project before this stack is run.
      * @private
@@ -777,14 +806,22 @@ class IROptimizer {
         if (!stack) return;
         for (const stackBlock of stack.blocks) {
             if (stackBlock.entryState) state = stackBlock.entryState;
-            for (const inputKey in stackBlock.inputs) {
-                const input = stackBlock.inputs[inputKey];
-                if (input instanceof IntermediateInput) {
-                    stackBlock.inputs[inputKey] = this.optimizeInput(input, state);
-                } else if (input instanceof IntermediateStack) {
-                    this.optimizeStack(input, state);
-                }
+
+            const inputs = stackBlock.inputs;
+            this.optimizeInputs(inputs, state);
+
+            switch (stackBlock.opcode) {
+            case StackOpcode.ADDON_CALL:
+            case StackOpcode.PROCEDURE_CALL:
+                this.optimizeInputs(inputs.arguments, state);
+                break;
+
+            case StackOpcode.COMPATIBILITY_LAYER:
+                this.optimizeInputs(inputs.inputs, state);
+                this.optimizeInputs(inputs.substacks, state);
+                break;
             }
+
             if (stackBlock.exitState) {
                 state = stackBlock.exitState;
             }
