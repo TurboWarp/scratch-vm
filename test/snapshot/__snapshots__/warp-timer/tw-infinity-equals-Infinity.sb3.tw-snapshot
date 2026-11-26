@@ -1,0 +1,18 @@
+// TW Snapshot
+// Input SHA-256: e6b231a5cdbeb0762e6eb47391bd1fe2f84e3300a94edb134ac64ede9f14d0e5
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+return function* genXYZ () {
+runtime.ext_scratch3_looks._say("plan 1", target);
+b0.value = "infinity";
+if ((1 === toNotNaN(+runtime.ext_scratch3_sensing._answer))) {
+b0.value = 1;
+}
+if (compareEqual(b0.value, Infinity)) {
+runtime.ext_scratch3_looks._say("pass", target);
+}
+runtime.ext_scratch3_looks._say("end", target);
+retire(); return;
+}; })
